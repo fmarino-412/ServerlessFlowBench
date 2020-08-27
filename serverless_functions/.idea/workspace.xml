@@ -7,7 +7,12 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="JupyterTrust" id="45c14f42-10b4-4bb7-93cf-70d55dc6158b" />
   <component name="ProjectId" id="1ggia7hyR5eljnHitYF8N6tSyYF" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -17,6 +22,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -47,6 +53,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -58,31 +65,40 @@
       <option name="presentableId" value="Default" />
       <updated>1598542696822</updated>
       <workItem from="1598542699090" duration="54000" />
+      <workItem from="1598548083296" duration="41000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="2006" height="290" key="GridCell.Tab.0.bottom" timestamp="1598542752540">
-      <screen x="0" y="23" width="2048" height="1058" />
+    <state width="1398" height="206" key="GridCell.Tab.0.bottom" timestamp="1598548123751">
+      <screen x="0" y="23" width="1440" height="804" />
     </state>
+    <state width="1398" height="206" key="GridCell.Tab.0.bottom/0.23.1440.804@0.23.1440.804" timestamp="1598548123751" />
     <state width="2006" height="290" key="GridCell.Tab.0.bottom/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1598542752540" />
-    <state width="2006" height="290" key="GridCell.Tab.0.center" timestamp="1598542752540">
-      <screen x="0" y="23" width="2048" height="1058" />
+    <state width="1398" height="206" key="GridCell.Tab.0.center" timestamp="1598548123751">
+      <screen x="0" y="23" width="1440" height="804" />
     </state>
+    <state width="1398" height="206" key="GridCell.Tab.0.center/0.23.1440.804@0.23.1440.804" timestamp="1598548123751" />
     <state width="2006" height="290" key="GridCell.Tab.0.center/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1598542752540" />
-    <state width="2006" height="290" key="GridCell.Tab.0.left" timestamp="1598542752540">
-      <screen x="0" y="23" width="2048" height="1058" />
+    <state width="1398" height="206" key="GridCell.Tab.0.left" timestamp="1598548123750">
+      <screen x="0" y="23" width="1440" height="804" />
     </state>
+    <state width="1398" height="206" key="GridCell.Tab.0.left/0.23.1440.804@0.23.1440.804" timestamp="1598548123750" />
     <state width="2006" height="290" key="GridCell.Tab.0.left/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1598542752540" />
-    <state width="2006" height="290" key="GridCell.Tab.0.right" timestamp="1598542752540">
-      <screen x="0" y="23" width="2048" height="1058" />
+    <state width="1398" height="206" key="GridCell.Tab.0.right" timestamp="1598548123751">
+      <screen x="0" y="23" width="1440" height="804" />
     </state>
+    <state width="1398" height="206" key="GridCell.Tab.0.right/0.23.1440.804@0.23.1440.804" timestamp="1598548123751" />
     <state width="2006" height="290" key="GridCell.Tab.0.right/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1598542752540" />
+    <state x="221" y="64" key="SettingsEditor" timestamp="1598548096078">
+      <screen x="0" y="23" width="1440" height="804" />
+    </state>
+    <state x="221" y="64" key="SettingsEditor/0.23.1440.804@0.23.1440.804" timestamp="1598548096078" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/serverless_functions$main.coverage" NAME="main Coverage Results" MODIFIED="1598542726550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/serverless_functions$main.coverage" NAME="main Coverage Results" MODIFIED="1598548116707" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
