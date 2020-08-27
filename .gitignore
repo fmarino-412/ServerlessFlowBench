@@ -1,0 +1,48 @@
+# Java
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Python
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Byte-compiled / optimized / DLL files
+serverless_functions/__pycache__/
+*.py[cod]
+*$py.class
+
+*.cover
+*.py,cover
+
+# Environments
+serverless_functions/.env
+serverless_functions/.venv
+serverless_functions/env/
+serverless_functions/venv/
+serverless_functions/ENV/
+serverless_functions/env.bak/
+serverless_functions/venv.bak/
