@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fa93455a-6c61-4171-9865-22a42f18396e" name="Default Changelist" comment="" />
+    <list default="true" id="fa93455a-6c61-4171-9865-22a42f18396e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/gcloud/cpu_test/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws/cpu_test/cpu_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/aws/cpu_test/cpu_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws/latency_test/latency_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/aws/latency_test/latency_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws/memory_test/memory_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/aws/memory_test/memory_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gcloud/latency_test/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/gcloud/latency_test/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -22,7 +37,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -66,6 +81,7 @@
       <updated>1598542696822</updated>
       <workItem from="1598542699090" duration="54000" />
       <workItem from="1598548083296" duration="41000" />
+      <workItem from="1598603398854" duration="3719000" />
     </task>
     <servers />
   </component>
@@ -93,10 +109,11 @@
     </state>
     <state width="1398" height="206" key="GridCell.Tab.0.right/0.23.1440.804@0.23.1440.804" timestamp="1598548123751" />
     <state width="2006" height="290" key="GridCell.Tab.0.right/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1598542752540" />
-    <state x="221" y="64" key="SettingsEditor" timestamp="1598548096078">
-      <screen x="0" y="23" width="1440" height="804" />
+    <state x="221" y="64" key="SettingsEditor" timestamp="1598604037148">
+      <screen x="0" y="23" width="1440" height="808" />
     </state>
     <state x="221" y="64" key="SettingsEditor/0.23.1440.804@0.23.1440.804" timestamp="1598548096078" />
+    <state x="221" y="64" key="SettingsEditor/0.23.1440.808@0.23.1440.808" timestamp="1598604037148" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/serverless_functions$main.coverage" NAME="main Coverage Results" MODIFIED="1598548116707" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

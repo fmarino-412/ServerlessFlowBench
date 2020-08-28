@@ -5,14 +5,13 @@ import re
 
 
 # noinspection DuplicatedCode
-def lambda_handler(event, context):
+def gc_functions_handler(request):
 	n = None
 
 	# cpu_model, cpu_cores = get_cpu_info()
 
-	if event.get('queryStringParameters') is not None:
-		if 'n' in event['queryStringParameters']:
-			n = int(event['queryStringParameters']['n'])
+	if request.args.get('n') is not None:
+		n = int(request.args.get('n'))
 	else:
 		n = 71950288374236
 
@@ -21,25 +20,23 @@ def lambda_handler(event, context):
 	end_time = time.time()
 	execution_time = (end_time - start_time) * 1000
 
-	return {
-		'statusCode': 200,
-		'headers': {
-			'Content-Type': 'application/json'
-		},
-		'body': json.dumps({
-			'success': True,
-			'payload': {
-				'test': 'cpu_test',
-				'number': n,
-				'result': result,
-				'milliseconds': execution_time
-			}  # ,
-			# 'cpu_info': {
-			# 'model': cpu_model,
-			# 'cores': cpu_cores
-			# }
-		})
+	headers = {
+		'Content-Type': 'application/json'
 	}
+
+	return (json.dumps({
+		'success': True,
+		'payload': {
+			'test': 'cpu_test',
+			'number': n,
+			'result': result,
+			'milliseconds': execution_time
+		}  # ,
+		# 'cpu_info': {
+		# 'model': cpu_model,
+		# 'cores': cpu_cores
+		# }
+	}), 200, headers)
 
 
 # noinspection DuplicatedCode
@@ -61,7 +58,7 @@ def factorize(n):
 def get_cpu_info():
 	cpu_info = None
 
-	f = open('/proc/cpuinfo', 'r')
+	f = open("/proc/cpuinfo", "r")
 	if f.mode == 'r':
 		cpu_info = f.read()
 	f.close()
