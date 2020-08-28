@@ -4,13 +4,12 @@ import re
 
 
 # noinspection DuplicatedCode
-def lambda_handler(event, context):
+def gc_functions_handler(request):
 	n = None
 	# available_start, memory_total = memory_stats(True)
 
-	if event.get('queryStringParameters') is not None:
-		if 'n' in event['queryStringParameters']:
-			n = int(event['queryStringParameters']['n'])
+	if request.args.get('n') is not None:
+		n = int(request.args.get('n'))
 	else:
 		n = 33
 
@@ -21,26 +20,24 @@ def lambda_handler(event, context):
 
 	# available_end, _ = memory_stats(False)
 
-	return {
-		'statusCode': 200,
-		'headers': {
-			'Content-Type': 'application/json'
-		},
-		'body': json.dumps({
-			'success': True,
-			'payload': {
-				'test': 'memory_test',
-				'number': n,
-				'result': result,
-				'milliseconds': execution_time
-			}  # ,
-			# 'memory_info': {
-			# 'initial_available': available_start,
-			# 'final_available': available_end,
-			# 'total': memory_total
-			# }
-		})
+	headers = {
+		'Content-Type': 'application/json'
 	}
+
+	return (json.dumps({
+		'success': True,
+		'payload': {
+			'test': 'memory_test',
+			'number': n,
+			'result': result,
+			'milliseconds': execution_time
+		}  # ,
+		# 'memory_info': {
+		# 'initial_available': available_start,
+		# 'final_available': available_end,
+		# 'total': memory_total
+		# }
+	}), 200, headers)
 
 
 # noinspection DuplicatedCode

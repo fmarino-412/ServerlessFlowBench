@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa93455a-6c61-4171-9865-22a42f18396e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/gcloud/cpu_test/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/memory_test/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws/cpu_test/cpu_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/aws/cpu_test/cpu_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws/latency_test/latency_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/aws/latency_test/latency_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aws/memory_test/memory_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/aws/memory_test/memory_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gcloud/latency_test/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/gcloud/latency_test/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +77,7 @@
       <updated>1598542696822</updated>
       <workItem from="1598542699090" duration="54000" />
       <workItem from="1598548083296" duration="41000" />
-      <workItem from="1598603398854" duration="3719000" />
+      <workItem from="1598603398854" duration="4780000" />
     </task>
     <servers />
   </component>
@@ -89,6 +85,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="139" y="23" key="CommitChangelistDialog2" timestamp="1598608470490">
+      <screen x="0" y="23" width="1440" height="804" />
+    </state>
+    <state x="139" y="23" key="CommitChangelistDialog2/0.23.1440.804@0.23.1440.804" timestamp="1598608470490" />
     <state width="1398" height="206" key="GridCell.Tab.0.bottom" timestamp="1598548123751">
       <screen x="0" y="23" width="1440" height="804" />
     </state>

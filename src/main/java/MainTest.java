@@ -21,5 +21,13 @@ public class MainTest {
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
+
+		try {
+			CommandExecutor.deployOnGoogleCloudPlatform("memory-test",
+					"gc_functions_handler",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/gcloud/memory_test");
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
