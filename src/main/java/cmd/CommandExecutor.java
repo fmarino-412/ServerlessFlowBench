@@ -2,6 +2,7 @@ package cmd;
 
 import cmd.output_parsing.ReplyCollector;
 import cmd.output_parsing.UrlFinder;
+import database.FunctionsRepositoryDAO;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -47,6 +48,8 @@ public class CommandExecutor {
 		process.destroy();
 		executorServiceOut.shutdown();
 		executorServiceErr.shutdown();
+
+		FunctionsRepositoryDAO.persistGoogle(functionName, url);
 	}
 
 	public static void deployOnAmazonWebServices(String functionName, String runtime, String entryPoint,
@@ -283,6 +286,8 @@ public class CommandExecutor {
 		executorServiceOut.shutdown();
 		executorServiceErr.shutdown();
 		process.destroy();
+
+		FunctionsRepositoryDAO.persistAmazon(functionName, url, lambdaARN, apiId, apiParentId, apiResourceId);
 	}
 
 	public static ProcessBuilder buildCommand(String cmd) {
