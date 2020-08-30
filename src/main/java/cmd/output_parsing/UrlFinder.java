@@ -1,4 +1,4 @@
-package cmd;
+package cmd.output_parsing;
 
 public class UrlFinder {
 

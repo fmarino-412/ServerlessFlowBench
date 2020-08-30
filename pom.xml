@@ -7,6 +7,15 @@
     <groupId>eu.uniroma2.francescomarino</groupId>
     <artifactId>serverless_composition_performance_project</artifactId>
     <version>1.0</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.21</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -19,6 +28,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

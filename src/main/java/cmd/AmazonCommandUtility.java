@@ -1,5 +1,7 @@
 package cmd;
 
+import utility.PropertiesManager;
+
 public class AmazonCommandUtility extends CommandUtility {
 
 	/* PARAMETERS */

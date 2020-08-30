@@ -1,5 +1,8 @@
 package cmd;
 
+import cmd.output_parsing.ReplyCollector;
+import cmd.output_parsing.UrlFinder;
+
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
