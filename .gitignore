@@ -46,3 +46,6 @@ serverless_functions/venv/
 serverless_functions/ENV/
 serverless_functions/env.bak/
 serverless_functions/venv.bak/
+
+# Privates
+serverless_functions/aws/.aws/*

@@ -52,9 +52,11 @@ public class AmazonCommandUtility extends CommandUtility {
 
 		return	// command beginning
 				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
 						// operation define
 						LAMBDA_LIST_FUNC + SEP +
-						"--query" + SEP + "\"Functions[?FunctionName==\"" + functionName + "\"].FunctionArn\"" + SEP +
+						"--query" + SEP + "\"Functions[?FunctionName=='" + functionName + "'].FunctionArn\"" + SEP +
 						"--region" + SEP + region + SEP +
 						"--output" + SEP + "text";
 	}
@@ -63,6 +65,8 @@ public class AmazonCommandUtility extends CommandUtility {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
 						// operation define
 						GATEWAY_CREATE_API + SEP +
 						"--name" + SEP + "\"" + apiName + "\"" + SEP +
@@ -74,9 +78,11 @@ public class AmazonCommandUtility extends CommandUtility {
 	public static String buildGatewayApiIdGetterCommand(String apiName, String region) {
 		return	// command beginning
 				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
 						// operation define
 						GATEWAY_GET_API + SEP +
-						"--query" + SEP + "\"items[?name==\""+ apiName + "\"].id\"" + SEP +
+						"--query" + SEP + "\"items[?name=='"+ apiName + "'].id\"" + SEP +
 						"--region" + SEP + region + SEP +
 						"--output" + SEP + "text";
 	}
@@ -84,10 +90,12 @@ public class AmazonCommandUtility extends CommandUtility {
 	public static String buildGatewayApiParentIdGetterCommand(String apiId, String region) {
 		return	// command beginning
 				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
 						// operation define
 						GATEWAY_GET_RESOURCES + SEP +
 						"--rest-api-id" + SEP + apiId + SEP +
-						"--query" + SEP + "\"items[?path==\"/\"].id\"" + SEP +
+						"--query" + SEP + "\"items[?path=='/'].id\"" + SEP +
 						"--region" + SEP + region + SEP +
 						"--output" + SEP + "text";
 	}
@@ -96,6 +104,8 @@ public class AmazonCommandUtility extends CommandUtility {
 																String region) {
 		return 	// command beginning
 				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
 						// operation define
 						GATEWAY_CREATE_RESOURCE + SEP +
 						"--rest-api-id" + SEP + apiId + SEP +
@@ -108,10 +118,12 @@ public class AmazonCommandUtility extends CommandUtility {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
 						// operation define
 						GATEWAY_GET_RESOURCES + SEP +
 						"--rest-api-id" + SEP + apiId + SEP +
-						"--query" + SEP + "\"items[?path==\"/" + functionName + "\"].id\"" + SEP +
+						"--query" + SEP + "\"items[?path=='/" + functionName + "'].id\"" + SEP +
 						"--region" + SEP + region + SEP +
 						"--output" + SEP + "text";
 	}
@@ -121,6 +133,8 @@ public class AmazonCommandUtility extends CommandUtility {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
 						// operation define
 						GATEWAY_PUT_METHOD + SEP +
 						"--rest-api-id" + SEP + apiId + SEP +
@@ -134,6 +148,8 @@ public class AmazonCommandUtility extends CommandUtility {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
 						// operation define
 						GATEWAY_PUT_INTEGRATION + SEP +
 						"--rest-api-id" + SEP + apiId + SEP +
@@ -150,6 +166,8 @@ public class AmazonCommandUtility extends CommandUtility {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
 						// operation define
 						GATEWAY_CREATE_DEPLOYMENT + SEP +
 						"--rest-api-id" + SEP + apiId + SEP +
@@ -164,6 +182,8 @@ public class AmazonCommandUtility extends CommandUtility {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
 						// operation define
 						LAMBDA_ADD_PERM + SEP +
 						"--function-name" + SEP + functionName + SEP +
