@@ -3,7 +3,7 @@ package cmd;
 import cmd.output_parsing.ReplyCollector;
 import cmd.output_parsing.UrlFinder;
 import database.FunctionsRepositoryDAO;
-import database.Tuple;
+import database.FunctionData;
 
 import java.io.IOException;
 import java.util.List;
@@ -51,7 +51,7 @@ public class CommandExecutor {
 		executorServiceOut.shutdown();
 		executorServiceErr.shutdown();
 
-		FunctionsRepositoryDAO.persistGoogle(functionName, url);
+		FunctionsRepositoryDAO.persistGoogle(functionName, url, region);
 	}
 
 	public static void deployOnAmazonWebServices(String functionName, String runtime, String entryPoint,
@@ -292,13 +292,13 @@ public class CommandExecutor {
 		FunctionsRepositoryDAO.persistAmazon(functionName, url, apiId, region);
 	}
 
-	public static void cleanupAmazonWebServices() {
+	public static void cleanupGoogleCloudPlatform() {
 
 		System.out.println("\n" + "\u001B[33m" +
-				"Cleaning up Amazon environment..." +
+				"Cleaning up Google environment..." +
 				"\u001B[0m" + "\n");
 
-		List<Tuple> toRemove = FunctionsRepositoryDAO.getAmazons();
+		List<FunctionData> toRemove = FunctionsRepositoryDAO.getGoogles();
 		if (toRemove == null) {
 			return;
 		}
@@ -310,30 +310,81 @@ public class CommandExecutor {
 		ExecutorService output = Executors.newSingleThreadExecutor();
 		ExecutorService error = Executors.newSingleThreadExecutor();
 
-		for (Tuple elem : toRemove) {
-			cmd = AmazonCommandUtility.buildLambdaDropCommand(elem.getStringA(), elem.getStringC());
+		for (FunctionData elem : toRemove) {
+			cmd = GoogleCommandUtility.buildGoogleCloudFunctionsRemoveCommand(elem.getFunctionName(), elem.getRegion());
 			try {
 				process = buildCommand(cmd).start();
 				outGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
-				errGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+				errGobbler = new StreamGobbler(process.getInputStream(), System.err::println);
 
 				output.submit(outGobbler);
 				error.submit(errGobbler);
 
 				if (process.waitFor() != 0) {
-					System.err.println("Could not delete lambda function '" + elem.getStringA() + "'");
+					System.err.println("Could not delete google function '" + elem.getFunctionName() + "'");
 				} else {
-					System.out.println("\u001B[32m" + "'" + elem.getStringA() + "' function removed!" + "\u001B[0m");
+					System.out.println("\u001B[32m" + "'" + elem.getFunctionName() + "' function removed!" +
+							"\u001B[0m");
 				}
 				process.destroy();
-
-			} catch (IOException | InterruptedException e) {
-				System.err.println("Could not delete lambda function '" + elem.getStringA() + "': " + e.getMessage());
+			} catch (InterruptedException | IOException e) {
+				System.err.println("Could not delete google function '" + elem.getFunctionName() + "': " +
+						e.getMessage());
 			}
 		}
 
-		for (Tuple elem : toRemove) {
-			cmd = AmazonCommandUtility.buildGatewayDropCommand(elem.getStringB(), elem.getStringC());
+		output.shutdown();
+		error.shutdown();
+
+		System.out.println("\u001B[32m" + "Google cleanup completed!" + "\u001B[0m");
+
+		FunctionsRepositoryDAO.dropGoogle();
+	}
+
+	public static void cleanupAmazonWebServices() {
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Amazon environment..." +
+				"\u001B[0m" + "\n");
+
+		List<FunctionData> toRemove = FunctionsRepositoryDAO.getAmazons();
+		if (toRemove == null) {
+			return;
+		}
+		String cmd;
+		Process process;
+		StreamGobbler outGobbler;
+		StreamGobbler errGobbler;
+
+		ExecutorService output = Executors.newSingleThreadExecutor();
+		ExecutorService error = Executors.newSingleThreadExecutor();
+
+		for (FunctionData elem : toRemove) {
+			cmd = AmazonCommandUtility.buildLambdaDropCommand(elem.getFunctionName(), elem.getRegion());
+			try {
+				process = buildCommand(cmd).start();
+				outGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+				errGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+
+				output.submit(outGobbler);
+				error.submit(errGobbler);
+
+				if (process.waitFor() != 0) {
+					System.err.println("Could not delete lambda function '" + elem.getFunctionName() + "'");
+				} else {
+					System.out.println("\u001B[32m" + "'" + elem.getFunctionName() + "' function removed!" +
+							"\u001B[0m");
+				}
+				process.destroy();
+
+			} catch (IOException | InterruptedException e) {
+				System.err.println("Could not delete lambda function '" + elem.getFunctionName() + "': " +
+						e.getMessage());
+			}
+		}
+
+		for (FunctionData elem : toRemove) {
+			cmd = AmazonCommandUtility.buildGatewayDropCommand(elem.getApiId(), elem.getRegion());
 			try {
 
 				process = buildCommand(cmd).start();
@@ -344,14 +395,14 @@ public class CommandExecutor {
 				error.submit(errGobbler);
 
 				if (process.waitFor() != 0) {
-					System.err.println("Could not delete gateway api '" + elem.getStringA() + "'");
+					System.err.println("Could not delete gateway api '" + elem.getFunctionName() + "'");
 				} else {
-					System.out.println("\u001B[32m" + "'" + elem.getStringA() + "' api removed!" + "\u001B[0m");
+					System.out.println("\u001B[32m" + "'" + elem.getFunctionName() + "' api removed!" + "\u001B[0m");
 				}
 				process.destroy();
 
 			} catch (IOException | InterruptedException e) {
-				System.err.println("Could not delete gateway api '" + elem.getStringA() + "': " + e.getMessage());
+				System.err.println("Could not delete gateway api '" + elem.getFunctionName() + "': " + e.getMessage());
 			}
 
 			try {

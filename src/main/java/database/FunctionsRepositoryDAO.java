@@ -18,6 +18,7 @@ public class FunctionsRepositoryDAO {
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google (" +
 			"function_name varchar(50) NOT NULL, " +
 			"url varchar(100) NOT NULL, " +
+			"region varchar(15) NOT NULL, " +
 			"PRIMARY KEY (function_name)" +
 			")";
 
@@ -31,9 +32,9 @@ public class FunctionsRepositoryDAO {
 			")";
 
 	private static final String INSERT_GOOGLE = "INSERT INTO " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google (function_name, url) " +
-			"VALUES (?, ?) " +
-			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url)";
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google (function_name, url, " +
+			"region) " + "VALUES (?, ?, ?) " +
+			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url), region=VALUES(region)";
 
 	private static final String INSERT_AMAZON = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon (function_name, url, " +
@@ -41,7 +42,7 @@ public class FunctionsRepositoryDAO {
 			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url), api_id=VALUES(api_id), " +
 			"region=VALUES(region)";
 
-	private static final String SELECT_GOOGLE = "SELECT function_name FROM " +
+	private static final String SELECT_GOOGLE = "SELECT function_name, region FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google";
 
 	private static final String SELECT_AMAZON = "SELECT function_name, api_id, region FROM " +
@@ -66,12 +67,12 @@ public class FunctionsRepositoryDAO {
 		}
 	}
 
-	public static void dropAmazon() {
-		dropTable(AMAZON);
-	}
-
 	public static void dropGoogle() {
 		dropTable(GOOGLE);
+	}
+
+	public static void dropAmazon() {
+		dropTable(AMAZON);
 	}
 
 	private static void dropTable(String provider) {
@@ -102,6 +103,27 @@ public class FunctionsRepositoryDAO {
 		}
 	}
 
+	public static void persistGoogle(String functionName, String url, String region) {
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return;
+			}
+			initDatabase(connection);
+
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GOOGLE);
+			preparedStatement.setString(1, functionName);
+			preparedStatement.setString(2, url);
+			preparedStatement.setString(3, region);
+			preparedStatement.execute();
+			preparedStatement.close();
+			MySQLConnect.closeConnection(connection);
+		} catch (SQLException e) {
+			System.err.println("Could not perform insertion: " + e.getMessage());
+		}
+	}
+
 	public static void persistAmazon(String functionName, String url, String apiId, String region) {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -124,27 +146,7 @@ public class FunctionsRepositoryDAO {
 		}
 	}
 
-	public static void persistGoogle(String functionName, String url) {
-		try {
-			Connection connection = MySQLConnect.connectDatabase();
-			if (connection == null) {
-				System.err.println("Could not connect to database, please check your connection");
-				return;
-			}
-			initDatabase(connection);
-
-			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GOOGLE);
-			preparedStatement.setString(1, functionName);
-			preparedStatement.setString(2, url);
-			preparedStatement.execute();
-			preparedStatement.close();
-			MySQLConnect.closeConnection(connection);
-		} catch (SQLException e) {
-			System.err.println("Could not perform insertion: " + e.getMessage());
-		}
-	}
-
-	public static List<String> getGoogles() {
+	public static List<FunctionData> getGoogles() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -156,10 +158,11 @@ public class FunctionsRepositoryDAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE);
 
-			List<String> result = new ArrayList<>();
+			List<FunctionData> result = new ArrayList<>();
 
 			while (resultSet.next()) {
-				result.add(resultSet.getString("function_name"));
+				result.add(new FunctionData(resultSet.getString("function_name"),
+						resultSet.getString("region")));
 			}
 
 			statement.close();
@@ -171,7 +174,7 @@ public class FunctionsRepositoryDAO {
 		}
 	}
 
-	public static List<Tuple> getAmazons() {
+	public static List<FunctionData> getAmazons() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -183,11 +186,11 @@ public class FunctionsRepositoryDAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_AMAZON);
 
-			List<Tuple> result = new ArrayList<>();
+			List<FunctionData> result = new ArrayList<>();
 
 			while (resultSet.next()) {
-				result.add(new Tuple(resultSet.getString("function_name"),
-						resultSet.getString("api_id"), resultSet.getString("region")));
+				result.add(new FunctionData(resultSet.getString("function_name"),
+						resultSet.getString("region"), resultSet.getString("api_id")));
 			}
 
 			statement.close();

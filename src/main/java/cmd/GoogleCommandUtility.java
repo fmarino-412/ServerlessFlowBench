@@ -15,6 +15,7 @@ public class GoogleCommandUtility extends CommandUtility{
 
 	/* Google Cloud Functions deploy */
 	private static final String DEPLOY_FUNCTION_CMD = "gcloud" + SEP + "functions" + SEP + "deploy";
+	private static final String REMOVE_FUNCTION_CMD =  "gcloud" + SEP + "functions" + SEP + "delete";
 
 	public static String buildGoogleCloudFunctionsDeployCommand(String functionName, String runtime, String entryPoint,
 																Integer timeout, Integer memory, String region,
@@ -43,6 +44,22 @@ public class GoogleCommandUtility extends CommandUtility{
 							PropertiesManager.getInstance().getProperty(PropertiesManager.GOOGLE_STAGE_BUCKET) + SEP +
 						"--source=" + FUNCTIONS_DIR + SEP +
 						"--entry-point=" + entryPoint;
+	}
+
+	public static String buildGoogleCloudFunctionsRemoveCommand(String functionName, String region) {
+
+		return 	// command beginning
+				"docker run --rm -i" + SEP +
+						// project config binding
+						GOOGLE_CONFIG_BIND + SEP +
+						// select docker image to use
+						GOOGLE_CLI + SEP +
+						// CLI command to deploy a new function
+						REMOVE_FUNCTION_CMD + SEP +
+						// function name
+						functionName + SEP +
+						"--region=" + region + SEP +
+						"--quiet";
 	}
 
 }
