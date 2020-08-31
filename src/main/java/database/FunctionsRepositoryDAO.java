@@ -25,7 +25,8 @@ public class FunctionsRepositoryDAO {
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon (" +
 			"function_name varchar(50) NOT NULL, " +
 			"url varchar(100) NOT NULL, " +
-			"api_id varchar(5) NOT NULL, " +
+			"api_id varchar(50) NOT NULL, " +
+			"region varchar(15) NOT NULL, " +
 			"PRIMARY KEY (function_name)" +
 			")";
 
@@ -36,13 +37,14 @@ public class FunctionsRepositoryDAO {
 
 	private static final String INSERT_AMAZON = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon (function_name, url, " +
-			"api_id) " + "VALUES (?, ?, ?) " +
-			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url), api_id=VALUES(api_id)";
+			"api_id, region) " + "VALUES (?, ?, ?, ?) " +
+			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url), api_id=VALUES(api_id), " +
+			"region=VALUES(region)";
 
 	private static final String SELECT_GOOGLE = "SELECT function_name FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google";
 
-	private static final String SELECT_AMAZON = "SELECT function_name, api_id FROM " +
+	private static final String SELECT_AMAZON = "SELECT function_name, api_id, region FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon";
 
 	private static final String DROP_GOOGLE = "DROP TABLE IF EXISTS " +
@@ -100,7 +102,7 @@ public class FunctionsRepositoryDAO {
 		}
 	}
 
-	public static void persistAmazon(String functionName, String url, String apiId) {
+	public static void persistAmazon(String functionName, String url, String apiId, String region) {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -113,6 +115,7 @@ public class FunctionsRepositoryDAO {
 			preparedStatement.setString(1, functionName);
 			preparedStatement.setString(2, url);
 			preparedStatement.setString(3, apiId);
+			preparedStatement.setString(4, region);
 			preparedStatement.execute();
 			preparedStatement.close();
 			MySQLConnect.closeConnection(connection);
@@ -184,7 +187,7 @@ public class FunctionsRepositoryDAO {
 
 			while (resultSet.next()) {
 				result.add(new Tuple(resultSet.getString("function_name"),
-						resultSet.getString("api_id")));
+						resultSet.getString("api_id"), resultSet.getString("region")));
 			}
 
 			statement.close();

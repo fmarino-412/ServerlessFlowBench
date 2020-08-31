@@ -7,7 +7,7 @@ import java.io.IOException;
 public class MainTest {
 
 	public static void main(String[] args) {
-
+/*
 		try {
 			CommandExecutor.deployOnGoogleCloudPlatform("latency-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -44,6 +44,8 @@ public class MainTest {
 			e.printStackTrace();
 		}
 
+
+ */
 		try {
 			CommandExecutor.deployOnAmazonWebServices("latency-test",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
@@ -82,5 +84,7 @@ public class MainTest {
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
+
+		CommandExecutor.cleanupAmazonWebServices();
 	}
 }

@@ -1,12 +1,14 @@
 package database;
 
 public class Tuple {
-	String stringA;
-	String stringB;
+	private String stringA;
+	private String stringB;
+	private String stringC;
 
-	public Tuple(String stringA, String stringB) {
+	public Tuple(String stringA, String stringB, String stringC) {
 		this.stringA = stringA;
 		this.stringB = stringB;
+		this.stringC = stringC;
 	}
 
 	public String getStringA() {
@@ -15,5 +17,9 @@ public class Tuple {
 
 	public String getStringB() {
 		return stringB;
+	}
+
+	public String getStringC() {
+		return stringC;
 	}
 }
