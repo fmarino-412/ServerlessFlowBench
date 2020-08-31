@@ -18,6 +18,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	private static final String LAMBDA_NEW_FUNC = LAMBDA + SEP + "create-function";
 	private static final String LAMBDA_LIST_FUNC = LAMBDA + SEP + "list-functions";
 	private static final String LAMBDA_ADD_PERM = LAMBDA + SEP + "add-permission";
+	private static final String LAMBDA_DEL = LAMBDA + SEP + "delete-function";
 	private static final String GATEWAY = "apigateway";
 	private static final String GATEWAY_CREATE_API = GATEWAY + SEP + "create-rest-api";
 	private static final String GATEWAY_GET_API = GATEWAY + SEP + "get-rest-apis";
@@ -26,6 +27,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	private static final String GATEWAY_PUT_METHOD = GATEWAY + SEP + "put-method";
 	private static final String GATEWAY_PUT_INTEGRATION = GATEWAY + SEP + "put-integration";
 	private static final String GATEWAY_CREATE_DEPLOYMENT = GATEWAY + SEP + "create-deployment";
+	private static final String GATEWAY_DEL = GATEWAY + SEP + "delete-rest-api";
 
 	public static String buildLambdaFunctionDeployCommand(String functionName, String runtime, String entryPoint,
 														  Integer timeout, Integer memory, String region, String zipFolder, String zipName) {
@@ -195,5 +197,29 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--source-arn" + SEP + "\"" + apiARN + "/*/*/" + functionName + "\"" + SEP +
 						"--region" + SEP + region;
 	}
+
+	public static String buildLambdaDropCommand(String functionName, String region) {
+		return	// command beginning
+				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
+						// operation define
+						LAMBDA_DEL + SEP +
+						"--function-name" + SEP + functionName + SEP +
+						"--region" + SEP + region;
+	}
+
+	public static String buildGatewayDropCommand(String apiId, String region) {
+		return	// command beginning
+				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
+						// operation define
+						GATEWAY_DEL + SEP +
+						"--rest-api-id" + SEP + apiId + SEP +
+						"--region" + SEP + region;
+	}
+
+
 
 }

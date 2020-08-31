@@ -287,7 +287,7 @@ public class CommandExecutor {
 		executorServiceErr.shutdown();
 		process.destroy();
 
-		FunctionsRepositoryDAO.persistAmazon(functionName, url, lambdaARN, apiId, apiParentId, apiResourceId);
+		FunctionsRepositoryDAO.persistAmazon(functionName, url);
 	}
 
 	public static ProcessBuilder buildCommand(String cmd) {
