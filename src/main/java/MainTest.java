@@ -6,6 +6,7 @@ import java.io.IOException;
 
 public class MainTest {
 
+	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 		int i = 1;
 
