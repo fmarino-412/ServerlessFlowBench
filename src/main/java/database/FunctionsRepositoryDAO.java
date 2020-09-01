@@ -3,8 +3,7 @@ package database;
 import utility.PropertiesManager;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class FunctionsRepositoryDAO {
 
@@ -42,10 +41,16 @@ public class FunctionsRepositoryDAO {
 			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url), api_id=VALUES(api_id), " +
 			"region=VALUES(region)";
 
-	private static final String SELECT_GOOGLE = "SELECT function_name, region FROM " +
+	private static final String SELECT_GOOGLE_INFO = "SELECT function_name, region FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google";
 
-	private static final String SELECT_AMAZON = "SELECT function_name, api_id, region FROM " +
+	private static final String SELECT_AMAZON_INFO = "SELECT function_name, api_id, region FROM " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon";
+
+	private static final String SELECT_GOOGLE_URL = "SELECT function_name, url FROM " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google";
+
+	private static final String SELECT_AMAZON_URL = "SELECT function_name, url FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon";
 
 	private static final String DROP_GOOGLE = "DROP TABLE IF EXISTS " +
@@ -167,7 +172,7 @@ public class FunctionsRepositoryDAO {
 			initDatabase(connection, GOOGLE);
 
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE);
+			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_INFO);
 
 			List<FunctionData> result = new ArrayList<>();
 
@@ -195,7 +200,7 @@ public class FunctionsRepositoryDAO {
 			initDatabase(connection, AMAZON);
 
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(SELECT_AMAZON);
+			ResultSet resultSet = statement.executeQuery(SELECT_AMAZON_INFO);
 
 			List<FunctionData> result = new ArrayList<>();
 
@@ -207,6 +212,65 @@ public class FunctionsRepositoryDAO {
 			statement.close();
 			resultSet.close();
 			return result;
+		} catch (SQLException e) {
+			System.err.println("Could not perform select: " + e.getMessage());
+			return null;
+		}
+	}
+
+	public static ArrayList<FunctionURL> getUrls() {
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return null;
+			}
+			initDatabase(connection, "*");
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_URL);
+
+			HashMap<String, FunctionURL> dynamicResult = new HashMap<>();
+
+			String name;
+			String url;
+			FunctionURL functionURL;
+
+			while (resultSet.next()) {
+				name = resultSet.getString("function_name");
+				url = resultSet.getString("url");
+				if (dynamicResult.containsKey(name)) {
+					dynamicResult.get(name).setGoogleUrl(url);
+				} else {
+					functionURL = new FunctionURL(name);
+					functionURL.setGoogleUrl(url);
+					dynamicResult.put(name, functionURL);
+				}
+			}
+
+			statement.close();
+			resultSet.close();
+
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(SELECT_AMAZON_URL);
+
+			while (resultSet.next()) {
+				name = resultSet.getString("function_name");
+				url = resultSet.getString("url");
+				if (dynamicResult.containsKey(name)) {
+					dynamicResult.get(name).setAmazonUrl(url);
+				} else {
+					functionURL = new FunctionURL(name);
+					functionURL.setAmazonUrl(url);
+					dynamicResult.put(name, functionURL);
+				}
+			}
+
+			statement.close();
+			resultSet.close();
+
+			return new ArrayList<>(dynamicResult.values());
+
 		} catch (SQLException e) {
 			System.err.println("Could not perform select: " + e.getMessage());
 			return null;

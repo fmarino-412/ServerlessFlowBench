@@ -1,5 +1,4 @@
 import cmd.benchmark_commands.BenchmarkCommandExecutor;
-import cmd.benchmark_commands.BenchmarkCommandUtility;
 import cmd.function_commands.AmazonCommandUtility;
 import cmd.function_commands.FunctionCommandExecutor;
 import cmd.function_commands.GoogleCommandUtility;
@@ -10,17 +9,17 @@ public class MainTest {
 
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
-		int i = 2;
+		int i = 1;
 
 		switch (i) {
 			case 0:
 				deployFunctions();
 				break;
 			case 1:
-				cleanupFunctions();
+				benchmarkPerform();
 				break;
 			case 2:
-				benchmarkPerform();
+				cleanupFunctions();
 				break;
 		}
 	}
@@ -114,6 +113,6 @@ public class MainTest {
 	}
 
 	private static void benchmarkPerform() {
-		BenchmarkCommandExecutor.performBenchmark("https://us-east4-containers-254815.cloudfunctions.net/latency-test", 100, 2, 40, 200);
+		BenchmarkCommandExecutor.performBenchmarks(100, 2, 40, 200);
 	}
 }
