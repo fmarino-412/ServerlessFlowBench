@@ -1,5 +1,6 @@
-package cmd;
+package cmd.function_commands;
 
+import cmd.CommandUtility;
 import utility.PropertiesManager;
 
 public class AmazonCommandUtility extends CommandUtility {

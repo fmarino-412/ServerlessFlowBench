@@ -1,8 +1,9 @@
-package cmd;
+package cmd.function_commands;
 
+import cmd.CommandUtility;
 import utility.PropertiesManager;
 
-public class GoogleCommandUtility extends CommandUtility{
+public class GoogleCommandUtility extends CommandUtility {
 
 	/* PARAMETERS */
 	public static final String PYTHON_3_7_RUNTIME = "python37";
