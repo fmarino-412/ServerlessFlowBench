@@ -6,7 +6,7 @@ public class ReplyCollector {
 	private String result;
 
 	private ReplyCollector() {
-		result = "";
+		this.result = "";
 	}
 
 	public static ReplyCollector getInstance() {

@@ -2,6 +2,8 @@ package cmd.benchmark_commands;
 
 import cmd.CommandExecutor;
 import cmd.StreamGobbler;
+import cmd.benchmark_commands.output_parsing.BenchmarkCollector;
+import cmd.benchmark_commands.output_parsing.BenchmarkStats;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -18,7 +20,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 			Process process = buildCommand(cmd).start();
 
-			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), a ->
+					BenchmarkCollector.getInstance().parseAndCollect(a));
 			ExecutorService executorService = Executors.newSingleThreadExecutor();
 			executorService.submit(outputGobbler);
 
@@ -27,6 +30,10 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 			process.destroy();
 			executorService.shutdown();
+
+			BenchmarkStats stats = BenchmarkCollector.getInstance().getResult();
+			// TODO: DECIDE HOW TO PROCEED
+
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
