@@ -323,8 +323,7 @@ public class CommandExecutor {
 				if (process.waitFor() != 0) {
 					System.err.println("Could not delete google function '" + elem.getFunctionName() + "'");
 				} else {
-					System.out.println("\u001B[32m" + "'" + elem.getFunctionName() + "' function removed!" +
-							"\u001B[0m");
+					System.out.println("'" + elem.getFunctionName() + "' function removed!");
 				}
 				process.destroy();
 			} catch (InterruptedException | IOException e) {
@@ -336,7 +335,7 @@ public class CommandExecutor {
 		output.shutdown();
 		error.shutdown();
 
-		System.out.println("\u001B[32m" + "Google cleanup completed!" + "\u001B[0m");
+		System.out.println("\u001B[32m" + "\nGoogle cleanup completed!\n" + "\u001B[0m");
 
 		FunctionsRepositoryDAO.dropGoogle();
 	}
@@ -372,8 +371,7 @@ public class CommandExecutor {
 				if (process.waitFor() != 0) {
 					System.err.println("Could not delete lambda function '" + elem.getFunctionName() + "'");
 				} else {
-					System.out.println("\u001B[32m" + "'" + elem.getFunctionName() + "' function removed!" +
-							"\u001B[0m");
+					System.out.println("'" + elem.getFunctionName() + "' function removed!");
 				}
 				process.destroy();
 
@@ -397,7 +395,7 @@ public class CommandExecutor {
 				if (process.waitFor() != 0) {
 					System.err.println("Could not delete gateway api '" + elem.getFunctionName() + "'");
 				} else {
-					System.out.println("\u001B[32m" + "'" + elem.getFunctionName() + "' api removed!" + "\u001B[0m");
+					System.out.println("'" + elem.getFunctionName() + "' api removed!");
 				}
 				process.destroy();
 
@@ -416,7 +414,7 @@ public class CommandExecutor {
 		output.shutdown();
 		error.shutdown();
 
-		System.out.println("\u001B[32m" + "Amazon cleanup completed!" + "\u001B[0m");
+		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
 
 		FunctionsRepositoryDAO.dropAmazon();
 	}

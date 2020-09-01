@@ -7,6 +7,24 @@ import java.io.IOException;
 public class MainTest {
 
 	public static void main(String[] args) {
+		int i = 1;
+
+		switch (i) {
+			case 0:
+				deployFunctions();
+				break;
+			case 1:
+				cleanupFunctions();
+				break;
+		}
+	}
+
+	private static void cleanupFunctions() {
+		CommandExecutor.cleanupGoogleCloudPlatform();
+		CommandExecutor.cleanupAmazonWebServices();
+	}
+
+	private static void deployFunctions() {
 		try {
 			CommandExecutor.deployOnGoogleCloudPlatform("latency-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -87,8 +105,5 @@ public class MainTest {
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
-
-		CommandExecutor.cleanupGoogleCloudPlatform();
-		CommandExecutor.cleanupAmazonWebServices();
 	}
 }

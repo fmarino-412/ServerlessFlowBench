@@ -55,12 +55,23 @@ public class FunctionsRepositoryDAO {
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon";
 
 
-	private static void initDatabase(Connection connection) throws SQLException {
+	private static void initDatabase(Connection connection, String provider) throws SQLException {
 		if (connection != null) {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(CREATE_DATABASE);
-			statement.executeUpdate(CREATE_AMAZON_TABLE);
-			statement.executeUpdate(CREATE_GOOGLE_TABLE);
+
+			switch (provider) {
+				case GOOGLE:
+					statement.executeUpdate(CREATE_GOOGLE_TABLE);
+					break;
+				case AMAZON:
+					statement.executeUpdate(CREATE_AMAZON_TABLE);
+					break;
+				default:
+					statement.executeUpdate(CREATE_AMAZON_TABLE);
+					statement.executeUpdate(CREATE_GOOGLE_TABLE);
+					break;
+			}
 			statement.close();
 		} else {
 			System.err.println("Could not initialize database");
@@ -110,7 +121,7 @@ public class FunctionsRepositoryDAO {
 				System.err.println("Could not connect to database, please check your connection");
 				return;
 			}
-			initDatabase(connection);
+			initDatabase(connection, GOOGLE);
 
 			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GOOGLE);
 			preparedStatement.setString(1, functionName);
@@ -131,7 +142,7 @@ public class FunctionsRepositoryDAO {
 				System.err.println("Could not connect to database, please check your connection");
 				return;
 			}
-			initDatabase(connection);
+			initDatabase(connection, AMAZON);
 
 			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_AMAZON);
 			preparedStatement.setString(1, functionName);
@@ -153,7 +164,7 @@ public class FunctionsRepositoryDAO {
 				System.err.println("Could not connect to database, please check your connection");
 				return null;
 			}
-			initDatabase(connection);
+			initDatabase(connection, GOOGLE);
 
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE);
@@ -181,7 +192,7 @@ public class FunctionsRepositoryDAO {
 				System.err.println("Could not connect to database, please check your connection");
 				return null;
 			}
-			initDatabase(connection);
+			initDatabase(connection, AMAZON);
 
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_AMAZON);
