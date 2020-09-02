@@ -4,8 +4,8 @@ import cmd.CommandExecutor;
 import cmd.StreamGobbler;
 import cmd.function_commands.output_parsing.UrlFinder;
 import cmd.function_commands.output_parsing.ReplyCollector;
-import database.FunctionsRepositoryDAO;
-import database.FunctionData;
+import databases.mysql.FunctionsRepositoryDAO;
+import databases.mysql.FunctionData;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,8 +32,9 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		Process process = buildCommand(cmd).start();
 
 		// create, execute and submit output gobblers
+		UrlFinder urlFinder = new UrlFinder();
 		StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(),
-				a -> UrlFinder.getInstance().findGoogleCloudFunctionsUrl(a));
+				urlFinder::findGoogleCloudFunctionsUrl);
 		StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
 
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
@@ -46,7 +47,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		int exitCode = process.waitFor();
 		assert exitCode == 0;
 
-		String url = UrlFinder.getInstance().getResult();
+		String url = urlFinder.getResult();
 		System.out.println("\u001B[32m" + "Deployed function to: " + url + "\u001B[0m");
 
 		process.destroy();
@@ -92,8 +93,8 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		// get lambda arn
 		String cmdArnGetter = AmazonCommandUtility.buildLambdaArnGetterCommand(functionName, region);
 		process = buildCommand(cmdArnGetter).start();
-		outputGobbler = new StreamGobbler(process.getInputStream(),
-				a -> ReplyCollector.getInstance().collectResult(a));
+		ReplyCollector lambdaArnReplyCollector = new ReplyCollector();
+		outputGobbler = new StreamGobbler(process.getInputStream(), lambdaArnReplyCollector::collectResult);
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
@@ -102,11 +103,10 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			System.err.println("Could not get AWS Lambda arn");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
-			ReplyCollector.getInstance().getResult();
 			process.destroy();
 			return;
 		}
-		String lambdaARN = ReplyCollector.getInstance().getResult();
+		String lambdaARN = lambdaArnReplyCollector.getResult();
 		process.destroy();
 		System.out.println("Get AWS Lambda arn completed");
 
@@ -130,8 +130,9 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		// get api id
 		String cmdApiIdGetter = AmazonCommandUtility.buildGatewayApiIdGetterCommand(functionName, region);
 		process = buildCommand(cmdApiIdGetter).start();
+		ReplyCollector apiIdReplyCollector = new ReplyCollector();
 		outputGobbler = new StreamGobbler(process.getInputStream(),
-				a -> ReplyCollector.getInstance().collectResult(a));
+				apiIdReplyCollector::collectResult);
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
@@ -140,16 +141,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			System.err.println("Could not get api id");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
-			ReplyCollector.getInstance().getResult();
 			process.destroy();
 			return;
 		}
-		String apiId = ReplyCollector.getInstance().getResult();
+		String apiId = apiIdReplyCollector.getResult();
 		if (apiId.contains("\t")) {
 			System.err.println("Too many APIs with the same name, could not continue execution");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
-			ReplyCollector.getInstance().getResult();
 			process.destroy();
 			return;
 		}
@@ -159,8 +158,8 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		// get api parent id
 		String cmdApiParentIdGetter = AmazonCommandUtility.buildGatewayApiParentIdGetterCommand(apiId, region);
 		process = buildCommand(cmdApiParentIdGetter).start();
-		outputGobbler = new StreamGobbler(process.getInputStream(),
-				a -> ReplyCollector.getInstance().collectResult(a));
+		ReplyCollector apiParentIdReplyCollector = new ReplyCollector();
+		outputGobbler = new StreamGobbler(process.getInputStream(), apiParentIdReplyCollector::collectResult);
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
@@ -169,11 +168,10 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			System.err.println("Could not get api parent id");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
-			ReplyCollector.getInstance().getResult();
 			process.destroy();
 			return;
 		}
-		String apiParentId = ReplyCollector.getInstance().getResult();
+		String apiParentId = apiParentIdReplyCollector.getResult();
 		process.destroy();
 		System.out.println("Get api parent id completed");
 
@@ -198,8 +196,8 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		String cmdResourceApiIdGetter = AmazonCommandUtility.buildGatewayResourceApiIdGetterCommand(functionName, apiId,
 				region);
 		process = buildCommand(cmdResourceApiIdGetter).start();
-		outputGobbler = new StreamGobbler(process.getInputStream(),
-				a -> ReplyCollector.getInstance().collectResult(a));
+		ReplyCollector apiResourceIdReplyCollector = new ReplyCollector();
+		outputGobbler = new StreamGobbler(process.getInputStream(), apiResourceIdReplyCollector::collectResult);
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
@@ -208,11 +206,10 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			System.err.println("Could not get api resource id");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
-			ReplyCollector.getInstance().getResult();
 			process.destroy();
 			return;
 		}
-		String apiResourceId = ReplyCollector.getInstance().getResult();
+		String apiResourceId = apiResourceIdReplyCollector.getResult();
 		process.destroy();
 		System.out.println("Get api resource id completed");
 

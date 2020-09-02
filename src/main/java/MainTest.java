@@ -9,7 +9,7 @@ public class MainTest {
 
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
-		int i = 2;
+		int i = 0;
 
 		switch (i) {
 			case 0:
@@ -113,6 +113,8 @@ public class MainTest {
 	}
 
 	private static void benchmarkPerform() {
-		BenchmarkCommandExecutor.performBenchmarks(100, 2, 40, 200);
+		for (int i = 0; i < 100; i++) {
+			BenchmarkCommandExecutor.performBenchmarks(100, 2, 40, 10000);
+		}
 	}
 }

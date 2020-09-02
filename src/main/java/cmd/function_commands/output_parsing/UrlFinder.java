@@ -2,18 +2,10 @@ package cmd.function_commands.output_parsing;
 
 public class UrlFinder {
 
-	private static UrlFinder singletonInstance = null;
 	private String result;
 
-	private UrlFinder() {
+	public UrlFinder() {
 		result = "";
-	}
-
-	public static UrlFinder getInstance() {
-		if (singletonInstance == null) {
-			singletonInstance = new UrlFinder();
-		}
-		return singletonInstance;
 	}
 
 	/**
@@ -28,8 +20,7 @@ public class UrlFinder {
 	}
 
 	public String getResult() {
-		// get final result and reset finder
-		singletonInstance = null;
+		// get final result
 		return result;
 	}
 }

@@ -9,14 +9,24 @@ public class PropertiesManager {
 	private final static String PROPERTIES_PATH = "config.properties";
 	private static PropertiesManager singletonInstance = null;
 	private Properties properties = null;
+
 	/* PROPERTY KEYS */
+
 	public static final String MYSQL_IP = "mysql_ip";
 	public static final String MYSQL_PORT = "mysql_port";
 	public static final String MYSQL_USR = "mysql_user";
 	public static final String MYSQL_PASS = "mysql_password";
 	public static final String MYSQL_DB = "mysql_dbname";
+
+	public static final String INFLUX_IP = "influx_ip";
+	public static final String INFLUX_PORT = "influx_port";
+	public static final String INFLUX_USR = "influx_user";
+	public static final String INFLUX_PASS = "influx_password";
+	public static final String INFLUX_DB = "influx_dbname";
+
 	public static final String GOOGLE_CONTAINER = "google_cloud_cli_container_name";
 	public static final String GOOGLE_STAGE_BUCKET = "google_cloud_stage_bucket";
+
 	public static final String AWS_AUTH_CONFIG = "aws_auth_folder_path";
 	public static final String AWS_EXEC_ROLE = "aws_execution_role";
 

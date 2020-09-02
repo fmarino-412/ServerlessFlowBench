@@ -1,4 +1,4 @@
-package database;
+package databases.mysql;
 
 public class FunctionURL {
 	private final String functionName;

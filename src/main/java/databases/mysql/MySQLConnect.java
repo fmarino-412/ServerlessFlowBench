@@ -1,4 +1,4 @@
-package database;
+package databases.mysql;
 
 import utility.PropertiesManager;
 

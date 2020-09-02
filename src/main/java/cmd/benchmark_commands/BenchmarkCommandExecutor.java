@@ -4,8 +4,9 @@ import cmd.CommandExecutor;
 import cmd.StreamGobbler;
 import cmd.benchmark_commands.output_parsing.BenchmarkCollector;
 import cmd.benchmark_commands.output_parsing.BenchmarkStats;
-import database.FunctionURL;
-import database.FunctionsRepositoryDAO;
+import databases.influx.InfluxClient;
+import databases.mysql.FunctionURL;
+import databases.mysql.FunctionsRepositoryDAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		}
 	}
 
+	// Load test
 	public static void performBenchmarks(Integer concurrency, Integer threads, Integer seconds,
 									   Integer requestsPerSecond) {
 
@@ -60,6 +62,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 			System.out.println("\n" + url.getFunctionName());
 
+			// TODO: ADD COLD START BENCHMARK WITH IF CONDITION ON TIME, MAKE IT MULTITHREAD
+
 			if (url.getGoogleUrl() == null) {
 				google = null;
 			} else {
@@ -73,14 +77,22 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			}
 
 			System.out.println("---------------------------------------");
+			long time = System.currentTimeMillis();
 			if (google != null) {
 				System.out.println("avg latency google = " + google.getAvgLatency());
+				if (InfluxClient.insertPoints(url.getFunctionName(), "google", google, time)) {
+					System.out.println("\u001B[32m" + "Persisted google benchmark for: " + url.getFunctionName() +
+							"\u001B[0m");
+				}
 			}
 			if (amazon != null) {
 				System.out.println("avg latency amazon = " + amazon.getAvgLatency());
+				if (InfluxClient.insertPoints(url.getFunctionName(), "amazon", amazon, time + 1)) {
+					System.out.println("\u001B[32m" + "Persisted amazon benchmark for: " + url.getFunctionName() +
+							"\u001B[0m");
+				}
 			}
 		}
 
-		// TODO: InfluxDB?
 	}
 }
