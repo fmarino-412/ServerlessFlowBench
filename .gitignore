@@ -49,3 +49,8 @@ serverless_functions/venv.bak/
 
 # Privates
 serverless_functions/aws/.aws
+
+# Dockers
+docker_env/grafana_storage
+docker_env/influx_storage
+docker_env/mysql_storage
