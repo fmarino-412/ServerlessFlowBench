@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 public class BenchmarkCollector {
 
-	private static BenchmarkCollector singletonInstance = null;
 	private BenchmarkStats result;
 
 	private final static String avgDevRegex = "(#\\[Mean\\s+=\\s+)([0-9]+.[0-9]+)" +
@@ -15,15 +14,8 @@ public class BenchmarkCollector {
 	private final static String transferRegex = "(Transfer/sec:\\s+)([0-9]+\\.*[0-9]*)([a-zA-Z]+)";
 
 
-	private BenchmarkCollector() {
+	public BenchmarkCollector() {
 		this.result = new BenchmarkStats();
-	}
-
-	public static BenchmarkCollector getInstance() {
-		if (singletonInstance == null) {
-			singletonInstance = new BenchmarkCollector();
-		}
-		return singletonInstance;
 	}
 
 	public void parseAndCollect(String line) {
@@ -83,8 +75,7 @@ public class BenchmarkCollector {
 	}
 
 	public BenchmarkStats getResult() {
-		// get final result and reset collector
-		singletonInstance = null;
+		// get final result
 		return result;
 	}
 }

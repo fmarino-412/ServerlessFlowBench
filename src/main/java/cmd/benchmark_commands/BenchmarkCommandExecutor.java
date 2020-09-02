@@ -19,13 +19,13 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 										Integer requestsPerSecond) {
 
 		try {
+			BenchmarkCollector collector = new BenchmarkCollector();
 			String cmd = BenchmarkCommandUtility.buildBenchmarkCommand(url, concurrency, threads, seconds,
 					requestsPerSecond);
 
 			Process process = buildCommand(cmd).start();
 
-			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), a ->
-					BenchmarkCollector.getInstance().parseAndCollect(a));
+			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), collector::parseAndCollect);
 			ExecutorService executorService = Executors.newSingleThreadExecutor();
 			executorService.submit(outputGobbler);
 
@@ -35,7 +35,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			process.destroy();
 			executorService.shutdown();
 
-			return BenchmarkCollector.getInstance().getResult();
+			return collector.getResult();
 
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
@@ -43,8 +43,10 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		}
 	}
 
+	// TODO: ADD COLD START BENCHMARK WITH IF CONDITION ON TIME
+
 	// Load test
-	public static void performBenchmarks(Integer concurrency, Integer threads, Integer seconds,
+	public static void performBenchmarks(Integer concurrency, Integer threadNum, Integer seconds,
 									   Integer requestsPerSecond) {
 
 		System.out.println("\n" + "\u001B[33m" +
@@ -56,43 +58,77 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			System.err.println("Could not perform benchmarks");
 			return;
 		}
-		BenchmarkStats google;
-		BenchmarkStats amazon;
+		ArrayList<Thread> threads = new ArrayList<>();
+		BenchmarkRunner runner;
+		Thread t;
+
 		for (FunctionURL url : functions) {
+			runner = new BenchmarkRunner(url, concurrency, threadNum, seconds, requestsPerSecond);
+			t = new Thread(runner);
+			threads.add(t);
+			t.start();
+		}
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException ignored) {}
+		}
 
-			System.out.println("\n" + url.getFunctionName());
+		System.out.println("\u001B[32m" + "Benchmark completed!" + "\u001B[0m");
+	}
 
-			// TODO: ADD COLD START BENCHMARK WITH IF CONDITION ON TIME, MAKE IT MULTITHREAD
+	private static class BenchmarkRunner implements Runnable {
 
-			if (url.getGoogleUrl() == null) {
+		private final FunctionURL function;
+		private final Integer concurrency;
+		private final Integer threads;
+		private final Integer seconds;
+		private final Integer requestsPerSecond;
+
+
+		public BenchmarkRunner(FunctionURL function, Integer concurrency, Integer threads, Integer seconds,
+							   Integer requestsPerSecond) {
+			this.function = function;
+			this.concurrency = concurrency;
+			this.threads = threads;
+			this.seconds = seconds;
+			this.requestsPerSecond = requestsPerSecond;
+		}
+
+		@Override
+		public void run() {
+
+			BenchmarkStats google;
+			BenchmarkStats amazon;
+
+			if (function.getGoogleUrl() == null) {
 				google = null;
 			} else {
-				google = performBenchmark(url.getGoogleUrl(), concurrency, threads, seconds, requestsPerSecond);
+				google = performBenchmark(function.getGoogleUrl(), concurrency, threads, seconds, requestsPerSecond);
 			}
 
-			if (url.getAmazonUrl() == null) {
+			if (function.getAmazonUrl() == null) {
 				amazon = null;
 			} else {
-				amazon = performBenchmark(url.getAmazonUrl(), concurrency, threads, seconds, requestsPerSecond);
+				amazon = performBenchmark(function.getAmazonUrl(), concurrency, threads, seconds, requestsPerSecond);
 			}
 
-			System.out.println("---------------------------------------");
 			long time = System.currentTimeMillis();
 			if (google != null) {
 				System.out.println("avg latency google = " + google.getAvgLatency());
-				if (InfluxClient.insertPoints(url.getFunctionName(), "google", google, time)) {
-					System.out.println("\u001B[32m" + "Persisted google benchmark for: " + url.getFunctionName() +
+				if (InfluxClient.insertPoints(function.getFunctionName(), "google", google, time)) {
+					System.out.println("\u001B[32m" + "Persisted google benchmark for: " + function.getFunctionName() +
 							"\u001B[0m");
 				}
 			}
 			if (amazon != null) {
 				System.out.println("avg latency amazon = " + amazon.getAvgLatency());
-				if (InfluxClient.insertPoints(url.getFunctionName(), "amazon", amazon, time + 1)) {
-					System.out.println("\u001B[32m" + "Persisted amazon benchmark for: " + url.getFunctionName() +
+				if (InfluxClient.insertPoints(function.getFunctionName(), "amazon", amazon, time + 1)) {
+					System.out.println("\u001B[32m" + "Persisted amazon benchmark for: " + function.getFunctionName() +
 							"\u001B[0m");
 				}
 			}
-		}
 
+		}
 	}
 }
