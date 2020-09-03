@@ -48,7 +48,28 @@ public class InfluxClient {
 		}
 	}
 
-	public static boolean insertPoints(String functionName, String provider, BenchmarkStats stats, long millis) {
+	public static boolean insertColdPoint(String functionName, String provider, long latency, long millis) {
+
+		Point cold_start_latency =  Point.measurement("cold_start_latency_" + functionName)
+				.time(millis, TimeUnit.MILLISECONDS)
+				.addField("provider", provider)
+				.addField("value", latency)
+				.build();
+
+		InfluxDB connection = getConnection();
+		if (connection == null) {
+			return false;
+		} else {
+			initDatabase(connection);
+			connection.setRetentionPolicy("defaultPolicy");
+			connection.setDatabase(DB_NAME);
+			connection.write(cold_start_latency);
+			closeConnection(connection);
+			return true;
+		}
+	}
+
+	public static boolean insertLoadPoints(String functionName, String provider, BenchmarkStats stats, long millis) {
 
 		// insert multiple points at a time
 		BatchPoints batch = BatchPoints

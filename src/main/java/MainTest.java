@@ -9,17 +9,27 @@ public class MainTest {
 
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
-		int i = 1;
+
+		int i = 2;
 
 		switch (i) {
 			case 0:
 				deployFunctions();
 				break;
 			case 1:
-				benchmarkPerform();
+				loadBenchmarkPerform();
 				break;
 			case 2:
+				coldBenchmarkPerform();
+				break;
+			case 3:
 				cleanupFunctions();
+				break;
+			case 4:
+				cleanupFunctions();
+				deployFunctions();
+				coldBenchmarkPerform();
+				loadBenchmarkPerform();
 				break;
 		}
 	}
@@ -112,9 +122,13 @@ public class MainTest {
 		}
 	}
 
-	private static void benchmarkPerform() {
+	private static void loadBenchmarkPerform() {
 		for (int i = 0; i < 100; i++) {
-			BenchmarkCommandExecutor.performBenchmarks(500, 100, 40, 100000);
+			BenchmarkCommandExecutor.performLoadTest(500, 100, 40, 100000);
 		}
+	}
+
+	private static void coldBenchmarkPerform() {
+		BenchmarkCommandExecutor.performColdStartBenchmark(10);
 	}
 }
