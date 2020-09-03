@@ -10,7 +10,7 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 2;
+		int i = 4;
 
 		switch (i) {
 			case 0:
@@ -28,8 +28,8 @@ public class MainTest {
 			case 4:
 				cleanupFunctions();
 				deployFunctions();
-				coldBenchmarkPerform();
 				loadBenchmarkPerform();
+				coldBenchmarkPerform();
 				break;
 		}
 	}
@@ -123,7 +123,7 @@ public class MainTest {
 	}
 
 	private static void loadBenchmarkPerform() {
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 10; i++) {
 			BenchmarkCommandExecutor.performLoadTest(500, 100, 40, 100000);
 		}
 	}
