@@ -2,9 +2,81 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa93455a-6c61-4171-9865-22a42f18396e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/gcloud/memory_test/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/aws/image_classification/image_classification.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/YOLOv3/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/YOLOv3/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/YOLOv3/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/benchmarks/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/blocks/_1d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/blocks/_2d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/blocks/_3d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/blocks/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/blocks/_time_distributed_2d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/classifiers/_2d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/classifiers/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/layers/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/layers/_batch_normalization.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/models/_2d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/models/_time_distributed_2d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/backend/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/backend/common.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/backend/dynamic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/backend/tensorflow_backend.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/callbacks/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/callbacks/coco.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/callbacks/common.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/callbacks/eval.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/initializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/layers/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/layers/_misc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/losses.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/models/mobilenet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/models/resnet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/models/retinanet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/coco.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/csv_generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/kitti.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/open_images.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/pascal_voc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/anchors.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/coco_eval.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/colors.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/eval.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/image.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/keras_version.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/transform.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/visualization.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/Custom/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/Custom/custom_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/DenseNet/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/DenseNet/densenet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/DenseNet/imagenet_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/DenseNet/subpixel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/DenseNet/tensorflow_backend.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/InceptionV3/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/InceptionV3/imagenet_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/InceptionV3/inceptionv3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/ResNet/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/ResNet/resnet50.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/SqueezeNet/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/SqueezeNet/squeezenet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/imagenet_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws/memory_test/memory_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/aws/memory_test/memory_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/MainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/MainTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +107,57 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/gcloud/image_classification" />
+      <recent name="$PROJECT_DIR$/aws/image_recognition" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.image_classification">
+    <configuration name="image_classification" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="serverless_functions" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_classification.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="image_recognition" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="serverless_functions" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/aws/image_recognition" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/aws/image_recognition/image_recognition.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="serverless_functions" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -60,11 +182,13 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.image_classification" />
+        <item itemvalue="Python.image_recognition" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -78,37 +202,42 @@
       <workItem from="1598542699090" duration="54000" />
       <workItem from="1598548083296" duration="41000" />
       <workItem from="1598603398854" duration="4780000" />
+      <workItem from="1599215714634" duration="6020000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="762" y="306" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1599225834057">
+      <screen x="0" y="23" width="2048" height="1058" />
+    </state>
+    <state x="762" y="306" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1599225834057" />
     <state x="139" y="23" key="CommitChangelistDialog2" timestamp="1598608470490">
       <screen x="0" y="23" width="1440" height="804" />
     </state>
     <state x="139" y="23" key="CommitChangelistDialog2/0.23.1440.804@0.23.1440.804" timestamp="1598608470490" />
-    <state width="1398" height="206" key="GridCell.Tab.0.bottom" timestamp="1598548123751">
-      <screen x="0" y="23" width="1440" height="804" />
+    <state width="2006" height="290" key="GridCell.Tab.0.bottom" timestamp="1599235675252">
+      <screen x="0" y="23" width="2048" height="1058" />
     </state>
     <state width="1398" height="206" key="GridCell.Tab.0.bottom/0.23.1440.804@0.23.1440.804" timestamp="1598548123751" />
-    <state width="2006" height="290" key="GridCell.Tab.0.bottom/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1598542752540" />
-    <state width="1398" height="206" key="GridCell.Tab.0.center" timestamp="1598548123751">
-      <screen x="0" y="23" width="1440" height="804" />
+    <state width="2006" height="290" key="GridCell.Tab.0.bottom/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1599235675252" />
+    <state width="2006" height="290" key="GridCell.Tab.0.center" timestamp="1599235675251">
+      <screen x="0" y="23" width="2048" height="1058" />
     </state>
     <state width="1398" height="206" key="GridCell.Tab.0.center/0.23.1440.804@0.23.1440.804" timestamp="1598548123751" />
-    <state width="2006" height="290" key="GridCell.Tab.0.center/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1598542752540" />
-    <state width="1398" height="206" key="GridCell.Tab.0.left" timestamp="1598548123750">
-      <screen x="0" y="23" width="1440" height="804" />
+    <state width="2006" height="290" key="GridCell.Tab.0.center/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1599235675251" />
+    <state width="2006" height="290" key="GridCell.Tab.0.left" timestamp="1599235675251">
+      <screen x="0" y="23" width="2048" height="1058" />
     </state>
     <state width="1398" height="206" key="GridCell.Tab.0.left/0.23.1440.804@0.23.1440.804" timestamp="1598548123750" />
-    <state width="2006" height="290" key="GridCell.Tab.0.left/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1598542752540" />
-    <state width="1398" height="206" key="GridCell.Tab.0.right" timestamp="1598548123751">
-      <screen x="0" y="23" width="1440" height="804" />
+    <state width="2006" height="290" key="GridCell.Tab.0.left/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1599235675251" />
+    <state width="2006" height="290" key="GridCell.Tab.0.right" timestamp="1599235675252">
+      <screen x="0" y="23" width="2048" height="1058" />
     </state>
     <state width="1398" height="206" key="GridCell.Tab.0.right/0.23.1440.804@0.23.1440.804" timestamp="1598548123751" />
-    <state width="2006" height="290" key="GridCell.Tab.0.right/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1598542752540" />
+    <state width="2006" height="290" key="GridCell.Tab.0.right/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1599235675252" />
     <state x="221" y="64" key="SettingsEditor" timestamp="1598604037148">
       <screen x="0" y="23" width="1440" height="808" />
     </state>
@@ -117,5 +246,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/serverless_functions$main.coverage" NAME="main Coverage Results" MODIFIED="1598548116707" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/serverless_functions$image_recognition.coverage" NAME="image_recognition Coverage Results" MODIFIED="1599217188809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/aws/image_recognition" />
+    <SUITE FILE_PATH="coverage/serverless_functions$image_classification.coverage" NAME="image_classification Coverage Results" MODIFIED="1599225758228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

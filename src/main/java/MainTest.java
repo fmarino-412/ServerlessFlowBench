@@ -10,7 +10,7 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 4;
+		int i = 3;
 
 		switch (i) {
 			case 0:
@@ -26,10 +26,10 @@ public class MainTest {
 				cleanupFunctions();
 				break;
 			case 4:
-				cleanupFunctions();
 				deployFunctions();
 				loadBenchmarkPerform();
 				coldBenchmarkPerform();
+				cleanupFunctions();
 				break;
 		}
 	}
@@ -124,7 +124,10 @@ public class MainTest {
 
 	private static void loadBenchmarkPerform() {
 		for (int i = 0; i < 10; i++) {
-			BenchmarkCommandExecutor.performLoadTest(500, 100, 40, 100000);
+			try {
+				Thread.sleep(60 * 1000);
+				BenchmarkCommandExecutor.performLoadTest(500, 100, 40, 100000);
+			} catch (InterruptedException ignored) {}
 		}
 	}
 
