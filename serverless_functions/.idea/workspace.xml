@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa93455a-6c61-4171-9865-22a42f18396e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/gcloud/image_recognition/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_recognition/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aws/image_recognition/image_recognition.py" beforeDir="false" afterPath="$PROJECT_DIR$/aws/image_recognition/image_recognition.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gcloud/image_recognition/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/gcloud/image_recognition/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/main/java/MainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/MainTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -134,6 +133,8 @@
       <workItem from="1598603398854" duration="4780000" />
       <workItem from="1599215714634" duration="6020000" />
       <workItem from="1599469422108" duration="2921000" />
+      <workItem from="1599489393873" duration="27000" />
+      <workItem from="1599489919894" duration="229000" />
     </task>
     <servers />
   </component>

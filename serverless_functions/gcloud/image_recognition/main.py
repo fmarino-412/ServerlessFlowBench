@@ -8,6 +8,7 @@ from google.cloud.vision import types
 # noinspection DuplicatedCode
 def gc_functions_handler(request):
 	url = None
+	human = "false"
 
 	if request.args.get('url') is not None:
 		url = request.args.get('url')
@@ -21,6 +22,8 @@ def gc_functions_handler(request):
 	r = urlrequest.Request(url, headers={'User-Agent': useragent})
 	f = urlrequest.urlopen(r)
 	result = detect_object_and_scenes(f.read())
+	if "human" in result.lower():
+		human = "true"
 	end_time = time.time()
 	execution_time = (end_time - start_time) * 1000
 
@@ -34,6 +37,7 @@ def gc_functions_handler(request):
 			'test': 'image_recognition',
 			'image': url,
 			'result': result,
+			'human': human,
 			'milliseconds': execution_time
 		}
 	}), 200, headers)

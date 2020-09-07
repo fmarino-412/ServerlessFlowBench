@@ -32,6 +32,7 @@ public class MainTest {
 				cleanupFunctions();
 				break;
 			case 5:
+				cleanupFunctions();
 				customFunction();
 				break;
 		}
