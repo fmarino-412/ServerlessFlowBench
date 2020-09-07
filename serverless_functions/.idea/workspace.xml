@@ -2,79 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa93455a-6c61-4171-9865-22a42f18396e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/aws/image_classification/image_classification.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/YOLOv3/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/YOLOv3/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/YOLOv3/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/benchmarks/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/blocks/_1d.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/blocks/_2d.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/blocks/_3d.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/blocks/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/blocks/_time_distributed_2d.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/classifiers/_2d.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/classifiers/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/layers/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/layers/_batch_normalization.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/models/_2d.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_resnet/models/_time_distributed_2d.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/backend/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/backend/common.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/backend/dynamic.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/backend/tensorflow_backend.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/callbacks/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/callbacks/coco.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/callbacks/common.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/callbacks/eval.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/initializers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/layers/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/layers/_misc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/losses.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/models/mobilenet.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/models/resnet.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/models/retinanet.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/coco.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/csv_generator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/generator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/kitti.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/open_images.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/preprocessing/pascal_voc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/anchors.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/coco_eval.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/colors.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/eval.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/image.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/keras_version.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/transform.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Detection/keras_retinanet/utils/visualization.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/Custom/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/Custom/custom_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/DenseNet/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/DenseNet/densenet.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/DenseNet/imagenet_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/DenseNet/subpixel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/DenseNet/tensorflow_backend.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/InceptionV3/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/InceptionV3/imagenet_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/InceptionV3/inceptionv3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/ResNet/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/ResNet/resnet50.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/SqueezeNet/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/SqueezeNet/squeezenet.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/Prediction/imagenet_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/imageai/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/image_classification/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/aws/image_recognition/image_recognition.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/main/java/MainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/MainTest.java" afterDir="false" />
     </list>
@@ -203,6 +131,7 @@
       <workItem from="1598548083296" duration="41000" />
       <workItem from="1598603398854" duration="4780000" />
       <workItem from="1599215714634" duration="6020000" />
+      <workItem from="1599469422108" duration="1024000" />
     </task>
     <servers />
   </component>

@@ -10,7 +10,7 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 3;
+		int i = 5;
 
 		switch (i) {
 			case 0:
@@ -31,6 +31,8 @@ public class MainTest {
 				coldBenchmarkPerform();
 				cleanupFunctions();
 				break;
+			case 5:
+				customDeployFunctions();
 		}
 	}
 
@@ -40,6 +42,8 @@ public class MainTest {
 	}
 
 	private static void deployFunctions() {
+		System.out.println("Deploying benchmark functions...\n");
+
 		try {
 			FunctionCommandExecutor.deployOnGoogleCloudPlatform("latency-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -120,6 +124,21 @@ public class MainTest {
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
+
+		System.out.println("Deploying application functions...\n");
+
+		try {
+			FunctionCommandExecutor.deployOnAmazonWebServices("image-recognition",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"image_recognition.lambda_handler",
+					30,
+					128,
+					AmazonCommandUtility.NORTH_VIRGINIA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/aws/image_recognition",
+					"image_recognition.zip");
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static void loadBenchmarkPerform() {
@@ -133,5 +152,21 @@ public class MainTest {
 
 	private static void coldBenchmarkPerform() {
 		BenchmarkCommandExecutor.performColdStartBenchmark(10);
+	}
+
+	@Deprecated
+	private static void customDeployFunctions() {
+		try {
+			FunctionCommandExecutor.deployOnAmazonWebServices("image-recognition",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"image_recognition.lambda_handler",
+					30,
+					128,
+					AmazonCommandUtility.NORTH_VIRGINIA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/aws/image_recognition",
+					"image_recognition.zip");
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
