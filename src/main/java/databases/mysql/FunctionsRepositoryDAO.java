@@ -5,6 +5,7 @@ import utility.PropertiesManager;
 import java.sql.*;
 import java.util.*;
 
+@SuppressWarnings("DuplicatedCode")
 public class FunctionsRepositoryDAO {
 
 	private static final String GOOGLE = "google cloud functions";

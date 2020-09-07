@@ -9,7 +9,6 @@ public abstract class CommandExecutor {
 
 		// define command
 		if (GoogleCommandUtility.isWindows()) {
-			// TODO: TEST
 			builder.command("cmd.exe", "/c", cmd);
 		} else {
 			builder.command("sh", "-c", cmd);

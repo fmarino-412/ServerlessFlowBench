@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class BenchmarkCollector {
 
-	private BenchmarkStats result;
+	private final BenchmarkStats result;
 
 	private final static String avgDevRegex = "(#\\[Mean\\s+=\\s+)([0-9]+.[0-9]+)" +
 			"(,\\s+StdDeviation\\s+=\\s+)([0-9]+.[0-9]+)(])";

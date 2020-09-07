@@ -32,7 +32,8 @@ public class MainTest {
 				cleanupFunctions();
 				break;
 			case 5:
-				customDeployFunctions();
+				customFunction();
+				break;
 		}
 	}
 
@@ -42,7 +43,7 @@ public class MainTest {
 	}
 
 	private static void deployFunctions() {
-		System.out.println("Deploying benchmark functions...\n");
+		System.out.println("\n\nDeploying benchmark functions...\n");
 
 		try {
 			FunctionCommandExecutor.deployOnGoogleCloudPlatform("latency-test",
@@ -125,7 +126,7 @@ public class MainTest {
 			e.printStackTrace();
 		}
 
-		System.out.println("Deploying application functions...\n");
+		System.out.println("\n\nDeploying application functions...\n");
 
 		try {
 			FunctionCommandExecutor.deployOnGoogleCloudPlatform("image-recognition",
@@ -147,7 +148,8 @@ public class MainTest {
 					30,
 					128,
 					AmazonCommandUtility.NORTH_VIRGINIA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/aws/image_recognition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/image_recognition",
 					"image_recognition.zip");
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
@@ -157,8 +159,9 @@ public class MainTest {
 	private static void loadBenchmarkPerform() {
 		for (int i = 0; i < 10; i++) {
 			try {
-				Thread.sleep(60 * 1000);
-				BenchmarkCommandExecutor.performLoadTest(500, 100, 40, 100000);
+				BenchmarkCommandExecutor.performLoadTest(500, 100, 40,
+						100000);
+				Thread.sleep(60 * 1000); // 1 minute sleeping, not enough for resource deallocation
 			} catch (InterruptedException ignored) {}
 		}
 	}
@@ -167,8 +170,35 @@ public class MainTest {
 		BenchmarkCommandExecutor.performColdStartBenchmark(10);
 	}
 
+	@SuppressWarnings("DuplicatedCode")
 	@Deprecated
-	private static void customDeployFunctions() {
+	private static void customFunction() {
 
+		try {
+			FunctionCommandExecutor.deployOnGoogleCloudPlatform("image-recognition",
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					"gc_functions_handler",
+					30,
+					128,
+					GoogleCommandUtility.NORTH_VIRGINIA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/image_recognition");
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			FunctionCommandExecutor.deployOnAmazonWebServices("image-recognition",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"image_recognition.lambda_handler",
+					30,
+					128,
+					AmazonCommandUtility.NORTH_VIRGINIA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/image_recognition",
+					"image_recognition.zip");
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

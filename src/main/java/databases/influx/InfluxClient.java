@@ -10,6 +10,7 @@ import utility.PropertiesManager;
 
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("DuplicatedCode")
 public class InfluxClient {
 
 	private static final String DB_URL = "http://" +

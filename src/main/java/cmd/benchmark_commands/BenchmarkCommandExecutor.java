@@ -50,8 +50,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	private static long measureHttpLatency(String targetUrl) {
 
 		HttpURLConnection connection = null;
-		InputStream inputStream = null;
-		BufferedReader reader = null;
+		InputStream inputStream;
+		BufferedReader reader;
 
 		try {
 
@@ -66,6 +66,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 			inputStream = connection.getInputStream();
 			reader = new BufferedReader(new InputStreamReader(inputStream));
+			//noinspection StatementWithEmptyBody
 			while (reader.readLine() != null) {}
 			long latency = System.currentTimeMillis() - startTime;
 			inputStream.close();
@@ -229,13 +230,19 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					amazonLatency = measureHttpLatency(function.getAmazonUrl());
 					if (googleLatency != -1) {
 						// influx persist
-						InfluxClient.insertColdPoint(function.getFunctionName(), "google", googleLatency,
-								System.currentTimeMillis());
+						if (InfluxClient.insertColdPoint(function.getFunctionName(), "google", googleLatency,
+								System.currentTimeMillis())) {
+							System.out.println("\u001B[32m" + "Persisted google cold start benchmark for: " +
+									function.getFunctionName() + "\u001B[0m");
+						}
 					}
 					if (amazonLatency != -1) {
 						// influx persist
-						InfluxClient.insertColdPoint(function.getFunctionName(), "amazon", amazonLatency,
-								System.currentTimeMillis());
+						if (InfluxClient.insertColdPoint(function.getFunctionName(), "amazon", amazonLatency,
+								System.currentTimeMillis())) {
+							System.out.println("\u001B[32m" + "Persisted amazon cold start benchmark for: " +
+									function.getFunctionName() + "\u001B[0m");
+						}
 					}
 				} catch (InterruptedException ignored) {
 					return;
