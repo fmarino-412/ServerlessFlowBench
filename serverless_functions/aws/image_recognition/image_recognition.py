@@ -18,10 +18,10 @@ def lambda_handler(event, context):
 
 	useragent = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 ' \
 				'Mobile/10A5355d Safari/8536.25 '
-	r = request.Request(url, headers={'User-Agent': useragent})
-	f = request.urlopen(r)
 
 	start_time = time.time()
+	r = request.Request(url, headers={'User-Agent': useragent})
+	f = request.urlopen(r)
 	result = detect_object_and_scenes(f.read())
 	end_time = time.time()
 	execution_time = (end_time - start_time) * 1000

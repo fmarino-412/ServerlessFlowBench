@@ -10,7 +10,7 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 5;
+		int i = 3;
 
 		switch (i) {
 			case 0:
@@ -128,6 +128,19 @@ public class MainTest {
 		System.out.println("Deploying application functions...\n");
 
 		try {
+			FunctionCommandExecutor.deployOnGoogleCloudPlatform("image-recognition",
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					"gc_functions_handler",
+					30,
+					128,
+					GoogleCommandUtility.NORTH_VIRGINIA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/image_recognition");
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
 			FunctionCommandExecutor.deployOnAmazonWebServices("image-recognition",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"image_recognition.lambda_handler",
@@ -156,17 +169,6 @@ public class MainTest {
 
 	@Deprecated
 	private static void customDeployFunctions() {
-		try {
-			FunctionCommandExecutor.deployOnAmazonWebServices("image-recognition",
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					"image_recognition.lambda_handler",
-					30,
-					128,
-					AmazonCommandUtility.NORTH_VIRGINIA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/aws/image_recognition",
-					"image_recognition.zip");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
+
 	}
 }
