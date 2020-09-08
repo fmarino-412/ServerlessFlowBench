@@ -8,7 +8,7 @@ REKOGNITION_CLIENT = boto3.client("rekognition")
 
 def lambda_handler(event, context):
 	url = None
-	human = "false"
+	human = False
 
 	if event.get('queryStringParameters') is not None:
 		if 'url' in event['queryStringParameters']:
@@ -24,26 +24,28 @@ def lambda_handler(event, context):
 	f = request.urlopen(r)
 	result = detect_object_and_scenes(f.read())
 	if "human" in json.dumps(result).lower():
-		human = "true"
+		human = True
 	end_time = time.time()
 	execution_time = (end_time - start_time) * 1000
 
-	return {
-		'statusCode': 200,
-		'headers': {
-			'Content-Type': 'application/json'
-		},
-		'body': json.dumps({
-			'success': True,
-			'payload': {
-				'test': 'image_recognition',
-				'image': url,
-				'result': result,
-				'human': human,
-				'milliseconds': execution_time
-			}
-		})
-	}
+	return human
+
+#	return {
+#		'statusCode': 200,
+#		'headers': {
+#			'Content-Type': 'application/json'
+#		},
+#		'body': json.dumps({
+#			'success': True,
+#			'payload': {
+#				'test': 'image_recognition',
+#				'image': url,
+#				'result': result,
+#				'human': human,
+#				'milliseconds': execution_time
+#			}
+#		})
+#	}
 
 
 def detect_object_and_scenes(image) -> dict:
