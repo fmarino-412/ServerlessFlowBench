@@ -8,7 +8,7 @@
       "Parameters": {
         "FunctionName": "arn:aws:lambda:us-east-1:918274741632:function:image-recognition:$LATEST",
         "Payload": {
-          "Input.$": "$"
+          "url.$": "$.url"
         }
       },
       "ResultPath": "$",
@@ -18,25 +18,21 @@
       "Type": "Choice",
       "Choices": [
         {
-          "Variable": "$",
-          "StringMatches": ".*\\\"human\\\": \\\"true\\\".*",
+          "Variable": "$.Payload",
+          "StringMatches": "*human*",
           "Next": "Human"
-        },
-        {
-          "Variable": "$",
-          "StringMatches": ".*\\\"human\\\": \\\"false\\\".*",
-          "Next": "Not human"
         }
-      ]
+      ],
+      "Default": "Not human"
     },
     "Human": {
       "Type": "Pass",
-      "Result": "Human",
+      "Result": "The image you provided represents an human being",
       "End": true
     },
     "Not human": {
       "Type": "Pass",
-      "Result": "Not human",
+      "Result": "The image you provided does not represent an human being",
       "End": true
     }
   }
