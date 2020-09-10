@@ -6,15 +6,9 @@ import java.sql.*;
 import java.util.*;
 
 @SuppressWarnings("DuplicatedCode")
-public class FunctionsRepositoryDAO {
+public class FunctionsRepositoryDAO extends DAO{
 
-	private static final String GOOGLE = "google cloud functions";
-	private static final String AMAZON = "amazon web services lambda";
-
-	private static final String CREATE_DATABASE = "CREATE DATABASE IF NOT EXISTS " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB);
-
-	private static final String CREATE_GOOGLE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+	private static final String CREATE_GOOGLE_FUNCTIONS_TABLE = "CREATE TABLE IF NOT EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions (" +
 			"function_name varchar(50) NOT NULL, " +
 			"url varchar(100) NOT NULL, " +
@@ -22,7 +16,7 @@ public class FunctionsRepositoryDAO {
 			"PRIMARY KEY (function_name)" +
 			")";
 
-	private static final String CREATE_AMAZON_TABLE = "CREATE TABLE IF NOT EXISTS " +
+	private static final String CREATE_AMAZON_FUNCTIONS_TABLE = "CREATE TABLE IF NOT EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions (" +
 			"function_name varchar(50) NOT NULL, " +
 			"url varchar(100) NOT NULL, " +
@@ -31,51 +25,53 @@ public class FunctionsRepositoryDAO {
 			"PRIMARY KEY (function_name)" +
 			")";
 
-	private static final String INSERT_GOOGLE = "INSERT INTO " +
+	private static final String INSERT_GOOGLE_FUNCTION = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions " +
 			"(function_name, url, region) " + "VALUES (?, ?, ?) " +
 			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url), region=VALUES(region)";
 
-	private static final String INSERT_AMAZON = "INSERT INTO " +
+	private static final String INSERT_AMAZON_FUNCTION = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions " +
 			"(function_name, url, api_id, region) " + "VALUES (?, ?, ?, ?) " +
 			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url), api_id=VALUES(api_id), " +
 			"region=VALUES(region)";
 
-	private static final String SELECT_GOOGLE_INFO = "SELECT function_name, region FROM " +
+	private static final String SELECT_GOOGLE_FUNCTIONS_INFO = "SELECT function_name, region FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions";
 
-	private static final String SELECT_AMAZON_INFO = "SELECT function_name, api_id, region FROM " +
+	private static final String SELECT_AMAZON_FUNCTIONS_INFO = "SELECT function_name, api_id, region FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions";
 
-	private static final String SELECT_GOOGLE_URL = "SELECT function_name, url FROM " +
+	private static final String SELECT_GOOGLE_FUNCTIONS_URL = "SELECT function_name, url FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions";
 
-	private static final String SELECT_AMAZON_URL = "SELECT function_name, url FROM " +
+	private static final String SELECT_AMAZON_FUNCTIONS_URL = "SELECT function_name, url FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions";
 
-	private static final String DROP_GOOGLE = "DROP TABLE IF EXISTS " +
+	private static final String DROP_GOOGLE_FUNCTIONS = "DROP TABLE IF EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions";
 
-	private static final String DROP_AMAZON = "DROP TABLE IF EXISTS " +
+	private static final String DROP_AMAZON_FUNCTIONS = "DROP TABLE IF EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions";
 
 
-	private static void initDatabase(Connection connection, String provider) throws SQLException {
+	private static void initTables(Connection connection, String provider) throws SQLException {
 		if (connection != null) {
+
+			initDatabase(connection);
+
 			Statement statement = connection.createStatement();
-			statement.executeUpdate(CREATE_DATABASE);
 
 			switch (provider) {
 				case GOOGLE:
-					statement.executeUpdate(CREATE_GOOGLE_TABLE);
+					statement.executeUpdate(CREATE_GOOGLE_FUNCTIONS_TABLE);
 					break;
 				case AMAZON:
-					statement.executeUpdate(CREATE_AMAZON_TABLE);
+					statement.executeUpdate(CREATE_AMAZON_FUNCTIONS_TABLE);
 					break;
 				default:
-					statement.executeUpdate(CREATE_AMAZON_TABLE);
-					statement.executeUpdate(CREATE_GOOGLE_TABLE);
+					statement.executeUpdate(CREATE_AMAZON_FUNCTIONS_TABLE);
+					statement.executeUpdate(CREATE_GOOGLE_FUNCTIONS_TABLE);
 					break;
 			}
 			statement.close();
@@ -104,10 +100,10 @@ public class FunctionsRepositoryDAO {
 
 			switch (provider) {
 				case GOOGLE:
-					statement.executeUpdate(DROP_GOOGLE);
+					statement.executeUpdate(DROP_GOOGLE_FUNCTIONS);
 					break;
 				case AMAZON:
-					statement.executeUpdate(DROP_AMAZON);
+					statement.executeUpdate(DROP_AMAZON_FUNCTIONS);
 					break;
 				default:
 					System.err.println("Provider not supported! Could not perform DB insertion");
@@ -127,9 +123,9 @@ public class FunctionsRepositoryDAO {
 				System.err.println("Could not connect to database, please check your connection");
 				return;
 			}
-			initDatabase(connection, GOOGLE);
+			initTables(connection, GOOGLE);
 
-			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GOOGLE);
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GOOGLE_FUNCTION);
 			preparedStatement.setString(1, functionName);
 			preparedStatement.setString(2, url);
 			preparedStatement.setString(3, region);
@@ -148,9 +144,9 @@ public class FunctionsRepositoryDAO {
 				System.err.println("Could not connect to database, please check your connection");
 				return;
 			}
-			initDatabase(connection, AMAZON);
+			initTables(connection, AMAZON);
 
-			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_AMAZON);
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_AMAZON_FUNCTION);
 			preparedStatement.setString(1, functionName);
 			preparedStatement.setString(2, url);
 			preparedStatement.setString(3, apiId);
@@ -170,10 +166,10 @@ public class FunctionsRepositoryDAO {
 				System.err.println("Could not connect to database, please check your connection");
 				return null;
 			}
-			initDatabase(connection, GOOGLE);
+			initTables(connection, GOOGLE);
 
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_INFO);
+			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_FUNCTIONS_INFO);
 
 			List<FunctionData> result = new ArrayList<>();
 
@@ -198,10 +194,10 @@ public class FunctionsRepositoryDAO {
 				System.err.println("Could not connect to database, please check your connection");
 				return null;
 			}
-			initDatabase(connection, AMAZON);
+			initTables(connection, AMAZON);
 
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(SELECT_AMAZON_INFO);
+			ResultSet resultSet = statement.executeQuery(SELECT_AMAZON_FUNCTIONS_INFO);
 
 			List<FunctionData> result = new ArrayList<>();
 
@@ -226,10 +222,10 @@ public class FunctionsRepositoryDAO {
 				System.err.println("Could not connect to database, please check your connection");
 				return null;
 			}
-			initDatabase(connection, "*");
+			initTables(connection, "*");
 
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_URL);
+			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_FUNCTIONS_URL);
 
 			HashMap<String, FunctionURL> dynamicResult = new HashMap<>();
 
@@ -253,7 +249,7 @@ public class FunctionsRepositoryDAO {
 			resultSet.close();
 
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery(SELECT_AMAZON_URL);
+			resultSet = statement.executeQuery(SELECT_AMAZON_FUNCTIONS_URL);
 
 			while (resultSet.next()) {
 				name = resultSet.getString("function_name");
