@@ -45,7 +45,7 @@ def lambda_handler(event, context):
 
 	success = execution_info.get("status") == "SUCCEEDED"
 	name = execution_info.get("name")
-	output = execution_info.get("output")
+	output = execution_info.get("output").replace('"', '')
 
 	return {
 		'statusCode': 200,

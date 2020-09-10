@@ -15,7 +15,7 @@ public class FunctionsRepositoryDAO {
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB);
 
 	private static final String CREATE_GOOGLE_TABLE = "CREATE TABLE IF NOT EXISTS " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google (" +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions (" +
 			"function_name varchar(50) NOT NULL, " +
 			"url varchar(100) NOT NULL, " +
 			"region varchar(15) NOT NULL, " +
@@ -23,7 +23,7 @@ public class FunctionsRepositoryDAO {
 			")";
 
 	private static final String CREATE_AMAZON_TABLE = "CREATE TABLE IF NOT EXISTS " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon (" +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions (" +
 			"function_name varchar(50) NOT NULL, " +
 			"url varchar(100) NOT NULL, " +
 			"api_id varchar(50) NOT NULL, " +
@@ -32,33 +32,33 @@ public class FunctionsRepositoryDAO {
 			")";
 
 	private static final String INSERT_GOOGLE = "INSERT INTO " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google (function_name, url, " +
-			"region) " + "VALUES (?, ?, ?) " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions " +
+			"(function_name, url, region) " + "VALUES (?, ?, ?) " +
 			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url), region=VALUES(region)";
 
 	private static final String INSERT_AMAZON = "INSERT INTO " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon (function_name, url, " +
-			"api_id, region) " + "VALUES (?, ?, ?, ?) " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions " +
+			"(function_name, url, api_id, region) " + "VALUES (?, ?, ?, ?) " +
 			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url), api_id=VALUES(api_id), " +
 			"region=VALUES(region)";
 
 	private static final String SELECT_GOOGLE_INFO = "SELECT function_name, region FROM " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google";
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions";
 
 	private static final String SELECT_AMAZON_INFO = "SELECT function_name, api_id, region FROM " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon";
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions";
 
 	private static final String SELECT_GOOGLE_URL = "SELECT function_name, url FROM " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google";
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions";
 
 	private static final String SELECT_AMAZON_URL = "SELECT function_name, url FROM " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon";
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions";
 
 	private static final String DROP_GOOGLE = "DROP TABLE IF EXISTS " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google";
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions";
 
 	private static final String DROP_AMAZON = "DROP TABLE IF EXISTS " +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon";
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions";
 
 
 	private static void initDatabase(Connection connection, String provider) throws SQLException {
