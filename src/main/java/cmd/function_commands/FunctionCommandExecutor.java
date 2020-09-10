@@ -4,7 +4,7 @@ import cmd.CommandExecutor;
 import cmd.StreamGobbler;
 import cmd.function_commands.output_parsing.UrlFinder;
 import cmd.function_commands.output_parsing.ReplyCollector;
-import databases.mysql.FunctionsRepositoryDAO;
+import databases.mysql.daos.FunctionsRepositoryDAO;
 import databases.mysql.FunctionData;
 
 import java.io.IOException;

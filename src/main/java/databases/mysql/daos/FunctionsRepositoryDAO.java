@@ -1,12 +1,17 @@
-package databases.mysql;
+package databases.mysql.daos;
 
+import databases.mysql.FunctionData;
+import databases.mysql.FunctionalityURL;
+import databases.mysql.MySQLConnect;
 import utility.PropertiesManager;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @SuppressWarnings("DuplicatedCode")
-public class FunctionsRepositoryDAO extends DAO{
+public class FunctionsRepositoryDAO extends DAO {
 
 	private static final String CREATE_GOOGLE_FUNCTIONS_TABLE = "CREATE TABLE IF NOT EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions (" +
@@ -106,13 +111,13 @@ public class FunctionsRepositoryDAO extends DAO{
 					statement.executeUpdate(DROP_AMAZON_FUNCTIONS);
 					break;
 				default:
-					System.err.println("Provider not supported! Could not perform DB insertion");
+					System.err.println("Provider not supported! Could not perform DB drop");
 			}
 
 			statement.close();
-			connection.close();
+			MySQLConnect.closeConnection(connection);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.err.println("Could not drop table(s): " + e.getMessage());
 		}
 	}
 
@@ -180,6 +185,7 @@ public class FunctionsRepositoryDAO extends DAO{
 
 			statement.close();
 			resultSet.close();
+			MySQLConnect.closeConnection(connection);
 			return result;
 		} catch (SQLException e) {
 			System.err.println("Could not perform select: " + e.getMessage());
@@ -208,6 +214,7 @@ public class FunctionsRepositoryDAO extends DAO{
 
 			statement.close();
 			resultSet.close();
+			MySQLConnect.closeConnection(connection);
 			return result;
 		} catch (SQLException e) {
 			System.err.println("Could not perform select: " + e.getMessage());
@@ -215,7 +222,7 @@ public class FunctionsRepositoryDAO extends DAO{
 		}
 	}
 
-	public static ArrayList<FunctionURL> getUrls() {
+	public static ArrayList<FunctionalityURL> getUrls() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -227,11 +234,11 @@ public class FunctionsRepositoryDAO extends DAO{
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_FUNCTIONS_URL);
 
-			HashMap<String, FunctionURL> dynamicResult = new HashMap<>();
+			HashMap<String, FunctionalityURL> dynamicResult = new HashMap<>();
 
 			String name;
 			String url;
-			FunctionURL functionURL;
+			FunctionalityURL functionalityURL;
 
 			while (resultSet.next()) {
 				name = resultSet.getString("function_name");
@@ -239,9 +246,9 @@ public class FunctionsRepositoryDAO extends DAO{
 				if (dynamicResult.containsKey(name)) {
 					dynamicResult.get(name).setGoogleUrl(url);
 				} else {
-					functionURL = new FunctionURL(name);
-					functionURL.setGoogleUrl(url);
-					dynamicResult.put(name, functionURL);
+					functionalityURL = new FunctionalityURL(name);
+					functionalityURL.setGoogleUrl(url);
+					dynamicResult.put(name, functionalityURL);
 				}
 			}
 
@@ -257,14 +264,15 @@ public class FunctionsRepositoryDAO extends DAO{
 				if (dynamicResult.containsKey(name)) {
 					dynamicResult.get(name).setAmazonUrl(url);
 				} else {
-					functionURL = new FunctionURL(name);
-					functionURL.setAmazonUrl(url);
-					dynamicResult.put(name, functionURL);
+					functionalityURL = new FunctionalityURL(name);
+					functionalityURL.setAmazonUrl(url);
+					dynamicResult.put(name, functionalityURL);
 				}
 			}
 
 			statement.close();
 			resultSet.close();
+			MySQLConnect.closeConnection(connection);
 
 			return new ArrayList<>(dynamicResult.values());
 

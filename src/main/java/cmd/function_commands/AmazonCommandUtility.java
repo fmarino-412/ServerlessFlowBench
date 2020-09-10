@@ -44,7 +44,7 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--function-name" + SEP + functionName + SEP +
 						"--runtime" + SEP + runtime + SEP +
 						"--memory-size" + SEP + memory + SEP +
-						"--role" + SEP + PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_EXEC_ROLE)
+						"--role" + SEP + PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_LAMBDA_EXEC_ROLE)
 						+ SEP + "--handler" + SEP + entryPoint + SEP +
 						"--timeout" + SEP + timeout + SEP +
 						"--publish" + SEP +

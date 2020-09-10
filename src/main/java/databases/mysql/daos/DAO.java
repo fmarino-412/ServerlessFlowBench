@@ -1,4 +1,4 @@
-package databases.mysql;
+package databases.mysql.daos;
 
 import com.sun.istack.internal.NotNull;
 import utility.PropertiesManager;

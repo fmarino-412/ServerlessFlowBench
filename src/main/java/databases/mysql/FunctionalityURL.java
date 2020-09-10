@@ -1,18 +1,18 @@
 package databases.mysql;
 
-public class FunctionURL {
-	private final String functionName;
+public class FunctionalityURL {
+	private final String name;
 	private String googleUrl;
 	private String amazonUrl;
 
-	public FunctionURL(String functionName) {
-		this.functionName = functionName;
+	public FunctionalityURL(String name) {
+		this.name = name;
 		this.googleUrl = null;
 		this.amazonUrl = null;
 	}
 
-	public String getFunctionName() {
-		return functionName;
+	public String getName() {
+		return name;
 	}
 
 	public String getGoogleUrl() {

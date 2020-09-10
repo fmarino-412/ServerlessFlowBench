@@ -127,6 +127,7 @@ public class MainTest {
 			e.printStackTrace();
 		}
 
+		/*
 		System.out.println("\n\nDeploying application functions...\n");
 
 		try {
@@ -155,6 +156,8 @@ public class MainTest {
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
+
+		 */
 	}
 
 	private static void loadBenchmarkPerform() {
