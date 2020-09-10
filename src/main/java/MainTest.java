@@ -176,19 +176,6 @@ public class MainTest {
 	private static void customFunction() {
 
 		try {
-			FunctionCommandExecutor.deployOnGoogleCloudPlatform("image-recognition",
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					"gc_functions_handler",
-					30,
-					128,
-					GoogleCommandUtility.NORTH_VIRGINIA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/image_recognition");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
 			FunctionCommandExecutor.deployOnAmazonWebServices("image-recognition",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"image_recognition.lambda_handler",
@@ -198,6 +185,20 @@ public class MainTest {
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/aws/image_recognition",
 					"image_recognition.zip");
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			FunctionCommandExecutor.deployOnAmazonWebServices("step-functions",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"orchestration_handler.lambda_handler",
+					30,
+					128,
+					AmazonCommandUtility.NORTH_VIRGINIA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/orchestration_handler",
+					"orchestration_handler.zip");
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
