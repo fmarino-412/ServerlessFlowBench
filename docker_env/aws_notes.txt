@@ -122,3 +122,4 @@ poi develop della funzione lambda e salvo l'arn per passarlo come parametro!!
 
 unica risorsa necessaria per deletion l'arn
 
+ docker run --rm -i -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/aws/.aws:/root/.aws amazon/aws-cli stepfunctions delete-state-machine --state-machine-arn arn:aws:states:us-east-1:918274741632:stateMachine:statemachine
