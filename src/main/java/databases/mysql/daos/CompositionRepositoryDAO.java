@@ -1,6 +1,7 @@
 package databases.mysql.daos;
 
 import com.sun.istack.internal.Nullable;
+import databases.mysql.FunctionData;
 import databases.mysql.FunctionalityURL;
 import databases.mysql.MySQLConnect;
 import utility.PropertiesManager;
@@ -8,6 +9,7 @@ import utility.PropertiesManager;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @SuppressWarnings("DuplicatedCode")
 public class CompositionRepositoryDAO extends DAO {
@@ -67,6 +69,14 @@ public class CompositionRepositoryDAO extends DAO {
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_handler_function WHERE id=1";
 
+	private static final String SELECT_FUNCTION_INFOS = "SELECT function_name, function_region " +
+			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".amazon_serverless_compositions_functions";
+
+	private static final String SELECT_MACHINE_INFOS = "SELECT machine_arn " +
+			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".amazon_serverless_compositions_main";
+
 	private static final String SELECT_HANDLER_URL = "SELECT url " +
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_handler_function WHERE id=1";
@@ -87,7 +97,7 @@ public class CompositionRepositoryDAO extends DAO {
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_main";
 
-	// TODO: select for urls and deletions
+	// TODO: select for deletions
 
 	private static void initTables(Connection connection, String provider) throws SQLException {
 		if (connection != null) {
@@ -214,7 +224,7 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
-	public static boolean existsHandler(@Nullable Connection openedConnection) {
+	public static boolean existsAmazonHandler(@Nullable Connection openedConnection) {
 		try {
 			Connection connection;
 			if (openedConnection != null) {
@@ -247,7 +257,94 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
-	public static ArrayList<FunctionalityURL> getUrls() {
+	public static FunctionData getAmazonHandlerInfo() {
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return null;
+			}
+			initTables(connection, AMAZON);
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(SELECT_HANDLER_INFO);
+
+			// function name and region
+			FunctionData result = null;
+			if (resultSet.next()) {
+				result = new FunctionData(resultSet.getString("function_name"),
+						resultSet.getString("region"), resultSet.getString("api_id"));
+			}
+
+			statement.close();
+			resultSet.close();
+			MySQLConnect.closeConnection(connection);
+			return result;
+		} catch (SQLException e) {
+			System.err.println("Could not perform select: " + e.getMessage());
+			return null;
+		}
+	}
+
+	public static List<FunctionData> getAmazonFunctionInfos() {
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return null;
+			}
+			initTables(connection, AMAZON);
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(SELECT_FUNCTION_INFOS);
+
+			List<FunctionData> result = new ArrayList<>();
+
+			// function_name, function_region
+			while (resultSet.next()) {
+				result.add(new FunctionData(resultSet.getString("function_name"),
+						resultSet.getString("function_region"), null));
+			}
+
+			statement.close();
+			resultSet.close();
+			MySQLConnect.closeConnection(connection);
+			return result;
+		} catch (SQLException e) {
+			System.err.println("Could not perform select: " + e.getMessage());
+			return null;
+		}
+	}
+
+	public static List<String> getAmazonMachineInfos() {
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return null;
+			}
+			initTables(connection, AMAZON);
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(SELECT_MACHINE_INFOS);
+
+			List<String> result = new ArrayList<>();
+
+			while (resultSet.next()) {
+				result.add(resultSet.getString("machine_arn"));
+			}
+
+			statement.close();
+			resultSet.close();
+			MySQLConnect.closeConnection(connection);
+			return result;
+		} catch (SQLException e) {
+			System.err.println("Could not perform select: " + e.getMessage());
+			return null;
+		}
+	}
+
+	public static List<FunctionalityURL> getUrls() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -256,7 +353,7 @@ public class CompositionRepositoryDAO extends DAO {
 			}
 			initTables(connection, "*");
 
-			if (!existsHandler(connection)) {
+			if (!existsAmazonHandler(connection)) {
 				System.err.println("Could not build Amazon urls: handler not found");
 				return null;
 			}

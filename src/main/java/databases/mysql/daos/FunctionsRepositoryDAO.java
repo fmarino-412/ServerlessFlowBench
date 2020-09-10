@@ -222,7 +222,7 @@ public class FunctionsRepositoryDAO extends DAO {
 		}
 	}
 
-	public static ArrayList<FunctionalityURL> getUrls() {
+	public static List<FunctionalityURL> getUrls() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {

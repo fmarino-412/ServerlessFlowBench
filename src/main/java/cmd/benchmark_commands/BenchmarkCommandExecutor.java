@@ -12,6 +12,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -91,7 +92,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 				"your functions.\n" + "Estimated time: approximately " +
 				(((COLD_START_SLEEP_INTERVAL_MS/1000)*iterations)/60)/60 + " hours" + "\u001B[0m" + "\n");
 
-		ArrayList<FunctionalityURL> functions = FunctionsRepositoryDAO.getUrls();
+		List<FunctionalityURL> functions = FunctionsRepositoryDAO.getUrls();
 		if (functions == null) {
 			System.err.println("Could not perform benchmarks");
 			return;
@@ -124,7 +125,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 				"Starting load benchmarks..." +
 				"\u001B[0m" + "\n");
 
-		ArrayList<FunctionalityURL> functions = FunctionsRepositoryDAO.getUrls();
+		List<FunctionalityURL> functions = FunctionsRepositoryDAO.getUrls();
 		if (functions == null) {
 			System.err.println("Could not perform benchmarks");
 			return;
