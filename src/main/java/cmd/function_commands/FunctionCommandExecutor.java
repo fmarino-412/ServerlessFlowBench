@@ -15,9 +15,9 @@ import java.util.concurrent.Executors;
 @SuppressWarnings("DuplicatedCode")
 public class FunctionCommandExecutor extends CommandExecutor {
 
-	public static void deployOnGoogleCloudPlatform(String functionName, String runtime, String entryPoint,
-												   Integer timeout, Integer memory_mb, String region,
-												   String directoryAbsolutePath)
+	public static void deployOnGoogleCloudFunctions(String functionName, String runtime, String entryPoint,
+													Integer timeout, Integer memory_mb, String region,
+													String directoryAbsolutePath)
 			throws IOException, InterruptedException {
 
 		System.out.println("\n" + "\u001B[33m" +
@@ -57,9 +57,9 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		FunctionsRepositoryDAO.persistGoogle(functionName, url, region);
 	}
 
-	public static void deployOnAmazonWebServices(String functionName, String runtime, String entryPoint,
-												 Integer timeout, Integer memory, String region,
-												 String zipFolderAbsolutePath, String zipFileName)
+	public static void deployOnAmazonRESTFunctions(String functionName, String runtime, String entryPoint,
+												   Integer timeout, Integer memory, String region,
+												   String zipFolderAbsolutePath, String zipFileName)
 			throws IOException, InterruptedException {
 
 		Process process;
@@ -291,7 +291,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		FunctionsRepositoryDAO.persistAmazon(functionName, url, apiId, region);
 	}
 
-	public static void cleanupGoogleCloudPlatform() {
+	public static void cleanupGoogleCloudFunctions() {
 
 		System.out.println("\n" + "\u001B[33m" +
 				"Cleaning up Google environment..." +
@@ -339,7 +339,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		FunctionsRepositoryDAO.dropGoogle();
 	}
 
-	public static void cleanupAmazonWebServices() {
+	public static void cleanupAmazonRESTFunctions() {
 
 		System.out.println("\n" + "\u001B[33m" +
 				"Cleaning up Amazon environment..." +

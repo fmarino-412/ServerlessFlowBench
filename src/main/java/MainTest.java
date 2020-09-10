@@ -39,15 +39,15 @@ public class MainTest {
 	}
 
 	private static void cleanupFunctions() {
-		FunctionCommandExecutor.cleanupGoogleCloudPlatform();
-		FunctionCommandExecutor.cleanupAmazonWebServices();
+		FunctionCommandExecutor.cleanupGoogleCloudFunctions();
+		FunctionCommandExecutor.cleanupAmazonRESTFunctions();
 	}
 
 	private static void deployFunctions() {
 		System.out.println("\n\nDeploying benchmark functions...\n");
 
 		try {
-			FunctionCommandExecutor.deployOnGoogleCloudPlatform("latency-test",
+			FunctionCommandExecutor.deployOnGoogleCloudFunctions("latency-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 					"gc_functions_handler",
 					30,
@@ -60,7 +60,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnGoogleCloudPlatform("cpu-test",
+			FunctionCommandExecutor.deployOnGoogleCloudFunctions("cpu-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 					"gc_functions_handler",
 					30,
@@ -73,7 +73,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnGoogleCloudPlatform("memory-test",
+			FunctionCommandExecutor.deployOnGoogleCloudFunctions("memory-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 					"gc_functions_handler",
 					30,
@@ -86,7 +86,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnAmazonWebServices("latency-test",
+			FunctionCommandExecutor.deployOnAmazonRESTFunctions("latency-test",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"latency_test.lambda_handler",
 					30,
@@ -100,7 +100,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnAmazonWebServices("cpu-test",
+			FunctionCommandExecutor.deployOnAmazonRESTFunctions("cpu-test",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"cpu_test.lambda_handler",
 					30,
@@ -114,7 +114,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnAmazonWebServices("memory-test",
+			FunctionCommandExecutor.deployOnAmazonRESTFunctions("memory-test",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"memory_test.lambda_handler",
 					30,
@@ -130,7 +130,7 @@ public class MainTest {
 		System.out.println("\n\nDeploying application functions...\n");
 
 		try {
-			FunctionCommandExecutor.deployOnGoogleCloudPlatform("image-recognition",
+			FunctionCommandExecutor.deployOnGoogleCloudFunctions("image-recognition",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 					"gc_functions_handler",
 					30,
@@ -143,7 +143,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnAmazonWebServices("image-recognition",
+			FunctionCommandExecutor.deployOnAmazonRESTFunctions("image-recognition",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"image_recognition.lambda_handler",
 					30,
@@ -176,7 +176,7 @@ public class MainTest {
 	private static void customFunction() {
 
 		try {
-			FunctionCommandExecutor.deployOnAmazonWebServices("image-recognition",
+			FunctionCommandExecutor.deployOnAmazonRESTFunctions("image-recognition",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"image_recognition.lambda_handler",
 					30,
@@ -190,7 +190,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnAmazonWebServices("step-functions",
+			FunctionCommandExecutor.deployOnAmazonRESTFunctions("step-functions",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"orchestration_handler.lambda_handler",
 					30,
