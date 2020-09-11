@@ -1,4 +1,4 @@
-package cmd.function_commands;
+package cmd.functionality_commands;
 
 import cmd.CommandUtility;
 import utility.PropertiesManager;
@@ -29,9 +29,13 @@ public class AmazonCommandUtility extends CommandUtility {
 	private static final String GATEWAY_PUT_INTEGRATION = GATEWAY + SEP + "put-integration";
 	private static final String GATEWAY_CREATE_DEPLOYMENT = GATEWAY + SEP + "create-deployment";
 	private static final String GATEWAY_DEL = GATEWAY + SEP + "delete-rest-api";
+	private static final String STEP_FUNCTIONS = "stepfunctions";
+	private static final String STEP_FUNCTIONS_CREATE = STEP_FUNCTIONS + SEP + "create-state-machine";
+	private static final String STEP_FUNCTIONS_DROP = STEP_FUNCTIONS + SEP + "delete-state-machine";
 
 	public static String buildLambdaFunctionDeployCommand(String functionName, String runtime, String entryPoint,
-														  Integer timeout, Integer memory, String region, String zipFolder, String zipName) {
+														  Integer timeout, Integer memory, String region,
+														  String zipFolder, String zipName) {
 		return 	// command beginning
 				PREAMBLE + SEP +
 						// volume attachment
@@ -44,7 +48,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--function-name" + SEP + functionName + SEP +
 						"--runtime" + SEP + runtime + SEP +
 						"--memory-size" + SEP + memory + SEP +
-						"--role" + SEP + PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_LAMBDA_EXEC_ROLE)
+						"--role" + SEP +
+						PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_LAMBDA_EXEC_ROLE)
 						+ SEP + "--handler" + SEP + entryPoint + SEP +
 						"--timeout" + SEP + timeout + SEP +
 						"--publish" + SEP +
@@ -149,7 +154,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
-	public static String buildGatewayLambdaLinkageCommand(String apiId, String resourceId, String lambdaARN, String region) {
+	public static String buildGatewayLambdaLinkageCommand(String apiId, String resourceId, String lambdaARN,
+														  String region) {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
@@ -199,6 +205,20 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
+	public static String buildStepFunctionCreationCommand(String machineName, String definitionJson) {
+		return	// command beginning
+				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
+						// operation define
+						STEP_FUNCTIONS_CREATE + SEP +
+						"--name" + SEP + machineName + SEP +
+						"--role-arn" + SEP +
+						PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_STEP_FUNCTIONS_EXEC_ROLE) +
+						SEP + "--type" + SEP + "STANDARD" + SEP +
+						"--definition" + SEP + definitionJson;
+	}
+
 	public static String buildLambdaDropCommand(String functionName, String region) {
 		return	// command beginning
 				PREAMBLE + SEP +
@@ -221,6 +241,14 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
-
+	public static String buildStepFunctionDropCommand(String machineArn) {
+		return	// command beginning
+				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
+						// operation define
+						STEP_FUNCTIONS_DROP + SEP +
+						"--state-machine-arn" + SEP + machineArn;
+	}
 
 }

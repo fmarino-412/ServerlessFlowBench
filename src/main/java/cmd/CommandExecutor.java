@@ -1,6 +1,6 @@
 package cmd;
 
-import cmd.function_commands.GoogleCommandUtility;
+import cmd.functionality_commands.GoogleCommandUtility;
 
 public abstract class CommandExecutor {
 

@@ -1,4 +1,4 @@
-package cmd.function_commands.output_parsing;
+package cmd.functionality_commands.output_parsing;
 
 public class UrlFinder {
 

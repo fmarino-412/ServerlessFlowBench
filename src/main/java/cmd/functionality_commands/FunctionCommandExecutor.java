@@ -1,9 +1,10 @@
-package cmd.function_commands;
+package cmd.functionality_commands;
 
 import cmd.CommandExecutor;
 import cmd.StreamGobbler;
-import cmd.function_commands.output_parsing.UrlFinder;
-import cmd.function_commands.output_parsing.ReplyCollector;
+import cmd.functionality_commands.output_parsing.UrlFinder;
+import cmd.functionality_commands.output_parsing.ReplyCollector;
+import databases.mysql.daos.CompositionRepositoryDAO;
 import databases.mysql.daos.FunctionsRepositoryDAO;
 import databases.mysql.FunctionData;
 
@@ -57,9 +58,28 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		FunctionsRepositoryDAO.persistGoogle(functionName, url, region);
 	}
 
-	public static void deployOnAmazonRESTFunctions(String functionName, String runtime, String entryPoint,
-												   Integer timeout, Integer memory, String region,
-												   String zipFolderAbsolutePath, String zipFileName)
+	protected static void deployAmazonRESTHandlerFunction(String functionName, String runtime, String entryPoint,
+														  Integer timeout, Integer memory, String region,
+														  String zipFolderAbsolutePath, String zipFileName)
+			throws IOException, InterruptedException {
+
+		deployOnAmazonRESTFunctions(functionName, runtime, entryPoint, timeout, memory, region, zipFolderAbsolutePath,
+				zipFileName, true);
+	}
+
+	public static void deployOnAmazonRESTFunction(String functionName, String runtime, String entryPoint,
+												  Integer timeout, Integer memory, String region,
+												  String zipFolderAbsolutePath, String zipFileName)
+			throws IOException, InterruptedException {
+
+		deployOnAmazonRESTFunctions(functionName, runtime, entryPoint, timeout, memory, region, zipFolderAbsolutePath,
+				zipFileName, false);
+
+	}
+
+	private static void deployOnAmazonRESTFunctions(String functionName, String runtime, String entryPoint,
+												  Integer timeout, Integer memory, String region,
+												  String zipFolderAbsolutePath, String zipFileName, boolean handler)
 			throws IOException, InterruptedException {
 
 		Process process;
@@ -288,7 +308,11 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.shutdown();
 		process.destroy();
 
-		FunctionsRepositoryDAO.persistAmazon(functionName, url, apiId, region);
+		if (handler) {
+			CompositionRepositoryDAO.persistAmazonHandler(functionName, url, apiId, region);
+		} else {
+			FunctionsRepositoryDAO.persistAmazon(functionName, url, apiId, region);
+		}
 	}
 
 	public static void cleanupGoogleCloudFunctions() {

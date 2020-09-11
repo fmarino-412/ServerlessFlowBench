@@ -1,4 +1,4 @@
-package cmd.function_commands;
+package cmd.functionality_commands;
 
 import cmd.CommandUtility;
 import utility.PropertiesManager;

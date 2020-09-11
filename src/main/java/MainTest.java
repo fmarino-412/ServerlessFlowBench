@@ -1,7 +1,8 @@
 import cmd.benchmark_commands.BenchmarkCommandExecutor;
-import cmd.function_commands.AmazonCommandUtility;
-import cmd.function_commands.FunctionCommandExecutor;
-import cmd.function_commands.GoogleCommandUtility;
+import cmd.functionality_commands.AmazonCommandUtility;
+import cmd.functionality_commands.CompositionCommandExecutor;
+import cmd.functionality_commands.FunctionCommandExecutor;
+import cmd.functionality_commands.GoogleCommandUtility;
 
 import java.io.IOException;
 
@@ -10,7 +11,7 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 3;
+		int i = 5;
 
 		switch (i) {
 			case 0:
@@ -33,7 +34,8 @@ public class MainTest {
 				break;
 			case 5:
 				cleanupFunctions();
-				customFunction();
+				deployCompositions();
+				//customFunction();
 				break;
 		}
 	}
@@ -86,7 +88,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnAmazonRESTFunctions("latency-test",
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"latency_test.lambda_handler",
 					30,
@@ -100,7 +102,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnAmazonRESTFunctions("cpu-test",
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"cpu_test.lambda_handler",
 					30,
@@ -114,7 +116,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnAmazonRESTFunctions("memory-test",
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"memory_test.lambda_handler",
 					30,
@@ -160,6 +162,35 @@ public class MainTest {
 		 */
 	}
 
+	private static void deployCompositions() {
+		System.out.println("\n\nDeploying benchmark functions...\n");
+
+		try {
+			String[] functionNamesImageDetection = {"image-recognition"};
+			String[] runtimesImageDetection = {AmazonCommandUtility.PYTHON_3_7_RUNTIME};
+			String[] entryPointsImageDetection = {"image_recognition.lambda_handler"};
+			Integer[] timeoutsImageDetection = {30};
+			Integer[] memoriesImageDetection = {128};
+			String[] regionsImageDetection = {AmazonCommandUtility.NORTH_VIRGINIA};
+			String[] zipFileNamesImageDetection = {"image_recognition.zip"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("image_detection",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/" +
+							"serverless_functions/aws/image_recognition/step.json",
+					"/Users/francescomarino/IdeaProjects/" +
+							"serverless_composition_performance_project/serverless_functions/aws/image_recognition",
+					functionNamesImageDetection,
+					runtimesImageDetection,
+					entryPointsImageDetection,
+					timeoutsImageDetection,
+					memoriesImageDetection,
+					regionsImageDetection,
+					zipFileNamesImageDetection);
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private static void loadBenchmarkPerform() {
 		for (int i = 0; i < 10; i++) {
 			try {
@@ -179,7 +210,7 @@ public class MainTest {
 	private static void customFunction() {
 
 		try {
-			FunctionCommandExecutor.deployOnAmazonRESTFunctions("image-recognition",
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("image-recognition",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"image_recognition.lambda_handler",
 					30,
@@ -193,7 +224,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnAmazonRESTFunctions("step-functions",
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("step-functions",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					"orchestration_handler.lambda_handler",
 					30,

@@ -29,7 +29,7 @@ public class CompositionRepositoryDAO extends DAO {
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_main (" +
 			"machine_name varchar(50) NOT NULL, " +
-			"machine_arn varchar(100) NOT NULL, " +
+			"machine_arn varchar(100) NOT NULL UNIQUE, " +
 			"PRIMARY KEY (machine_name)" +
 			")";
 
@@ -39,8 +39,8 @@ public class CompositionRepositoryDAO extends DAO {
 			"function_name varchar(50) NOT NULL, " +
 			"function_region varchar(15) NOT NULL, " +
 			"state_machine_arn varchar(100) NOT NULL, " +
-			"PRIMARY KEY (function_name) " +
-			"FOREIGN KEY (state_machine_arn) REFERENCES " +
+			"PRIMARY KEY (function_name), " +
+			"CONSTRAINT state_machine_arn_fk FOREIGN KEY (state_machine_arn) REFERENCES " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_main(machine_arn)" +
 			")";
@@ -97,7 +97,6 @@ public class CompositionRepositoryDAO extends DAO {
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_main";
 
-	// TODO: select for deletions
 
 	private static void initTables(Connection connection, String provider) throws SQLException {
 		if (connection != null) {
