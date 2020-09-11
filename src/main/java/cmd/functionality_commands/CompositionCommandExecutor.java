@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("DuplicatedCode")
 public class CompositionCommandExecutor extends CommandExecutor {
 
 	private static final String PLACEHOLDER = "__PLACEHOLDER__";
@@ -150,13 +151,18 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			return;
 		}
 
+		String url = CompositionRepositoryDAO.getHandlerUrl(null);
+		if (url == null) {
+			System.err.println("WARNING: Handler not found! Machine is not reachable");
+		}
+		url = url + "?arn=" + machineArn;
+		System.out.println("\u001B[32m" + "Deployed machine to: " + url + "\u001B[0m");
+
 		process.destroy();
 		executorServiceOut.shutdown();
 		executorServiceErr.shutdown();
 
 		CompositionRepositoryDAO.persistAmazon(machineName, machineArn, machineRegion, functionNames, regions);
-
-		System.out.println("Machine " + machineName + " deployed!");
 	}
 
 	private static void removeCompositionMachine(String machineName, String machineArn, String machineRegion) {
@@ -187,6 +193,9 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	}
 
 	public static void cleanupAmazonComposition() {
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Amazon composition environment..." +
+				"\u001B[0m" + "\n");
 		// remove handler
 		FunctionalityData handler = CompositionRepositoryDAO.getAmazonHandlerInfo();
 		if (handler != null) {
@@ -209,5 +218,8 @@ public class CompositionCommandExecutor extends CommandExecutor {
 						functionalityData.getRegion());
 			}
 		}
+		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
+
+		CompositionRepositoryDAO.dropAmazon();
 	}
 }

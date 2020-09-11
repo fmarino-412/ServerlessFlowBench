@@ -229,7 +229,7 @@ public class CompositionRepositoryDAO extends DAO {
 	public static boolean existsAmazonHandler(@Nullable Connection openedConnection) {
 		try {
 			Connection connection;
-			if (openedConnection != null) {
+			if (openedConnection != null && !openedConnection.isClosed()) {
 				connection = openedConnection;
 			} else {
 				connection = MySQLConnect.connectDatabase();
@@ -348,6 +348,45 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	public static String getHandlerUrl(@Nullable Connection openedConnection) {
+		try {
+			Connection connection;
+			if (openedConnection != null && !openedConnection.isClosed()) {
+				connection = openedConnection;
+			} else {
+				connection = MySQLConnect.connectDatabase();
+			}
+
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return null;
+			}
+			initTables(connection, AMAZON);
+
+			if (!existsAmazonHandler(connection)) {
+				System.err.println("Handler not found");
+				return null;
+			}
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(SELECT_HANDLER_URL);
+			resultSet.next();
+
+			String result = resultSet.getString("url");
+
+			resultSet.close();
+			statement.close();
+
+			if (openedConnection == null) {
+				MySQLConnect.closeConnection(connection);
+			}
+			return result;
+		} catch (SQLException e) {
+			System.err.println("Could not perform select: " + e.getMessage());
+			return null;
+		}
+	}
+
 	public static List<FunctionalityURL> getUrls() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -357,22 +396,17 @@ public class CompositionRepositoryDAO extends DAO {
 			}
 			initTables(connection, "*");
 
-			if (!existsAmazonHandler(connection)) {
-				System.err.println("Could not build Amazon urls: handler not found");
-				return null;
-			}
-
 			HashMap<String, FunctionalityURL> dynamicResult = new HashMap<>();
 
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(SELECT_HANDLER_URL);
-			resultSet.next();
-			String preamble = resultSet.getString("url") + "?arn=";
-			resultSet.close();
-			statement.close();
+			String preamble = getHandlerUrl(connection);
+			if (preamble == null) {
+				System.err.println("Could not build urls, handler not found!");
+				return null;
+			}
+			preamble = preamble + "?arn=";
 
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(SELECT_MACHINES_ARNS);
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(SELECT_MACHINES_ARNS);
 
 			String name;
 			String url;
