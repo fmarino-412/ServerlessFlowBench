@@ -205,7 +205,7 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
-	public static String buildStepFunctionCreationCommand(String machineName, String definitionJson) {
+	public static String buildStepFunctionCreationCommand(String machineName, String region, String definitionJson) {
 		return	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
@@ -216,6 +216,7 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--role-arn" + SEP +
 						PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_STEP_FUNCTIONS_EXEC_ROLE) +
 						SEP + "--type" + SEP + "STANDARD" + SEP +
+						"--region" + SEP + region + SEP +
 						"--definition" + SEP + definitionJson;
 	}
 

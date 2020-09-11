@@ -6,7 +6,7 @@
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
       "Parameters": {
-        "FunctionName": "####PLACEHOLDER####",
+        "FunctionName": "__PLACEHOLDER__",
         "Payload": {
           "url.$": "$.url"
         }

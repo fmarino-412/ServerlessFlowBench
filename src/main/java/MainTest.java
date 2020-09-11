@@ -3,8 +3,13 @@ import cmd.functionality_commands.AmazonCommandUtility;
 import cmd.functionality_commands.CompositionCommandExecutor;
 import cmd.functionality_commands.FunctionCommandExecutor;
 import cmd.functionality_commands.GoogleCommandUtility;
+import databases.mysql.FunctionalityURL;
+import databases.mysql.daos.CompositionRepositoryDAO;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Objects;
 
 public class MainTest {
 
@@ -175,10 +180,10 @@ public class MainTest {
 			String[] zipFileNamesImageDetection = {"image_recognition.zip"};
 
 			CompositionCommandExecutor.deployOnAmazonComposition("image_detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/" +
-							"serverless_functions/aws/image_recognition/step.json",
 					"/Users/francescomarino/IdeaProjects/" +
 							"serverless_composition_performance_project/serverless_functions/aws/image_recognition",
+					AmazonCommandUtility.NORTH_VIRGINIA,
+					"step.json",
 					functionNamesImageDetection,
 					runtimesImageDetection,
 					entryPointsImageDetection,
@@ -208,33 +213,8 @@ public class MainTest {
 	@SuppressWarnings("DuplicatedCode")
 	@Deprecated
 	private static void customFunction() {
-
-		try {
-			FunctionCommandExecutor.deployOnAmazonRESTFunction("image-recognition",
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					"image_recognition.lambda_handler",
-					30,
-					128,
-					AmazonCommandUtility.NORTH_VIRGINIA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/image_recognition",
-					"image_recognition.zip");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			FunctionCommandExecutor.deployOnAmazonRESTFunction("step-functions",
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					"orchestration_handler.lambda_handler",
-					30,
-					128,
-					AmazonCommandUtility.NORTH_VIRGINIA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/orchestration_handler",
-					"orchestration_handler.zip");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
+		for (FunctionalityURL url : Objects.requireNonNull(CompositionRepositoryDAO.getUrls())) {
+			System.out.println(url.getAmazonUrl());
 		}
 	}
 }

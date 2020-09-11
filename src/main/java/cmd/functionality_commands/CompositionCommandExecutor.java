@@ -27,7 +27,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	private static final Integer HANDLER_TIMEOUT = 300;
 	private static final Integer HANDLER_MEMORY = 128;
 
-	private static final String PLACEHOLDER = "####PLACEHOLDER####";
+	private static final String PLACEHOLDER = "__PLACEHOLDER__";
 
 
 	private static void deployAmazonCompositionHandler() throws IOException, InterruptedException {
@@ -39,8 +39,8 @@ public class CompositionCommandExecutor extends CommandExecutor {
 
 	}
 
-	public static void deployOnAmazonComposition(String machineName, String jsonFileName,
-												 String contentFolderAbsolutePath, String[] functionNames,
+	public static void deployOnAmazonComposition(String machineName, String contentFolderAbsolutePath,
+												 String machineRegion, String jsonFileName, String[] functionNames,
 												 String[] runtimes, String[] entryPoints, Integer[] timeouts,
 												 Integer[] memory_mbs, String[] regions, String[] zipFileNames)
 			throws IOException, InterruptedException {
@@ -115,15 +115,17 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		}
 
 		// json file: replacing placeholders
+		json = json.replaceAll("\n", " ").replaceAll(" {2}", " ");
 		for (int i = 0; i < functionNames.length; i++) {
-			json = json.replaceFirst(PLACEHOLDER, functionArns.get(i) + ":$LATEST");
+			json = json.replaceFirst(PLACEHOLDER, functionArns.get(i) + ":\\$LATEST");
 		}
+		json = "'" + json + "'";
 
 		Pattern pattern;
 		Matcher matcher;
 		String arnRegex = "(\"stateMachineArn\":\\s+\")(.*)(\",)";
 
-		cmd = AmazonCommandUtility.buildStepFunctionCreationCommand(machineName, json);
+		cmd = AmazonCommandUtility.buildStepFunctionCreationCommand(machineName, machineRegion, json);
 		process = buildCommand(cmd).start();
 		ReplyCollector machineArnCollector = new ReplyCollector();
 		outputGobbler = new StreamGobbler(process.getInputStream(), machineArnCollector::collectResult);
