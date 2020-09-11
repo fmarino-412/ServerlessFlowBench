@@ -1,7 +1,7 @@
 package databases.mysql.daos;
 
 import com.sun.istack.internal.Nullable;
-import databases.mysql.FunctionData;
+import databases.mysql.FunctionalityData;
 import databases.mysql.FunctionalityURL;
 import databases.mysql.MySQLConnect;
 import utility.PropertiesManager;
@@ -30,6 +30,7 @@ public class CompositionRepositoryDAO extends DAO {
 			".amazon_serverless_compositions_main (" +
 			"machine_name varchar(50) NOT NULL, " +
 			"machine_arn varchar(100) NOT NULL UNIQUE, " +
+			"machine_region varchar(15) NOT NULL, " +
 			"PRIMARY KEY (machine_name)" +
 			")";
 
@@ -55,8 +56,9 @@ public class CompositionRepositoryDAO extends DAO {
 	private static final String INSERT_AMAZON_COMPOSITION_MAIN = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_main " +
-			"(machine_name, machine_arn) " + "VALUES (?, ?) " +
-			"ON DUPLICATE KEY UPDATE machine_name=VALUES(machine_name), machine_arn=VALUES(machine_arn)";
+			"(machine_name, machine_arn, machine_region) " + "VALUES (?, ?, ?) " +
+			"ON DUPLICATE KEY UPDATE machine_name=VALUES(machine_name), machine_arn=VALUES(machine_arn), " +
+			"machine_region=VALUES(machine_region)";
 
 	private static final String INSERT_AMAZON_COMPOSITION_FUNCTION = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
@@ -73,7 +75,7 @@ public class CompositionRepositoryDAO extends DAO {
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_functions";
 
-	private static final String SELECT_MACHINE_INFOS = "SELECT machine_arn " +
+	private static final String SELECT_MACHINE_INFOS = "SELECT machine_name, machine_arn, machine_region " +
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_main";
 
@@ -187,7 +189,7 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
-	public static void persistAmazon(String machineName, String machineArn, String[] functionNames, String[] regions) {
+	public static void persistAmazon(String machineName, String machineArn, String machineRegion, String[] functionNames, String[] regions) {
 
 		assert functionNames.length == regions.length;
 
@@ -202,6 +204,7 @@ public class CompositionRepositoryDAO extends DAO {
 			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_AMAZON_COMPOSITION_MAIN);
 			preparedStatement.setString(1, machineName);
 			preparedStatement.setString(2, machineArn);
+			preparedStatement.setString(3, machineRegion);
 			preparedStatement.execute();
 			preparedStatement.close();
 
@@ -256,7 +259,7 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
-	public static FunctionData getAmazonHandlerInfo() {
+	public static FunctionalityData getAmazonHandlerInfo() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -269,9 +272,9 @@ public class CompositionRepositoryDAO extends DAO {
 			ResultSet resultSet = statement.executeQuery(SELECT_HANDLER_INFO);
 
 			// function name and region
-			FunctionData result = null;
+			FunctionalityData result = null;
 			if (resultSet.next()) {
-				result = new FunctionData(resultSet.getString("function_name"),
+				result = new FunctionalityData(resultSet.getString("function_name"),
 						resultSet.getString("region"), resultSet.getString("api_id"));
 			}
 
@@ -285,7 +288,7 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
-	public static List<FunctionData> getAmazonFunctionInfos() {
+	public static List<FunctionalityData> getAmazonFunctionInfos() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -297,11 +300,11 @@ public class CompositionRepositoryDAO extends DAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_FUNCTION_INFOS);
 
-			List<FunctionData> result = new ArrayList<>();
+			List<FunctionalityData> result = new ArrayList<>();
 
 			// function_name, function_region
 			while (resultSet.next()) {
-				result.add(new FunctionData(resultSet.getString("function_name"),
+				result.add(new FunctionalityData(resultSet.getString("function_name"),
 						resultSet.getString("function_region"), null));
 			}
 
@@ -315,7 +318,7 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
-	public static List<String> getAmazonMachineInfos() {
+	public static List<FunctionalityData> getAmazonMachineInfos() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -327,10 +330,12 @@ public class CompositionRepositoryDAO extends DAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_MACHINE_INFOS);
 
-			List<String> result = new ArrayList<>();
+			List<FunctionalityData> result = new ArrayList<>();
 
 			while (resultSet.next()) {
-				result.add(resultSet.getString("machine_arn"));
+				result.add(new FunctionalityData(resultSet.getString("machine_name"),
+						resultSet.getString("machine_region"),
+						resultSet.getString("machine_arn")));
 			}
 
 			statement.close();

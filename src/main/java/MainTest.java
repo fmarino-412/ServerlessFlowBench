@@ -33,13 +33,15 @@ public class MainTest {
 				break;
 			case 4:
 				deployFunctions();
+				deployCompositions();
 				loadBenchmarkPerform();
 				coldBenchmarkPerform();
+				cleanupCompositions();
 				cleanupFunctions();
 				break;
 			case 5:
-				cleanupFunctions();
 				deployCompositions();
+				cleanupCompositions();
 				//customFunction();
 				break;
 		}
@@ -48,6 +50,10 @@ public class MainTest {
 	private static void cleanupFunctions() {
 		FunctionCommandExecutor.cleanupGoogleCloudFunctions();
 		FunctionCommandExecutor.cleanupAmazonRESTFunctions();
+	}
+
+	private static void cleanupCompositions() {
+		CompositionCommandExecutor.cleanupAmazonComposition();
 	}
 
 	private static void deployFunctions() {

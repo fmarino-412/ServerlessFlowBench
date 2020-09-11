@@ -3,6 +3,7 @@ package cmd.functionality_commands;
 import cmd.CommandExecutor;
 import cmd.StreamGobbler;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
+import databases.mysql.FunctionalityData;
 import databases.mysql.daos.CompositionRepositoryDAO;
 import utility.PropertiesManager;
 
@@ -10,22 +11,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CompositionCommandExecutor extends CommandExecutor {
-
-	private static final String HANDLER_NAME = "__handler__";
-	private static final String HANDLER_RUNTIME = AmazonCommandUtility.PYTHON_3_7_RUNTIME;
-	private static final String HANDLER_ENTRY_POINT = "orchestration_handler.lambda_handler";
-	private static final String HANDLER_REGION = AmazonCommandUtility.NORTH_VIRGINIA;
-	private static final String HANDLER_DIR_PATH = PropertiesManager.getInstance().
-			getProperty(PropertiesManager.AWS_HANDLER_PATH);
-	private static final String HANDLER_ZIP_FILE = "orchestration_handler.zip";
-	private static final Integer HANDLER_TIMEOUT = 300;
-	private static final Integer HANDLER_MEMORY = 128;
 
 	private static final String PLACEHOLDER = "__PLACEHOLDER__";
 
@@ -34,8 +26,14 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		if (CompositionRepositoryDAO.existsAmazonHandler(null)) {
 			return;
 		}
-		FunctionCommandExecutor.deployAmazonRESTHandlerFunction(HANDLER_NAME, HANDLER_RUNTIME, HANDLER_ENTRY_POINT,
-				HANDLER_TIMEOUT, HANDLER_MEMORY, HANDLER_REGION, HANDLER_DIR_PATH, HANDLER_ZIP_FILE);
+		FunctionCommandExecutor.deployAmazonRESTHandlerFunction("__handler__",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"orchestration_handler.lambda_handler",
+				300,
+				128,
+				AmazonCommandUtility.NORTH_VIRGINIA,
+				PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_HANDLER_PATH),
+				"orchestration_handler.zip");
 
 	}
 
@@ -156,8 +154,60 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		executorServiceOut.shutdown();
 		executorServiceErr.shutdown();
 
-		CompositionRepositoryDAO.persistAmazon(machineName, machineArn, functionNames, regions);
+		CompositionRepositoryDAO.persistAmazon(machineName, machineArn, machineRegion, functionNames, regions);
 
 		System.out.println("Machine " + machineName + " deployed!");
+	}
+
+	private static void removeCompositionMachine(String machineName, String machineArn, String machineRegion) {
+		String cmd = AmazonCommandUtility.buildStepFunctionDropCommand(machineArn, machineRegion);
+		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+
+		try {
+			Process process = buildCommand(cmd).start();
+			StreamGobbler outGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+			StreamGobbler errGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+
+			executorServiceOut.submit(outGobbler);
+			executorServiceErr.submit(errGobbler);
+
+			if (process.waitFor() != 0) {
+				System.err.println("Could not delete state machine '" + machineName + "'");
+			} else {
+				System.out.println("'" + machineName + "' machine removed!");
+			}
+			process.destroy();
+		} catch (InterruptedException | IOException e) {
+			System.err.println("Could not delete state machine '" + machineName + "': " + e.getMessage());
+		} finally {
+			executorServiceOut.shutdown();
+			executorServiceErr.shutdown();
+		}
+	}
+
+	public static void cleanupAmazonComposition() {
+		// remove handler
+		FunctionalityData handler = CompositionRepositoryDAO.getAmazonHandlerInfo();
+		if (handler != null) {
+			FunctionCommandExecutor.removeLambdaFunction(handler.getFunctionName(), handler.getRegion());
+			FunctionCommandExecutor.removeGatewayApi(handler.getFunctionName(), handler.getId(), handler.getRegion());
+		}
+		// remove functions
+		List<FunctionalityData> toRemove = CompositionRepositoryDAO.getAmazonFunctionInfos();
+		if (toRemove != null) {
+			for (FunctionalityData functionalityData : toRemove) {
+				FunctionCommandExecutor.removeLambdaFunction(functionalityData.getFunctionName(), functionalityData.getRegion());
+			}
+		}
+		// remove state machines
+		toRemove = CompositionRepositoryDAO.getAmazonMachineInfos();
+		if (toRemove != null) {
+			for (FunctionalityData functionalityData : toRemove) {
+				removeCompositionMachine(functionalityData.getFunctionName(),
+						functionalityData.getId(),
+						functionalityData.getRegion());
+			}
+		}
 	}
 }

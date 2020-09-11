@@ -242,13 +242,14 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
-	public static String buildStepFunctionDropCommand(String machineArn) {
+	public static String buildStepFunctionDropCommand(String machineArn, String region) {
 		return	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
 						AWS_CLI + SEP +
 						// operation define
 						STEP_FUNCTIONS_DROP + SEP +
+						"--region" + SEP + region + SEP +
 						"--state-machine-arn" + SEP + machineArn;
 	}
 

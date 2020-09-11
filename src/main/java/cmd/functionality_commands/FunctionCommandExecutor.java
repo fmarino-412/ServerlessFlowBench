@@ -6,7 +6,7 @@ import cmd.functionality_commands.output_parsing.UrlFinder;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
 import databases.mysql.daos.CompositionRepositoryDAO;
 import databases.mysql.daos.FunctionsRepositoryDAO;
-import databases.mysql.FunctionData;
+import databases.mysql.FunctionalityData;
 
 import java.io.IOException;
 import java.util.List;
@@ -318,10 +318,10 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	public static void cleanupGoogleCloudFunctions() {
 
 		System.out.println("\n" + "\u001B[33m" +
-				"Cleaning up Google environment..." +
+				"Cleaning up Google functions environment..." +
 				"\u001B[0m" + "\n");
 
-		List<FunctionData> toRemove = FunctionsRepositoryDAO.getGoogles();
+		List<FunctionalityData> toRemove = FunctionsRepositoryDAO.getGoogles();
 		if (toRemove == null) {
 			return;
 		}
@@ -333,7 +333,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		ExecutorService output = Executors.newSingleThreadExecutor();
 		ExecutorService error = Executors.newSingleThreadExecutor();
 
-		for (FunctionData elem : toRemove) {
+		for (FunctionalityData elem : toRemove) {
 			cmd = GoogleCommandUtility.buildGoogleCloudFunctionsRemoveCommand(elem.getFunctionName(), elem.getRegion());
 			try {
 				process = buildCommand(cmd).start();
@@ -366,66 +366,17 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	public static void cleanupAmazonRESTFunctions() {
 
 		System.out.println("\n" + "\u001B[33m" +
-				"Cleaning up Amazon environment..." +
+				"Cleaning up Amazon functions environment..." +
 				"\u001B[0m" + "\n");
 
-		List<FunctionData> toRemove = FunctionsRepositoryDAO.getAmazons();
+		List<FunctionalityData> toRemove = FunctionsRepositoryDAO.getAmazons();
 		if (toRemove == null) {
 			return;
 		}
-		String cmd;
-		Process process;
-		StreamGobbler outGobbler;
-		StreamGobbler errGobbler;
 
-		ExecutorService output = Executors.newSingleThreadExecutor();
-		ExecutorService error = Executors.newSingleThreadExecutor();
-
-		for (FunctionData elem : toRemove) {
-			cmd = AmazonCommandUtility.buildLambdaDropCommand(elem.getFunctionName(), elem.getRegion());
-			try {
-				process = buildCommand(cmd).start();
-				outGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
-				errGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
-
-				output.submit(outGobbler);
-				error.submit(errGobbler);
-
-				if (process.waitFor() != 0) {
-					System.err.println("Could not delete lambda function '" + elem.getFunctionName() + "'");
-				} else {
-					System.out.println("'" + elem.getFunctionName() + "' function removed!");
-				}
-				process.destroy();
-
-			} catch (IOException | InterruptedException e) {
-				System.err.println("Could not delete lambda function '" + elem.getFunctionName() + "': " +
-						e.getMessage());
-			}
-		}
-
-		for (FunctionData elem : toRemove) {
-			cmd = AmazonCommandUtility.buildGatewayDropCommand(elem.getApiId(), elem.getRegion());
-			try {
-
-				process = buildCommand(cmd).start();
-				outGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
-				errGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
-
-				output.submit(outGobbler);
-				error.submit(errGobbler);
-
-				if (process.waitFor() != 0) {
-					System.err.println("Could not delete gateway api '" + elem.getFunctionName() + "'");
-				} else {
-					System.out.println("'" + elem.getFunctionName() + "' api removed!");
-				}
-				process.destroy();
-
-			} catch (IOException | InterruptedException e) {
-				System.err.println("Could not delete gateway api '" + elem.getFunctionName() + "': " + e.getMessage());
-			}
-
+		for (FunctionalityData elem : toRemove) {
+			removeLambdaFunction(elem.getFunctionName(), elem.getRegion());
+			removeGatewayApi(elem.getFunctionName(), elem.getId(), elem.getRegion());
 			try {
 				if (toRemove.indexOf(elem) != toRemove.size() - 1) {
 					Thread.sleep(30000);
@@ -434,11 +385,63 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			}
 		}
 
-		output.shutdown();
-		error.shutdown();
-
 		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
 
 		FunctionsRepositoryDAO.dropAmazon();
+	}
+
+	protected static void removeLambdaFunction(String functionName, String region) {
+		String cmd = AmazonCommandUtility.buildLambdaDropCommand(functionName, region);
+		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+
+		try {
+			Process process = buildCommand(cmd).start();
+			StreamGobbler outGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+			StreamGobbler errGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+
+			executorServiceOut.submit(outGobbler);
+			executorServiceErr.submit(errGobbler);
+
+			if (process.waitFor() != 0) {
+				System.err.println("Could not delete lambda function '" + functionName + "'");
+			} else {
+				System.out.println("'" + functionName + "' function removed!");
+			}
+			process.destroy();
+		} catch (InterruptedException | IOException e) {
+			System.err.println("Could not delete lambda function '" + functionName + "': " +
+					e.getMessage());
+		} finally {
+			executorServiceOut.shutdown();
+			executorServiceErr.shutdown();
+		}
+	}
+
+	protected static void removeGatewayApi(String functionName, String apiId, String region) {
+		String cmd = AmazonCommandUtility.buildGatewayDropCommand(apiId, region);
+		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+
+		try {
+			Process process = buildCommand(cmd).start();
+			StreamGobbler outGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+			StreamGobbler errGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+
+			executorServiceOut.submit(outGobbler);
+			executorServiceErr.submit(errGobbler);
+
+			if (process.waitFor() != 0) {
+				System.err.println("Could not delete gateway api '" + functionName + "'");
+			} else {
+				System.out.println("'" + functionName + "' api removed!");
+			}
+			process.destroy();
+		} catch (InterruptedException | IOException e) {
+			System.err.println("Could not delete gateway api '" + functionName + "': " + e.getMessage());
+		} finally {
+			executorServiceOut.shutdown();
+			executorServiceErr.shutdown();
+		}
 	}
 }

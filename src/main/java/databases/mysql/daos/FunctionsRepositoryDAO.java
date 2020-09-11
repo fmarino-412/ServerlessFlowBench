@@ -1,6 +1,6 @@
 package databases.mysql.daos;
 
-import databases.mysql.FunctionData;
+import databases.mysql.FunctionalityData;
 import databases.mysql.FunctionalityURL;
 import databases.mysql.MySQLConnect;
 import utility.PropertiesManager;
@@ -164,7 +164,7 @@ public class FunctionsRepositoryDAO extends DAO {
 		}
 	}
 
-	public static List<FunctionData> getGoogles() {
+	public static List<FunctionalityData> getGoogles() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -176,10 +176,10 @@ public class FunctionsRepositoryDAO extends DAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_FUNCTIONS_INFO);
 
-			List<FunctionData> result = new ArrayList<>();
+			List<FunctionalityData> result = new ArrayList<>();
 
 			while (resultSet.next()) {
-				result.add(new FunctionData(resultSet.getString("function_name"),
+				result.add(new FunctionalityData(resultSet.getString("function_name"),
 						resultSet.getString("region")));
 			}
 
@@ -193,7 +193,7 @@ public class FunctionsRepositoryDAO extends DAO {
 		}
 	}
 
-	public static List<FunctionData> getAmazons() {
+	public static List<FunctionalityData> getAmazons() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -205,10 +205,10 @@ public class FunctionsRepositoryDAO extends DAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_AMAZON_FUNCTIONS_INFO);
 
-			List<FunctionData> result = new ArrayList<>();
+			List<FunctionalityData> result = new ArrayList<>();
 
 			while (resultSet.next()) {
-				result.add(new FunctionData(resultSet.getString("function_name"),
+				result.add(new FunctionalityData(resultSet.getString("function_name"),
 						resultSet.getString("region"), resultSet.getString("api_id")));
 			}
 

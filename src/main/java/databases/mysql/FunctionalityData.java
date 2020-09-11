@@ -2,22 +2,23 @@ package databases.mysql;
 
 import com.sun.istack.internal.Nullable;
 
-public class FunctionData {
+public class FunctionalityData {
 	private final String functionName;
 	private final String region;
+	// ARN or API ID
 	@Nullable
-	private final String apiId;
+	private final String id;
 
-	public FunctionData(String functionName, String region) {
+	public FunctionalityData(String functionName, String region) {
 		this.functionName = functionName;
 		this.region = region;
-		this.apiId = null;
+		this.id = null;
 	}
 
-	public FunctionData(String functionName, String region, String apiId) {
+	public FunctionalityData(String functionName, String region, String id) {
 		this.functionName = functionName;
 		this.region = region;
-		this.apiId = apiId;
+		this.id = id;
 	}
 
 	public String getFunctionName() {
@@ -28,7 +29,7 @@ public class FunctionData {
 		return region;
 	}
 
-	public String getApiId() {
-		return apiId;
+	public String getId() {
+		return id;
 	}
 }
