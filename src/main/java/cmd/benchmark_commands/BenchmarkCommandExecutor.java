@@ -6,6 +6,7 @@ import cmd.benchmark_commands.output_parsing.BenchmarkCollector;
 import cmd.benchmark_commands.output_parsing.BenchmarkStats;
 import databases.influx.InfluxClient;
 import databases.mysql.FunctionalityURL;
+import databases.mysql.daos.CompositionRepositoryDAO;
 import databases.mysql.daos.FunctionsRepositoryDAO;
 
 import java.io.*;
@@ -85,6 +86,25 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		}
 	}
 
+	private static List<FunctionalityURL> extractUrls() {
+		List<FunctionalityURL> total = new ArrayList<>();
+
+		List<FunctionalityURL> functions = FunctionsRepositoryDAO.getUrls();
+		if (functions == null) {
+			System.err.println("Could not perform benchmarks on functions");
+		} else {
+			total.addAll(functions);
+		}
+		List<FunctionalityURL> machines = CompositionRepositoryDAO.getUrls();
+		if (machines == null) {
+			System.err.println("Could not perform benchmarks on state machines");
+		} else {
+			total.addAll(machines);
+		}
+
+		return total;
+	}
+
 	// Cold start benchmark
 	public static void performColdStartBenchmark(int iterations) {
 		System.out.println("\n" + "\u001B[33m" +
@@ -92,8 +112,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 				"your functions.\n" + "Estimated time: approximately " +
 				(((COLD_START_SLEEP_INTERVAL_MS/1000)*iterations)/60)/60 + " hours" + "\u001B[0m" + "\n");
 
-		List<FunctionalityURL> functions = FunctionsRepositoryDAO.getUrls();
-		if (functions == null) {
+		List<FunctionalityURL> total = extractUrls();
+		if (total.isEmpty()) {
 			System.err.println("Could not perform benchmarks");
 			return;
 		}
@@ -102,7 +122,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		ColdTestRunner runner;
 		Thread t;
 
-		for (FunctionalityURL url : functions) {
+		for (FunctionalityURL url : total) {
 			runner = new ColdTestRunner(url, iterations, COLD_START_SLEEP_INTERVAL_MS);
 			t = new Thread(runner);
 			threads.add(t);
@@ -125,16 +145,17 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 				"Starting load benchmarks..." +
 				"\u001B[0m" + "\n");
 
-		List<FunctionalityURL> functions = FunctionsRepositoryDAO.getUrls();
-		if (functions == null) {
+		List<FunctionalityURL> total = extractUrls();
+		if (total.isEmpty()) {
 			System.err.println("Could not perform benchmarks");
 			return;
 		}
+
 		ArrayList<Thread> threads = new ArrayList<>();
 		LoadTestRunner runner;
 		Thread t;
 
-		for (FunctionalityURL url : functions) {
+		for (FunctionalityURL url : total) {
 			runner = new LoadTestRunner(url, concurrency, threadNum, seconds, requestsPerSecond);
 			t = new Thread(runner);
 			threads.add(t);

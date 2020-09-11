@@ -39,6 +39,7 @@ public class MainTest {
 				break;
 			case 5:
 				deployCompositions();
+				loadBenchmarkPerform();
 				cleanupCompositions();
 				customFunction();
 				break;
@@ -217,8 +218,6 @@ public class MainTest {
 	@SuppressWarnings("DuplicatedCode")
 	@Deprecated
 	private static void customFunction() {
-		for (FunctionalityURL url : Objects.requireNonNull(CompositionRepositoryDAO.getUrls())) {
-			System.out.println(url.getAmazonUrl());
-		}
+
 	}
 }
