@@ -7,8 +7,6 @@ import databases.mysql.FunctionalityURL;
 import databases.mysql.daos.CompositionRepositoryDAO;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 public class MainTest {
@@ -42,7 +40,7 @@ public class MainTest {
 			case 5:
 				deployCompositions();
 				cleanupCompositions();
-				//customFunction();
+				customFunction();
 				break;
 		}
 	}
