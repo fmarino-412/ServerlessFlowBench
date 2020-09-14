@@ -378,9 +378,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			removeLambdaFunction(elem.getFunctionName(), elem.getRegion());
 			removeGatewayApi(elem.getFunctionName(), elem.getId(), elem.getRegion());
 			try {
-				if (toRemove.indexOf(elem) != toRemove.size() - 1) {
-					Thread.sleep(30000);
-				}
+				Thread.sleep(30000);
 			} catch (InterruptedException ignored) {
 			}
 		}

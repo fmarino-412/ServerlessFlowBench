@@ -5,7 +5,7 @@ REKOGNITION_CLIENT = boto3.client("rekognition")
 
 
 def lambda_handler(event, context):
-	altUrl = "https://upload.wikimedia.org/wikipedia/en/2/2d/Front_left_of_car.jpg"
+	alt_url = "https://upload.wikimedia.org/wikipedia/en/2/2d/Front_left_of_car.jpg"
 	url = None
 
 	if event.get('queryStringParameters') is not None:
@@ -14,7 +14,7 @@ def lambda_handler(event, context):
 	elif event.get('url') is not None:
 		url = event['url']
 	else:
-		url = altUrl
+		url = alt_url
 
 	useragent = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 ' \
 				'Mobile/10A5355d Safari/8536.25 '

@@ -201,6 +201,10 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		if (handler != null) {
 			FunctionCommandExecutor.removeLambdaFunction(handler.getFunctionName(), handler.getRegion());
 			FunctionCommandExecutor.removeGatewayApi(handler.getFunctionName(), handler.getId(), handler.getRegion());
+			try {
+				Thread.sleep(30000);
+			} catch (InterruptedException ignored) {
+			}
 		}
 		// remove functions
 		List<FunctionalityData> toRemove = CompositionRepositoryDAO.getAmazonFunctionInfos();

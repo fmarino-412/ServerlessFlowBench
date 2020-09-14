@@ -38,10 +38,10 @@ public class MainTest {
 				cleanupFunctions();
 				break;
 			case 5:
-				deployFunctions();
-				deployCompositions();
-				cleanupCompositions();
-				cleanupFunctions();
+				//deployFunctions();
+				//deployCompositions();
+				//cleanupCompositions();
+				//cleanupFunctions();
 				customFunction();
 				break;
 		}
@@ -220,5 +220,17 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
+		try {
+			FunctionCommandExecutor.deployOnGoogleCloudFunctions("image-recognition",
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					"gc_functions_handler",
+					30,
+					128,
+					GoogleCommandUtility.NORTH_VIRGINIA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/image_recognition");
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
