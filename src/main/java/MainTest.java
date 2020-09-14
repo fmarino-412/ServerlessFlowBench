@@ -38,9 +38,10 @@ public class MainTest {
 				cleanupFunctions();
 				break;
 			case 5:
+				deployFunctions();
 				deployCompositions();
-				loadBenchmarkPerform();
 				cleanupCompositions();
+				cleanupFunctions();
 				customFunction();
 				break;
 		}
