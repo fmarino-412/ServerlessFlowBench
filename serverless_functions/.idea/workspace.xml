@@ -112,7 +112,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -134,6 +134,7 @@
       <workItem from="1599647913328" duration="695000" />
       <workItem from="1599725856700" duration="2910000" />
       <workItem from="1599832636515" duration="57000" />
+      <workItem from="1600075102755" duration="6000" />
     </task>
     <task id="LOCAL-00001" summary="lambda orchestration handler">
       <created>1599730226108</created>
@@ -146,7 +147,7 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="2" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="lambda orchestration handler" />
