@@ -23,19 +23,16 @@ def gc_functions_handler(request):
 	f = urlrequest.urlopen(r)
 	result = detect_object_and_scenes(f.read())
 
-	result = re.sub("(\s*\([0-9]+\.*[0-9]*\))", ", ", result)
-	result = re.sub("\n", "", result)
-	result = result[0: -2]
-
 	return result
 
 
-def detect_object_and_scenes(image) -> str:
+def detect_object_and_scenes(image) -> dict:
 	client = vision.ImageAnnotatorClient()
 	image = types.Image(content=image)
 
 	response = client.label_detection(image=image)
-	result = ""
+	result = {}
 	for label in response.label_annotations:
-		result = result + label.description + "\t(" + str(label.score*100.) + ")\n"
+		result[(label.description).lower()] = str(label.score*100.)
+
 	return result

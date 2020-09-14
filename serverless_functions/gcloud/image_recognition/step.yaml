@@ -1,0 +1,14 @@
+- analyzeImage:
+    call: http.get
+    args:
+      url: https://us-east4-containers-254815.cloudfunctions.net/image-recognition
+    result: RecognitionResult
+- conditionalSwitch:
+    switch:
+      - condition: ${"human" in RecognitionResult.body}
+        next: human
+    next: notHuman
+- human:
+    return: "The image you provided represents an human being"
+- notHuman:
+    return: "The image you provided does not represent an human being"
