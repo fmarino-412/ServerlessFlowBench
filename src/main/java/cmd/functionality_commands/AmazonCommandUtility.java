@@ -8,6 +8,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	/* PARAMETERS */
 	public static final String PYTHON_3_7_RUNTIME = "python3.7";
 	public static final String NORTH_VIRGINIA = "us-east-1";
+	public static final String OHIO = "us-east-2";
 	/*	*/
 
 	private static final String AWS_CLI = "amazon/aws-cli";

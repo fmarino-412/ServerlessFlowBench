@@ -1,6 +1,7 @@
 package cmd.functionality_commands;
 
 import cmd.CommandExecutor;
+import cmd.CommandUtility;
 import cmd.StreamGobbler;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
 import databases.mysql.FunctionalityData;
@@ -32,7 +33,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 				"orchestration_handler.lambda_handler",
 				300,
 				128,
-				AmazonCommandUtility.NORTH_VIRGINIA,
+				AmazonCommandUtility.OHIO,
 				PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_HANDLER_PATH),
 				"orchestration_handler.zip");
 
@@ -60,7 +61,8 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		String json = "";
 
 		try {
-			json = new String(Files.readAllBytes(Paths.get(contentFolderAbsolutePath + "/" + jsonFileName)));
+			json = new String(Files.readAllBytes(Paths.get(contentFolderAbsolutePath + CommandUtility.getPathSep()
+					+ jsonFileName)));
 		} catch (IOException e) {
 			System.err.println("Could not load JSON file: " + e.getMessage());
 		}

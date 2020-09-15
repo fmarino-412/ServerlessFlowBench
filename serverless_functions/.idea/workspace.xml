@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fa93455a-6c61-4171-9865-22a42f18396e" name="Default Changelist" comment="" />
+    <list default="true" id="fa93455a-6c61-4171-9865-22a42f18396e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/gcloud/orchestration_handler/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gcloud/orchestration_handler/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/MainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/MainTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/cmd/CommandUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/cmd/CommandUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/AmazonCommandUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/AmazonCommandUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/CompositionCommandExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/CompositionCommandExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/GoogleCommandUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/GoogleCommandUtility.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -135,6 +144,7 @@
       <workItem from="1599725856700" duration="2910000" />
       <workItem from="1599832636515" duration="57000" />
       <workItem from="1600075102755" duration="6000" />
+      <workItem from="1600167239997" duration="3055000" />
     </task>
     <task id="LOCAL-00001" summary="lambda orchestration handler">
       <created>1599730226108</created>

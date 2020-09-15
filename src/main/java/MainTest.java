@@ -65,7 +65,7 @@ public class MainTest {
 					"gc_functions_handler",
 					30,
 					128,
-					GoogleCommandUtility.NORTH_VIRGINIA,
+					GoogleCommandUtility.IOWA,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/gcloud/latency_test");
 		} catch (InterruptedException | IOException e) {
@@ -78,7 +78,7 @@ public class MainTest {
 					"gc_functions_handler",
 					30,
 					128,
-					GoogleCommandUtility.NORTH_VIRGINIA,
+					GoogleCommandUtility.IOWA,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/gcloud/cpu_test");
 		} catch (InterruptedException | IOException e) {
@@ -91,7 +91,7 @@ public class MainTest {
 					"gc_functions_handler",
 					30,
 					128,
-					GoogleCommandUtility.NORTH_VIRGINIA,
+					GoogleCommandUtility.IOWA,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/gcloud/memory_test");
 		} catch (InterruptedException | IOException e) {
@@ -104,7 +104,7 @@ public class MainTest {
 					"latency_test.lambda_handler",
 					30,
 					128,
-					AmazonCommandUtility.NORTH_VIRGINIA,
+					AmazonCommandUtility.OHIO,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/aws/latency_test",
 					"latency_test.zip");
@@ -118,7 +118,7 @@ public class MainTest {
 					"cpu_test.lambda_handler",
 					30,
 					128,
-					AmazonCommandUtility.NORTH_VIRGINIA,
+					AmazonCommandUtility.OHIO,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/aws/cpu_test",
 					"cpu_test.zip");
@@ -132,7 +132,7 @@ public class MainTest {
 					"memory_test.lambda_handler",
 					30,
 					128,
-					AmazonCommandUtility.NORTH_VIRGINIA,
+					AmazonCommandUtility.OHIO,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/aws/memory_test",
 					"memory_test.zip");
@@ -182,13 +182,13 @@ public class MainTest {
 			String[] entryPointsImageDetection = {"image_recognition.lambda_handler"};
 			Integer[] timeoutsImageDetection = {30};
 			Integer[] memoriesImageDetection = {128};
-			String[] regionsImageDetection = {AmazonCommandUtility.NORTH_VIRGINIA};
+			String[] regionsImageDetection = {AmazonCommandUtility.OHIO};
 			String[] zipFileNamesImageDetection = {"image_recognition.zip"};
 
 			CompositionCommandExecutor.deployOnAmazonComposition("image_detection",
 					"/Users/francescomarino/IdeaProjects/" +
 							"serverless_composition_performance_project/serverless_functions/aws/image_recognition",
-					AmazonCommandUtility.NORTH_VIRGINIA,
+					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNamesImageDetection,
 					runtimesImageDetection,
@@ -221,14 +221,14 @@ public class MainTest {
 	private static void customFunction() {
 
 		try {
-			FunctionCommandExecutor.deployOnGoogleCloudFunctions("image-recognition",
+			FunctionCommandExecutor.deployOnGoogleCloudFunctions("orchestration-handler",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 					"gc_functions_handler",
-					30,
+					300,
 					128,
-					GoogleCommandUtility.NORTH_VIRGINIA,
+					GoogleCommandUtility.IOWA,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/image_recognition");
+							"project/serverless_functions/gcloud/orchestration_handler");
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
