@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fa93455a-6c61-4171-9865-22a42f18396e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/gcloud/orchestration_handler/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gcloud/orchestration_handler/requirements.txt" afterDir="false" />
+    <list default="true" id="fa93455a-6c61-4171-9865-22a42f18396e" name="Default Changelist" comment="lambda orchestration handler">
+      <change afterPath="$PROJECT_DIR$/gcloud/orchestration_handler/old.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/MainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/MainTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/cmd/CommandUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/cmd/CommandUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/AmazonCommandUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/AmazonCommandUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/CompositionCommandExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/CompositionCommandExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/GoogleCommandUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/cmd/functionality_commands/GoogleCommandUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gcloud/orchestration_handler/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/gcloud/orchestration_handler/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,12 +23,15 @@
   </component>
   <component name="JupyterTrust" id="45c14f42-10b4-4bb7-93cf-70d55dc6158b" />
   <component name="ProjectId" id="1ggia7hyR5eljnHitYF8N6tSyYF" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -144,7 +142,7 @@
       <workItem from="1599725856700" duration="2910000" />
       <workItem from="1599832636515" duration="57000" />
       <workItem from="1600075102755" duration="6000" />
-      <workItem from="1600167239997" duration="3055000" />
+      <workItem from="1600167239997" duration="3539000" />
     </task>
     <task id="LOCAL-00001" summary="lambda orchestration handler">
       <created>1599730226108</created>
@@ -160,6 +158,7 @@
     <option name="version" value="2" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="lambda orchestration handler" />
     <option name="LAST_COMMIT_MESSAGE" value="lambda orchestration handler" />
   </component>
@@ -168,11 +167,12 @@
       <screen x="0" y="23" width="2048" height="1058" />
     </state>
     <state x="762" y="306" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1599225834057" />
-    <state x="198" y="23" key="CommitChangelistDialog2" timestamp="1599730226000">
-      <screen x="0" y="23" width="2048" height="1058" />
+    <state x="2048" y="-136" key="CommitChangelistDialog2" timestamp="1600186769314">
+      <screen x="2048" y="-136" width="900" height="1577" />
     </state>
     <state x="139" y="23" key="CommitChangelistDialog2/0.23.1440.804@0.23.1440.804" timestamp="1598608470490" />
     <state x="198" y="23" key="CommitChangelistDialog2/0.23.2048.1058/2048.-136.900.1577@0.23.2048.1058" timestamp="1599730226000" />
+    <state x="2048" y="-136" key="CommitChangelistDialog2/0.23.2048.1058/2048.-136.900.1577@2048.-136.900.1577" timestamp="1600186769314" />
     <state width="2006" height="290" key="GridCell.Tab.0.bottom" timestamp="1599235675252">
       <screen x="0" y="23" width="2048" height="1058" />
     </state>
