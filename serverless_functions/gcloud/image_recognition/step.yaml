@@ -1,7 +1,7 @@
 - analyzeImage:
     call: http.get
     args:
-      url: https://us-east4-containers-254815.cloudfunctions.net/image-recognition
+      url: __PLACEHOLDER__
     result: RecognitionResult
 - conditionalSwitch:
     switch:

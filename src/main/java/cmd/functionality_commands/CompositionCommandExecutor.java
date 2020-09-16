@@ -153,7 +153,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			return;
 		}
 
-		String url = CompositionRepositoryDAO.getHandlerUrl(null);
+		String url = CompositionRepositoryDAO.getAmazonHandlerUrl(null);
 		if (url == null) {
 			System.err.println("WARNING: Handler not found! Machine is not reachable");
 		}
@@ -227,5 +227,9 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
 
 		CompositionRepositoryDAO.dropAmazon();
+	}
+
+	private static void deployGoogleCompositionHandler() {
+
 	}
 }

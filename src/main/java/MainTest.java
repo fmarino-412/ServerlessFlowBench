@@ -60,7 +60,7 @@ public class MainTest {
 		System.out.println("\n\nDeploying benchmark functions...\n");
 
 		try {
-			FunctionCommandExecutor.deployOnGoogleCloudFunctions("latency-test",
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 					"gc_functions_handler",
 					30,
@@ -73,7 +73,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnGoogleCloudFunctions("cpu-test",
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 					"gc_functions_handler",
 					30,
@@ -86,7 +86,7 @@ public class MainTest {
 		}
 
 		try {
-			FunctionCommandExecutor.deployOnGoogleCloudFunctions("memory-test",
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 					"gc_functions_handler",
 					30,
@@ -221,7 +221,7 @@ public class MainTest {
 	private static void customFunction() {
 
 		try {
-			FunctionCommandExecutor.deployOnGoogleCloudFunctions("orchestration-handler",
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("orchestration-handler",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 					"gc_functions_handler",
 					300,

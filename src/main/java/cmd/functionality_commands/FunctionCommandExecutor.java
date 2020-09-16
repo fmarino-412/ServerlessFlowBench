@@ -16,9 +16,25 @@ import java.util.concurrent.Executors;
 @SuppressWarnings("DuplicatedCode")
 public class FunctionCommandExecutor extends CommandExecutor {
 
-	public static void deployOnGoogleCloudFunctions(String functionName, String runtime, String entryPoint,
+	public static void deployGoogleCloudHandlerFunction(String functionName, String runtime, String entryPoint,
+												   Integer timeout, Integer memory_mb, String region,
+												   String directoryAbsolutePath)
+			throws IOException, InterruptedException {
+		deployOnGoogleCloudFunctions(functionName, runtime, entryPoint, timeout, memory_mb, region,
+				directoryAbsolutePath, true);
+	}
+
+	public static void deployOnGoogleCloudFunction(String functionName, String runtime, String entryPoint,
 													Integer timeout, Integer memory_mb, String region,
 													String directoryAbsolutePath)
+			throws IOException, InterruptedException {
+		deployOnGoogleCloudFunctions(functionName, runtime, entryPoint, timeout, memory_mb, region,
+				directoryAbsolutePath, false);
+	}
+
+	private static void deployOnGoogleCloudFunctions(String functionName, String runtime, String entryPoint,
+													Integer timeout, Integer memory_mb, String region,
+													String directoryAbsolutePath, boolean handler)
 			throws IOException, InterruptedException {
 
 		System.out.println("\n" + "\u001B[33m" +
@@ -55,7 +71,11 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceOut.shutdown();
 		executorServiceErr.shutdown();
 
-		FunctionsRepositoryDAO.persistGoogle(functionName, url, region);
+		if (handler) {
+			CompositionRepositoryDAO.persistGoogleHandler(functionName, url, region);
+		} else {
+			FunctionsRepositoryDAO.persistGoogle(functionName, url, region);
+		}
 	}
 
 	protected static void deployAmazonRESTHandlerFunction(String functionName, String runtime, String entryPoint,
