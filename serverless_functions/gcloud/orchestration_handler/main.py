@@ -1,5 +1,7 @@
 import httplib2
 import google.auth
+import time
+import json
 from oauth2client.client import AccessTokenCredentials
 
 
@@ -10,8 +12,6 @@ def gc_functions_handler(request):
 
 	useragent = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 ' \
 				'Mobile/10A5355d Safari/8536.25 '
-
-	print(request.args)
 
 	if request.args.get('token') is not None:
 		access_token = request.args.get('token')
@@ -25,14 +25,27 @@ def gc_functions_handler(request):
 
 	_, project_name = google.auth.default()
 
-	url_slice1 = "https://workflowexecutions.googleapis.com/v1beta/projects/"
-	url_slice2 = "/locations/us-central1/workflows/"
-	url_slice3 = "/executions"
+	url_slice1 = "https://workflowexecutions.googleapis.com/v1beta/"
+	url_post_slice2 = "projects/"
+	url_post_slice3 = "/locations/us-central1/workflows/"
+	url_post_slice4 = "/executions"
 	credentials = AccessTokenCredentials(access_token=access_token, user_agent=useragent)
 
 	http = credentials.authorize(httplib2.Http())
 
-	resp = http.request(url_slice1 + project_name + url_slice2 + workflow_name + url_slice3,
-						method="POST")
+	resp = json.loads((http.request(
+		url_slice1 + url_post_slice2 + project_name + url_post_slice3 + workflow_name + url_post_slice4,
+		method="POST"))[1])
 
-	return resp[1]
+	execution_name = resp.get('name')
+
+	resp = json.loads((http.request(url_slice1 + execution_name, method="GET"))[1])
+
+	while resp.get('state') == "ACTIVE":
+		time.sleep(0.05)
+		resp = json.loads((http.request(url_slice1 + execution_name, method="GET"))[1])
+
+	if 'result' not in resp:
+		return resp.get('state')
+	else:
+		return resp.get('result')

@@ -44,7 +44,7 @@ public class GoogleAuthClient {
 				credential = authenticateApplication();
 			}
 			credential.refreshIfExpired();
-			return credential.getAccessToken().getTokenValue();
+			return "token=" + credential.getAccessToken().getTokenValue();
 		} catch (GeneralSecurityException | IOException e) {
 			System.err.println("Could not authenticate application: " + e.getMessage());
 			return "";
