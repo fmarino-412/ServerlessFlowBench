@@ -4,12 +4,17 @@ import cmd.CommandExecutor;
 import cmd.CommandUtility;
 import cmd.StreamGobbler;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
+import cmd.functionality_commands.security.GoogleAuthClient;
 import databases.mysql.FunctionalityData;
 import databases.mysql.daos.CompositionRepositoryDAO;
 import utility.PropertiesManager;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +27,7 @@ import java.util.regex.Pattern;
 public class CompositionCommandExecutor extends CommandExecutor {
 
 	private static final String PLACEHOLDER = "__PLACEHOLDER__";
-	private static final String  HANDLER_NAME = "__handler__";
+	private static final String  HANDLER_NAME = "h-a-n-d-l-e-r";
 
 	private static void deployGoogleCompositionHandler() throws IOException, InterruptedException {
 		if (CompositionRepositoryDAO.existsGoogleHandler(null)) {
@@ -55,8 +60,98 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	public static void deployOnGoogleComposition(String workflowName, String contentFolderAbsolutePath,
 												 String workflowRegion, String yamlFileName, String[] functionNames,
 												 String[] runtimes, String[] entryPoints, Integer[] timeouts,
-												 Integer[] memory_mbs, String[] regions, String[] functionDirPaths) {
+												 Integer[] memory_mbs, String[] regions, String[] functionDirPaths)
+			throws IOException, InterruptedException {
 
+		assert functionNames.length == runtimes.length;
+		assert functionNames.length == entryPoints.length;
+		assert functionNames.length == timeouts.length;
+		assert functionNames.length == memory_mbs.length;
+		assert functionNames.length == regions.length;
+		assert functionNames.length == functionDirPaths.length;
+
+		deployGoogleCompositionHandler();
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Deploying \"" + workflowName + "\" to Google Cloud Platform..." +
+				"\u001B[0m" + "\n");
+
+		// create temporary file in which is possible to replace PLACEHOLDER without editing original file
+		Path tempYaml;
+		String yaml;
+		try {
+			tempYaml = Files.createTempFile("temp", ".yaml");
+			yaml = new String(Files.readAllBytes(Paths.get(contentFolderAbsolutePath +
+					CommandUtility.getPathSep() + yamlFileName)), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			System.err.println("Could not read '" + contentFolderAbsolutePath +
+					CommandUtility.getPathSep() + yamlFileName + "': " + e.getMessage());
+			return;
+		}
+
+		ArrayList<String> functionUrls = new ArrayList<>();
+
+		// publish functions
+		for (int i = 0; i < functionNames.length; i++) {
+			functionUrls.add(FunctionCommandExecutor.deployOnGoogleCloudCompositionFunction(functionNames[i],
+					runtimes[i],
+					entryPoints[i],
+					timeouts[i],
+					memory_mbs[i],
+					regions[i],
+					contentFolderAbsolutePath + CommandUtility.getPathSep() + functionDirPaths[i]));
+			System.out.println("'" + functionNames[i] + "' deploy on Google Cloud Platform completed");
+		}
+
+		// yaml file: replacing placeholders
+		for (int i = 0; i < functionNames.length; i++) {
+			yaml = yaml.replaceFirst(PLACEHOLDER, functionUrls.get(i));
+		}
+		// write yaml to temp file
+		try {
+			PrintWriter writer = new PrintWriter(tempYaml.toString());
+			writer.print(yaml);
+			writer.flush();
+		} catch (IOException e) {
+			System.err.println("Could not parse '" + yamlFileName + "': " + e.getMessage());
+			return;
+		}
+
+		// declare and initialize variables
+		String cmd;
+		Process process;
+		StreamGobbler errorGobbler;
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+
+		cmd = GoogleCommandUtility.buildGoogleCloudWorkflowsDeployCommand(workflowName, workflowRegion,
+				tempYaml.getParent().toString(), tempYaml.getFileName().toString());
+		process = buildCommand(cmd).start();
+		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+		executorServiceErr.submit(errorGobbler);
+		if (process.waitFor() != 0) {
+			System.err.println("Could not deploy workflow on Google Cloud Platform");
+			executorServiceErr.shutdown();
+			process.destroy();
+			return;
+		}
+
+		// delete temporary file
+		File file = tempYaml.toFile();
+		if (!file.delete()) {
+			System.err.println("WARNING:\tCould not delete temporary files, check: " + tempYaml.toString());
+		}
+
+		String url = CompositionRepositoryDAO.getGoogleHandlerUrl(null);
+		if (url == null) {
+			System.err.println("WARNING: Handler not found! Workflow is not reachable");
+		}
+		url = url + "?workflow=" + workflowName + GoogleAuthClient.getInstance().getUrlToken();
+		System.out.println("\u001B[32m" + "Deployed workflow to: " + url + "\u001B[0m");
+
+		process.destroy();
+		executorServiceErr.shutdown();
+
+		CompositionRepositoryDAO.persistGoogle(workflowName, workflowRegion, functionNames, regions);
 	}
 
 	public static void deployOnAmazonComposition(String machineName, String contentFolderAbsolutePath,
@@ -87,52 +182,19 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			System.err.println("Could not load JSON file: " + e.getMessage());
 		}
 
-		// declare and initialize variables
-		String cmd;
-		Process process;
-		StreamGobbler outputGobbler;
-		StreamGobbler errorGobbler;
-		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
-		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
-
-		ReplyCollector arnCollector;
 		ArrayList<String> functionArns = new ArrayList<>();
 
 		// publish functions
 		for (int i = 0; i < functionNames.length; i++) {
 			// deploy function
-			cmd = AmazonCommandUtility.buildLambdaFunctionDeployCommand(functionNames[i], runtimes[i], entryPoints[i],
-					timeouts[i], memory_mbs[i], regions[i], contentFolderAbsolutePath, zipFileNames[i]);
-			process = buildCommand(cmd).start();
-			errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
-			executorServiceErr.submit(errorGobbler);
-			if (process.waitFor() != 0) {
-				System.err.println("Could not deploy " + functionNames[i] + " on AWS Lambda");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
-				process.destroy();
-				return;
-			}
-			process.destroy();
-			System.out.println("Function " + functionNames[i] + " deployed!");
-
-			// get lambda arn
-			cmd = AmazonCommandUtility.buildLambdaArnGetterCommand(functionNames[i], regions[i]);
-			process = buildCommand(cmd).start();
-			arnCollector = new ReplyCollector();
-			outputGobbler = new StreamGobbler(process.getInputStream(), arnCollector::collectResult);
-			errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
-			executorServiceOut.submit(outputGobbler);
-			executorServiceErr.submit(errorGobbler);
-			if (process.waitFor() != 0) {
-				System.err.println("Could not get ARN of " + functionNames[i] + " from AWS Lambda");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
-				process.destroy();
-				return;
-			}
-			functionArns.add(arnCollector.getResult());
-			process.destroy();
+			functionArns.add(FunctionCommandExecutor.deployOnAmazonLambdaFunctions(functionNames[i],
+					runtimes[i],
+					entryPoints[i],
+					timeouts[i],
+					memory_mbs[i],
+					regions[i],
+					contentFolderAbsolutePath,
+					zipFileNames[i]));
 		}
 
 		// json file: replacing placeholders
@@ -145,6 +207,14 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		Pattern pattern;
 		Matcher matcher;
 		String arnRegex = "(\"stateMachineArn\":\\s+\")(.*)(\",)";
+
+		// declare and initialize variables
+		String cmd;
+		Process process;
+		StreamGobbler outputGobbler;
+		StreamGobbler errorGobbler;
+		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 
 		cmd = AmazonCommandUtility.buildStepFunctionCreationCommand(machineName, machineRegion, json);
 		process = buildCommand(cmd).start();

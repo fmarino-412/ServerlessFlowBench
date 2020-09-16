@@ -21,7 +21,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 												   String directoryAbsolutePath)
 			throws IOException, InterruptedException {
 		deployOnGoogleCloudFunctions(functionName, runtime, entryPoint, timeout, memory_mb, region,
-				directoryAbsolutePath, true);
+				directoryAbsolutePath, 0);
 	}
 
 	public static void deployOnGoogleCloudFunction(String functionName, String runtime, String entryPoint,
@@ -29,17 +29,29 @@ public class FunctionCommandExecutor extends CommandExecutor {
 													String directoryAbsolutePath)
 			throws IOException, InterruptedException {
 		deployOnGoogleCloudFunctions(functionName, runtime, entryPoint, timeout, memory_mb, region,
-				directoryAbsolutePath, false);
+				directoryAbsolutePath, 1);
 	}
 
-	private static void deployOnGoogleCloudFunctions(String functionName, String runtime, String entryPoint,
+	protected static String deployOnGoogleCloudCompositionFunction(String functionName, String runtime, String entryPoint,
+																   Integer timeout, Integer memory_mb, String region,
+																   String directoryAbsolutePath)
+			throws IOException, InterruptedException {
+		return deployOnGoogleCloudFunctions(functionName, runtime, entryPoint, timeout, memory_mb, region,
+				directoryAbsolutePath, 2);
+	}
+
+	private static String deployOnGoogleCloudFunctions(String functionName, String runtime, String entryPoint,
 													Integer timeout, Integer memory_mb, String region,
-													String directoryAbsolutePath, boolean handler)
+													String directoryAbsolutePath, Integer functionality)
 			throws IOException, InterruptedException {
 
-		System.out.println("\n" + "\u001B[33m" +
-				"Deploying \"" + functionName + "\" to Google Cloud Platform..." +
-				"\u001B[0m" + "\n");
+		assert functionality == 0 || functionality == 1 || functionality == 2;
+
+		if (functionality != 2) {
+			System.out.println("\n" + "\u001B[33m" +
+					"Deploying \"" + functionName + "\" to Google Cloud Platform..." +
+					"\u001B[0m" + "\n");
+		}
 
 		// build command
 		String cmd = GoogleCommandUtility.buildGoogleCloudFunctionsDeployCommand(functionName, runtime, entryPoint,
@@ -65,17 +77,28 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		assert exitCode == 0;
 
 		String url = urlFinder.getResult();
-		System.out.println("\u001B[32m" + "Deployed function to: " + url + "\u001B[0m");
+		if (functionality != 2) {
+			System.out.println("\u001B[32m" + "Deployed function to: " + url + "\u001B[0m");
+		}
 
 		process.destroy();
 		executorServiceOut.shutdown();
 		executorServiceErr.shutdown();
 
-		if (handler) {
-			CompositionRepositoryDAO.persistGoogleHandler(functionName, url, region);
-		} else {
-			FunctionsRepositoryDAO.persistGoogle(functionName, url, region);
+		switch (functionality) {
+			case 0:
+				// handler
+				CompositionRepositoryDAO.persistGoogleHandler(functionName, url, region);
+				break;
+			case 1:
+				// function to persist
+				FunctionsRepositoryDAO.persistGoogle(functionName, url, region);
+				break;
+			default:
+				break;
 		}
+
+		return url;
 	}
 
 	protected static void deployAmazonRESTHandlerFunction(String functionName, String runtime, String entryPoint,
@@ -97,21 +120,16 @@ public class FunctionCommandExecutor extends CommandExecutor {
 
 	}
 
-	private static void deployOnAmazonRESTFunctions(String functionName, String runtime, String entryPoint,
-												  Integer timeout, Integer memory, String region,
-												  String zipFolderAbsolutePath, String zipFileName, boolean handler)
+	protected static String deployOnAmazonLambdaFunctions(String functionName, String runtime, String entryPoint,
+														Integer timeout, Integer memory, String region,
+														String zipFolderAbsolutePath, String zipFileName)
 			throws IOException, InterruptedException {
-
 		Process process;
 		StreamGobbler outputGobbler;
 		StreamGobbler errorGobbler;
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 		int exitCode;
-
-		System.out.println("\n" + "\u001B[33m" +
-				"Deploying \"" + functionName + "\" to Amazon Web Services..." +
-				"\u001B[0m" + "\n");
 
 		// deploy function
 		String cmdDeploy = AmazonCommandUtility.buildLambdaFunctionDeployCommand(functionName, runtime, entryPoint,
@@ -121,14 +139,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 		exitCode = process.waitFor();
 		if (exitCode != 0) {
-			System.err.println("Could not deploy function on AWS Lambda");
+			System.err.println("Could not deploy " + functionName + "on AWS Lambda");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
-			return;
+			return "";
 		}
 		process.destroy();
-		System.out.println("Deploy function on AWS Lambda completed");
+		System.out.println(functionName + " deploy on AWS Lambda completed");
 
 		// get lambda arn
 		String cmdArnGetter = AmazonCommandUtility.buildLambdaArnGetterCommand(functionName, region);
@@ -140,15 +158,43 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 		exitCode = process.waitFor();
 		if (exitCode != 0) {
-			System.err.println("Could not get AWS Lambda arn");
+			System.err.println("Could not get AWS Lambda arn for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
-			return;
+			return "";
 		}
 		String lambdaARN = lambdaArnReplyCollector.getResult();
 		process.destroy();
-		System.out.println("Get AWS Lambda arn completed");
+		System.out.println("Get AWS Lambda arn completed for " + functionName);
+
+		executorServiceOut.shutdown();
+		executorServiceErr.shutdown();
+
+		return lambdaARN;
+	}
+
+	private static void deployOnAmazonRESTFunctions(String functionName, String runtime, String entryPoint,
+												  Integer timeout, Integer memory, String region,
+												  String zipFolderAbsolutePath, String zipFileName, boolean handler)
+			throws IOException, InterruptedException {
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Deploying \"" + functionName + "\" to Amazon Web Services..." +
+				"\u001B[0m" + "\n");
+
+		String lambdaARN = deployOnAmazonLambdaFunctions(functionName, runtime, entryPoint, timeout, memory, region,
+				zipFolderAbsolutePath, zipFileName);
+		if (lambdaARN.equals("")) {
+			return;
+		}
+
+		Process process;
+		StreamGobbler outputGobbler;
+		StreamGobbler errorGobbler;
+		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+		int exitCode;
 
 		// create api
 		String cmdApiCreation = AmazonCommandUtility.buildGatewayApiCreationCommand(functionName,
@@ -158,14 +204,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 		exitCode = process.waitFor();
 		if (exitCode != 0) {
-			System.err.println("Could not create api on API Gateway");
+			System.err.println("Could not create api on API Gateway for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return;
 		}
 		process.destroy();
-		System.out.println("Create api on API Gateway completed");
+		System.out.println("Create api on API Gateway completed for " + functionName);
 
 		// get api id
 		String cmdApiIdGetter = AmazonCommandUtility.buildGatewayApiIdGetterCommand(functionName, region);
@@ -178,7 +224,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 		exitCode = process.waitFor();
 		if (exitCode != 0) {
-			System.err.println("Could not get api id");
+			System.err.println("Could not get api id for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
@@ -186,14 +232,15 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		}
 		String apiId = apiIdReplyCollector.getResult();
 		if (apiId.contains("\t")) {
-			System.err.println("Too many APIs with the same name, could not continue execution");
+			System.err.println("Too many APIs with the same name ('" + functionName +
+					"'), could not continue execution");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return;
 		}
 		process.destroy();
-		System.out.println("Get api id completed");
+		System.out.println("Get api id completed for " + functionName);
 
 		// get api parent id
 		String cmdApiParentIdGetter = AmazonCommandUtility.buildGatewayApiParentIdGetterCommand(apiId, region);
@@ -205,7 +252,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 		exitCode = process.waitFor();
 		if (exitCode != 0) {
-			System.err.println("Could not get api parent id");
+			System.err.println("Could not get api parent id for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
@@ -213,7 +260,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		}
 		String apiParentId = apiParentIdReplyCollector.getResult();
 		process.destroy();
-		System.out.println("Get api parent id completed");
+		System.out.println("Get api parent id completed for " + functionName);
 
 		// create resource on api
 		String cmdResourceApiCreation = AmazonCommandUtility.buildGatewayResourceApiCreationCommand(functionName, apiId,
@@ -223,14 +270,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 		exitCode = process.waitFor();
 		if (exitCode != 0) {
-			System.err.println("Could not create resource on api");
+			System.err.println("Could not create resource on api for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return;
 		}
 		process.destroy();
-		System.out.println("Create resource on api completed");
+		System.out.println("Create resource on api completed for " + functionName);
 
 		// get api resource id
 		String cmdResourceApiIdGetter = AmazonCommandUtility.buildGatewayResourceApiIdGetterCommand(functionName, apiId,
@@ -243,7 +290,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 		exitCode = process.waitFor();
 		if (exitCode != 0) {
-			System.err.println("Could not get api resource id");
+			System.err.println("Could not get api resource id for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
@@ -251,7 +298,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		}
 		String apiResourceId = apiResourceIdReplyCollector.getResult();
 		process.destroy();
-		System.out.println("Get api resource id completed");
+		System.out.println("Get api resource id completed for " + functionName);
 
 		// create api method
 		String cmdApiMethodCreation = AmazonCommandUtility.buildGatewayApiMethodOnResourceCreationCommand(apiId,
@@ -261,14 +308,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 		exitCode = process.waitFor();
 		if (exitCode != 0) {
-			System.err.println("Could not create api method");
+			System.err.println("Could not create api method for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return;
 		}
 		process.destroy();
-		System.out.println("Create api method completed");
+		System.out.println("Create api method completed for " + functionName);
 
 		// link api method and lambda function
 		String cmdApiLinkage = AmazonCommandUtility.buildGatewayLambdaLinkageCommand(apiId, apiResourceId, lambdaARN,
@@ -278,14 +325,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 		exitCode = process.waitFor();
 		if (exitCode != 0) {
-			System.err.println("Could not link api method and lambda function");
+			System.err.println("Could not link api method and lambda function '" + functionName + "'");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return;
 		}
 		process.destroy();
-		System.out.println("Link api method and lambda function completed");
+		System.out.println("Link api method and lambda function '" + functionName + "' completed");
 
 		// deploy api
 		String cmdApiDeploy = AmazonCommandUtility.buildGatewayDeploymentCreationCommand(apiId, "benchmark",
@@ -295,14 +342,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 		exitCode = process.waitFor();
 		if (exitCode != 0) {
-			System.err.println("Could not deploy api");
+			System.err.println("Could not deploy api for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return;
 		}
 		process.destroy();
-		System.out.println("Deploy api completed");
+		System.out.println("Deploy api completed for " + functionName);
 
 		// grant gateway permission for lambda function execution
 		String cmdApiLambdaAuth = AmazonCommandUtility.buildGatewayLambdaAuthCommand(functionName, apiId, lambdaARN,
@@ -312,14 +359,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 		exitCode = process.waitFor();
 		if (exitCode != 0) {
-			System.err.println("Could not authorize api gateway for lambda execution");
+			System.err.println("Could not authorize api gateway for '" + functionName + "' execution");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return;
 		}
 		process.destroy();
-		System.out.println("Authorize api gateway for lambda execution completed");
+		System.out.println("Authorize api gateway for '" + functionName + "' execution completed");
 
 		String url = "https://" + apiId + ".execute-api." + region + ".amazonaws.com/benchmark/" + functionName;
 		System.out.println("\u001B[32m" + "Deployed function to: " + url + "\u001B[0m");

@@ -3,11 +3,9 @@ import cmd.functionality_commands.AmazonCommandUtility;
 import cmd.functionality_commands.CompositionCommandExecutor;
 import cmd.functionality_commands.FunctionCommandExecutor;
 import cmd.functionality_commands.GoogleCommandUtility;
-import databases.mysql.FunctionalityURL;
 import databases.mysql.daos.CompositionRepositoryDAO;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class MainTest {
 
@@ -39,10 +37,10 @@ public class MainTest {
 				break;
 			case 5:
 				//deployFunctions();
-				//deployCompositions();
+				deployCompositions();
 				//cleanupCompositions();
 				//cleanupFunctions();
-				customFunction();
+				//customFunction();
 				break;
 		}
 	}
@@ -174,29 +172,53 @@ public class MainTest {
 	}
 
 	private static void deployCompositions() {
-		System.out.println("\n\nDeploying benchmark functions...\n");
+		System.out.println("\n\nDeploying benchmark compositions...\n");
 
 		try {
-			String[] functionNamesImageDetection = {"image-recognition"};
-			String[] runtimesImageDetection = {AmazonCommandUtility.PYTHON_3_7_RUNTIME};
-			String[] entryPointsImageDetection = {"image_recognition.lambda_handler"};
-			Integer[] timeoutsImageDetection = {30};
-			Integer[] memoriesImageDetection = {128};
-			String[] regionsImageDetection = {AmazonCommandUtility.OHIO};
-			String[] zipFileNamesImageDetection = {"image_recognition.zip"};
+			String[] functionNames = {"image-recognition"};
+			String[] runtimes = {GoogleCommandUtility.PYTHON_3_7_RUNTIME};
+			String[] entryPoints = {"gc_functions_handler"};
+			Integer[] timeouts = {30};
+			Integer[] memories = {128};
+			String[] regions = {GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"image_recognition"};
+
+			CompositionCommandExecutor.deployOnGoogleComposition("image_detection",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/gcloud/image_recognition",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					runtimes,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			String[] functionNames = {"image-recognition"};
+			String[] runtimes = {AmazonCommandUtility.PYTHON_3_7_RUNTIME};
+			String[] entryPoints = {"image_recognition.lambda_handler"};
+			Integer[] timeouts = {30};
+			Integer[] memories = {128};
+			String[] regions = {AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"image_recognition.zip"};
 
 			CompositionCommandExecutor.deployOnAmazonComposition("image_detection",
 					"/Users/francescomarino/IdeaProjects/" +
 							"serverless_composition_performance_project/serverless_functions/aws/image_recognition",
 					AmazonCommandUtility.OHIO,
 					"step.json",
-					functionNamesImageDetection,
-					runtimesImageDetection,
-					entryPointsImageDetection,
-					timeoutsImageDetection,
-					memoriesImageDetection,
-					regionsImageDetection,
-					zipFileNamesImageDetection);
+					functionNames,
+					runtimes,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
@@ -219,18 +241,6 @@ public class MainTest {
 	@SuppressWarnings("DuplicatedCode")
 	@Deprecated
 	private static void customFunction() {
-
-		try {
-			FunctionCommandExecutor.deployOnGoogleCloudFunction("orchestration-handler",
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					"gc_functions_handler",
-					300,
-					128,
-					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/orchestration_handler");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
+		System.out.println(CompositionRepositoryDAO.existsGoogleHandler(null));
 	}
 }
