@@ -32,6 +32,7 @@ public class PropertiesManager {
 	public static final String AWS_LAMBDA_EXEC_ROLE = "aws_lambda_execution_role";
 	public static final String AWS_STEP_FUNCTIONS_EXEC_ROLE = "aws_stepfunctions_execution_role";
 
+	public static final String GOOGLE_HANDLER_PATH = "google_handler_function_path";
 	public static final String AWS_HANDLER_PATH = "aws_handler_function_path";
 
 	public static PropertiesManager getInstance() {

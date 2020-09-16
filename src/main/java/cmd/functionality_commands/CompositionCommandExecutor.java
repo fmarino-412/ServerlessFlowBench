@@ -22,13 +22,26 @@ import java.util.regex.Pattern;
 public class CompositionCommandExecutor extends CommandExecutor {
 
 	private static final String PLACEHOLDER = "__PLACEHOLDER__";
+	private static final String  HANDLER_NAME = "__handler__";
 
+	private static void deployGoogleCompositionHandler() throws IOException, InterruptedException {
+		if (CompositionRepositoryDAO.existsGoogleHandler(null)) {
+			return;
+		}
+		FunctionCommandExecutor.deployGoogleCloudHandlerFunction(HANDLER_NAME,
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				300,
+				128,
+				GoogleCommandUtility.IOWA,
+				PropertiesManager.getInstance().getProperty(PropertiesManager.GOOGLE_HANDLER_PATH));
+	}
 
 	private static void deployAmazonCompositionHandler() throws IOException, InterruptedException {
 		if (CompositionRepositoryDAO.existsAmazonHandler(null)) {
 			return;
 		}
-		FunctionCommandExecutor.deployAmazonRESTHandlerFunction("__handler__",
+		FunctionCommandExecutor.deployAmazonRESTHandlerFunction(HANDLER_NAME,
 				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 				"orchestration_handler.lambda_handler",
 				300,
@@ -36,6 +49,13 @@ public class CompositionCommandExecutor extends CommandExecutor {
 				AmazonCommandUtility.OHIO,
 				PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_HANDLER_PATH),
 				"orchestration_handler.zip");
+
+	}
+
+	public static void deployOnGoogleComposition(String workflowName, String contentFolderAbsolutePath,
+												 String workflowRegion, String yamlFileName, String[] functionNames,
+												 String[] runtimes, String[] entryPoints, Integer[] timeouts,
+												 Integer[] memory_mbs, String[] regions, String[] functionDirPaths) {
 
 	}
 
@@ -227,9 +247,5 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
 
 		CompositionRepositoryDAO.dropAmazon();
-	}
-
-	private static void deployGoogleCompositionHandler() {
-
 	}
 }

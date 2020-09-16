@@ -1,6 +1,3 @@
-import time
-import json
-import re
 import urllib.request as urlrequest
 from google.cloud import vision
 from google.cloud.vision import types
