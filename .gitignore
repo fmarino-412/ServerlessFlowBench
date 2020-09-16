@@ -48,7 +48,8 @@ serverless_functions/env.bak/
 serverless_functions/venv.bak/
 
 # Privates
-serverless_functions/aws/.aws
+serverless_functions/aws/.aws/credentials
+serverless_functions/gcloud/.credentials/credentials.json
 
 # Dockers
 docker_env/grafana_storage/*

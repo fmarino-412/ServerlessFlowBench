@@ -26,6 +26,7 @@ public class PropertiesManager {
 
 	public static final String GOOGLE_CONTAINER = "google_cloud_cli_container_name";
 	public static final String GOOGLE_STAGE_BUCKET = "google_cloud_stage_bucket";
+	public static final String GOOGLE_AUTH_JSON = "gcloud_auth_json_path";
 
 	public static final String AWS_AUTH_CONFIG = "aws_auth_folder_path";
 	public static final String AWS_LAMBDA_EXEC_ROLE = "aws_lambda_execution_role";
