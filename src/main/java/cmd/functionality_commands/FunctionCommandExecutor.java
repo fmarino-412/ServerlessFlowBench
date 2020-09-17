@@ -143,14 +143,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
 		if (process.waitFor() != 0) {
-			System.err.println("Could not deploy " + functionName + "on AWS Lambda");
+			System.err.println("Could not deploy '" + functionName + "' on AWS Lambda");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return "";
 		}
 		process.destroy();
-		System.out.println(functionName + " deploy on AWS Lambda completed");
+		System.out.println("'" + functionName + "' deploy on AWS Lambda completed");
 
 		// get lambda arn
 		String cmdArnGetter = AmazonCommandUtility.buildLambdaArnGetterCommand(functionName, region);
@@ -161,7 +161,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
 		if (process.waitFor() != 0) {
-			System.err.println("Could not get AWS Lambda arn for " + functionName);
+			System.err.println("Could not get AWS Lambda arn for '" + functionName + "'");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
@@ -169,7 +169,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		}
 		String lambdaARN = lambdaArnReplyCollector.getResult();
 		process.destroy();
-		System.out.println("Get AWS Lambda arn completed for " + functionName);
+		System.out.println("Get AWS Lambda arn completed for '" + functionName + "'");
 
 		executorServiceOut.shutdown();
 		executorServiceErr.shutdown();
@@ -205,14 +205,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
 		if (process.waitFor() != 0) {
-			System.err.println("Could not create api on API Gateway for " + functionName);
+			System.err.println("Could not create api on API Gateway for '" + functionName + "'");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return;
 		}
 		process.destroy();
-		System.out.println("Create api on API Gateway completed for " + functionName);
+		System.out.println("Create api on API Gateway completed for '" + functionName + "'");
 
 		// get api id
 		String cmdApiIdGetter = AmazonCommandUtility.buildGatewayApiIdGetterCommand(functionName, region);
@@ -224,7 +224,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
 		if (process.waitFor() != 0) {
-			System.err.println("Could not get api id for " + functionName);
+			System.err.println("Could not get api id for '" + functionName + "'");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
@@ -240,7 +240,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			return;
 		}
 		process.destroy();
-		System.out.println("Get api id completed for " + functionName);
+		System.out.println("Get api id completed for '" + functionName + "'");
 
 		// get api parent id
 		String cmdApiParentIdGetter = AmazonCommandUtility.buildGatewayApiParentIdGetterCommand(apiId, region);
@@ -251,7 +251,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
 		if (process.waitFor() != 0) {
-			System.err.println("Could not get api parent id for " + functionName);
+			System.err.println("Could not get api parent id for '" + functionName + "'");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
@@ -259,7 +259,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		}
 		String apiParentId = apiParentIdReplyCollector.getResult();
 		process.destroy();
-		System.out.println("Get api parent id completed for " + functionName);
+		System.out.println("Get api parent id completed for '" + functionName + "'");
 
 		// create resource on api
 		String cmdResourceApiCreation = AmazonCommandUtility.buildGatewayResourceApiCreationCommand(functionName, apiId,
@@ -268,14 +268,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
 		if (process.waitFor() != 0) {
-			System.err.println("Could not create resource on api for " + functionName);
+			System.err.println("Could not create resource on api for '" + functionName + "'");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return;
 		}
 		process.destroy();
-		System.out.println("Create resource on api completed for " + functionName);
+		System.out.println("Create resource on api completed for '" + functionName + "'");
 
 		// get api resource id
 		String cmdResourceApiIdGetter = AmazonCommandUtility.buildGatewayResourceApiIdGetterCommand(functionName, apiId,
@@ -287,7 +287,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
 		if (process.waitFor() != 0) {
-			System.err.println("Could not get api resource id for " + functionName);
+			System.err.println("Could not get api resource id for '" + functionName + "'");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
@@ -295,7 +295,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		}
 		String apiResourceId = apiResourceIdReplyCollector.getResult();
 		process.destroy();
-		System.out.println("Get api resource id completed for " + functionName);
+		System.out.println("Get api resource id completed for '" + functionName + "'");
 
 		// create api method
 		String cmdApiMethodCreation = AmazonCommandUtility.buildGatewayApiMethodOnResourceCreationCommand(apiId,
@@ -304,14 +304,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
 		if (process.waitFor() != 0) {
-			System.err.println("Could not create api method for " + functionName);
+			System.err.println("Could not create api method for '" + functionName + "'");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return;
 		}
 		process.destroy();
-		System.out.println("Create api method completed for " + functionName);
+		System.out.println("Create api method completed for '" + functionName + "'");
 
 		// link api method and lambda function
 		String cmdApiLinkage = AmazonCommandUtility.buildGatewayLambdaLinkageCommand(apiId, apiResourceId, lambdaARN,
@@ -336,14 +336,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
 		if (process.waitFor() != 0) {
-			System.err.println("Could not deploy api for " + functionName);
+			System.err.println("Could not deploy api for '" + functionName + "'");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
 			return;
 		}
 		process.destroy();
-		System.out.println("Deploy api completed for " + functionName);
+		System.out.println("Deploy api completed for '" + functionName + "'");
 
 		// grant gateway permission for lambda function execution
 		String cmdApiLambdaAuth = AmazonCommandUtility.buildGatewayLambdaAuthCommand(functionName, apiId, lambdaARN,

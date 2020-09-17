@@ -133,7 +133,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		outputGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
 		executorServiceOut.submit(outputGobbler);
 		if (process.waitFor() != 0) {
-			System.err.println("Could not deploy workflow on Google Cloud Platform");
+			System.err.println("Could not deploy workflow '" + workflowName + "' on Google Cloud Platform");
 			executorServiceOut.shutdown();
 			process.destroy();
 			return;
@@ -150,7 +150,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			System.err.println("WARNING: Handler not found! Workflow is not reachable");
 		}
 		url = url + "?workflow=" + workflowName + GoogleAuthClient.getInstance().getUrlToken();
-		System.out.println("\u001B[32m" + "Deployed workflow to: " + url + "\u001B[0m");
+		System.out.println("\u001B[32m" + "Deployed workflow '" + workflowName + "' to: " + url + "\u001B[0m");
 
 		process.destroy();
 		executorServiceOut.shutdown();
@@ -183,7 +183,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			json = new String(Files.readAllBytes(Paths.get(contentFolderAbsolutePath + CommandUtility.getPathSep()
 					+ jsonFileName)));
 		} catch (IOException e) {
-			System.err.println("Could not load JSON file: " + e.getMessage());
+			System.err.println("Could not load JSON file for '" + machineName + "': " + e.getMessage());
 		}
 
 		ArrayList<String> functionArns = new ArrayList<>();
@@ -228,7 +228,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
 		if (process.waitFor() != 0) {
-			System.err.println("Could not deploy state machine on Step Functions");
+			System.err.println("Could not deploy state machine '" + machineName + "' on Step Functions");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
@@ -240,7 +240,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		if (matcher.find()) {
 			machineArn = matcher.group(2);
 		} else {
-			System.err.println("Could not deploy state machine on Step Functions");
+			System.err.println("Could not deploy state machine '" + machineName + "' on Step Functions");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 			process.destroy();
@@ -252,7 +252,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			System.err.println("WARNING: Handler not found! Machine is not reachable");
 		}
 		url = url + "?arn=" + machineArn;
-		System.out.println("\u001B[32m" + "Deployed machine to: " + url + "\u001B[0m");
+		System.out.println("\u001B[32m" + "Deployed machine '" + machineName + "' to: " + url + "\u001B[0m");
 
 		process.destroy();
 		executorServiceOut.shutdown();
