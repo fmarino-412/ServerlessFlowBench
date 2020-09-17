@@ -10,9 +10,15 @@ import utility.PropertiesManager;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * An influxDB client offering functionalities to export benchmark result to the time series database
+ */
 @SuppressWarnings("DuplicatedCode")
 public class InfluxClient {
 
+	/**
+	 * Database connection properties
+	 */
 	private static final String DB_URL = "http://" +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.INFLUX_IP) + ":" +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.INFLUX_PORT);
@@ -21,6 +27,10 @@ public class InfluxClient {
 	private static final String DB_NAME = PropertiesManager.getInstance().getProperty(PropertiesManager.INFLUX_DB);
 
 
+	/**
+	 * Connects to time series database
+	 * @return instance of InfluxDB connection
+	 */
 	private static InfluxDB getConnection() {
 
 		InfluxDB connection = InfluxDBFactory.connect(DB_URL, DB_USR, DB_PASS);
@@ -35,12 +45,20 @@ public class InfluxClient {
 		return connection;
 	}
 
+	/**
+	 * Closes an InfluxDB connection
+	 * @param connection InfluxDB connection to close
+	 */
 	private static void closeConnection(InfluxDB connection) {
 
 		connection.close();
 
 	}
 
+	/**
+	 * Initializes database
+	 * @param connection InfluxDB connection
+	 */
 	public static void initDatabase(InfluxDB connection) {
 		if (!connection.databaseExists(DB_NAME)) {
 			connection.createDatabase(DB_NAME);
@@ -49,9 +67,17 @@ public class InfluxClient {
 		}
 	}
 
-	public static boolean insertColdPoint(String functionName, String provider, long latency, long millis) {
+	/**
+	 * Inserts a Cold Start Benchmark result
+	 * @param functionalityName name of the functionality tested
+	 * @param provider provider associated to the result
+	 * @param latency latency result
+	 * @param millis measurement timestamp
+	 * @return true if insertion has been completed, false elsewhere
+	 */
+	public static boolean insertColdPoint(String functionalityName, String provider, long latency, long millis) {
 
-		Point cold_start_latency =  Point.measurement("cold_start_latency_" + functionName)
+		Point cold_start_latency =  Point.measurement("cold_start_latency_" + functionalityName)
 				.time(millis, TimeUnit.MILLISECONDS)
 				.addField("provider", provider)
 				.addField("value", latency)
@@ -70,43 +96,53 @@ public class InfluxClient {
 		}
 	}
 
-	public static boolean insertLoadPoints(String functionName, String provider, BenchmarkStats stats, long millis) {
+	/**
+	 * Inserts a Load Benchmark result
+	 * @param functionalityName name of the functionality tested
+	 * @param provider provider associated to the result
+	 * @param stats benchmark result
+	 * @param millis measurement timestamp
+	 * @return true if insertion has been completed, false elsewhere
+	 */
+	public static boolean insertLoadPoints(String functionalityName, String provider, BenchmarkStats stats,
+										   long millis) {
 
-		// insert multiple points at a time
+		// insert multiple points at a time using a batch
+
 		BatchPoints batch = BatchPoints
 				.database(DB_NAME)
 				.retentionPolicy("defaultPolicy")
 				.build();
 
-		Point avg_latency = Point.measurement("avg_latency_" + functionName)
+		Point avg_latency = Point.measurement("avg_latency_" + functionalityName)
 				.time(millis, TimeUnit.MILLISECONDS)
 				.addField("provider", provider)
 				.addField("value", stats.getAvgLatency())
 				.build();
 		batch.point(avg_latency);
 
-		Point std_latency_dev = Point.measurement("std_latency_dev_" + functionName)
+		Point std_latency_dev = Point.measurement("std_latency_dev_" + functionalityName)
 				.time(millis, TimeUnit.MILLISECONDS)
 				.addField("provider", provider)
 				.addField("value", stats.getStdDevLatency())
 				.build();
 		batch.point(std_latency_dev);
 
-		Point max_latency = Point.measurement("max_latency_" + functionName)
+		Point max_latency = Point.measurement("max_latency_" + functionalityName)
 				.time(millis, TimeUnit.MILLISECONDS)
 				.addField("provider", provider)
 				.addField("value", stats.getMaxLatency())
 				.build();
 		batch.point(max_latency);
 
-		Point requests_throughput = Point.measurement("requests_throughput_" + functionName)
+		Point requests_throughput = Point.measurement("requests_throughput_" + functionalityName)
 				.time(millis, TimeUnit.MILLISECONDS)
 				.addField("provider", provider)
 				.addField("value", stats.getRequestsThroughput())
 				.build();
 		batch.point(requests_throughput);
 
-		Point transfer_throughput = Point.measurement("transfer_throughput_" + functionName)
+		Point transfer_throughput = Point.measurement("transfer_throughput_" + functionalityName)
 				.time(millis, TimeUnit.MILLISECONDS)
 				.addField("provider", provider)
 				.addField("value", stats.getTransferThroughput())

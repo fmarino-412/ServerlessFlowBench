@@ -10,9 +10,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Data Access Object for serverless function related information
+ */
 @SuppressWarnings("DuplicatedCode")
 public class FunctionsRepositoryDAO extends DAO {
 
+	/**
+	 * Queries
+	 */
 	private static final String CREATE_GOOGLE_FUNCTIONS_TABLE = "CREATE TABLE IF NOT EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions (" +
 			"function_name varchar(50) NOT NULL, " +
@@ -60,6 +66,12 @@ public class FunctionsRepositoryDAO extends DAO {
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions";
 
 
+	/**
+	 * Initializes tables
+	 * @param connection database connection to use
+	 * @param provider select which provider is needed to initialize corresponding tables
+	 * @throws SQLException query definition and execution related problems
+	 */
 	private static void initTables(Connection connection, String provider) throws SQLException {
 		if (connection != null) {
 
@@ -85,14 +97,24 @@ public class FunctionsRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Drop every table associated to Google Cloud Platform
+	 */
 	public static void dropGoogle() {
 		dropTable(GOOGLE);
 	}
 
+	/**
+	 * Drop every table associated to Amazon Web Services
+	 */
 	public static void dropAmazon() {
 		dropTable(AMAZON);
 	}
 
+	/**
+	 * Generic drop table function
+	 * @param provider select which provider is needed to delete corresponding tables
+	 */
 	private static void dropTable(String provider) {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -121,6 +143,12 @@ public class FunctionsRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Persists a new Google Cloud Functions function to database
+	 * @param functionName name of the function
+	 * @param url url for function execution
+	 * @param region function deployment region
+	 */
 	public static void persistGoogle(String functionName, String url, String region) {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -142,6 +170,13 @@ public class FunctionsRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Persists a new Amazon Lambda and Api Gateway function to database
+	 * @param functionName name of the function
+	 * @param url url for function execution
+	 * @param apiId id of the api associated to the function
+	 * @param region function deployment region
+	 */
 	public static void persistAmazon(String functionName, String url, String apiId, String region) {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -164,6 +199,10 @@ public class FunctionsRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * List every Google Cloud Functions function
+	 * @return list of functions (FunctionalityData)
+	 */
 	public static List<FunctionalityData> getGoogles() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -193,6 +232,10 @@ public class FunctionsRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * List every Amazon Lambda and API Gateway function
+	 * @return list of functions (FunctionalityData)
+	 */
 	public static List<FunctionalityData> getAmazons() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -222,6 +265,11 @@ public class FunctionsRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * List every function url, there can be one or more URL per function basing on different provider implementation
+	 * of the same function
+	 * @return list of function urls (FunctionalityURL)
+	 */
 	public static List<FunctionalityURL> getUrls() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();

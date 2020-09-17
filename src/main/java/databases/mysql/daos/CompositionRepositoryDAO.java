@@ -11,9 +11,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Data Access Object for serverless function composition related information
+ */
 @SuppressWarnings("DuplicatedCode")
 public class CompositionRepositoryDAO extends DAO {
 
+	/**
+	 * Queries
+	 */
 	private static final String CREATE_GOOGLE_COMPOSITION_CLOUD_FUNCTIONS_HANDLER = "CREATE TABLE IF NOT EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".google_serverless_handler_function (" +
@@ -181,6 +187,12 @@ public class CompositionRepositoryDAO extends DAO {
 			".amazon_serverless_compositions_main";
 
 
+	/**
+	 * Initializes tables
+	 * @param connection database connection to use
+	 * @param provider select which provider is needed to initialize corresponding tables
+	 * @throws SQLException query definition and execution related problems
+	 */
 	private static void initTables(Connection connection, String provider) throws SQLException {
 		if (connection != null) {
 
@@ -214,14 +226,24 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Drop every table associated to Google Cloud Platform
+	 */
 	public static void dropGoogle() {
 		dropTable(GOOGLE);
 	}
 
+	/**
+	 * Drop every table associated to Amazon Web Services
+	 */
 	public static void dropAmazon() {
 		dropTable(AMAZON);
 	}
 
+	/**
+	 * Generic drop table function
+	 * @param provider select which provider is needed to delete corresponding tables
+	 */
 	private static void dropTable(String provider) {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -254,6 +276,12 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Persists a new Google Cloud Functions Handler (just one for DB)
+	 * @param functionName name of the handler
+	 * @param url url of the handler
+	 * @param region region of deployment for the handler
+	 */
 	public static void persistGoogleHandler(String functionName, String url, String region) {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -275,6 +303,13 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Persists a new Amazon Lambda and API Gateway Handler (just one for DB)
+	 * @param functionName name of the handler
+	 * @param url url of the handler
+	 * @param apiId id of the api associated to the handler
+	 * @param region region of deployment for the handler
+	 */
 	public static void persistAmazonHandler(String functionName, String url, String apiId, String region) {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -297,6 +332,13 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Persists a new Google Cloud Platform workflow and associated functions
+	 * @param workflowName name of the workflow
+	 * @param workflowRegion workflow region of deployment
+	 * @param functionNames names of functions (consistent ordering)
+	 * @param functionRegions regions of function deployments (consistent ordering)
+	 */
 	public static void persistGoogle(String workflowName, String workflowRegion, String[] functionNames,
 									 String[] functionRegions) {
 
@@ -334,6 +376,14 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Persists a new Amazon Web Services state machine and associated functions
+	 * @param machineName name of the state machine
+	 * @param machineArn ARN of the state machine
+	 * @param machineRegion state machine region of deployment
+	 * @param functionNames names of functions (consistent ordering)
+	 * @param functionRegions regions of function deployments (consistent ordering)
+	 */
 	public static void persistAmazon(String machineName, String machineArn, String machineRegion,
 									 String[] functionNames, String[] functionRegions) {
 
@@ -372,6 +422,11 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Checks whether an handler for Google Workflows [BETA] already exists
+	 * @param openedConnection opened connection to database (or null)
+	 * @return true if the handler exists, false elsewhere
+	 */
 	public static boolean existsGoogleHandler(@Nullable Connection openedConnection) {
 		try {
 			Connection connection;
@@ -405,6 +460,11 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Checks whether an handler for Amazon Step Functions already exists
+	 * @param openedConnection opened connection to database (or null)
+	 * @return true if the handler exists, false elsewhere
+	 */
 	public static boolean existsAmazonHandler(@Nullable Connection openedConnection) {
 		try {
 			Connection connection;
@@ -438,6 +498,10 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Getter for Google Workflows [BETA] handler
+	 * @return FunctionalityData containing handler info
+	 */
 	public static FunctionalityData getGoogleHandlerInfo() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -467,6 +531,10 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Getter for Amazon Step Functions handler
+	 * @return FunctionalityData containing handler info
+	 */
 	public static FunctionalityData getAmazonHandlerInfo() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -496,6 +564,10 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Getter for every workflow associated Google Cloud Functions function
+	 * @return list of FunctionalityData with function information
+	 */
 	public static List<FunctionalityData> getGoogleFunctionInfos() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -526,6 +598,10 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Getter for every state machine associated Amazon Lambda function
+	 * @return list of FunctionalityData with function information
+	 */
 	public static List<FunctionalityData> getAmazonFunctionInfos() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -556,6 +632,10 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Getter for every Google Cloud Platform Workflows [BETA] workflow
+	 * @return list of FunctionalityData with workflow information
+	 */
 	public static List<FunctionalityData> getGoogleWorkflowInfos() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -585,6 +665,10 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Getter for every AWS Step Functions state machine
+	 * @return list of FunctionalityData with state machine information
+	 */
 	public static List<FunctionalityData> getAmazonMachineInfos() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
@@ -615,6 +699,11 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Getter for Google Workflows [BETA] handler url
+	 * @param openedConnection opened connection to database (or null)
+	 * @return url as string
+	 */
 	public static String getGoogleHandlerUrl(@Nullable Connection openedConnection) {
 		try {
 			Connection connection;
@@ -654,6 +743,11 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * Getter for Amazon Step Functions handler url
+	 * @param openedConnection opened connection to database (or null)
+	 * @return url as string
+	 */
 	public static String getAmazonHandlerUrl(@Nullable Connection openedConnection) {
 		try {
 			Connection connection;
@@ -693,6 +787,11 @@ public class CompositionRepositoryDAO extends DAO {
 		}
 	}
 
+	/**
+	 * List every composition url, there can be one or more URL per composition basing on different provider
+	 * implementation of the same one
+	 * @return list of composition urls (FunctionalityURL)
+	 */
 	public static List<FunctionalityURL> getUrls() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
