@@ -23,13 +23,26 @@ import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Utility for CLI serverless function composition related command execution
+ */
 @SuppressWarnings("DuplicatedCode")
 public class CompositionCommandExecutor extends CommandExecutor {
 
+	/**
+	 * Placeholder string as must appear inside yaml and json composition definition files
+	 */
 	private static final String PLACEHOLDER = "__PLACEHOLDER__";
-	private static final String  HANDLER_NAME = "h-a-n-d-l-e-r";
+	/**
+	 * Standard handler serverless function name
+	 */
+	private static final String HANDLER_NAME = "h-a-n-d-l-e-r";
 
-	private static void deployGoogleCompositionHandler() throws IOException, InterruptedException {
+
+	/**
+	 * Deploys a serverless composition handler on Google Cloud Functions
+	 */
+	private static void deployGoogleCompositionHandler() {
 		if (CompositionRepositoryDAO.existsGoogleHandler(null)) {
 			return;
 		}
@@ -42,7 +55,10 @@ public class CompositionCommandExecutor extends CommandExecutor {
 				PropertiesManager.getInstance().getProperty(PropertiesManager.GOOGLE_HANDLER_PATH));
 	}
 
-	private static void deployAmazonCompositionHandler() throws IOException, InterruptedException {
+	/**
+	 * Deploys a serverless composition handler on AWS
+	 */
+	private static void deployAmazonCompositionHandler() {
 		if (CompositionRepositoryDAO.existsAmazonHandler(null)) {
 			return;
 		}
@@ -57,16 +73,31 @@ public class CompositionCommandExecutor extends CommandExecutor {
 
 	}
 
+	/**
+	 * Deploys a workflow to Google Cloud Platform Workflows [BETA], needed serverless functions
+	 * and performs DB persistence
+	 * @param workflowName name of the workflow to deploy
+	 * @param contentFolderAbsolutePath folder containing workflow functions and definition
+	 * @param workflowRegion region for workflow deployment
+	 *                          (only GoogleCommandUtility.IOWA supported by Google at the moment)
+	 * @param yamlFileName yaml containing workflow definition file name
+	 * @param functionNames list of workflow function names (consistent ordering)
+	 * @param runtimes list of workflow function runtimes (consistent ordering)
+	 * @param entryPoints list of workflow function entry points (consistent ordering)
+	 * @param timeouts list of workflow function timeouts is seconds (consistent ordering)
+	 * @param memory list of workflow function memory amount in megabytes (consistent ordering)
+	 * @param regions list of workflow function regions of deployment (consistent ordering)
+	 * @param functionDirPaths list of workflow function directories containing implementation (consistent ordering)
+	 */
 	public static void deployOnGoogleComposition(String workflowName, String contentFolderAbsolutePath,
 												 String workflowRegion, String yamlFileName, String[] functionNames,
 												 String[] runtimes, String[] entryPoints, Integer[] timeouts,
-												 Integer[] memory_mbs, String[] regions, String[] functionDirPaths)
-			throws IOException, InterruptedException {
+												 Integer[] memory, String[] regions, String[] functionDirPaths) {
 
 		assert functionNames.length == runtimes.length;
 		assert functionNames.length == entryPoints.length;
 		assert functionNames.length == timeouts.length;
-		assert functionNames.length == memory_mbs.length;
+		assert functionNames.length == memory.length;
 		assert functionNames.length == regions.length;
 		assert functionNames.length == functionDirPaths.length;
 
@@ -97,7 +128,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 					runtimes[i],
 					entryPoints[i],
 					timeouts[i],
-					memory_mbs[i],
+					memory[i],
 					regions[i],
 					contentFolderAbsolutePath + CommandUtility.getPathSep() + functionDirPaths[i]));
 			System.out.println("'" + functionNames[i] + "' deploy on Google Cloud Platform completed");
@@ -121,53 +152,73 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			return;
 		}
 
-		// declare and initialize variables
-		String cmd;
-		Process process;
-		StreamGobbler outputGobbler;
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
 
-		cmd = GoogleCommandUtility.buildGoogleCloudWorkflowsDeployCommand(workflowName, workflowRegion,
-				tempYaml.getParent().toString(), tempYaml.getFileName().toString());
-		process = buildCommand(cmd).start();
-		outputGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
-		executorServiceOut.submit(outputGobbler);
-		if (process.waitFor() != 0) {
-			System.err.println("Could not deploy workflow '" + workflowName + "' on Google Cloud Platform");
-			executorServiceOut.shutdown();
+		try {
+			// declare and initialize variables
+			String cmd;
+			Process process;
+			StreamGobbler outputGobbler;
+
+			cmd = GoogleCommandUtility.buildGoogleCloudWorkflowsDeployCommand(workflowName, workflowRegion,
+					tempYaml.getParent().toString(), tempYaml.getFileName().toString());
+			process = buildCommand(cmd).start();
+			outputGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
+			executorServiceOut.submit(outputGobbler);
+			if (process.waitFor() != 0) {
+				System.err.println("Could not deploy workflow '" + workflowName + "' on Google Cloud Platform");
+				executorServiceOut.shutdown();
+				process.destroy();
+				return;
+			}
+
+			// delete temporary file
+			File file = tempYaml.toFile();
+			if (!file.delete()) {
+				System.err.println("WARNING:\tCould not delete temporary files, check: " + tempYaml.toString());
+			}
+
+			String url = CompositionRepositoryDAO.getGoogleHandlerUrl(null);
+			if (url == null) {
+				System.err.println("WARNING: Handler not found! Workflow is not reachable");
+			}
+			url = url + "?workflow=" + workflowName + GoogleAuthClient.getInstance().getUrlToken();
+			System.out.println("\u001B[32m" + "Deployed workflow '" + workflowName + "' to: " + url + "\u001B[0m");
+
 			process.destroy();
-			return;
+
+			CompositionRepositoryDAO.persistGoogle(workflowName, workflowRegion, functionNames, regions);
+		} catch (InterruptedException | IOException e) {
+			System.err.println("Could not deploy workflow '" + workflowName + "' on Google Cloud Platform: " +
+					e.getMessage());
+		} finally {
+			executorServiceOut.shutdown();
 		}
-
-		// delete temporary file
-		File file = tempYaml.toFile();
-		if (!file.delete()) {
-			System.err.println("WARNING:\tCould not delete temporary files, check: " + tempYaml.toString());
-		}
-
-		String url = CompositionRepositoryDAO.getGoogleHandlerUrl(null);
-		if (url == null) {
-			System.err.println("WARNING: Handler not found! Workflow is not reachable");
-		}
-		url = url + "?workflow=" + workflowName + GoogleAuthClient.getInstance().getUrlToken();
-		System.out.println("\u001B[32m" + "Deployed workflow '" + workflowName + "' to: " + url + "\u001B[0m");
-
-		process.destroy();
-		executorServiceOut.shutdown();
-
-		CompositionRepositoryDAO.persistGoogle(workflowName, workflowRegion, functionNames, regions);
 	}
 
+	/**
+	 * Deploys a state machine to AWS Step Functions, needed serverless functions and performs DB persistence
+	 * @param machineName name of the state machine to deploy
+	 * @param contentFolderAbsolutePath folder containing state machine functions and definition
+	 * @param machineRegion region for state machine deployment
+	 * @param jsonFileName json containing state machine definition file name
+	 * @param functionNames list of state machine function names (consistent ordering)
+	 * @param runtimes list of state machine function runtimes (consistent ordering)
+	 * @param entryPoints list of state machine function entry points (consistent ordering)
+	 * @param timeouts list of state machine function timeouts is seconds (consistent ordering)
+	 * @param memory list of state machine function memory amount in megabytes (consistent ordering)
+	 * @param regions list of state machine function regions of deployment (consistent ordering)
+	 * @param zipFileNames list of state machine function file names of zipped implementations
+	 */
 	public static void deployOnAmazonComposition(String machineName, String contentFolderAbsolutePath,
 												 String machineRegion, String jsonFileName, String[] functionNames,
 												 String[] runtimes, String[] entryPoints, Integer[] timeouts,
-												 Integer[] memory_mbs, String[] regions, String[] zipFileNames)
-			throws IOException, InterruptedException {
+												 Integer[] memory, String[] regions, String[] zipFileNames) {
 
 		assert functionNames.length == runtimes.length;
 		assert functionNames.length == entryPoints.length;
 		assert functionNames.length == timeouts.length;
-		assert functionNames.length == memory_mbs.length;
+		assert functionNames.length == memory.length;
 		assert functionNames.length == regions.length;
 		assert functionNames.length == zipFileNames.length;
 
@@ -191,14 +242,19 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		// publish functions
 		for (int i = 0; i < functionNames.length; i++) {
 			// deploy function
-			functionArns.add(FunctionCommandExecutor.deployOnAmazonLambdaFunctions(functionNames[i],
-					runtimes[i],
-					entryPoints[i],
-					timeouts[i],
-					memory_mbs[i],
-					regions[i],
-					contentFolderAbsolutePath,
-					zipFileNames[i]));
+			try {
+				functionArns.add(FunctionCommandExecutor.deployOnAmazonLambdaFunctions(functionNames[i],
+						runtimes[i],
+						entryPoints[i],
+						timeouts[i],
+						memory[i],
+						regions[i],
+						contentFolderAbsolutePath,
+						zipFileNames[i]));
+			} catch (InterruptedException | IOException e) {
+				System.err.println("Could not deploy '" + functionNames[i] + "' to AWS Lambda: " + e.getMessage());
+				return;
+			}
 		}
 
 		// json file: replacing placeholders
@@ -212,79 +268,92 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		Matcher matcher;
 		String arnRegex = "(\"stateMachineArn\":\\s+\")(.*)(\",)";
 
-		// declare and initialize variables
-		String cmd;
-		Process process;
-		StreamGobbler outputGobbler;
-		StreamGobbler errorGobbler;
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 
-		cmd = AmazonCommandUtility.buildStepFunctionCreationCommand(machineName, machineRegion, json);
-		process = buildCommand(cmd).start();
-		ReplyCollector machineArnCollector = new ReplyCollector();
-		outputGobbler = new StreamGobbler(process.getInputStream(), machineArnCollector::collectResult);
-		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
-		executorServiceOut.submit(outputGobbler);
-		executorServiceErr.submit(errorGobbler);
-		if (process.waitFor() != 0) {
-			System.err.println("Could not deploy state machine '" + machineName + "' on Step Functions");
+		try {
+			// declare and initialize variables
+			String cmd;
+			Process process;
+			StreamGobbler outputGobbler;
+			StreamGobbler errorGobbler;
+
+			cmd = AmazonCommandUtility.buildStepFunctionCreationCommand(machineName, machineRegion, json);
+			process = buildCommand(cmd).start();
+			ReplyCollector machineArnCollector = new ReplyCollector();
+			outputGobbler = new StreamGobbler(process.getInputStream(), machineArnCollector::collectResult);
+			errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+			executorServiceOut.submit(outputGobbler);
+			executorServiceErr.submit(errorGobbler);
+			if (process.waitFor() != 0) {
+				System.err.println("Could not deploy state machine '" + machineName + "' on Step Functions");
+				executorServiceOut.shutdown();
+				executorServiceErr.shutdown();
+				process.destroy();
+				return;
+			}
+			String machineArn = machineArnCollector.getResult();
+			pattern = Pattern.compile(arnRegex);
+			matcher = pattern.matcher(machineArn);
+			if (matcher.find()) {
+				machineArn = matcher.group(2);
+			} else {
+				System.err.println("Could not deploy state machine '" + machineName + "' on Step Functions");
+				executorServiceOut.shutdown();
+				executorServiceErr.shutdown();
+				process.destroy();
+				return;
+			}
+
+			String url = CompositionRepositoryDAO.getAmazonHandlerUrl(null);
+			if (url == null) {
+				System.err.println("WARNING: Handler not found! Machine is not reachable");
+			}
+			url = url + "?arn=" + machineArn;
+			System.out.println("\u001B[32m" + "Deployed machine '" + machineName + "' to: " + url + "\u001B[0m");
+
+			process.destroy();
+
+			CompositionRepositoryDAO.persistAmazon(machineName, machineArn, machineRegion, functionNames, regions);
+		} catch (InterruptedException | IOException e) {
+			System.err.println("Could not deploy state machine '" + machineName + "' on Step Functions: " +
+					e.getMessage());
+		} finally {
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
-			process.destroy();
-			return;
 		}
-		String machineArn = machineArnCollector.getResult();
-		pattern = Pattern.compile(arnRegex);
-		matcher = pattern.matcher(machineArn);
-		if (matcher.find()) {
-			machineArn = matcher.group(2);
-		} else {
-			System.err.println("Could not deploy state machine '" + machineName + "' on Step Functions");
-			executorServiceOut.shutdown();
-			executorServiceErr.shutdown();
-			process.destroy();
-			return;
-		}
-
-		String url = CompositionRepositoryDAO.getAmazonHandlerUrl(null);
-		if (url == null) {
-			System.err.println("WARNING: Handler not found! Machine is not reachable");
-		}
-		url = url + "?arn=" + machineArn;
-		System.out.println("\u001B[32m" + "Deployed machine '" + machineName + "' to: " + url + "\u001B[0m");
-
-		process.destroy();
-		executorServiceOut.shutdown();
-		executorServiceErr.shutdown();
-
-		CompositionRepositoryDAO.persistAmazon(machineName, machineArn, machineRegion, functionNames, regions);
 	}
 
-	private static void removeWorkflow(String workflowName, String region) {
+	/**
+	 * Removes a workflow from Google Cloud Platform Workflows [BETA]
+	 * @param workflowName name of the workflow to remove
+	 * @param region region of workflow deployment
+	 * @throws IOException exception related to process execution
+	 * @throws InterruptedException exception related to Thread management
+	 */
+	private static void removeGoogleWorkflow(String workflowName, String region)
+			throws IOException, InterruptedException {
 		String cmd = GoogleCommandUtility.buildGoogleCloudWorkflowsRemoveCommand(workflowName, region);
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 
-		try {
-			Process process = buildCommand(cmd).start();
-			// google deploying progresses are on the error stream
-			StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
+		Process process = buildCommand(cmd).start();
+		// google deploying progresses are on the error stream
+		StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
 
-			executorServiceErr.submit(errorGobbler);
+		executorServiceErr.submit(errorGobbler);
 
-			if (process.waitFor() != 0) {
-				System.err.println("Could not delete workflow '" + workflowName + "'");
-			} else {
-				System.out.println("'" + workflowName + "' workflow removed!");
-			}
-			process.destroy();
-		} catch (InterruptedException | IOException e) {
-			System.err.println("Could not delete workflow '" + workflowName + "': " + e.getMessage());
-		} finally {
-			executorServiceErr.shutdown();
+		if (process.waitFor() != 0) {
+			System.err.println("Could not delete workflow '" + workflowName + "'");
+		} else {
+			System.out.println("'" + workflowName + "' workflow removed!");
 		}
+		process.destroy();
+		executorServiceErr.shutdown();
 	}
 
+	/**
+	 * Removes every workflow and related functions (handler included) from Google Cloud Platform
+	 */
 	public static void cleanupGoogleComposition() {
 		System.out.println("\n" + "\u001B[33m" +
 				"Cleaning up Google composition environment..." +
@@ -292,21 +361,35 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		// remove handler
 		FunctionalityData handler = CompositionRepositoryDAO.getGoogleHandlerInfo();
 		if (handler != null) {
-			FunctionCommandExecutor.removeGoogleFunction(handler.getFunctionalityName(), handler.getRegion());
+			try {
+				FunctionCommandExecutor.removeGoogleFunction(handler.getFunctionalityName(), handler.getRegion());
+			} catch (InterruptedException | IOException e) {
+				System.err.println("Could not remove handler from Google Cloud Functions: " + e.getMessage());
+			}
 		}
 		// remove functions
 		List<FunctionalityData> toRemove = CompositionRepositoryDAO.getGoogleFunctionInfos();
 		if (toRemove != null) {
 			for (FunctionalityData functionalityData : toRemove) {
-				FunctionCommandExecutor.removeGoogleFunction(functionalityData.getFunctionalityName(),
-						functionalityData.getRegion());
+				try {
+					FunctionCommandExecutor.removeGoogleFunction(functionalityData.getFunctionalityName(),
+							functionalityData.getRegion());
+				} catch (InterruptedException | IOException e) {
+					System.err.println("Could not delete '" + functionalityData.getFunctionalityName() +
+							"' from Google Cloud Functions: " + e.getMessage());
+				}
 			}
 		}
 		// remove state machines
 		toRemove = CompositionRepositoryDAO.getGoogleWorkflowInfos();
 		if (toRemove != null) {
 			for (FunctionalityData functionalityData : toRemove) {
-				removeWorkflow(functionalityData.getFunctionalityName(), functionalityData.getRegion());
+				try {
+					removeGoogleWorkflow(functionalityData.getFunctionalityName(), functionalityData.getRegion());
+				} catch (InterruptedException | IOException e) {
+					System.err.println("Could not delete '" + functionalityData.getFunctionalityName() +
+							"' workflow from Google Cloud Platform Workflows [BETA]: " + e.getMessage());
+				}
 			}
 		}
 		System.out.println("\u001B[32m" + "\nGoogle cleanup completed!\n" + "\u001B[0m");
@@ -314,33 +397,40 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		CompositionRepositoryDAO.dropGoogle();
 	}
 
-	private static void removeCompositionMachine(String machineName, String machineArn, String machineRegion) {
+	/**
+	 * Removes a state machine from AWS Step Functions
+	 * @param machineName name of the state machine to remove
+	 * @param machineArn ARN of the state machine to remove
+	 * @param machineRegion region of state machine deployment
+	 * @throws IOException exception related to process execution
+	 * @throws InterruptedException exception related to Thread management
+	 */
+	private static void removeCompositionMachine(String machineName, String machineArn, String machineRegion)
+			throws IOException, InterruptedException {
 		String cmd = AmazonCommandUtility.buildStepFunctionDropCommand(machineArn, machineRegion);
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 
-		try {
-			Process process = buildCommand(cmd).start();
-			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
-			StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+		Process process = buildCommand(cmd).start();
+		StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+		StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 
-			executorServiceOut.submit(outputGobbler);
-			executorServiceErr.submit(errorGobbler);
+		executorServiceOut.submit(outputGobbler);
+		executorServiceErr.submit(errorGobbler);
 
-			if (process.waitFor() != 0) {
-				System.err.println("Could not delete state machine '" + machineName + "'");
-			} else {
-				System.out.println("'" + machineName + "' machine removed!");
-			}
-			process.destroy();
-		} catch (InterruptedException | IOException e) {
-			System.err.println("Could not delete state machine '" + machineName + "': " + e.getMessage());
-		} finally {
-			executorServiceOut.shutdown();
-			executorServiceErr.shutdown();
+		if (process.waitFor() != 0) {
+			System.err.println("Could not delete state machine '" + machineName + "'");
+		} else {
+			System.out.println("'" + machineName + "' machine removed!");
 		}
+		process.destroy();
+		executorServiceOut.shutdown();
+		executorServiceErr.shutdown();
 	}
 
+	/**
+	 * Removes every workflow and related functions (handler included) from AWS
+	 */
 	public static void cleanupAmazonComposition() {
 		System.out.println("\n" + "\u001B[33m" +
 				"Cleaning up Amazon composition environment..." +
@@ -348,25 +438,44 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		// remove handler
 		FunctionalityData handler = CompositionRepositoryDAO.getAmazonHandlerInfo();
 		if (handler != null) {
-			FunctionCommandExecutor.removeLambdaFunction(handler.getFunctionalityName(), handler.getRegion());
-			FunctionCommandExecutor.removeGatewayApi(handler.getFunctionalityName(), handler.getId(), handler.getRegion());
+			try {
+				FunctionCommandExecutor.removeLambdaFunction(handler.getFunctionalityName(), handler.getRegion());
+			} catch (InterruptedException | IOException e) {
+				System.err.println("Could not remove handler from AWS Lambda: " + e.getMessage());
+			}
+			try {
+				FunctionCommandExecutor.removeGatewayApi(handler.getFunctionalityName(), handler.getId(),
+						handler.getRegion());
+			} catch (InterruptedException | IOException e) {
+				System.err.println("Could not remove handler from API Gateway: " + e.getMessage());
+			}
 			waitFor("Cleanup", 30);
 		}
 		// remove functions
 		List<FunctionalityData> toRemove = CompositionRepositoryDAO.getAmazonFunctionInfos();
 		if (toRemove != null) {
 			for (FunctionalityData functionalityData : toRemove) {
-				FunctionCommandExecutor.removeLambdaFunction(functionalityData.getFunctionalityName(),
-						functionalityData.getRegion());
+				try {
+					FunctionCommandExecutor.removeLambdaFunction(functionalityData.getFunctionalityName(),
+							functionalityData.getRegion());
+				} catch (InterruptedException | IOException e) {
+					System.err.println("Could not delete '" + functionalityData.getFunctionalityName() +
+							"' from AWS Lambda: " + e.getMessage());
+				}
 			}
 		}
 		// remove state machines
 		toRemove = CompositionRepositoryDAO.getAmazonMachineInfos();
 		if (toRemove != null) {
 			for (FunctionalityData functionalityData : toRemove) {
-				removeCompositionMachine(functionalityData.getFunctionalityName(),
-						functionalityData.getId(),
-						functionalityData.getRegion());
+				try {
+					removeCompositionMachine(functionalityData.getFunctionalityName(),
+							functionalityData.getId(),
+							functionalityData.getRegion());
+				} catch (InterruptedException | IOException e) {
+					System.err.println("Could not delete '" + functionalityData.getFunctionalityName() +
+							"' workflow from AWS Step Functions: " + e.getMessage());
+				}
 			}
 		}
 		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");

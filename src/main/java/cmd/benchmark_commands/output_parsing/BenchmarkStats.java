@@ -1,14 +1,30 @@
 package cmd.benchmark_commands.output_parsing;
 
+/**
+ * A collection of mrk2's benchmark results
+ */
 public class BenchmarkStats {
-	private Double avgLatency = null;
-	private Double stdDevLatency = null;
-	private Double maxLatency = null;
+	// latency average
+	private Double avgLatency;
+	// latency standard deviation
+	private Double stdDevLatency;
+	// latency maximum measurement
+	private Double maxLatency;
+	// throughput as requests per second
+	private Double requestsThroughput;
+	// throughput as kilobytes per second
+	private Double transferThroughput;
 
-	private Double requestsThroughput = null;
-
-	// in kilobytes
-	private Double transferThroughput = null;
+	/**
+	 * Default constructor
+	 */
+	public BenchmarkStats() {
+		this.avgLatency = null;
+		this.stdDevLatency = null;
+		this.maxLatency = null;
+		this.requestsThroughput = null;
+		this.transferThroughput = null;
+	}
 
 	public Double getAvgLatency() {
 		return avgLatency;

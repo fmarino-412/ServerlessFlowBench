@@ -3,24 +3,43 @@ package cmd.functionality_commands;
 import cmd.CommandUtility;
 import utility.PropertiesManager;
 
+/**
+ * Utility for AWS CLI command build
+ */
 public class AmazonCommandUtility extends CommandUtility {
 
-	/* PARAMETERS */
+	/**
+	 * Public constant variables
+	 */
 	public static final String PYTHON_3_7_RUNTIME = "python3.7";
 	public static final String NORTH_VIRGINIA = "us-east-1";
 	public static final String OHIO = "us-east-2";
-	/*	*/
 
+	/**
+	 * Docker utils
+	 */
 	private static final String AWS_CLI = "amazon/aws-cli";
 	private static final String PREAMBLE = "docker" + SEP + "run" + SEP + "--rm" + SEP + "-i" + SEP +
 			"-v" + SEP + PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_AUTH_CONFIG) +
 			":" + "/root/.aws";
+
+	/**
+	 * Auth utils
+	 */
 	private static final String EXECUTE_API = "execute-api";
+
+	/**
+	 * Lambda commands
+	 */
 	private static final String LAMBDA = "lambda";
 	private static final String LAMBDA_NEW_FUNC = LAMBDA + SEP + "create-function";
 	private static final String LAMBDA_LIST_FUNC = LAMBDA + SEP + "list-functions";
 	private static final String LAMBDA_ADD_PERM = LAMBDA + SEP + "add-permission";
 	private static final String LAMBDA_DEL = LAMBDA + SEP + "delete-function";
+
+	/**
+	 * Api Gateway commands
+	 */
 	private static final String GATEWAY = "apigateway";
 	private static final String GATEWAY_CREATE_API = GATEWAY + SEP + "create-rest-api";
 	private static final String GATEWAY_GET_API = GATEWAY + SEP + "get-rest-apis";
@@ -30,17 +49,35 @@ public class AmazonCommandUtility extends CommandUtility {
 	private static final String GATEWAY_PUT_INTEGRATION = GATEWAY + SEP + "put-integration";
 	private static final String GATEWAY_CREATE_DEPLOYMENT = GATEWAY + SEP + "create-deployment";
 	private static final String GATEWAY_DEL = GATEWAY + SEP + "delete-rest-api";
+
+	/**
+	 * Step Functions commands
+	 */
 	private static final String STEP_FUNCTIONS = "stepfunctions";
 	private static final String STEP_FUNCTIONS_CREATE = STEP_FUNCTIONS + SEP + "create-state-machine";
 	private static final String STEP_FUNCTIONS_DROP = STEP_FUNCTIONS + SEP + "delete-state-machine";
 
+
+	/**
+	 * Builds AWS CLI command for Lambda function deployment
+	 * @param functionName name of function to deploy
+	 * @param runtime runtime of function to deploy
+	 * @param entryPoint entry point location of function to deploy
+	 * @param timeout timeout in seconds of function to deploy
+	 * @param memory memory amount in megabytes of function to deploy
+	 * @param region region of deployment for function to deploy
+	 * @param zipFolder path of the folder containing the zip package with the function
+	 * @param zipName name of the zip package with the function
+	 * @return command as string
+	 */
 	public static String buildLambdaFunctionDeployCommand(String functionName, String runtime, String entryPoint,
 														  Integer timeout, Integer memory, String region,
 														  String zipFolder, String zipName) {
+
 		return 	// command beginning
 				PREAMBLE + SEP +
 						// volume attachment
-						"-v" + SEP + zipFolder + ":" + FUNCTIONS_DIR + SEP +
+						"-v" + SEP + zipFolder + ":" + FUNCTIONALITIES_DIR + SEP +
 						// select docker image to use
 						AWS_CLI + SEP +
 						// operation define
@@ -55,10 +92,16 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--timeout" + SEP + timeout + SEP +
 						"--publish" + SEP +
 						"--region" + SEP + region + SEP +
-						"--zip-file" + SEP + "fileb://" + FUNCTIONS_DIR + "/" + zipName;
+						"--zip-file" + SEP + "fileb://" + FUNCTIONALITIES_DIR + "/" + zipName;
 
 	}
 
+	/**
+	 * Builds AWS CLI command to get Lambda function ARN
+	 * @param functionName name of the function
+	 * @param region function region of deployment
+	 * @return command as string
+	 */
 	public static String buildLambdaArnGetterCommand(String functionName, String region) {
 
 		return	// command beginning
@@ -72,6 +115,13 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--output" + SEP + "text";
 	}
 
+	/**
+	 * Builds AWS CLI command for API Gateway new API creation
+	 * @param apiName name of the new API
+	 * @param description description of the new API
+	 * @param region new API region of deployment
+	 * @return command as string
+	 */
 	public static String buildGatewayApiCreationCommand(String apiName, String description, String region) {
 
 		return 	// command beginning
@@ -86,6 +136,12 @@ public class AmazonCommandUtility extends CommandUtility {
 
 	}
 
+	/**
+	 * Builds AWS CLI command to get Gateway API id
+	 * @param apiName name of the API corresponding to the needed id
+	 * @param region API region of deployment
+	 * @return command as string
+	 */
 	public static String buildGatewayApiIdGetterCommand(String apiName, String region) {
 		return	// command beginning
 				PREAMBLE + SEP +
@@ -98,6 +154,12 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--output" + SEP + "text";
 	}
 
+	/**
+	 * Builds AWS CLI command to get Gateway API parent id
+	 * @param apiId id of the API corresponding to the needed parent id
+	 * @param region API region of deployment
+	 * @return command as string
+	 */
 	public static String buildGatewayApiParentIdGetterCommand(String apiId, String region) {
 		return	// command beginning
 				PREAMBLE + SEP +
@@ -111,6 +173,14 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--output" + SEP + "text";
 	}
 
+	/**
+	 * Builds AWS CLI command to create a new Gateway API resource
+	 * @param functionName name of the Lambda function representing the resource
+	 * @param apiId API id
+	 * @param parentId API parent id
+	 * @param region API region of deployment
+	 * @return command as string
+	 */
 	public static String buildGatewayResourceApiCreationCommand(String functionName, String apiId, String parentId,
 																String region) {
 		return 	// command beginning
@@ -125,6 +195,13 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
+	/**
+	 * Builds AWS CLI command to get a Gateway API resource id
+	 * @param functionName name of the Lambda function representing the resource
+	 * @param apiId API id
+	 * @param region API region of deployment
+	 * @return command as string
+	 */
 	public static String buildGatewayResourceApiIdGetterCommand(String functionName, String apiId, String region) {
 
 		return 	// command beginning
@@ -139,6 +216,13 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--output" + SEP + "text";
 	}
 
+	/**
+	 * Builds AWS CLI command to add a new method to a Gateway API
+	 * @param apiId API id
+	 * @param resourceId resource id
+	 * @param region API region of deployment
+	 * @return command as string
+	 */
 	public static String buildGatewayApiMethodOnResourceCreationCommand(String apiId, String resourceId,
 																		String region) {
 
@@ -155,6 +239,14 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
+	/**
+	 * Builds AWS CLI command to associate a Gateway API method to resource
+	 * @param apiId API id
+	 * @param resourceId resource id
+	 * @param lambdaARN ARN of the lambda function to execute
+	 * @param region API region of deployment
+	 * @return command as string
+	 */
 	public static String buildGatewayLambdaLinkageCommand(String apiId, String resourceId, String lambdaARN,
 														  String region) {
 
@@ -174,6 +266,13 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
+	/**
+	 * Builds AWS CLI command to deploy a Gateway API
+	 * @param apiId API id
+	 * @param stageName name of the deployment stage
+	 * @param region API region of deployment
+	 * @return command as string
+	 */
 	public static String buildGatewayDeploymentCreationCommand(String apiId, String stageName, String region) {
 
 		return 	// command beginning
@@ -187,6 +286,14 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
+	/**
+	 * Builds AWS CLI command to authenticate Lambda function execution
+	 * @param functionName name of the function
+	 * @param apiId API id
+	 * @param lambdaARN ARN of the lambda function
+	 * @param region Lambda region of deployment
+	 * @return command as string
+	 */
 	public static String buildGatewayLambdaAuthCommand(String functionName, String apiId, String lambdaARN,
 													   String region) {
 		String apiARN = lambdaARN.replace(LAMBDA, EXECUTE_API);
@@ -206,6 +313,13 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
+	/**
+	 * Builds AWS CLI command to create a new state machine on Step Functions
+	 * @param machineName name of the new state machine
+	 * @param region machine region of deployment
+	 * @param definitionJson string in json format containing machine definition
+	 * @return command as string
+	 */
 	public static String buildStepFunctionCreationCommand(String machineName, String region, String definitionJson) {
 		return	// command beginning
 				PREAMBLE + SEP +
@@ -221,6 +335,12 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--definition" + SEP + definitionJson;
 	}
 
+	/**
+	 * Builds AWS CLI command to delete a Lambda function
+	 * @param functionName name of function to delete
+	 * @param region deployment region of function to delete
+	 * @return command as string
+	 */
 	public static String buildLambdaDropCommand(String functionName, String region) {
 		return	// command beginning
 				PREAMBLE + SEP +
@@ -232,6 +352,12 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
+	/**
+	 * Builds AWS CLI command to delete an API from API Gateway
+	 * @param apiId id of the API to delete
+	 * @param region deployment region of the API to delete
+	 * @return command as string
+	 */
 	public static String buildGatewayDropCommand(String apiId, String region) {
 		return	// command beginning
 				PREAMBLE + SEP +
@@ -243,6 +369,12 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region;
 	}
 
+	/**
+	 * Builds AWS CLI command to delete a Step Functions state machine
+	 * @param machineArn state machine ARN
+	 * @param region state machine region of deployment
+	 * @return command as string
+	 */
 	public static String buildStepFunctionDropCommand(String machineArn, String region) {
 		return	// command beginning
 				PREAMBLE + SEP +
@@ -253,5 +385,4 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--region" + SEP + region + SEP +
 						"--state-machine-arn" + SEP + machineArn;
 	}
-
 }

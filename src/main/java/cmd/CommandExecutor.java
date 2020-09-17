@@ -4,8 +4,16 @@ import cmd.functionality_commands.GoogleCommandUtility;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarStyle;
 
+/**
+ * Utility for CLI related command execution
+ */
 public abstract class CommandExecutor {
 
+	/**
+	 * Builds a command differently basing on Docker on Windows OS or Docker on UNIX systems
+	 * @param cmd string containing the command to execute
+	 * @return ProcessBuilder ready to start
+	 */
 	protected static ProcessBuilder buildCommand(String cmd) {
 		ProcessBuilder builder = new ProcessBuilder();
 
@@ -19,6 +27,11 @@ public abstract class CommandExecutor {
 		return builder;
 	}
 
+	/**
+	 * Prints a wait progress bar on console
+	 * @param message message to show
+	 * @param seconds time to wait in seconds
+	 */
 	public static void waitFor(String message, Integer seconds) {
 		ProgressBar progressBar = new ProgressBar(message, 100, ProgressBarStyle.ASCII);
 		progressBar.setExtraMessage("Wait...");

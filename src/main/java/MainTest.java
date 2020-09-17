@@ -4,6 +4,7 @@ import cmd.functionality_commands.AmazonCommandUtility;
 import cmd.functionality_commands.CompositionCommandExecutor;
 import cmd.functionality_commands.FunctionCommandExecutor;
 import cmd.functionality_commands.GoogleCommandUtility;
+import cmd.functionality_commands.security.GoogleAuthClient;
 import databases.mysql.daos.CompositionRepositoryDAO;
 
 import java.io.IOException;
@@ -38,9 +39,9 @@ public class MainTest {
 				break;
 			case 5:
 				//deployFunctions();
-				deployCompositions();
-				cleanupCompositions();
-				cleanupFunctions();
+				//deployCompositions();
+				//cleanupCompositions();
+				//cleanupFunctions();
 				//customFunction();
 				break;
 		}
@@ -61,124 +62,68 @@ public class MainTest {
 	private static void deployFunctions() {
 		System.out.println("\u001B[35m" + "\n\nDeploying benchmark functions...\n" + "\u001B[0m");
 
-		try {
-			FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					"gc_functions_handler",
-					30,
-					128,
-					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/latency_test");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/latency_test");
 
-		try {
-			FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					"gc_functions_handler",
-					30,
-					128,
-					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/cpu_test");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/cpu_test");
 
-		try {
-			FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					"gc_functions_handler",
-					30,
-					128,
-					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/memory_test");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/memory_test");
 
-		try {
-			FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					"latency_test.lambda_handler",
-					30,
-					128,
-					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/latency_test",
-					"latency_test.zip");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"latency_test.lambda_handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/aws/latency_test",
+				"latency_test.zip");
 
-		try {
-			FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					"cpu_test.lambda_handler",
-					30,
-					128,
-					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/cpu_test",
-					"cpu_test.zip");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"cpu_test.lambda_handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/aws/cpu_test",
+				"cpu_test.zip");
 
-		try {
-			FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					"memory_test.lambda_handler",
-					30,
-					128,
-					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/memory_test",
-					"memory_test.zip");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
-
-		/*
-		System.out.println("\n\nDeploying application functions...\n");
-
-		try {
-			FunctionCommandExecutor.deployOnGoogleCloudFunctions("image-recognition",
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					"gc_functions_handler",
-					30,
-					128,
-					GoogleCommandUtility.NORTH_VIRGINIA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/image_recognition");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			FunctionCommandExecutor.deployOnAmazonRESTFunctions("image-recognition",
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					"image_recognition.lambda_handler",
-					30,
-					128,
-					AmazonCommandUtility.NORTH_VIRGINIA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/image_recognition",
-					"image_recognition.zip");
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
-
-		 */
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"memory_test.lambda_handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/aws/memory_test",
+				"memory_test.zip");
 	}
 
 	private static void deployCompositions() {
 		System.out.println("\u001B[35m" + "\n\nDeploying benchmark compositions...\n" + "\u001B[0m");
 
-		try {
+		{
 			String[] functionNames = {"image-recognition"};
 			String[] runtimes = {GoogleCommandUtility.PYTHON_3_7_RUNTIME};
 			String[] entryPoints = {"gc_functions_handler"};
@@ -198,11 +143,9 @@ public class MainTest {
 					memories,
 					regions,
 					functionDirs);
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
 		}
 
-		try {
+		{
 			String[] functionNames = {"image-recognition"};
 			String[] runtimes = {AmazonCommandUtility.PYTHON_3_7_RUNTIME};
 			String[] entryPoints = {"image_recognition.lambda_handler"};
@@ -223,8 +166,6 @@ public class MainTest {
 					memories,
 					regions,
 					zipFileNames);
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -246,6 +187,6 @@ public class MainTest {
 	@SuppressWarnings("DuplicatedCode")
 	@Deprecated
 	private static void customFunction() {
-		System.out.println(CompositionRepositoryDAO.existsGoogleHandler(null));
+		System.out.println(GoogleAuthClient.getInstance().getUrlToken());
 	}
 }
