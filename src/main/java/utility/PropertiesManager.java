@@ -4,14 +4,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Utility class for config.properties management
+ */
 public class PropertiesManager {
 
 	private final static String PROPERTIES_PATH = "config.properties";
+
+	// singleton instance: no need to reload file at each call
 	private static PropertiesManager singletonInstance = null;
 	private Properties properties = null;
 
-	/* PROPERTY KEYS */
-
+	/**
+	 * Property keys
+	 */
 	public static final String MYSQL_IP = "mysql_ip";
 	public static final String MYSQL_PORT = "mysql_port";
 	public static final String MYSQL_USR = "mysql_user";
@@ -35,6 +41,11 @@ public class PropertiesManager {
 	public static final String GOOGLE_HANDLER_PATH = "google_handler_function_path";
 	public static final String AWS_HANDLER_PATH = "aws_handler_function_path";
 
+
+	/**
+	 * Singleton instance getter
+	 * @return PropertyManager run-wide unique instance
+	 */
 	public static PropertiesManager getInstance() {
 
 		if (singletonInstance == null) {
@@ -43,9 +54,17 @@ public class PropertiesManager {
 		return singletonInstance;
 	}
 
+	/**
+	 * Private default constructor. Only getInstance() method can access it
+	 */
 	private PropertiesManager() {
 	}
 
+	/**
+	 * Getter for property value
+	 * @param propertyKey property key associated to the property of interest
+	 * @return property value of interest
+	 */
 	public String getProperty(String propertyKey) {
 		try {
 			if (properties == null) {
