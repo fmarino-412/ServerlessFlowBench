@@ -1,3 +1,4 @@
+import cmd.CommandExecutor;
 import cmd.benchmark_commands.BenchmarkCommandExecutor;
 import cmd.functionality_commands.AmazonCommandUtility;
 import cmd.functionality_commands.CompositionCommandExecutor;
@@ -38,24 +39,27 @@ public class MainTest {
 			case 5:
 				//deployFunctions();
 				deployCompositions();
-				//cleanupCompositions();
-				//cleanupFunctions();
+				cleanupCompositions();
+				cleanupFunctions();
 				//customFunction();
 				break;
 		}
 	}
 
 	private static void cleanupFunctions() {
+		System.out.println("\u001B[35m" + "\n\nRemoving benchmark functions...\n" + "\u001B[0m");
 		FunctionCommandExecutor.cleanupGoogleCloudFunctions();
 		FunctionCommandExecutor.cleanupAmazonRESTFunctions();
 	}
 
 	private static void cleanupCompositions() {
+		System.out.println("\u001B[35m" + "\n\nRemoving benchmark compositions...\n" + "\u001B[0m");
+		CompositionCommandExecutor.cleanupGoogleComposition();
 		CompositionCommandExecutor.cleanupAmazonComposition();
 	}
 
 	private static void deployFunctions() {
-		System.out.println("\n\nDeploying benchmark functions...\n");
+		System.out.println("\u001B[35m" + "\n\nDeploying benchmark functions...\n" + "\u001B[0m");
 
 		try {
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
@@ -172,7 +176,7 @@ public class MainTest {
 	}
 
 	private static void deployCompositions() {
-		System.out.println("\n\nDeploying benchmark compositions...\n");
+		System.out.println("\u001B[35m" + "\n\nDeploying benchmark compositions...\n" + "\u001B[0m");
 
 		try {
 			String[] functionNames = {"image-recognition"};
@@ -225,12 +229,13 @@ public class MainTest {
 	}
 
 	private static void loadBenchmarkPerform() {
-		for (int i = 0; i < 10; i++) {
-			try {
-				BenchmarkCommandExecutor.performLoadTest(500, 100, 40,
-						100000);
-				Thread.sleep(60 * 1000); // 1 minute sleeping, not enough for resource deallocation
-			} catch (InterruptedException ignored) {}
+		int cycles = 10;
+		for (int i = 0; i < cycles; i++) {
+			BenchmarkCommandExecutor.performLoadTest(500, 100, 40,
+					100000);
+			if (i != cycles - 1) {
+				CommandExecutor.waitFor("Performing", 60);
+			}
 		}
 	}
 

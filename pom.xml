@@ -29,6 +29,11 @@
             <artifactId>google-auth-library-oauth2-http</artifactId>
             <version>0.21.1</version>
         </dependency>
+        <dependency>
+            <groupId>me.tongfei</groupId>
+            <artifactId>progressbar</artifactId>
+            <version>0.5.5</version>
+        </dependency>
     </dependencies>
 
     <build>

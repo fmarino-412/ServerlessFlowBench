@@ -102,6 +102,10 @@ public class CompositionCommandExecutor extends CommandExecutor {
 					contentFolderAbsolutePath + CommandUtility.getPathSep() + functionDirPaths[i]));
 			System.out.println("'" + functionNames[i] + "' deploy on Google Cloud Platform completed");
 		}
+		if (functionUrls.contains("")) {
+			System.err.println("Error deploying functions!");
+			return;
+		}
 
 		// yaml file: replacing placeholders
 		for (int i = 0; i < functionNames.length; i++) {
@@ -120,17 +124,17 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		// declare and initialize variables
 		String cmd;
 		Process process;
-		StreamGobbler errorGobbler;
-		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+		StreamGobbler outputGobbler;
+		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
 
 		cmd = GoogleCommandUtility.buildGoogleCloudWorkflowsDeployCommand(workflowName, workflowRegion,
 				tempYaml.getParent().toString(), tempYaml.getFileName().toString());
 		process = buildCommand(cmd).start();
-		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
-		executorServiceErr.submit(errorGobbler);
+		outputGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
+		executorServiceOut.submit(outputGobbler);
 		if (process.waitFor() != 0) {
 			System.err.println("Could not deploy workflow on Google Cloud Platform");
-			executorServiceErr.shutdown();
+			executorServiceOut.shutdown();
 			process.destroy();
 			return;
 		}
@@ -149,7 +153,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		System.out.println("\u001B[32m" + "Deployed workflow to: " + url + "\u001B[0m");
 
 		process.destroy();
-		executorServiceErr.shutdown();
+		executorServiceOut.shutdown();
 
 		CompositionRepositoryDAO.persistGoogle(workflowName, workflowRegion, functionNames, regions);
 	}
@@ -257,6 +261,59 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		CompositionRepositoryDAO.persistAmazon(machineName, machineArn, machineRegion, functionNames, regions);
 	}
 
+	private static void removeWorkflow(String workflowName, String region) {
+		String cmd = GoogleCommandUtility.buildGoogleCloudWorkflowsRemoveCommand(workflowName, region);
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+
+		try {
+			Process process = buildCommand(cmd).start();
+			// google deploying progresses are on the error stream
+			StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
+
+			executorServiceErr.submit(errorGobbler);
+
+			if (process.waitFor() != 0) {
+				System.err.println("Could not delete workflow '" + workflowName + "'");
+			} else {
+				System.out.println("'" + workflowName + "' workflow removed!");
+			}
+			process.destroy();
+		} catch (InterruptedException | IOException e) {
+			System.err.println("Could not delete workflow '" + workflowName + "': " + e.getMessage());
+		} finally {
+			executorServiceErr.shutdown();
+		}
+	}
+
+	public static void cleanupGoogleComposition() {
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Google composition environment..." +
+				"\u001B[0m" + "\n");
+		// remove handler
+		FunctionalityData handler = CompositionRepositoryDAO.getGoogleHandlerInfo();
+		if (handler != null) {
+			FunctionCommandExecutor.removeGoogleFunction(handler.getFunctionalityName(), handler.getRegion());
+		}
+		// remove functions
+		List<FunctionalityData> toRemove = CompositionRepositoryDAO.getGoogleFunctionInfos();
+		if (toRemove != null) {
+			for (FunctionalityData functionalityData : toRemove) {
+				FunctionCommandExecutor.removeGoogleFunction(functionalityData.getFunctionalityName(),
+						functionalityData.getRegion());
+			}
+		}
+		// remove state machines
+		toRemove = CompositionRepositoryDAO.getGoogleWorkflowInfos();
+		if (toRemove != null) {
+			for (FunctionalityData functionalityData : toRemove) {
+				removeWorkflow(functionalityData.getFunctionalityName(), functionalityData.getRegion());
+			}
+		}
+		System.out.println("\u001B[32m" + "\nGoogle cleanup completed!\n" + "\u001B[0m");
+
+		CompositionRepositoryDAO.dropGoogle();
+	}
+
 	private static void removeCompositionMachine(String machineName, String machineArn, String machineRegion) {
 		String cmd = AmazonCommandUtility.buildStepFunctionDropCommand(machineArn, machineRegion);
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
@@ -264,11 +321,11 @@ public class CompositionCommandExecutor extends CommandExecutor {
 
 		try {
 			Process process = buildCommand(cmd).start();
-			StreamGobbler outGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
-			StreamGobbler errGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+			StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 
-			executorServiceOut.submit(outGobbler);
-			executorServiceErr.submit(errGobbler);
+			executorServiceOut.submit(outputGobbler);
+			executorServiceErr.submit(errorGobbler);
 
 			if (process.waitFor() != 0) {
 				System.err.println("Could not delete state machine '" + machineName + "'");
@@ -291,25 +348,23 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		// remove handler
 		FunctionalityData handler = CompositionRepositoryDAO.getAmazonHandlerInfo();
 		if (handler != null) {
-			FunctionCommandExecutor.removeLambdaFunction(handler.getFunctionName(), handler.getRegion());
-			FunctionCommandExecutor.removeGatewayApi(handler.getFunctionName(), handler.getId(), handler.getRegion());
-			try {
-				Thread.sleep(30000);
-			} catch (InterruptedException ignored) {
-			}
+			FunctionCommandExecutor.removeLambdaFunction(handler.getFunctionalityName(), handler.getRegion());
+			FunctionCommandExecutor.removeGatewayApi(handler.getFunctionalityName(), handler.getId(), handler.getRegion());
+			waitFor("Cleanup", 30);
 		}
 		// remove functions
 		List<FunctionalityData> toRemove = CompositionRepositoryDAO.getAmazonFunctionInfos();
 		if (toRemove != null) {
 			for (FunctionalityData functionalityData : toRemove) {
-				FunctionCommandExecutor.removeLambdaFunction(functionalityData.getFunctionName(), functionalityData.getRegion());
+				FunctionCommandExecutor.removeLambdaFunction(functionalityData.getFunctionalityName(),
+						functionalityData.getRegion());
 			}
 		}
 		// remove state machines
 		toRemove = CompositionRepositoryDAO.getAmazonMachineInfos();
 		if (toRemove != null) {
 			for (FunctionalityData functionalityData : toRemove) {
-				removeCompositionMachine(functionalityData.getFunctionName(),
+				removeCompositionMachine(functionalityData.getFunctionalityName(),
 						functionalityData.getId(),
 						functionalityData.getRegion());
 			}

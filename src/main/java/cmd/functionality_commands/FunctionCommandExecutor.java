@@ -64,6 +64,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		UrlFinder urlFinder = new UrlFinder();
 		StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(),
 				urlFinder::findGoogleCloudFunctionsUrl);
+		// google deploying progresses are on the error stream
 		StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
 
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
@@ -73,8 +74,13 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 
 		// wait for completion and free environment
-		int exitCode = process.waitFor();
-		assert exitCode == 0;
+		if (process.waitFor() != 0) {
+			System.err.println("Could not deploy function '" + functionName + "'");
+			process.destroy();
+			executorServiceOut.shutdown();
+			executorServiceErr.shutdown();
+			return "";
+		}
 
 		String url = urlFinder.getResult();
 		if (functionality != 2) {
@@ -129,7 +135,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		StreamGobbler errorGobbler;
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
-		int exitCode;
 
 		// deploy function
 		String cmdDeploy = AmazonCommandUtility.buildLambdaFunctionDeployCommand(functionName, runtime, entryPoint,
@@ -137,8 +142,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		process = buildCommand(cmdDeploy).start();
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
-		exitCode = process.waitFor();
-		if (exitCode != 0) {
+		if (process.waitFor() != 0) {
 			System.err.println("Could not deploy " + functionName + "on AWS Lambda");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
@@ -156,8 +160,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
-		exitCode = process.waitFor();
-		if (exitCode != 0) {
+		if (process.waitFor() != 0) {
 			System.err.println("Could not get AWS Lambda arn for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
@@ -194,7 +197,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		StreamGobbler errorGobbler;
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
-		int exitCode;
 
 		// create api
 		String cmdApiCreation = AmazonCommandUtility.buildGatewayApiCreationCommand(functionName,
@@ -202,8 +204,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		process = buildCommand(cmdApiCreation).start();
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
-		exitCode = process.waitFor();
-		if (exitCode != 0) {
+		if (process.waitFor() != 0) {
 			System.err.println("Could not create api on API Gateway for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
@@ -222,8 +223,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
-		exitCode = process.waitFor();
-		if (exitCode != 0) {
+		if (process.waitFor() != 0) {
 			System.err.println("Could not get api id for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
@@ -250,8 +250,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
-		exitCode = process.waitFor();
-		if (exitCode != 0) {
+		if (process.waitFor() != 0) {
 			System.err.println("Could not get api parent id for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
@@ -268,8 +267,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		process = buildCommand(cmdResourceApiCreation).start();
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
-		exitCode = process.waitFor();
-		if (exitCode != 0) {
+		if (process.waitFor() != 0) {
 			System.err.println("Could not create resource on api for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
@@ -288,8 +286,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
-		exitCode = process.waitFor();
-		if (exitCode != 0) {
+		if (process.waitFor() != 0) {
 			System.err.println("Could not get api resource id for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
@@ -306,8 +303,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		process = buildCommand(cmdApiMethodCreation).start();
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
-		exitCode = process.waitFor();
-		if (exitCode != 0) {
+		if (process.waitFor() != 0) {
 			System.err.println("Could not create api method for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
@@ -323,8 +319,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		process = buildCommand(cmdApiLinkage).start();
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
-		exitCode = process.waitFor();
-		if (exitCode != 0) {
+		if (process.waitFor() != 0) {
 			System.err.println("Could not link api method and lambda function '" + functionName + "'");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
@@ -340,8 +335,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		process = buildCommand(cmdApiDeploy).start();
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
-		exitCode = process.waitFor();
-		if (exitCode != 0) {
+		if (process.waitFor() != 0) {
 			System.err.println("Could not deploy api for " + functionName);
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
@@ -357,8 +351,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		process = buildCommand(cmdApiLambdaAuth).start();
 		errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 		executorServiceErr.submit(errorGobbler);
-		exitCode = process.waitFor();
-		if (exitCode != 0) {
+		if (process.waitFor() != 0) {
 			System.err.println("Could not authorize api gateway for '" + functionName + "' execution");
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
@@ -382,6 +375,33 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		}
 	}
 
+	protected static void removeGoogleFunction(String functionName, String region) {
+		String cmd = GoogleCommandUtility.buildGoogleCloudFunctionsRemoveCommand(functionName, region);
+		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+
+		try {
+			Process process = buildCommand(cmd).start();
+			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+			StreamGobbler errorGobbler = new StreamGobbler(process.getInputStream(), System.err::println);
+
+			executorServiceOut.submit(outputGobbler);
+			executorServiceErr.submit(errorGobbler);
+
+			if (process.waitFor() != 0) {
+				System.err.println("Could not delete google function '" + functionName + "'");
+			} else {
+				System.out.println("'" + functionName + "' function removed!");
+			}
+			process.destroy();
+		} catch (InterruptedException | IOException e) {
+			System.err.println("Could not delete google function '" + functionName + "': " + e.getMessage());
+		} finally {
+			executorServiceOut.shutdown();
+			executorServiceErr.shutdown();
+		}
+	}
+
 	public static void cleanupGoogleCloudFunctions() {
 
 		System.out.println("\n" + "\u001B[33m" +
@@ -392,67 +412,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		if (toRemove == null) {
 			return;
 		}
-		String cmd;
-		Process process;
-		StreamGobbler outGobbler;
-		StreamGobbler errGobbler;
-
-		ExecutorService output = Executors.newSingleThreadExecutor();
-		ExecutorService error = Executors.newSingleThreadExecutor();
 
 		for (FunctionalityData elem : toRemove) {
-			cmd = GoogleCommandUtility.buildGoogleCloudFunctionsRemoveCommand(elem.getFunctionName(), elem.getRegion());
-			try {
-				process = buildCommand(cmd).start();
-				outGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
-				errGobbler = new StreamGobbler(process.getInputStream(), System.err::println);
-
-				output.submit(outGobbler);
-				error.submit(errGobbler);
-
-				if (process.waitFor() != 0) {
-					System.err.println("Could not delete google function '" + elem.getFunctionName() + "'");
-				} else {
-					System.out.println("'" + elem.getFunctionName() + "' function removed!");
-				}
-				process.destroy();
-			} catch (InterruptedException | IOException e) {
-				System.err.println("Could not delete google function '" + elem.getFunctionName() + "': " +
-						e.getMessage());
-			}
+			removeGoogleFunction(elem.getFunctionalityName(), elem.getRegion());
 		}
-
-		output.shutdown();
-		error.shutdown();
 
 		System.out.println("\u001B[32m" + "\nGoogle cleanup completed!\n" + "\u001B[0m");
 
 		FunctionsRepositoryDAO.dropGoogle();
-	}
-
-	public static void cleanupAmazonRESTFunctions() {
-
-		System.out.println("\n" + "\u001B[33m" +
-				"Cleaning up Amazon functions environment..." +
-				"\u001B[0m" + "\n");
-
-		List<FunctionalityData> toRemove = FunctionsRepositoryDAO.getAmazons();
-		if (toRemove == null) {
-			return;
-		}
-
-		for (FunctionalityData elem : toRemove) {
-			removeLambdaFunction(elem.getFunctionName(), elem.getRegion());
-			removeGatewayApi(elem.getFunctionName(), elem.getId(), elem.getRegion());
-			try {
-				Thread.sleep(30000);
-			} catch (InterruptedException ignored) {
-			}
-		}
-
-		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
-
-		FunctionsRepositoryDAO.dropAmazon();
 	}
 
 	protected static void removeLambdaFunction(String functionName, String region) {
@@ -462,11 +429,11 @@ public class FunctionCommandExecutor extends CommandExecutor {
 
 		try {
 			Process process = buildCommand(cmd).start();
-			StreamGobbler outGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
-			StreamGobbler errGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+			StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 
-			executorServiceOut.submit(outGobbler);
-			executorServiceErr.submit(errGobbler);
+			executorServiceOut.submit(outputGobbler);
+			executorServiceErr.submit(errorGobbler);
 
 			if (process.waitFor() != 0) {
 				System.err.println("Could not delete lambda function '" + functionName + "'");
@@ -490,11 +457,11 @@ public class FunctionCommandExecutor extends CommandExecutor {
 
 		try {
 			Process process = buildCommand(cmd).start();
-			StreamGobbler outGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
-			StreamGobbler errGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+			StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 
-			executorServiceOut.submit(outGobbler);
-			executorServiceErr.submit(errGobbler);
+			executorServiceOut.submit(outputGobbler);
+			executorServiceErr.submit(errorGobbler);
 
 			if (process.waitFor() != 0) {
 				System.err.println("Could not delete gateway api '" + functionName + "'");
@@ -508,5 +475,27 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();
 		}
+	}
+
+	public static void cleanupAmazonRESTFunctions() {
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Amazon functions environment..." +
+				"\u001B[0m" + "\n");
+
+		List<FunctionalityData> toRemove = FunctionsRepositoryDAO.getAmazons();
+		if (toRemove == null) {
+			return;
+		}
+
+		for (FunctionalityData elem : toRemove) {
+			removeLambdaFunction(elem.getFunctionalityName(), elem.getRegion());
+			removeGatewayApi(elem.getFunctionalityName(), elem.getId(), elem.getRegion());
+			waitFor("Cleanup", 30);
+		}
+
+		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
+
+		FunctionsRepositoryDAO.dropAmazon();
 	}
 }

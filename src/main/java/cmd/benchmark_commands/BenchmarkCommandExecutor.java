@@ -35,8 +35,10 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			ExecutorService executorService = Executors.newSingleThreadExecutor();
 			executorService.submit(outputGobbler);
 
-			int exitCode = process.waitFor();
-			assert exitCode == 0;
+			if (process.waitFor() != 0) {
+				System.err.println("Could not perform benchmark!");
+				return null;
+			}
 
 			process.destroy();
 			executorService.shutdown();
@@ -44,7 +46,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			return collector.getResult();
 
 		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
+			System.err.println("Could not perform benchmark: " + e.getMessage());
 			return null;
 		}
 	}
