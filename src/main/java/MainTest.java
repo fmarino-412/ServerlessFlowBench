@@ -14,34 +14,30 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 5;
+		int i = 3;
 
 		switch (i) {
 			case 0:
 				deployFunctions();
 				break;
 			case 1:
-				loadBenchmarkPerform();
+				benchmarkPerform();
 				break;
 			case 2:
-				coldBenchmarkPerform();
+				cleanupFunctions();
 				break;
 			case 3:
+				deployFunctions();
+				deployCompositions();
+				benchmarkPerform();
+				cleanupCompositions();
 				cleanupFunctions();
 				break;
 			case 4:
 				deployFunctions();
 				deployCompositions();
-				loadBenchmarkPerform();
-				coldBenchmarkPerform();
 				cleanupCompositions();
 				cleanupFunctions();
-				break;
-			case 5:
-				//deployFunctions();
-				//deployCompositions();
-				//cleanupCompositions();
-				//cleanupFunctions();
 				//customFunction();
 				break;
 		}
@@ -169,20 +165,14 @@ public class MainTest {
 		}
 	}
 
-	private static void loadBenchmarkPerform() {
-		int cycles = 10;
-		for (int i = 0; i < cycles; i++) {
-			BenchmarkCommandExecutor.performLoadTest(500, 100, 40,
-					100000);
-			if (i != cycles - 1) {
-				CommandExecutor.waitFor("Performing", 60);
-			}
-		}
+	private static void benchmarkPerform() {
+		BenchmarkCommandExecutor.performBenchmarks(1000,
+				100,
+				60,
+				100000,
+				10);
 	}
 
-	private static void coldBenchmarkPerform() {
-		BenchmarkCommandExecutor.performColdStartBenchmark(10);
-	}
 
 	@SuppressWarnings("DuplicatedCode")
 	@Deprecated

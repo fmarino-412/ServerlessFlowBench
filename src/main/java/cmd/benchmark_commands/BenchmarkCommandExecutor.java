@@ -8,6 +8,7 @@ import databases.influx.InfluxClient;
 import databases.mysql.FunctionalityURL;
 import databases.mysql.daos.CompositionRepositoryDAO;
 import databases.mysql.daos.FunctionsRepositoryDAO;
+import jline.internal.Nullable;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -196,12 +197,65 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		for (Thread thread : threads) {
 			try {
 				thread.join();
-			} catch (InterruptedException ignored) {}
+			} catch (InterruptedException ignored) {
+			}
 		}
 
 		System.out.println("\u001B[32m" + "Load benchmark completed!" + "\u001B[0m");
 	}
 
+	/**
+	 * Performs multiple cold start and load benchmarks
+	 * @param concurrency number of concurrent requests in load test
+	 * @param threadNum number of threads in load test
+	 * @param seconds load test duration
+	 * @param requestsPerSecond requests per second in load test
+	 * @param iterations number of iterations, can be null and the test will run indefinitely
+	 */
+	public static void performBenchmarks(Integer concurrency, Integer threadNum, Integer seconds,
+										 Integer requestsPerSecond, @Nullable Integer iterations) {
+		System.out.print("\n" + "\u001B[33m" +
+				"Starting benchmarks...\nFrom this moment on please make sure no one else is invoking " +
+				"your functions.\n");
+		if (iterations != null) {
+			System.out.print("Estimated time: approximately " +
+					(((COLD_START_SLEEP_INTERVAL_MS/1000)*iterations)/60)/60 + " hours");
+		}
+		System.out.println("\u001B[0m" + "\n");
+
+		List<FunctionalityURL> total = extractUrls();
+		if (total.isEmpty()) {
+			System.err.println("Could not perform benchmarks");
+			return;
+		}
+
+		ArrayList<Thread> threads = new ArrayList<>();
+		BenchmarkRunner runner;
+		Thread t;
+
+		for (FunctionalityURL url : total) {
+			runner = new BenchmarkRunner(url, concurrency, threadNum, seconds, requestsPerSecond,
+					COLD_START_SLEEP_INTERVAL_MS, iterations);
+			t = new Thread(runner);
+			threads.add(t);
+			t.start();
+		}
+
+		System.out.println("Benchmark started in background!");
+
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException ignored) {
+			}
+		}
+
+		System.out.println("\u001B[32m" + "Benchmark completed!" + "\u001B[0m");
+	}
+
+	/**
+	 * Runnable inner class for multiple load benchmarks performing
+	 */
 	@Deprecated
 	private static class LoadTestRunner implements Runnable {
 
@@ -212,6 +266,14 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		private final Integer requestsPerSecond;
 
 
+		/**
+		 * Default constructor
+		 * @param function function url
+		 * @param concurrency number of concurrent requests
+		 * @param threads number of threads
+		 * @param seconds test duration
+		 * @param requestsPerSecond number of requests per second
+		 */
 		public LoadTestRunner(FunctionalityURL function, Integer concurrency, Integer threads, Integer seconds,
 							  Integer requestsPerSecond) {
 			this.function = function;
@@ -259,6 +321,9 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		}
 	}
 
+	/**
+	 * Runnable inner class for multiple cold start benchmarks performing
+	 */
 	@Deprecated
 	private static class ColdTestRunner implements Runnable {
 
@@ -266,6 +331,13 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		private final Integer iterations;
 		private final Integer sleepMs;
 
+
+		/**
+		 * Default constructor
+		 * @param function function url
+		 * @param iterations number of iterations
+		 * @param sleepMs time between two cold starts
+		 */
 		public ColdTestRunner(FunctionalityURL function, Integer iterations, Integer sleepMs) {
 			this.function = function;
 			this.iterations = iterations;
@@ -305,6 +377,136 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 				}
 			}
 
+		}
+	}
+
+	/**
+	 * Runnable inner class for multiple cold start and load benchmarks performing
+	 */
+	private static class BenchmarkRunner implements Runnable {
+
+		private final FunctionalityURL function;
+		private final Integer concurrency;
+		private final Integer threads;
+		private final Integer seconds;
+		private final Integer requestsPerSecond;
+
+		private final Integer sleepMs;
+		private Integer iterations;
+
+		/**
+		 * Default constructor
+		 * @param function function url
+		 * @param concurrency number of concurrent requests in load test
+		 * @param threads number of threads in load test
+		 * @param seconds load test duration
+		 * @param requestsPerSecond requests per second in load test
+		 * @param sleepMs time between two cold start benchmark
+		 * @param iterations number of iterations, can be null and the test will run indefinitely
+		 */
+		public BenchmarkRunner(FunctionalityURL function, Integer concurrency, Integer threads, Integer seconds,
+							   Integer requestsPerSecond, Integer sleepMs, @Nullable Integer iterations) {
+			this.function = function;
+			this.concurrency = concurrency;
+			this.threads = threads;
+			this.seconds = seconds;
+			this.requestsPerSecond = requestsPerSecond;
+			this.sleepMs = sleepMs;
+
+			if (iterations == null) {
+				this.iterations = -1;
+			} else {
+				this.iterations = iterations;
+			}
+		}
+
+		/**
+		 * Every sleepMs milliseconds a cold start benchmark is performed and next a load test.
+		 */
+		@Override
+		public void run() {
+
+			boolean google = (function.getGoogleUrl() != null);
+			boolean amazon = (function.getAmazonUrl() != null);
+
+			if (!google && !amazon) {
+				System.out.println("No url to test for '" + function.getName() + "'");
+				return;
+			}
+
+			long googleLatency;
+			long amazonLatency;
+
+			BenchmarkStats googleStats;
+			BenchmarkStats amazonStats;
+
+			while (iterations != 0) {
+				// time to let provider deallocate resources for function execution
+				try {
+					Thread.sleep(sleepMs);
+				} catch (InterruptedException ignored) {
+					return;
+				}
+
+				if (google) {
+
+					// cold start test
+					googleLatency = measureHttpLatency(function.getGoogleUrl());
+
+					if (googleLatency != -1) {
+						// influx persist
+						if (InfluxClient.insertColdPoint(function.getName(), "google", googleLatency,
+								System.currentTimeMillis())) {
+							System.out.println("\u001B[32m" + "Persisted google cold start benchmark for: " +
+									function.getName() + "\u001B[0m");
+						}
+					}
+
+					// load test
+					googleStats = performBenchmark(function.getGoogleUrl(), concurrency, threads, seconds,
+							requestsPerSecond);
+
+					if (googleStats != null) {
+						System.out.println("avg latency google = " + googleStats.getAvgLatency());
+						// influx persist
+						if (InfluxClient.insertLoadPoints(function.getName(), "google", googleStats,
+								System.currentTimeMillis())) {
+							System.out.println("\u001B[32m" + "Persisted google benchmark for: " + function.getName() +
+									"\u001B[0m");
+						}
+					}
+				}
+
+				if (amazon) {
+
+					// cold start test
+					amazonLatency = measureHttpLatency(function.getAmazonUrl());
+
+					if (amazonLatency != -1) {
+						// influx persist
+						if (InfluxClient.insertColdPoint(function.getName(), "amazon", amazonLatency,
+								System.currentTimeMillis())) {
+							System.out.println("\u001B[32m" + "Persisted amazon cold start benchmark for: " +
+									function.getName() + "\u001B[0m");
+						}
+					}
+
+					// load test
+					amazonStats = performBenchmark(function.getAmazonUrl(), concurrency, threads, seconds,
+							requestsPerSecond);
+
+					if (amazonStats != null) {
+						System.out.println("avg latency amazon = " + amazonStats.getAvgLatency());
+						if (InfluxClient.insertLoadPoints(function.getName(), "amazon", amazonStats,
+								System.currentTimeMillis())) {
+							System.out.println("\u001B[32m" + "Persisted amazon benchmark for: " + function.getName() +
+									"\u001B[0m");
+						}
+					}
+				}
+
+				iterations--;
+			}
 		}
 	}
 }
