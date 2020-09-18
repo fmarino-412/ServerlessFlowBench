@@ -8,17 +8,7 @@ STEPFUNCTIONS_CLIENT = boto3.client("stepfunctions")
 
 def lambda_handler(event, context):
 
-	alt_url = "https://upload.wikimedia.org/wikipedia/en/2/2d/Front_left_of_car.jpg"
-	url = None
 	arn = None
-
-	if event.get('queryStringParameters') is not None:
-		if 'url' in event['queryStringParameters']:
-			url = (event['queryStringParameters']['url'])
-	elif event.get('url') is not None:
-		url = event['url']
-	else:
-		url = alt_url
 
 	if event.get('queryStringParameters') is not None:
 		if 'arn' in event['queryStringParameters']:
@@ -30,10 +20,7 @@ def lambda_handler(event, context):
 
 	response = STEPFUNCTIONS_CLIENT.start_execution(
 		stateMachineArn=arn,
-		name="execution_" + date.strftime("%d-%m-%Y_%H-%M-%S"),
-		input=json.dumps({
-			'url': url
-		})
+		name="execution_" + date.strftime("%d-%m-%Y_%H-%M-%S")
 	)
 
 	execution_arn = response.get("executionArn")

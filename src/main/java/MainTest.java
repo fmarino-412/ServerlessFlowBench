@@ -3,14 +3,13 @@ import cmd.functionality_commands.AmazonCommandUtility;
 import cmd.functionality_commands.CompositionCommandExecutor;
 import cmd.functionality_commands.FunctionCommandExecutor;
 import cmd.functionality_commands.GoogleCommandUtility;
-import cmd.functionality_commands.security.GoogleAuthClient;
 
 public class MainTest {
 
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 4;
+		int i = 2;
 
 		switch (i) {
 			case 0:
@@ -32,11 +31,11 @@ public class MainTest {
 				cleanupFunctions();
 				break;
 			case 4:
-				//deployFunctions();
+				deployFunctions();
 				deployCompositions();
 				cleanupCompositions();
-				//cleanupFunctions();
-				//customFunction();
+				cleanupFunctions();
+				customFunction();
 				break;
 		}
 	}
@@ -219,6 +218,28 @@ public class MainTest {
 	@SuppressWarnings("DuplicatedCode")
 	@Deprecated
 	private static void customFunction() {
-		System.out.println(GoogleAuthClient.getInstance().getUrlToken());
+
+		{
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow", "memory-test-workflow"};
+			String[] entryPoints = {"latency_test.lambda_handler", "cpu_test.lambda_handler",
+					"memory_test.lambda_handler"};
+			Integer[] timeouts = {30, 30, 30};
+			Integer[] memories = {128, 128, 128};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip", "memory_test.zip"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("basic_composition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/aws/python/basic_test_composition",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
 	}
 }
