@@ -1,13 +1,9 @@
-import cmd.CommandExecutor;
 import cmd.benchmark_commands.BenchmarkCommandExecutor;
 import cmd.functionality_commands.AmazonCommandUtility;
 import cmd.functionality_commands.CompositionCommandExecutor;
 import cmd.functionality_commands.FunctionCommandExecutor;
 import cmd.functionality_commands.GoogleCommandUtility;
 import cmd.functionality_commands.security.GoogleAuthClient;
-import databases.mysql.daos.CompositionRepositoryDAO;
-
-import java.io.IOException;
 
 public class MainTest {
 
@@ -36,10 +32,10 @@ public class MainTest {
 				cleanupFunctions();
 				break;
 			case 4:
-				deployFunctions();
+				//deployFunctions();
 				deployCompositions();
 				cleanupCompositions();
-				cleanupFunctions();
+				//cleanupFunctions();
 				//customFunction();
 				break;
 		}
@@ -154,6 +150,51 @@ public class MainTest {
 			CompositionCommandExecutor.deployOnAmazonComposition("image_detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
 							"_project/serverless_functions/aws/python/image_recognition",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
+
+		{
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow", "memory-test-workflow"};
+			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler", "gc_functions_handler"};
+			Integer[] timeouts = {30, 30, 30};
+			Integer[] memories = {128, 128, 128};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"latency_test", "cpu_test", "memory_test"};
+
+			CompositionCommandExecutor.deployOnGoogleComposition("basic_composition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/basic_test_composition",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		}
+
+		{
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow", "memory-test-workflow"};
+			String[] entryPoints = {"image_recognition.lambda_handler", "image_recognition.lambda_handler",
+					"image_recognition.lambda_handler"};
+			Integer[] timeouts = {30, 30, 30};
+			Integer[] memories = {128, 128, 128};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip", "memory_test.zip"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("basic_composition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/aws/python/basic_test_composition",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,
