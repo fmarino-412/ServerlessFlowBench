@@ -1,0 +1,39 @@
+{
+  "Comment": "An Amazon States Machine that recognizes images and replies basing on the content",
+  "StartAt": "Image recognition",
+  "States": {
+    "Image recognition": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "__PLACEHOLDER__",
+        "Payload": {
+          "url.$": "$.url"
+        }
+      },
+      "ResultPath": "$",
+      "Next": "Human detection"
+    },
+    "Human detection": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.Payload",
+          "StringMatches": "*human*",
+          "Next": "Human"
+        }
+      ],
+      "Default": "Not human"
+    },
+    "Human": {
+      "Type": "Pass",
+      "Result": "The image you provided represents an human being",
+      "End": true
+    },
+    "Not human": {
+      "Type": "Pass",
+      "Result": "The image you provided does not represent an human being",
+      "End": true
+    }
+  }
+}
