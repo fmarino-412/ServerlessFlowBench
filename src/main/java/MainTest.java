@@ -14,17 +14,19 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 3;
+		int i = 2;
 
 		switch (i) {
 			case 0:
 				deployFunctions();
+				deployCompositions();
 				break;
 			case 1:
 				benchmarkPerform();
 				break;
 			case 2:
 				cleanupFunctions();
+				cleanupCompositions();
 				break;
 			case 3:
 				deployFunctions();
