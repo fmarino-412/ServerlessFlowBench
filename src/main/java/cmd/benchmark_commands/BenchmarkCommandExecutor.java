@@ -21,6 +21,16 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 	private static final int COLD_START_SLEEP_INTERVAL_MS = 30 * 60 * 1000;
 
+
+	/**
+	 * Perform a load benchmark through wrk2
+	 * @param url url to test
+	 * @param concurrency number of concurrent requests
+	 * @param threads number of threads
+	 * @param seconds test duration
+	 * @param requestsPerSecond number of requests per second
+	 * @return benchmark result as BenchmarkStats
+	 */
 	private static BenchmarkStats performBenchmark(String url, Integer concurrency, Integer threads, Integer seconds,
 										Integer requestsPerSecond) {
 
@@ -51,6 +61,11 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		}
 	}
 
+	/**
+	 * Measure a single http request latency (necessary for cold start tests)
+	 * @param targetUrl url to test
+	 * @return latency in milliseconds
+	 */
 	private static long measureHttpLatency(String targetUrl) {
 
 		HttpURLConnection connection = null;
@@ -88,6 +103,10 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		}
 	}
 
+	/**
+	 * Collects url of both serverless functions and compositions
+	 * @return list of FunctionalityURL for both serverless functions and compositions
+	 */
 	private static List<FunctionalityURL> extractUrls() {
 		List<FunctionalityURL> total = new ArrayList<>();
 
@@ -107,7 +126,11 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		return total;
 	}
 
-	// Cold start benchmark
+	/**
+	 * Perform cold start benchmarks
+	 * @param iterations number of test
+	 */
+	@Deprecated
 	public static void performColdStartBenchmark(int iterations) {
 		System.out.println("\n" + "\u001B[33m" +
 				"Starting cold start benchmarks...\nFrom this moment on please make sure no one else is invoking " +
@@ -139,7 +162,14 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		System.out.println("\u001B[32m" + "Cold start benchmark completed!" + "\u001B[0m");
 	}
 
-	// Load test
+	/**
+	 * Performs load benchmark
+	 * @param concurrency number of concurrent requests
+	 * @param threadNum number of threads
+	 * @param seconds test duration
+	 * @param requestsPerSecond number of requests per second
+	 */
+	@Deprecated
 	public static void performLoadTest(Integer concurrency, Integer threadNum, Integer seconds,
 									   Integer requestsPerSecond) {
 
@@ -172,6 +202,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		System.out.println("\u001B[32m" + "Load benchmark completed!" + "\u001B[0m");
 	}
 
+	@Deprecated
 	private static class LoadTestRunner implements Runnable {
 
 		private final FunctionalityURL function;
@@ -228,6 +259,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		}
 	}
 
+	@Deprecated
 	private static class ColdTestRunner implements Runnable {
 
 		private final FunctionalityURL function;
