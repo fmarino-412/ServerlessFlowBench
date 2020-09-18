@@ -14,7 +14,7 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 2;
+		int i = 4;
 
 		switch (i) {
 			case 0:
@@ -67,7 +67,7 @@ public class MainTest {
 				128,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/latency_test");
+						"project/serverless_functions/gcloud/python/latency_test");
 
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
 				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -76,7 +76,7 @@ public class MainTest {
 				128,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/cpu_test");
+						"project/serverless_functions/gcloud/python/cpu_test");
 
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
 				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -85,7 +85,7 @@ public class MainTest {
 				128,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/memory_test");
+						"project/serverless_functions/gcloud/python/memory_test");
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
 				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
@@ -94,7 +94,7 @@ public class MainTest {
 				128,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/latency_test",
+						"project/serverless_functions/aws/python/latency_test",
 				"latency_test.zip");
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
@@ -104,7 +104,7 @@ public class MainTest {
 				128,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/cpu_test",
+						"project/serverless_functions/aws/python/cpu_test",
 				"cpu_test.zip");
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
@@ -114,7 +114,7 @@ public class MainTest {
 				128,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/memory_test",
+						"project/serverless_functions/aws/python/memory_test",
 				"memory_test.zip");
 	}
 
@@ -123,7 +123,6 @@ public class MainTest {
 
 		{
 			String[] functionNames = {"image-recognition"};
-			String[] runtimes = {GoogleCommandUtility.PYTHON_3_7_RUNTIME};
 			String[] entryPoints = {"gc_functions_handler"};
 			Integer[] timeouts = {30};
 			Integer[] memories = {128};
@@ -131,11 +130,12 @@ public class MainTest {
 			String[] functionDirs = {"image_recognition"};
 
 			CompositionCommandExecutor.deployOnGoogleComposition("image_detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/gcloud/image_recognition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/image_recognition",
 					GoogleCommandUtility.IOWA,
 					"step.yaml",
 					functionNames,
-					runtimes,
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 					entryPoints,
 					timeouts,
 					memories,
@@ -145,7 +145,6 @@ public class MainTest {
 
 		{
 			String[] functionNames = {"image-recognition"};
-			String[] runtimes = {AmazonCommandUtility.PYTHON_3_7_RUNTIME};
 			String[] entryPoints = {"image_recognition.lambda_handler"};
 			Integer[] timeouts = {30};
 			Integer[] memories = {128};
@@ -153,12 +152,12 @@ public class MainTest {
 			String[] zipFileNames = {"image_recognition.zip"};
 
 			CompositionCommandExecutor.deployOnAmazonComposition("image_detection",
-					"/Users/francescomarino/IdeaProjects/" +
-							"serverless_composition_performance_project/serverless_functions/aws/image_recognition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/aws/python/image_recognition",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,
-					runtimes,
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 					entryPoints,
 					timeouts,
 					memories,

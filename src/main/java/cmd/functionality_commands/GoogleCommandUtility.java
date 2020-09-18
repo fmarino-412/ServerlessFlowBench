@@ -145,4 +145,23 @@ public class GoogleCommandUtility extends CommandUtility {
 						"--location=" + region + SEP +
 						"--quiet";
 	}
+
+	/**
+	 * Translates function name and runtime to a string that will work as function identifier
+	 * @param functionalityName name of the function to apply id
+	 * @param runtime to translate
+	 * @return function identifier
+	 * @throws IllegalNameException if functionalityName is an illegal name
+	 */
+	public static String applyRuntimeId(String functionalityName, String runtime) throws IllegalNameException {
+		if (needsRuntimeId(functionalityName)) {
+			if (runtime.equals(PYTHON_3_7_RUNTIME)) {
+				return functionalityName + PYTHON_ID;
+			} else {
+				return functionalityName + OTHERS_ID;
+			}
+		} else {
+			return functionalityName;
+		}
+	}
 }

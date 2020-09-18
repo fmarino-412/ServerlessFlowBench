@@ -82,7 +82,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	 *                          (only GoogleCommandUtility.IOWA supported by Google at the moment)
 	 * @param yamlFileName yaml containing workflow definition file name
 	 * @param functionNames list of workflow function names (consistent ordering)
-	 * @param runtimes list of workflow function runtimes (consistent ordering)
+	 * @param runtime function runtimes (same for every function!)
 	 * @param entryPoints list of workflow function entry points (consistent ordering)
 	 * @param timeouts list of workflow function timeouts is seconds (consistent ordering)
 	 * @param memory list of workflow function memory amount in megabytes (consistent ordering)
@@ -91,15 +91,21 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	 */
 	public static void deployOnGoogleComposition(String workflowName, String contentFolderAbsolutePath,
 												 String workflowRegion, String yamlFileName, String[] functionNames,
-												 String[] runtimes, String[] entryPoints, Integer[] timeouts,
+												 String runtime, String[] entryPoints, Integer[] timeouts,
 												 Integer[] memory, String[] regions, String[] functionDirPaths) {
 
-		assert functionNames.length == runtimes.length;
 		assert functionNames.length == entryPoints.length;
 		assert functionNames.length == timeouts.length;
 		assert functionNames.length == memory.length;
 		assert functionNames.length == regions.length;
 		assert functionNames.length == functionDirPaths.length;
+
+		try {
+			workflowName = GoogleCommandUtility.applyRuntimeId(workflowName, runtime);
+		} catch (IllegalNameException e) {
+			System.err.println("Could not deploy workflow '" + workflowName + "': " + e.getMessage());
+			return;
+		}
 
 		deployGoogleCompositionHandler();
 
@@ -124,8 +130,15 @@ public class CompositionCommandExecutor extends CommandExecutor {
 
 		// publish functions
 		for (int i = 0; i < functionNames.length; i++) {
+			try {
+				functionNames[i] = GoogleCommandUtility.applyRuntimeId(functionNames[i], runtime);
+			} catch (IllegalNameException e) {
+				System.err.println("Could not deploy function '" + functionNames[i] + "' to Google Cloud Functions: " +
+						e.getMessage());
+				return;
+			}
 			functionUrls.add(FunctionCommandExecutor.deployOnGoogleCloudCompositionFunction(functionNames[i],
-					runtimes[i],
+					runtime,
 					entryPoints[i],
 					timeouts[i],
 					memory[i],
@@ -203,7 +216,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	 * @param machineRegion region for state machine deployment
 	 * @param jsonFileName json containing state machine definition file name
 	 * @param functionNames list of state machine function names (consistent ordering)
-	 * @param runtimes list of state machine function runtimes (consistent ordering)
+	 * @param runtime function runtimes (same for every function!)
 	 * @param entryPoints list of state machine function entry points (consistent ordering)
 	 * @param timeouts list of state machine function timeouts is seconds (consistent ordering)
 	 * @param memory list of state machine function memory amount in megabytes (consistent ordering)
@@ -212,15 +225,21 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	 */
 	public static void deployOnAmazonComposition(String machineName, String contentFolderAbsolutePath,
 												 String machineRegion, String jsonFileName, String[] functionNames,
-												 String[] runtimes, String[] entryPoints, Integer[] timeouts,
+												 String runtime, String[] entryPoints, Integer[] timeouts,
 												 Integer[] memory, String[] regions, String[] zipFileNames) {
 
-		assert functionNames.length == runtimes.length;
 		assert functionNames.length == entryPoints.length;
 		assert functionNames.length == timeouts.length;
 		assert functionNames.length == memory.length;
 		assert functionNames.length == regions.length;
 		assert functionNames.length == zipFileNames.length;
+
+		try {
+			machineName = AmazonCommandUtility.applyRuntimeId(machineName, runtime);
+		} catch (IllegalNameException e) {
+			System.err.println("Could not deploy state machine '" + machineName + "': " + e.getMessage());
+			return;
+		}
 
 		deployAmazonCompositionHandler();
 
@@ -243,15 +262,16 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		for (int i = 0; i < functionNames.length; i++) {
 			// deploy function
 			try {
+				functionNames[i] = AmazonCommandUtility.applyRuntimeId(functionNames[i], runtime);
 				functionArns.add(FunctionCommandExecutor.deployOnAmazonLambdaFunctions(functionNames[i],
-						runtimes[i],
+						runtime,
 						entryPoints[i],
 						timeouts[i],
 						memory[i],
 						regions[i],
 						contentFolderAbsolutePath,
 						zipFileNames[i]));
-			} catch (InterruptedException | IOException e) {
+			} catch (InterruptedException | IOException | IllegalNameException e) {
 				System.err.println("Could not deploy '" + functionNames[i] + "' to AWS Lambda: " + e.getMessage());
 				return;
 			}

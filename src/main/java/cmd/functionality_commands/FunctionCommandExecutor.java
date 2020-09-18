@@ -91,6 +91,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 
 		assert functionality == 0 || functionality == 1 || functionality == 2;
 
+		try {
+			functionName = GoogleCommandUtility.applyRuntimeId(functionName, runtime);
+		} catch (IllegalNameException e) {
+			System.err.println("Could not deploy function '" + functionName + "' to Google Cloud Functions: " +
+					e.getMessage());
+			return "";
+		}
+
 		if (functionality != 2) {
 			System.out.println("\n" + "\u001B[33m" +
 					"Deploying \"" + functionName + "\" to Google Cloud Platform..." +
@@ -278,6 +286,13 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	private static void deployOnAmazonRESTFunctions(String functionName, String runtime, String entryPoint,
 												  Integer timeout, Integer memory, String region,
 												  String zipFolderAbsolutePath, String zipFileName, boolean handler) {
+
+		try {
+			functionName = AmazonCommandUtility.applyRuntimeId(functionName, runtime);
+		} catch (IllegalNameException e) {
+			System.err.println("Could not deploy function '" + functionName + "' to AWS Lambda: " +
+					e.getMessage());
+		}
 
 		System.out.println("\n" + "\u001B[33m" +
 				"Deploying \"" + functionName + "\" to Amazon Web Services..." +
