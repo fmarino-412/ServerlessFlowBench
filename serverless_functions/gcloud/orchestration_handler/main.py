@@ -42,7 +42,7 @@ def gc_functions_handler(request):
 	resp = json.loads((http.request(url_slice1 + execution_name, method="GET"))[1])
 
 	while resp.get('state') == "ACTIVE":
-		time.sleep(0.05)
+		# time.sleep(0.05)
 		resp = json.loads((http.request(url_slice1 + execution_name, method="GET"))[1])
 
 	if 'result' not in resp:

@@ -7,7 +7,6 @@ STEPFUNCTIONS_CLIENT = boto3.client("stepfunctions")
 
 
 def lambda_handler(event, context):
-
 	arn = None
 
 	if event.get('queryStringParameters') is not None:
@@ -27,7 +26,7 @@ def lambda_handler(event, context):
 	execution_info = STEPFUNCTIONS_CLIENT.describe_execution(executionArn=execution_arn)
 
 	while execution_info.get("status") == "RUNNING":
-		time.sleep(0.05)
+		# time.sleep(0.05)
 		execution_info = STEPFUNCTIONS_CLIENT.describe_execution(executionArn=execution_arn)
 
 	success = execution_info.get("status") == "SUCCEEDED"
@@ -48,7 +47,3 @@ def lambda_handler(event, context):
 			}
 		})
 	}
-
-
-
-

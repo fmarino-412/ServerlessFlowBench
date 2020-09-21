@@ -9,7 +9,7 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 2;
+		int i = 5;
 
 		switch (i) {
 			case 0:
@@ -38,6 +38,7 @@ public class MainTest {
 				customFunction();
 				break;
 			case 5:
+				cleanupCompositions();
 				customFunction();
 		}
 	}
@@ -163,12 +164,12 @@ public class MainTest {
 		}
 
 		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow", "memory-test-workflow"};
-			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler", "gc_functions_handler"};
-			Integer[] timeouts = {30, 30, 30};
-			Integer[] memories = {128, 128, 128};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"latency_test", "cpu_test", "memory_test"};
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"latency_test", "cpu_test"};
 
 			CompositionCommandExecutor.deployOnGoogleComposition("basic_composition",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
@@ -185,13 +186,12 @@ public class MainTest {
 		}
 
 		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow", "memory-test-workflow"};
-			String[] entryPoints = {"image_recognition.lambda_handler", "image_recognition.lambda_handler",
-					"image_recognition.lambda_handler"};
-			Integer[] timeouts = {30, 30, 30};
-			Integer[] memories = {128, 128, 128};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip", "memory_test.zip"};
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+			String[] entryPoints = {"latency_test.lambda_handler", "cpu_test.lambda_handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
 
 			CompositionCommandExecutor.deployOnAmazonComposition("basic_composition",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
@@ -222,17 +222,38 @@ public class MainTest {
 	private static void customFunction() {
 
 		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow", "memory-test-workflow"};
-			String[] entryPoints = {"latency_test.lambda_handler", "cpu_test.lambda_handler",
-					"memory_test.lambda_handler"};
-			Integer[] timeouts = {30, 30, 30};
-			Integer[] memories = {128, 128, 128};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip", "memory_test.zip"};
+			String[] functionNames = {"image-recognition"};
+			String[] entryPoints = {"gc_functions_handler"};
+			Integer[] timeouts = {30};
+			Integer[] memories = {128};
+			String[] regions = {GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"image_recognition"};
 
-			CompositionCommandExecutor.deployOnAmazonComposition("basic_composition",
+			CompositionCommandExecutor.deployOnGoogleComposition("image_detection",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/image_recognition",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		}
+
+		{
+			String[] functionNames = {"image-recognition"};
+			String[] entryPoints = {"image_recognition.lambda_handler"};
+			Integer[] timeouts = {30};
+			Integer[] memories = {128};
+			String[] regions = {AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"image_recognition.zip"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("image_detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/python/basic_test_composition",
+							"_project/serverless_functions/aws/python/image_recognition",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,

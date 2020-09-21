@@ -46,11 +46,12 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		if (CompositionRepositoryDAO.existsGoogleHandler(null)) {
 			return;
 		}
+		// timeout and memory set to avoid the handler being a bottleneck
 		FunctionCommandExecutor.deployGoogleCloudHandlerFunction(HANDLER_NAME,
 				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 				"gc_functions_handler",
 				300,
-				128,
+				512,
 				GoogleCommandUtility.IOWA,
 				PropertiesManager.getInstance().getProperty(PropertiesManager.GOOGLE_HANDLER_PATH));
 	}
@@ -62,11 +63,12 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		if (CompositionRepositoryDAO.existsAmazonHandler(null)) {
 			return;
 		}
+		// timeout and memory set to avoid the handler being a bottleneck
 		FunctionCommandExecutor.deployAmazonRESTHandlerFunction(HANDLER_NAME,
 				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 				"orchestration_handler.lambda_handler",
 				300,
-				128,
+				512,
 				AmazonCommandUtility.OHIO,
 				PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_HANDLER_PATH),
 				"orchestration_handler.zip");

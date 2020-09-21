@@ -5,7 +5,8 @@ from google.cloud.vision import types
 
 # noinspection DuplicatedCode
 def gc_functions_handler(request):
-	alt_url = "https://upload.wikimedia.org/wikipedia/en/2/2d/Front_left_of_car.jpg"
+	alt_url = "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2" \
+			  "Fuploads%2Fsites%2F20%2F2020%2F08%2F11%2Fjordin-sparks-instagram.jpg"
 	url = None
 
 	if request.args.get('url') is not None:
@@ -18,9 +19,13 @@ def gc_functions_handler(request):
 
 	r = urlrequest.Request(url, headers={'User-Agent': useragent})
 	f = urlrequest.urlopen(r)
-	result = detect_object_and_scenes(f.read())
+	image = f.read()
+	result = detect_object_and_scenes(image)
 
-	return result
+	return {
+		'result': result,
+		'image': url
+	}
 
 
 def detect_object_and_scenes(image) -> dict:

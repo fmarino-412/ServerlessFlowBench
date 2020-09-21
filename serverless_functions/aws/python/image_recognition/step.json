@@ -6,10 +6,7 @@
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
       "Parameters": {
-        "FunctionName": "__PLACEHOLDER__",
-        "Payload": {
-          "url.$": "$.url"
-        }
+        "FunctionName": "__PLACEHOLDER__"
       },
       "ResultPath": "$",
       "Next": "Human detection"
@@ -18,21 +15,21 @@
       "Type": "Choice",
       "Choices": [
         {
-          "Variable": "$.Payload",
-          "StringMatches": "*human*",
-          "Next": "Human"
+          "Variable": "$.Payload.result",
+          "StringMatches": "*face*",
+          "Next": "Face"
         }
       ],
-      "Default": "Not human"
+      "Default": "Not face"
     },
-    "Human": {
+    "Face": {
       "Type": "Pass",
-      "Result": "The image you provided represents an human being",
+      "Result": "The image you provided contains a face",
       "End": true
     },
-    "Not human": {
+    "Not face": {
       "Type": "Pass",
-      "Result": "The image you provided does not represent an human being",
+      "Result": "The image you provided does not contain a face",
       "End": true
     }
   }

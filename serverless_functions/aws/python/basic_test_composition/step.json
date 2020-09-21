@@ -16,14 +16,6 @@
       "Parameters": {
         "FunctionName": "__PLACEHOLDER__"
       },
-      "Next": "memorytest"
-    },
-    "memorytest": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::lambda:invoke",
-      "Parameters": {
-        "FunctionName": "__PLACEHOLDER__"
-      },
       "Next": "endstate"
     },
     "endstate": {

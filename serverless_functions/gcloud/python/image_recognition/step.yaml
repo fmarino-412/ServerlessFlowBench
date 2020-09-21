@@ -5,10 +5,10 @@
     result: RecognitionResult
 - conditionalSwitch:
     switch:
-      - condition: ${"human" in RecognitionResult.body}
-        next: human
-    next: notHuman
-- human:
-    return: "The image you provided represents an human being"
-- notHuman:
-    return: "The image you provided does not represent an human being"
+      - condition: ${"face" in RecognitionResult.body.result}
+        next: face
+    next: notFace
+- face:
+    return: "The image you provided contains a face"
+- notFace:
+    return: "The image you provided does not contain a face"

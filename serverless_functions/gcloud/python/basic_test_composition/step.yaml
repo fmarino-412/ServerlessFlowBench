@@ -7,11 +7,6 @@
     call: http.get
     args:
       url: __PLACEHOLDER__
-    next: memorytest
-- memorytest:
-    call: http.get
-    args:
-      url: __PLACEHOLDER__
     next: endstate
 - endstate:
     return: "Execution completed"

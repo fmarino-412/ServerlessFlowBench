@@ -5,7 +5,8 @@ REKOGNITION_CLIENT = boto3.client("rekognition")
 
 
 def lambda_handler(event, context):
-	alt_url = "https://upload.wikimedia.org/wikipedia/en/2/2d/Front_left_of_car.jpg"
+	alt_url = "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2" \
+			  "Fuploads%2Fsites%2F20%2F2020%2F08%2F11%2Fjordin-sparks-instagram.jpg"
 	url = None
 
 	if event.get('queryStringParameters') is not None:
@@ -21,14 +22,18 @@ def lambda_handler(event, context):
 
 	r = request.Request(url, headers={'User-Agent': useragent})
 	f = request.urlopen(r)
-	labels = detect_object_and_scenes(f.read())
+	image = f.read()
+	labels = detect_object_and_scenes(image)
 
 	result = ""
 	for label in labels.get("Labels"):
 		result = result + label.get("Name").lower() + ", "
 	result = result[0: -2]
 
-	return result
+	return {
+		'result': result,
+		'image': url
+	}
 
 
 def detect_object_and_scenes(image) -> dict:
