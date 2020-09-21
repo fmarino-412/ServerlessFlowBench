@@ -5,8 +5,6 @@ REKOGNITION_CLIENT = boto3.client("rekognition")
 
 
 def lambda_handler(event, context):
-	alt_url = "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2" \
-			  "Fuploads%2Fsites%2F20%2F2020%2F08%2F11%2Fjordin-sparks-instagram.jpg"
 	url = None
 
 	if event.get('queryStringParameters') is not None:
@@ -15,7 +13,7 @@ def lambda_handler(event, context):
 	elif event.get('url') is not None:
 		url = event['url']
 	else:
-		url = alt_url
+		return "Error"
 
 	useragent = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 ' \
 				'Mobile/10A5355d Safari/8536.25 '

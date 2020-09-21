@@ -6,7 +6,10 @@
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
       "Parameters": {
-        "FunctionName": "__PLACEHOLDER__"
+        "FunctionName": "__PLACEHOLDER__",
+        "Payload": {
+          "url": "https://image.shutterstock.com/image-photo/beautiful-calm-face-young-woman-260nw-1493659754.jpg"
+        }
       },
       "ResultPath": "$",
       "Next": "Human detection"
@@ -14,6 +17,11 @@
     "Human detection": {
       "Type": "Choice",
       "Choices": [
+        {
+          "Variable": "$.Payload",
+          "StringEquals": "Error",
+          "Next": "Error"
+        },
         {
           "Variable": "$.Payload.result",
           "StringMatches": "*face*",
@@ -44,6 +52,11 @@
       "Choices": [
         {
           "Variable": "$.Payload",
+          "StringEquals": "Error",
+          "Next": "Error"
+        },
+        {
+          "Variable": "$.Payload",
           "BooleanEquals": false,
           "Next": "Opened"
         }
@@ -58,6 +71,11 @@
     "Closed": {
       "Type": "Pass",
       "Result": "Closed eye detected",
+      "End": true
+    },
+    "Error": {
+      "Type": "Pass",
+      "Result": "An error occurred, please check passed image url",
       "End": true
     }
   }

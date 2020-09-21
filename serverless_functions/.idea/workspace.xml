@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa93455a-6c61-4171-9865-22a42f18396e" name="Default Changelist" comment="lambda orchestration handler">
-      <change afterPath="$PROJECT_DIR$/aws/python/face_recognition/closed_eye_detection.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aws/python/face_recognition/closed_eye_detection.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws/python/image_recognition/image_recognition.py" beforeDir="false" afterPath="$PROJECT_DIR$/aws/python/face_recognition/image_recognition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws/python/image_recognition/image_recognition.zip" beforeDir="false" afterPath="$PROJECT_DIR$/aws/python/face_recognition/image_recognition.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws/python/image_recognition/step.json" beforeDir="false" afterPath="$PROJECT_DIR$/aws/python/face_recognition/step.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gcloud/python/image_recognition/image_recognition/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/gcloud/python/face_recognition/image_recognition/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gcloud/python/image_recognition/image_recognition/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/gcloud/python/face_recognition/image_recognition/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gcloud/python/image_recognition/step.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gcloud/python/face_recognition/step.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/MainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/main/java/MainTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws/python/face_recognition/image_recognition.py" beforeDir="false" afterPath="$PROJECT_DIR$/aws/python/face_recognition/image_recognition.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +167,7 @@
       <workItem from="1600167239997" duration="8723000" />
       <workItem from="1600267664518" duration="324000" />
       <workItem from="1600445322019" duration="502000" />
-      <workItem from="1600676499847" duration="6462000" />
+      <workItem from="1600676499847" duration="6679000" />
     </task>
     <task id="LOCAL-00001" summary="lambda orchestration handler">
       <created>1599730226108</created>

@@ -498,6 +498,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 					System.err.println("Could not delete '" + functionalityData.getFunctionalityName() +
 							"' workflow from AWS Step Functions: " + e.getMessage());
 				}
+				waitFor("Cleanup", 30);
 			}
 		}
 		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
