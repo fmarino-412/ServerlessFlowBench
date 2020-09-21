@@ -1,0 +1,64 @@
+{
+  "Comment": "An Amazon States Machine that recognizes images and replies basing on the content",
+  "StartAt": "Image recognition",
+  "States": {
+    "Image recognition": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "__PLACEHOLDER__"
+      },
+      "ResultPath": "$",
+      "Next": "Human detection"
+    },
+    "Human detection": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.Payload.result",
+          "StringMatches": "*face*",
+          "Next": "Face"
+        }
+      ],
+      "Default": "Not face"
+    },
+    "Not face": {
+      "Type": "Pass",
+      "Result": "The image you provided does not contain any face",
+      "End": true
+    },
+    "Face": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "__PLACEHOLDER__",
+        "Payload": {
+          "url.$": "$.Payload.image"
+        }
+      },
+      "ResultPath": "$",
+      "Next": "Eyes closure detection"
+    },
+    "Eyes closure detection": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.Payload",
+          "BooleanEquals": false,
+          "Next": "Opened"
+        }
+      ],
+      "Default": "Closed"
+    },
+    "Opened": {
+      "Type": "Pass",
+      "Result": "There is no closed eye in the image",
+      "End": true
+    },
+    "Closed": {
+      "Type": "Pass",
+      "Result": "Closed eye detected",
+      "End": true
+    }
+  }
+}

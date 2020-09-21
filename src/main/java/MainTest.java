@@ -120,7 +120,7 @@ public class MainTest {
 		System.out.println("\u001B[35m" + "\n\nDeploying benchmark compositions...\n" + "\u001B[0m");
 
 		{
-			String[] functionNames = {"image-recognition"};
+			String[] functionNames = {"face-recognition"};
 			String[] entryPoints = {"gc_functions_handler"};
 			Integer[] timeouts = {30};
 			Integer[] memories = {128};
@@ -129,7 +129,7 @@ public class MainTest {
 
 			CompositionCommandExecutor.deployOnGoogleComposition("image_detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/image_recognition",
+							"project/serverless_functions/gcloud/python/face_recognition",
 					GoogleCommandUtility.IOWA,
 					"step.yaml",
 					functionNames,
@@ -142,16 +142,16 @@ public class MainTest {
 		}
 
 		{
-			String[] functionNames = {"image-recognition"};
-			String[] entryPoints = {"image_recognition.lambda_handler"};
-			Integer[] timeouts = {30};
-			Integer[] memories = {128};
-			String[] regions = {AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"image_recognition.zip"};
+			String[] functionNames = {"image-recognition", "closed-eye-detection"};
+			String[] entryPoints = {"image_recognition.lambda_handler", "closed_eye_detection.lambda_handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"image_recognition.zip", "closed_eye_detection.zip"};
 
-			CompositionCommandExecutor.deployOnAmazonComposition("image_detection",
+			CompositionCommandExecutor.deployOnAmazonComposition("face_detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/python/image_recognition",
+							"_project/serverless_functions/aws/python/face_recognition",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,
@@ -221,6 +221,7 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
+		/*
 		{
 			String[] functionNames = {"image-recognition"};
 			String[] entryPoints = {"gc_functions_handler"};
@@ -231,7 +232,7 @@ public class MainTest {
 
 			CompositionCommandExecutor.deployOnGoogleComposition("image_detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/image_recognition",
+							"project/serverless_functions/gcloud/python/face_recognition",
 					GoogleCommandUtility.IOWA,
 					"step.yaml",
 					functionNames,
@@ -243,17 +244,19 @@ public class MainTest {
 					functionDirs);
 		}
 
-		{
-			String[] functionNames = {"image-recognition"};
-			String[] entryPoints = {"image_recognition.lambda_handler"};
-			Integer[] timeouts = {30};
-			Integer[] memories = {128};
-			String[] regions = {AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"image_recognition.zip"};
+		 */
 
-			CompositionCommandExecutor.deployOnAmazonComposition("image_detection",
+		{
+			String[] functionNames = {"image-recognition", "closed-eye-detection"};
+			String[] entryPoints = {"image_recognition.lambda_handler", "closed_eye_detection.lambda_handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"image_recognition.zip", "closed_eye_detection.zip"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("face_detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/python/image_recognition",
+							"_project/serverless_functions/aws/python/face_recognition",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,
