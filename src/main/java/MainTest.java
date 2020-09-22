@@ -221,7 +221,6 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		/*
 		{
 			String[] functionNames = {"image-recognition"};
 			String[] entryPoints = {"gc_functions_handler"};
@@ -244,28 +243,6 @@ public class MainTest {
 					functionDirs);
 		}
 
-		 */
 
-		{
-			String[] functionNames = {"image-recognition", "closed-eye-detection"};
-			String[] entryPoints = {"image_recognition.lambda_handler", "closed_eye_detection.lambda_handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"image_recognition.zip", "closed_eye_detection.zip"};
-
-			CompositionCommandExecutor.deployOnAmazonComposition("face_detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/python/face_recognition",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
-		}
 	}
 }

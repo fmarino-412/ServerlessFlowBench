@@ -1,10 +1,12 @@
 - analyzeImage:
     call: http.get
     args:
-      url: __PLACEHOLDER__
+      url: __PLACEHOLDER__?url=https://image.shutterstock.com/image-photo/beautiful-calm-face-young-woman-260nw-1493659754.jpg
     result: RecognitionResult
 - conditionalSwitch:
     switch:
+      - condition: ${RecognitionResult.body == "Error"}
+        next: error
       - condition: ${"face" in RecognitionResult.body.result}
         next: face
     next: notFace
@@ -12,3 +14,5 @@
     return: "The image you provided contains a face"
 - notFace:
     return: "The image you provided does not contain a face"
+- error:
+    return: "An error occurred, please check passed image url"

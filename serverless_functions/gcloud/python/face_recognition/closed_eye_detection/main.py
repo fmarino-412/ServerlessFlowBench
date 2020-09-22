@@ -18,21 +18,17 @@ def gc_functions_handler(request):
 	r = urlrequest.Request(url, headers={'User-Agent': useragent})
 	f = urlrequest.urlopen(r)
 	image = f.read()
-	result = detect_object_and_scenes(image)
-
-	return {
-		'result': result,
-		'image': url
-	}
+	return detect_closed_eyes(image)
 
 
-def detect_object_and_scenes(image) -> dict:
+def detect_closed_eyes(image) -> bool:
 	client = vision.ImageAnnotatorClient()
 	image = types.Image(content=image)
 
-	response = client.label_detection(image=image)
-	result = {}
-	for label in response.label_annotations:
-		result[(label.description).lower()] = str(label.score*100.)
+	likelihood_name = ('LIKELY', 'VERY_LIKELY')
 
-	return result
+	response = client.face_detection(image=image)
+	for face in response.face_annotations:
+		print(face)
+
+	return True
