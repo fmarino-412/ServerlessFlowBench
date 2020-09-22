@@ -9,7 +9,7 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 5;
+		int i = 2;
 
 		switch (i) {
 			case 0:
@@ -39,7 +39,7 @@ public class MainTest {
 				break;
 			case 5:
 				cleanupCompositions();
-				customFunction();
+				deployCompositions();
 		}
 	}
 
