@@ -22,10 +22,10 @@ def lambda_handler(event, context):
 	r = request.Request(url, headers={'User-Agent': useragent})
 	f = request.urlopen(r)
 	image = f.read()
-	return detect_closed_eyes(image)
+	return detect_anger(image)
 
 
-def detect_closed_eyes(image) -> bool:
+def detect_anger(image) -> bool:
 	response = REKOGNITION_CLIENT.detect_faces(
 		Image={
 			'Bytes': image
@@ -34,7 +34,8 @@ def detect_closed_eyes(image) -> bool:
 	)
 
 	for faceDetail in response['FaceDetails']:
-		if faceDetail['EyesOpen']['Value'] is False:
-			return True
+		for emotion in faceDetail['Emotions']:
+			if emotion['Type'] == "ANGRY" and float(emotion['Confidence']) >= 60:
+				return True
 
 	return False

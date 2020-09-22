@@ -18,17 +18,16 @@ def gc_functions_handler(request):
 	r = urlrequest.Request(url, headers={'User-Agent': useragent})
 	f = urlrequest.urlopen(r)
 	image = f.read()
-	return detect_closed_eyes(image)
+	return detect_anger(image)
 
 
-def detect_closed_eyes(image) -> bool:
+def detect_anger(image) -> str:
 	client = vision.ImageAnnotatorClient()
 	image = types.Image(content=image)
 
-	likelihood_name = ('LIKELY', 'VERY_LIKELY')
-
 	response = client.face_detection(image=image)
 	for face in response.face_annotations:
-		print(face)
-
-	return True
+		if face.anger_likelihood == vision.enums.Likelihood.LIKELY or \
+				face.anger_likelihood == vision.enums.Likelihood.VERY_LIKELY:
+			return str(True)
+	return str(False)

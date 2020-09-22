@@ -120,14 +120,14 @@ public class MainTest {
 		System.out.println("\u001B[35m" + "\n\nDeploying benchmark compositions...\n" + "\u001B[0m");
 
 		{
-			String[] functionNames = {"face-recognition"};
-			String[] entryPoints = {"gc_functions_handler"};
-			Integer[] timeouts = {30};
-			Integer[] memories = {128};
-			String[] regions = {GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"image_recognition"};
+			String[] functionNames = {"image-recognition", "anger-detection"};
+			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"image_recognition", "anger_detection"};
 
-			CompositionCommandExecutor.deployOnGoogleComposition("image_detection",
+			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/gcloud/python/face_recognition",
 					GoogleCommandUtility.IOWA,
@@ -142,14 +142,14 @@ public class MainTest {
 		}
 
 		{
-			String[] functionNames = {"image-recognition", "closed-eye-detection"};
-			String[] entryPoints = {"image_recognition.lambda_handler", "closed_eye_detection.lambda_handler"};
+			String[] functionNames = {"image-recognition", "anger-detection"};
+			String[] entryPoints = {"image_recognition.lambda_handler", "anger_detection.lambda_handler"};
 			Integer[] timeouts = {30, 30};
 			Integer[] memories = {128, 128};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"image_recognition.zip", "closed_eye_detection.zip"};
+			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
-			CompositionCommandExecutor.deployOnAmazonComposition("face_detection",
+			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
 							"_project/serverless_functions/aws/python/face_recognition",
 					AmazonCommandUtility.OHIO,
@@ -220,29 +220,6 @@ public class MainTest {
 	@SuppressWarnings("DuplicatedCode")
 	@Deprecated
 	private static void customFunction() {
-
-		{
-			String[] functionNames = {"image-recognition"};
-			String[] entryPoints = {"gc_functions_handler"};
-			Integer[] timeouts = {30};
-			Integer[] memories = {128};
-			String[] regions = {GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"image_recognition"};
-
-			CompositionCommandExecutor.deployOnGoogleComposition("image_detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/face_recognition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
-
 
 	}
 }

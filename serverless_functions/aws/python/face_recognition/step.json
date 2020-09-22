@@ -45,9 +45,9 @@
         }
       },
       "ResultPath": "$",
-      "Next": "Eyes closure detection"
+      "Next": "Anger detection"
     },
-    "Eyes closure detection": {
+    "Anger detection": {
       "Type": "Choice",
       "Choices": [
         {
@@ -58,19 +58,19 @@
         {
           "Variable": "$.Payload",
           "BooleanEquals": false,
-          "Next": "Opened"
+          "Next": "Calm"
         }
       ],
-      "Default": "Closed"
+      "Default": "Angry"
     },
-    "Opened": {
+    "Calm": {
       "Type": "Pass",
-      "Result": "There is no closed eye in the image",
+      "Result": "There is no angry person in the image",
       "End": true
     },
-    "Closed": {
+    "Angry": {
       "Type": "Pass",
-      "Result": "Closed eye detected",
+      "Result": "Anger detected",
       "End": true
     },
     "Error": {
