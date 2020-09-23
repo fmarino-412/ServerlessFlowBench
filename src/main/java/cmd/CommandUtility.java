@@ -15,6 +15,9 @@ public abstract class CommandUtility {
 
 	// runtime IDs
 	protected static final String PYTHON_ID = "__python";
+	protected static final String JAVA_ID = "__java";
+	protected static final String NODE_ID = "__node";
+	protected static final String GO_ID = "__go";
 	protected static final String OTHERS_ID = "__not-supported";
 
 	/**

@@ -157,12 +157,20 @@ public class GoogleCommandUtility extends CommandUtility {
 	 * @return function identifier
 	 * @throws IllegalNameException if functionalityName is an illegal name
 	 */
+	@SuppressWarnings("DuplicatedCode")
 	public static String applyRuntimeId(String functionalityName, String runtime) throws IllegalNameException {
 		if (needsRuntimeId(functionalityName)) {
-			if (runtime.equals(PYTHON_3_7_RUNTIME)) {
-				return functionalityName + PYTHON_ID;
-			} else {
-				return functionalityName + OTHERS_ID;
+			switch (runtime) {
+				case PYTHON_3_7_RUNTIME:
+					return functionalityName + PYTHON_ID;
+				case JAVA_11_RUNTIME:
+					return functionalityName + JAVA_ID;
+				case NODE_10_RUNTIME:
+					return functionalityName + NODE_ID;
+				case GO_1_RUNTIME:
+					return functionalityName + GO_1_RUNTIME;
+				default:
+					return functionalityName + OTHERS_ID;
 			}
 		} else {
 			return functionalityName;

@@ -9,7 +9,7 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 5;
+		int i = 2;
 
 		switch (i) {
 			case 0:
@@ -38,8 +38,10 @@ public class MainTest {
 				customFunction();
 				break;
 			case 5:
-				cleanupCompositions();
-				deployCompositions();
+				cleanupFunctions();
+				customFunction();
+				//cleanupCompositions();
+				//deployCompositions();
 		}
 	}
 
@@ -220,6 +222,14 @@ public class MainTest {
 	@SuppressWarnings("DuplicatedCode")
 	@Deprecated
 	private static void customFunction() {
-
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
+				AmazonCommandUtility.JAVA_11_RUNTIME,
+				"latency_test.Handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/aws/java/latency_test",
+				"latency_test_java_aws.jar");
 	}
 }

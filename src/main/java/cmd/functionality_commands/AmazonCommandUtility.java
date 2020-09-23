@@ -12,9 +12,9 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * Public constant variables
 	 */
 	public static final String PYTHON_3_7_RUNTIME = "python3.7";
-	public static final String GO_1_RUNTIME = "go1.x";
+	public static final String GO_1_X_RUNTIME = "go1.x";
 	public static final String JAVA_11_RUNTIME = "java11";
-	public static final String NODE_10_RUNTIME = "nodejs10.x";
+	public static final String NODE_10_X_RUNTIME = "nodejs10.x";
 
 	public static final String NORTH_VIRGINIA = "us-east-1";
 	public static final String OHIO = "us-east-2";
@@ -397,12 +397,20 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * @return function identifier
 	 * @throws IllegalNameException if functionalityName is an illegal name
 	 */
+	@SuppressWarnings("DuplicatedCode")
 	public static String applyRuntimeId(String functionalityName, String runtime) throws IllegalNameException {
 		if (needsRuntimeId(functionalityName)) {
-			if (runtime.equals(PYTHON_3_7_RUNTIME)) {
-				return functionalityName + PYTHON_ID;
-			} else {
-				return functionalityName + OTHERS_ID;
+			switch (runtime) {
+				case PYTHON_3_7_RUNTIME:
+					return functionalityName + PYTHON_ID;
+				case JAVA_11_RUNTIME:
+					return functionalityName + JAVA_ID;
+				case NODE_10_X_RUNTIME:
+					return functionalityName + NODE_ID;
+				case GO_1_X_RUNTIME:
+					return functionalityName + GO_ID;
+				default:
+					return functionalityName + OTHERS_ID;
 			}
 		} else {
 			return functionalityName;

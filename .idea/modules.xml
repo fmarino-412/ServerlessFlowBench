@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/serverless_functions/serverless_functions.iml" filepath="$PROJECT_DIR$/serverless_functions/serverless_functions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/java/cpu_test/cpu_test_java_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/java/cpu_test/cpu_test_java_aws.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/java/memory_test/memory_test_java_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/java/memory_test/memory_test_java_aws.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/python/python_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/python/python_aws.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/python/python_gcloud.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/python/python_gcloud.iml" />
     </modules>
   </component>
 </project>

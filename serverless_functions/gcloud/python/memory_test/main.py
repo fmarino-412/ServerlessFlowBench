@@ -11,10 +11,10 @@ def gc_functions_handler(request):
 	if request.args.get('n') is not None:
 		n = int(request.args.get('n'))
 	else:
-		n = 33
+		n = 2000000
 
 	start_time = time.time()
-	result = fibonacci(n)
+	memory_stress(n)
 	end_time = time.time()
 	execution_time = (end_time - start_time) * 1000
 
@@ -28,8 +28,7 @@ def gc_functions_handler(request):
 		'success': True,
 		'payload': {
 			'test': 'memory_test',
-			'number': n,
-			'result': result,
+			'dimension': n,
 			'milliseconds': execution_time
 		}  # ,
 		# 'memory_info': {
@@ -60,8 +59,7 @@ def memory_stats(total):
 
 
 # noinspection DuplicatedCode
-def fibonacci(n):
-	if n <= 1:
-		return n
-	else:
-		return fibonacci(n - 1) + fibonacci(n - 2)
+def memory_stress(n):
+	memory_list = []
+	for i in range(0, n):
+		memory_list.append(i)
