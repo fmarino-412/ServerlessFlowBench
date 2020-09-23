@@ -9,6 +9,8 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/serverless_functions/aws/java/latency_test/pom.xml" />
+        <option value="$PROJECT_DIR$/serverless_functions/aws/java/cpu_test/pom.xml" />
+        <option value="$PROJECT_DIR$/serverless_functions/aws/java/memory_test/pom.xml" />
       </list>
     </option>
   </component>

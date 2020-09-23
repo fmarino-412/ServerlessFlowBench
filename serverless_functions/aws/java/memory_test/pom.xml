@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>eu.uniroma2.francescomarino</groupId>
-    <artifactId>latency_test_java_aws</artifactId>
+    <artifactId>memory_test_java_aws</artifactId>
     <version>1.0</version>
 
     <properties>

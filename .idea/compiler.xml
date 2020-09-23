@@ -6,8 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="serverless_composition_performance_project" />
         <module name="latency_test_java_aws" />
+        <module name="serverless_composition_performance_project" />
+        <module name="cpu_test_java_aws" />
+        <module name="memory_test_java_aws" />
       </profile>
     </annotationProcessing>
   </component>

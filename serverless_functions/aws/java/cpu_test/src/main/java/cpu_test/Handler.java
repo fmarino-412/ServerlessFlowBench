@@ -1,4 +1,4 @@
-package latency_test;
+package cpu_test;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
@@ -7,12 +7,36 @@ import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+
+import java.util.HashMap;
 
 public class Handler implements RequestStreamHandler {
+
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	@Override
 	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context)
 	{
+		// request reading
+		HashMap event;
+		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+		try {
+			event = gson.fromJson(reader, HashMap.class);
+		} catch (JsonSyntaxException ignored) {
+			event = new HashMap();
+		}
+
+		int n;
+
+		if (event.containsKey("n")) {
+			n = (int) event.get("n");
+		} else {
+			//n = 71950288374236;
+		}
+
 		// response creation
 		JsonObjectBuilder job1 = Json.createObjectBuilder();
 		job1.add("isBase64Encoded", false);
