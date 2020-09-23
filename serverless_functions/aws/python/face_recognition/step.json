@@ -12,9 +12,9 @@
         }
       },
       "ResultPath": "$",
-      "Next": "Human detection"
+      "Next": "Face detection"
     },
-    "Human detection": {
+    "Face detection": {
       "Type": "Choice",
       "Choices": [
         {
@@ -25,7 +25,7 @@
         {
           "Variable": "$.Payload.result",
           "StringMatches": "*face*",
-          "Next": "Face"
+          "Next": "Expression recognition"
         }
       ],
       "Default": "Not face"
@@ -35,7 +35,7 @@
       "Result": "The image you provided does not contain any face",
       "End": true
     },
-    "Face": {
+    "Expression recognition": {
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
       "Parameters": {

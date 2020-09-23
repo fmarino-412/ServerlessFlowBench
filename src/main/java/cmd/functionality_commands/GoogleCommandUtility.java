@@ -12,6 +12,10 @@ public class GoogleCommandUtility extends CommandUtility {
 	 * Public constant variables
 	 */
 	public static final String PYTHON_3_7_RUNTIME = "python37";
+	public static final String GO_1_RUNTIME = "go111";
+	public static final String JAVA_11_RUNTIME = "java11";
+	public static final String NODE_10_RUNTIME = "nodejs10";
+
 	public static final String NORTH_VIRGINIA = "us-east4";
 	public static final String IOWA = "us-central1";
 
