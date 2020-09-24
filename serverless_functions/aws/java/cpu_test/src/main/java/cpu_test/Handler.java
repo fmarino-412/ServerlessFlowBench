@@ -11,7 +11,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Handler implements RequestStreamHandler {
 
@@ -28,14 +32,17 @@ public class Handler implements RequestStreamHandler {
 		} catch (JsonSyntaxException ignored) {
 			event = new HashMap();
 		}
-
-		int n;
-
+		long n;
 		if (event.containsKey("n")) {
-			n = (int) event.get("n");
+			n = Long.parseLong((String)event.get("n"));
 		} else {
-			//n = 71950288374236;
+			n = 71950288374236L;
 		}
+
+		// computation
+		long start_time = System.currentTimeMillis();
+		String result = factorize(n);
+		long execution_time = System.currentTimeMillis() - start_time;
 
 		// response creation
 		JsonObjectBuilder job1 = Json.createObjectBuilder();
@@ -46,9 +53,12 @@ public class Handler implements RequestStreamHandler {
 		JsonObjectBuilder job3 = Json.createObjectBuilder();
 		JsonObjectBuilder job4 = Json.createObjectBuilder();
 
-		job4.add("test", "latency_test function");
+		job4.add("test", "cpu_test");
+		job4.add("number", n);
+		job4.add("result", result);
+		job4.add("milliseconds", execution_time);
 		job3.add("success", true);
-		job3.add("payload", job4.build().toString());
+		job3.add("payload", job4.build());
 		job2.add("Content-Type", "application/json");
 		job1.add("headers", job2.build());
 		job1.add("body", job3.build().toString());
@@ -58,5 +68,20 @@ public class Handler implements RequestStreamHandler {
 				StandardCharsets.UTF_8)));
 		writer.write(job1.build().toString());
 		writer.close();
+	}
+
+	private static String factorize(long n) {
+		// finds factors for n
+		List<Long> factors = new ArrayList<>();
+		for (long i = 1; i < Math.floor(Math.sqrt(n) + 1); i++) {
+			if (n % i == 0) {
+				factors.add(i);
+				if (n / i != i) {
+					factors.add(n / i);
+				}
+			}
+		}
+		Collections.sort(factors);
+		return factors.stream().map(Object::toString).collect(Collectors.joining(", "));
 	}
 }

@@ -44,7 +44,7 @@ def lambda_handler(event, context):
 
 # noinspection DuplicatedCode
 def factorize(n):
-	# finds two factors for n
+	# finds factors for n
 	factors = []
 	for i in range(1, math.floor(math.sqrt(n)) + 1):
 		if n % i == 0:

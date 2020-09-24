@@ -60,6 +60,8 @@ public class MainTest {
 	private static void deployFunctions() {
 		System.out.println("\u001B[35m" + "\n\nDeploying benchmark functions...\n" + "\u001B[0m");
 
+		// Python
+
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
 				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 				"gc_functions_handler",
@@ -116,6 +118,18 @@ public class MainTest {
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 						"project/serverless_functions/aws/python/memory_test",
 				"memory_test.zip");
+
+		// Java
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
+				AmazonCommandUtility.JAVA_11_RUNTIME,
+				"latency_test.Handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/aws/java/latency_test",
+				"latency_test_java_aws.jar");
 	}
 
 	private static void deployCompositions() {
@@ -222,14 +236,14 @@ public class MainTest {
 	@SuppressWarnings("DuplicatedCode")
 	@Deprecated
 	private static void customFunction() {
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
 				AmazonCommandUtility.JAVA_11_RUNTIME,
-				"latency_test.Handler",
+				"cpu_test.Handler",
 				30,
 				128,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/java/latency_test",
-				"latency_test_java_aws.jar");
+						"/serverless_functions/aws/java/cpu_test",
+				"cpu_test_java_aws.jar");
 	}
 }
