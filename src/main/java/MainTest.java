@@ -163,7 +163,7 @@ public class MainTest {
 			String[] functionNames = {"image-recognition", "anger-detection"};
 			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
 			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
+			Integer[] memories = {512, 512};
 			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
 			String[] functionDirs = {"image_recognition", "anger_detection"};
 
@@ -185,7 +185,7 @@ public class MainTest {
 			String[] functionNames = {"image-recognition", "anger-detection"};
 			String[] entryPoints = {"image_recognition.lambda_handler", "anger_detection.lambda_handler"};
 			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
+			Integer[] memories = {512, 512};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
 			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
@@ -270,24 +270,12 @@ public class MainTest {
 					regions,
 					zipFileNames);
 		}
-	}
 
-	private static void benchmarkPerform() {
-		BenchmarkCommandExecutor.performBenchmarks(1000,
-				100,
-				60,
-				100000,
-				10);
-	}
-
-
-	@Deprecated
-	private static void customFunction() {
 		{
 			String[] functionNames = {"image-recognition", "anger-detection"};
 			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
 			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
+			Integer[] memories = {512, 512};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
 			String[] zipFileNames = {"image_recognition_java_aws-1.0.jar", "anger_detection_java_aws-1.0.jar"};
 
@@ -304,5 +292,19 @@ public class MainTest {
 					regions,
 					zipFileNames);
 		}
+	}
+
+	private static void benchmarkPerform() {
+		BenchmarkCommandExecutor.performBenchmarks(1000,
+				100,
+				60,
+				100000,
+				10);
+	}
+
+
+	@Deprecated
+	private static void customFunction() {
+
 	}
 }
