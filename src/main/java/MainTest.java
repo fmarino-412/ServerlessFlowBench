@@ -4,6 +4,7 @@ import cmd.functionality_commands.CompositionCommandExecutor;
 import cmd.functionality_commands.FunctionCommandExecutor;
 import cmd.functionality_commands.GoogleCommandUtility;
 
+@SuppressWarnings("DuplicatedCode")
 public class MainTest {
 
 	@SuppressWarnings("ConstantConditions")
@@ -155,6 +156,8 @@ public class MainTest {
 	private static void deployCompositions() {
 		System.out.println("\u001B[35m" + "\n\nDeploying benchmark compositions...\n" + "\u001B[0m");
 
+		// Python
+
 		{
 			String[] functionNames = {"image-recognition", "anger-detection"};
 			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
@@ -242,6 +245,30 @@ public class MainTest {
 					regions,
 					zipFileNames);
 		}
+
+		// Java
+
+		{
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+			String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"latency_test_java_aws-1.0.jar", "cpu_test_java_aws-1.0.jar"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("basic_composition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/aws/java/basic_test_composition",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.JAVA_11_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
 	}
 
 	private static void benchmarkPerform() {
@@ -253,17 +280,28 @@ public class MainTest {
 	}
 
 
-	@SuppressWarnings("DuplicatedCode")
 	@Deprecated
 	private static void customFunction() {
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
-				AmazonCommandUtility.JAVA_11_RUNTIME,
-				"memory_test.Handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/java/memory_test/target",
-				"memory_test_java_aws-1.0.jar");
+		{
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+			String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"latency_test_java_aws-1.0.jar", "cpu_test_java_aws-1.0.jar"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("basic_composition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/aws/java/basic_test_composition",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.JAVA_11_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
 	}
 }
