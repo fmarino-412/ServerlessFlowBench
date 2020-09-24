@@ -21,7 +21,7 @@ def lambda_handler(event, context):
 	r = request.Request(url, headers={'User-Agent': useragent})
 	f = request.urlopen(r)
 	image = f.read()
-	labels = detect_object_and_scenes(image)
+	labels = detect_objects_and_scenes(image)
 
 	result = ""
 	for label in labels.get("Labels"):
@@ -34,7 +34,7 @@ def lambda_handler(event, context):
 	}
 
 
-def detect_object_and_scenes(image) -> dict:
+def detect_objects_and_scenes(image) -> dict:
 	return REKOGNITION_CLIENT.detect_labels(
 		Image={
 			'Bytes': image

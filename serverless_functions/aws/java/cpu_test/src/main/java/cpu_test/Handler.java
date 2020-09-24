@@ -19,14 +19,12 @@ import java.util.stream.Collectors;
 
 public class Handler implements RequestStreamHandler {
 
-	Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
 	@Override
-	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context)
-	{
+	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) {
 		// request reading
 		HashMap event;
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		try {
 			event = gson.fromJson(reader, HashMap.class);
 		} catch (JsonSyntaxException ignored) {

@@ -40,6 +40,7 @@ public class MainTest {
 				break;
 			case 5:
 				cleanupFunctions();
+				cleanupCompositions();
 				customFunction();
 				//cleanupCompositions();
 				//deployCompositions();
@@ -283,16 +284,16 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
+			String[] functionNames = {"image-recognition", "anger-detection"};
+			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
 			Integer[] timeouts = {30, 30};
 			Integer[] memories = {128, 128};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"latency_test_java_aws-1.0.jar", "cpu_test_java_aws-1.0.jar"};
+			String[] zipFileNames = {"image_recognition_java_aws-1.0.jar", "anger_detection_java_aws-1.0.jar"};
 
-			CompositionCommandExecutor.deployOnAmazonComposition("basic_composition",
+			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/java/basic_test_composition",
+							"_project/serverless_functions/aws/java/face_recognition",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,

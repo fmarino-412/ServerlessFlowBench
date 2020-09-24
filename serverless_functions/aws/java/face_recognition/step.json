@@ -57,7 +57,7 @@
         },
         {
           "Variable": "$.Payload",
-          "BooleanEquals": false,
+          "StringEquals": "False",
           "Next": "Calm"
         }
       ],
