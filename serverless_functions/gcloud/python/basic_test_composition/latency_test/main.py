@@ -10,6 +10,6 @@ def gc_functions_handler(request):
 	return (json.dumps({
 		'success': True,
 		'payload': {
-			'message': 'latency_test function'
+			'message': 'latency_test'
 		}
 	}), 200, headers)

@@ -128,8 +128,28 @@ public class MainTest {
 				128,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/java/latency_test",
-				"latency_test_java_aws.jar");
+						"/serverless_functions/aws/java/latency_test/target",
+				"latency_test_java_aws-1.0.jar");
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
+				AmazonCommandUtility.JAVA_11_RUNTIME,
+				"cpu_test.Handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/aws/java/cpu_test/target",
+				"cpu_test_java_aws-1.0.jar");
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
+				AmazonCommandUtility.JAVA_11_RUNTIME,
+				"memory_test.Handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/aws/java/memory_test/target",
+				"memory_test_java_aws-1.0.jar");
 	}
 
 	private static void deployCompositions() {
@@ -236,14 +256,14 @@ public class MainTest {
 	@SuppressWarnings("DuplicatedCode")
 	@Deprecated
 	private static void customFunction() {
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
 				AmazonCommandUtility.JAVA_11_RUNTIME,
-				"cpu_test.Handler",
+				"memory_test.Handler",
 				30,
 				128,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/java/cpu_test",
-				"cpu_test_java_aws.jar");
+						"/serverless_functions/aws/java/memory_test/target",
+				"memory_test_java_aws-1.0.jar");
 	}
 }

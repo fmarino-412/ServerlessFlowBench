@@ -11,7 +11,7 @@ def lambda_handler(event, context):
 		'body': json.dumps({
 			'success': True,
 			'payload': {
-				'test': 'latency_test function'
+				'test': 'latency_test'
 			}
 		})
 	}

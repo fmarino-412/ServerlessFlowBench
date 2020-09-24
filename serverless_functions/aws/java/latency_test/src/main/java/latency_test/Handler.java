@@ -22,7 +22,7 @@ public class Handler implements RequestStreamHandler {
 		JsonObjectBuilder job3 = Json.createObjectBuilder();
 		JsonObjectBuilder job4 = Json.createObjectBuilder();
 
-		job4.add("test", "latency_test function");
+		job4.add("test", "latency_test");
 		job3.add("success", true);
 		job3.add("payload", job4.build().toString());
 		job2.add("Content-Type", "application/json");
