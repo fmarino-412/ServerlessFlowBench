@@ -17,6 +17,7 @@
 *.ear
 *.tar.gz
 *.rar
+*/target/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -29,7 +30,7 @@ hs_err_pid*
 *.spec
 
 # Byte-compiled / optimized / DLL files
-serverless_functions/__pycache__/
+*/__pycache__/
 *.py[cod]
 *$py.class
 
@@ -37,13 +38,13 @@ serverless_functions/__pycache__/
 *.py,cover
 
 # Environments
-serverless_functions/.env
-serverless_functions/.venv
-serverless_functions/env/
-serverless_functions/venv/
-serverless_functions/ENV/
-serverless_functions/env.bak/
-serverless_functions/venv.bak/
+*/.env
+*/.venv
+*/env/
+*/venv/
+*/ENV/
+*/env.bak/
+*/venv.bak/
 
 # Privates
 serverless_functions/aws/.aws/credentials
