@@ -1,0 +1,82 @@
+{
+  "Comment": "An Amazon States Machine that recognizes images and replies basing on the content",
+  "StartAt": "Image recognition",
+  "States": {
+    "Image recognition": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "__PLACEHOLDER__",
+        "Payload": {
+          "url": "https://image.shutterstock.com/image-photo/beautiful-calm-face-young-woman-260nw-1493659754.jpg"
+        }
+      },
+      "ResultPath": "$",
+      "Next": "Face detection"
+    },
+    "Face detection": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.Payload",
+          "StringEquals": "Error",
+          "Next": "Error"
+        },
+        {
+          "Variable": "$.Payload.result",
+          "StringMatches": "*face*",
+          "Next": "Expression recognition"
+        }
+      ],
+      "Default": "Not face"
+    },
+    "Not face": {
+      "Type": "Pass",
+      "Result": "The image you provided does not contain any face",
+      "End": true
+    },
+    "Expression recognition": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "__PLACEHOLDER__",
+        "Payload": {
+          "url.$": "$.Payload.image"
+        }
+      },
+      "ResultPath": "$",
+      "Next": "Anger detection"
+    },
+    "Anger detection": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.Payload",
+          "StringEquals": "Error",
+          "Next": "Error"
+        },
+        {
+          "Variable": "$.Payload",
+          "BooleanEquals": false,
+          "Next": "Calm"
+        }
+      ],
+      "Default": "Angry"
+    },
+    "Calm": {
+      "Type": "Pass",
+      "Result": "There is no angry person in the image",
+      "End": true
+    },
+    "Angry": {
+      "Type": "Pass",
+      "Result": "Anger detected",
+      "End": true
+    },
+    "Error": {
+      "Type": "Pass",
+      "Result": "An error occurred, please check passed image url",
+      "End": true
+    }
+  }
+}

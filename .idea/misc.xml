@@ -11,6 +11,8 @@
         <option value="$PROJECT_DIR$/serverless_functions/aws/java/latency_test/pom.xml" />
         <option value="$PROJECT_DIR$/serverless_functions/aws/java/cpu_test/pom.xml" />
         <option value="$PROJECT_DIR$/serverless_functions/aws/java/memory_test/pom.xml" />
+        <option value="$PROJECT_DIR$/serverless_functions/aws/java/face_recognition/anger_detection/pom.xml" />
+        <option value="$PROJECT_DIR$/serverless_functions/aws/java/face_recognition/image_recognition/pom.xml" />
       </list>
     </option>
   </component>
