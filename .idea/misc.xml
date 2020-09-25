@@ -16,6 +16,8 @@
         <option value="$PROJECT_DIR$/serverless_functions/gcloud/java/latency_test/pom.xml" />
         <option value="$PROJECT_DIR$/serverless_functions/gcloud/java/cpu_test/pom.xml" />
         <option value="$PROJECT_DIR$/serverless_functions/gcloud/java/memory_test/pom.xml" />
+        <option value="$PROJECT_DIR$/serverless_functions/gcloud/java/basic_test_composition/latency_test/pom.xml" />
+        <option value="$PROJECT_DIR$/serverless_functions/gcloud/java/basic_test_composition/cpu_test/pom.xml" />
       </list>
     </option>
   </component>
