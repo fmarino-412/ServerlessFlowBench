@@ -8,7 +8,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="cpu_test_java_gcp" />
         <module name="memory_test_java_gcp" />
+        <module name="anger_detection_java_gcp" />
         <module name="memory_test_java_aws" />
+        <module name="image_recognition_java_gcp" />
         <module name="latency_test_java_aws" />
         <module name="cpu_test_java_aws" />
         <module name="anger_detection_java_aws" />

@@ -39,8 +39,8 @@ public class MainTest {
 				customFunction();
 				break;
 			case 5:
-				cleanupFunctions();
-				cleanupCompositions();
+				//cleanupFunctions();
+				//cleanupCompositions();
 				customFunction();
 				//cleanupCompositions();
 				//deployCompositions();
@@ -375,17 +375,18 @@ public class MainTest {
 
 	@Deprecated
 	private static void customFunction() {
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"latency_test", "cpu_test"};
 
-			CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
+		{
+			String[] functionNames = {"image-test"};
+			String[] entryPoints = {"image_recognition.Handler"};
+			Integer[] timeouts = {30};
+			Integer[] memories = {512};
+			String[] regions = {GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"image_recognition"};
+
+			CompositionCommandExecutor.deployOnGoogleComposition("image-composition",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/java/basic_test_composition",
+							"project/serverless_functions/gcloud/java/face_recognition",
 					GoogleCommandUtility.IOWA,
 					"step.yaml",
 					functionNames,
@@ -396,6 +397,5 @@ public class MainTest {
 					regions,
 					functionDirs);
 		}
-
 	}
 }

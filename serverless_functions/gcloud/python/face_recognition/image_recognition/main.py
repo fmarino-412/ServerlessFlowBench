@@ -11,7 +11,7 @@ def gc_functions_handler(request):
 		url = request.args.get('url')
 	else:
 		return {
-			'result': {"Error": "no url"}
+			'result': {"Error": "url error"}
 		}
 
 	useragent = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 ' \
