@@ -1,5 +1,6 @@
 package cmd;
 
+import cmd.functionality_commands.GoogleCommandUtility;
 import cmd.functionality_commands.IllegalNameException;
 
 /**
@@ -46,12 +47,37 @@ public abstract class CommandUtility {
 	 */
 	protected static boolean needsRuntimeId(String functionalityName) throws IllegalNameException {
 		boolean hasId = functionalityName.contains(PYTHON_ID) ||
+				functionalityName.contains(JAVA_ID) ||
+				functionalityName.contains(NODE_ID) ||
+				functionalityName.contains(GO_ID) ||
 				functionalityName.contains(OTHERS_ID);
 
-		if (!hasId && functionalityName.contains("__")) {
+		if ((!hasId && functionalityName.contains("__")) || countOccurrences(functionalityName, "__") > 1) {
 			throw new IllegalNameException("Original name cannot contain '__'");
 		}
 
 		return !hasId;
+	}
+
+	/**
+	 * Counts occurrences of a sub-string inside of a string
+	 * @param string string for occurrences count
+	 * @param subString string to find
+	 * @return number of occurrences (0 if not present)
+	 */
+	private static int countOccurrences(String string, String subString) {
+		int lastIndex = 0;
+		int count = 0;
+
+		while (lastIndex != -1) {
+			lastIndex = string.indexOf(subString, lastIndex);
+
+			if (lastIndex != -1) {
+				count ++;
+				lastIndex += subString.length();
+			}
+		}
+
+		return count;
 	}
 }

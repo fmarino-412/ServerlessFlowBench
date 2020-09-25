@@ -71,7 +71,7 @@ public class MainTest {
 				128,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/latency_test");
+						"project/serverless_functions/gcloud/python/basic_test_composition/latency_test");
 
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
 				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -80,7 +80,7 @@ public class MainTest {
 				128,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/cpu_test");
+						"project/serverless_functions/gcloud/python/basic_test_composition/cpu_test");
 
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
 				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -136,7 +136,7 @@ public class MainTest {
 				128,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/java/latency_test");
+						"project/serverless_functions/gcloud/java/basic_test_composition/latency_test");
 
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
 				GoogleCommandUtility.JAVA_11_RUNTIME,
@@ -145,7 +145,7 @@ public class MainTest {
 				128,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/java/cpu_test");
+						"project/serverless_functions/gcloud/java/basic_test_composition/cpu_test");
 
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
 				GoogleCommandUtility.JAVA_11_RUNTIME,
@@ -226,7 +226,7 @@ public class MainTest {
 			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
 			String[] functionDirs = {"latency_test", "cpu_test"};
 
-			CompositionCommandExecutor.deployOnGoogleComposition("basic_composition",
+			CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/gcloud/python/basic_test_composition",
 					GoogleCommandUtility.IOWA,
@@ -274,7 +274,7 @@ public class MainTest {
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
 			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
 
-			CompositionCommandExecutor.deployOnAmazonComposition("basic_composition",
+			CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
 							"_project/serverless_functions/aws/python/basic_test_composition",
 					AmazonCommandUtility.OHIO,
@@ -291,6 +291,28 @@ public class MainTest {
 
 
 		/* Java on Google Cloud Platform */
+
+		{
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+			String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"latency_test", "cpu_test"};
+
+			CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/java/basic_test_composition",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					GoogleCommandUtility.JAVA_11_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		}
 
 
 
@@ -326,7 +348,7 @@ public class MainTest {
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
 			String[] zipFileNames = {"latency_test_java_aws-1.0.jar", "cpu_test_java_aws-1.0.jar"};
 
-			CompositionCommandExecutor.deployOnAmazonComposition("basic_composition",
+			CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
 							"_project/serverless_functions/aws/java/basic_test_composition",
 					AmazonCommandUtility.OHIO,
@@ -353,43 +375,27 @@ public class MainTest {
 
 	@Deprecated
 	private static void customFunction() {
+		{
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+			String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"latency_test", "cpu_test"};
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/memory_test");
+			CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/java/basic_test_composition",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					GoogleCommandUtility.JAVA_11_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		}
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
-				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-				"memory_test.lambda_handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/memory_test",
-				"memory_test.zip");
-
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
-				GoogleCommandUtility.JAVA_11_RUNTIME,
-				"memory_test.Handler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/java/memory_test");
-
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
-				AmazonCommandUtility.JAVA_11_RUNTIME,
-				"memory_test.Handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/java/memory_test/target",
-				"memory_test_java_aws-1.0.jar");
 	}
 }
