@@ -32,7 +32,7 @@ public class Handler implements RequestStreamHandler {
 		if (event.containsKey("n")) {
 			n = Long.parseLong((String)event.get("n"));
 		} else {
-			n = 2000000;
+			n = 1300000;
 		}
 
 		// computation

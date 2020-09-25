@@ -129,6 +129,33 @@ public class MainTest {
 
 		/* Java on Google Cloud Platform */
 
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
+				GoogleCommandUtility.JAVA_11_RUNTIME,
+				"latency_test.Handler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/java/latency_test");
+
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
+				GoogleCommandUtility.JAVA_11_RUNTIME,
+				"cpu_test.Handler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/java/cpu_test");
+
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
+				GoogleCommandUtility.JAVA_11_RUNTIME,
+				"memory_test.Handler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/java/memory_test");
+
 
 
 		/* Java on Amazon Web Services */
@@ -327,5 +354,42 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/python/memory_test");
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"memory_test.lambda_handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/aws/python/memory_test",
+				"memory_test.zip");
+
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
+				GoogleCommandUtility.JAVA_11_RUNTIME,
+				"memory_test.Handler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/java/memory_test");
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
+				AmazonCommandUtility.JAVA_11_RUNTIME,
+				"memory_test.Handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/aws/java/memory_test/target",
+				"memory_test_java_aws-1.0.jar");
 	}
 }

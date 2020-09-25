@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/java/face_recognition/anger_detection/anger_detection_java_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/java/face_recognition/anger_detection/anger_detection_java_gcp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/java/cpu_test/cpu_test_java_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/java/cpu_test/cpu_test_java_gcp.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/java/face_recognition/image_recognition/image_recognition_java_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/java/face_recognition/image_recognition/image_recognition_java_gcp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/java/latency_test/latency_test_java_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/java/latency_test/latency_test_java_gcp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/java/memory_test/memory_test_java_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/java/memory_test/memory_test_java_gcp.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/orchestration_handler/orchestration_handler_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/orchestration_handler/orchestration_handler_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/orchestration_handler/orchestration_handler_gcloud.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/orchestration_handler/orchestration_handler_gcloud.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/python/python_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/python/python_aws.iml" />

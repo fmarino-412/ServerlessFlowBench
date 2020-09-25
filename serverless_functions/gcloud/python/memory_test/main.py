@@ -11,7 +11,7 @@ def gc_functions_handler(request):
 	if request.args.get('n') is not None:
 		n = int(request.args.get('n'))
 	else:
-		n = 2000000
+		n = 1300000
 
 	start_time = time.time()
 	memory_stress(n)

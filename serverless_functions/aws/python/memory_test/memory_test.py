@@ -12,7 +12,7 @@ def lambda_handler(event, context):
 		if 'n' in event['queryStringParameters']:
 			n = int(event['queryStringParameters']['n'])
 	else:
-		n = 2000000
+		n = 1300000
 
 	start_time = time.time()
 	memory_stress(n)

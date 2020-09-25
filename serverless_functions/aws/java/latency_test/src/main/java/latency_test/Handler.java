@@ -11,8 +11,8 @@ import java.nio.charset.StandardCharsets;
 public class Handler implements RequestStreamHandler {
 
 	@Override
-	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context)
-	{
+	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) {
+
 		// response creation
 		JsonObjectBuilder job1 = Json.createObjectBuilder();
 		job1.add("isBase64Encoded", false);
@@ -24,7 +24,7 @@ public class Handler implements RequestStreamHandler {
 
 		job4.add("test", "latency_test");
 		job3.add("success", true);
-		job3.add("payload", job4.build().toString());
+		job3.add("payload", job4.build());
 		job2.add("Content-Type", "application/json");
 		job1.add("headers", job2.build());
 		job1.add("body", job3.build().toString());
