@@ -28,7 +28,7 @@
     switch:
       - condition: ${AngerRecognitionResult.body == "Error"}
         next: error
-      - condition: ${AngerRecognitionResult.body == "True"}
+      - condition: ${AngerRecognitionResult.body == "true"}
         next: angry
     next: calm
 - notFace:

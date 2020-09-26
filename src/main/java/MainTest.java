@@ -39,8 +39,8 @@ public class MainTest {
 				customFunction();
 				break;
 			case 5:
-				//cleanupFunctions();
-				//cleanupCompositions();
+				cleanupFunctions();
+				cleanupCompositions();
 				customFunction();
 				//cleanupCompositions();
 				//deployCompositions();
@@ -377,14 +377,14 @@ public class MainTest {
 	private static void customFunction() {
 
 		{
-			String[] functionNames = {"image-test"};
-			String[] entryPoints = {"image_recognition.Handler"};
-			Integer[] timeouts = {30};
-			Integer[] memories = {512};
-			String[] regions = {GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"image_recognition"};
+			String[] functionNames = {"image-recognition", "anger-detection"};
+			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {512, 512};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"image_recognition", "anger_detection"};
 
-			CompositionCommandExecutor.deployOnGoogleComposition("image-composition",
+			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/gcloud/java/face_recognition",
 					GoogleCommandUtility.IOWA,

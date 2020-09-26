@@ -3,12 +3,14 @@ package anger_detection;
 import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
+import com.google.cloud.vision.v1.*;
 import com.google.protobuf.ByteString;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 
 public class Handler implements HttpFunction {
 	@Override
@@ -33,9 +35,29 @@ public class Handler implements HttpFunction {
 	}
 
 	private static Boolean detectAnger(ByteString image) {
+		try {
+			Image img = Image.newBuilder().setContent(image).build();
+			Feature feat = Feature.newBuilder().setType(Feature.Type.FACE_DETECTION).build();
+			AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
 
+			ImageAnnotatorClient client = ImageAnnotatorClient.create();
 
-		return null;
+			for (AnnotateImageResponse response : client.batchAnnotateImages(Collections.singletonList(request))
+					.getResponsesList()) {
+				if (response.hasError()) {
+					return null;
+				}
+				for (FaceAnnotation annotation : response.getFaceAnnotationsList()) {
+					if (annotation.getAngerLikelihood().equals(Likelihood.LIKELY) ||
+							annotation.getAngerLikelihood().equals(Likelihood.VERY_LIKELY)) {
+						return true;
+					}
+				}
+			}
+		} catch (IOException ignored) {
+			return null;
+		}
+		return false;
 	}
 
 	private static void returnResult(@NotNull BufferedWriter outputWriter, String result)
