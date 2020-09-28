@@ -7,8 +7,9 @@ A.Y. 2019/2020
 
 ## Serverless composition workflow ideas:
 1. <s>Video conversion</s>:
-	1. **needs external executables** for functionality perform,
+	1. Local execution: **needs external executables** for functionality perform,
 	2. **not suitable** for a serverless environment.
+	3. Cloud execution: supported only by AWS Transcode.
 2. <s>Text to speech conversion</s>: 
 	1. needs to store data on S3 or Google Cloud Sotrage
 	2. not suitable for benchmarking execution,
