@@ -1,0 +1,27 @@
+{
+  "Comment": "An Amazon States Machine that executes three basic Lambda functions",
+  "StartAt": "latencytest",
+  "States": {
+    "latencytest": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "__PLACEHOLDER__"
+      },
+      "Next": "cputest"
+    },
+    "cputest": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "__PLACEHOLDER__"
+      },
+      "Next": "endstate"
+    },
+    "endstate": {
+      "Type": "Pass",
+      "Result": "Execution completed",
+      "End": true
+    }
+  }
+}
