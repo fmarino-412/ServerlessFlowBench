@@ -1,12 +1,13 @@
 {
   "name": "image_recognition",
   "version": "1.0.0",
-  "description": "",
+  "description": "Image recognition for Amazon Lambda node runtime",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Francesco Marino",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.762.0",
+    "node-uuid": "^1.4.8",
+    "request": "^2.88.2"
+  }
 }

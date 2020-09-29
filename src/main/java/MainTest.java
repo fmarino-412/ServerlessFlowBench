@@ -467,16 +467,16 @@ public class MainTest {
 	private static void customFunction() {
 
 		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"index.lambda_handler", "index.lambda_handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
+			String[] functionNames = {"image-recognition"};
+			String[] entryPoints = {"index.lambda_handler"};
+			Integer[] timeouts = {30};
+			Integer[] memories = {128};
+			String[] regions = {AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"image_recognition.zip"};
 
-			CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
+			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/node/basic_test_composition",
+							"_project/serverless_functions/aws/node/face_recognition",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,
