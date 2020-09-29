@@ -426,15 +426,15 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
 				AmazonCommandUtility.NODE_10_X_RUNTIME,
 				"index.lambda_handler",
 				30,
 				128,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/node/cpu_test",
-				"cpu_test.zip");
+						"/serverless_functions/aws/node/memory_test",
+				"memory_test.zip");
 
 	}
 }
