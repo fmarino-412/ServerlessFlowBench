@@ -207,6 +207,16 @@ public class MainTest {
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
 						"/serverless_functions/aws/node/latency_test",
 				"latency_test.zip");
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
+				AmazonCommandUtility.NODE_10_X_RUNTIME,
+				"index.lambda_handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/aws/node/cpu_test",
+				"cpu_test.zip");
 	}
 
 	private static void deployCompositions() {
@@ -416,15 +426,15 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
 				AmazonCommandUtility.NODE_10_X_RUNTIME,
 				"index.lambda_handler",
 				30,
 				128,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/node/latency_test",
-				"latency_test.zip");
+						"/serverless_functions/aws/node/cpu_test",
+				"cpu_test.zip");
 
 	}
 }

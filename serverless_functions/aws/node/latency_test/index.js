@@ -1,6 +1,6 @@
 exports.lambda_handler = function (event, context, callback) {
 
-    const result = {
+    const ret = {
         statusCode: 200,
         headers: {
             'Content-Type': 'application/json'
@@ -13,5 +13,5 @@ exports.lambda_handler = function (event, context, callback) {
         })
     };
 
-    callback(null, result);
+    callback(null, ret);
 }
