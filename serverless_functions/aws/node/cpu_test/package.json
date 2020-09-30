@@ -1,8 +1,0 @@
-{
-  "name": "cpu_test",
-  "version": "1.0.0",
-  "description": "Cpu test for Amazon Lambda node runtime",
-  "main": "index.js",
-  "author": "Francesco Marino",
-  "license": "ISC"
-}

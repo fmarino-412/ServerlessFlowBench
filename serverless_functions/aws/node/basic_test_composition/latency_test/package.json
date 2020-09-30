@@ -1,0 +1,8 @@
+{
+  "name": "latency_test",
+  "version": "1.0.0",
+  "description": "Latency test for Amazon Lambda node runtime",
+  "main": "index.js",
+  "author": "Francesco Marino",
+  "license": "ISC"
+}
