@@ -102,7 +102,7 @@ public class MainTest {
 				128,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/latency_test",
+						"project/serverless_functions/aws/python/basic_test_composition/latency_test",
 				"latency_test.zip");
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
@@ -112,7 +112,7 @@ public class MainTest {
 				128,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/cpu_test",
+						"project/serverless_functions/aws/python/basic_test_composition/cpu_test",
 				"cpu_test.zip");
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
