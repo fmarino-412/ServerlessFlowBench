@@ -45,8 +45,7 @@ public class Handler implements RequestStreamHandler {
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
 
-			returnResult(outputStream, Boolean.toString(detectAnger(ByteBuffer.wrap(
-					byteArrayOutputStream.toByteArray()))));
+			returnResult(outputStream, detectAnger(ByteBuffer.wrap(byteArrayOutputStream.toByteArray())));
 		} catch (IOException ignored) {
 			returnResult(outputStream, null);
 		}
@@ -72,11 +71,16 @@ public class Handler implements RequestStreamHandler {
 		return false;
 	}
 
-	private static void returnResult(@NotNull OutputStream outputStream, String result) {
+	private static void returnResult(@NotNull OutputStream outputStream, Boolean detectionResult) {
 
 		// response creation
-		if (result == null) {
+		String result;
+		if (detectionResult == null) {
 			result = "Error";
+		} else if (detectionResult) {
+			result = "true";
+		} else {
+			result = "false";
 		}
 
 		// response writing

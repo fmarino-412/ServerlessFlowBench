@@ -238,7 +238,7 @@ public class MainTest {
 			String[] functionNames = {"image-recognition", "anger-detection"};
 			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
 			Integer[] timeouts = {30, 30};
-			Integer[] memories = {512, 512};
+			Integer[] memories = {1024, 1024};
 			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
 			String[] functionDirs = {"image_recognition", "anger_detection"};
 
@@ -286,7 +286,7 @@ public class MainTest {
 			String[] functionNames = {"image-recognition", "anger-detection"};
 			String[] entryPoints = {"image_recognition.lambda_handler", "anger_detection.lambda_handler"};
 			Integer[] timeouts = {30, 30};
-			Integer[] memories = {512, 512};
+			Integer[] memories = {1024, 1024};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
 			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
@@ -334,7 +334,7 @@ public class MainTest {
 			String[] functionNames = {"image-recognition", "anger-detection"};
 			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
 			Integer[] timeouts = {30, 30};
-			Integer[] memories = {512, 512};
+			Integer[] memories = {1024, 1024};
 			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
 			String[] functionDirs = {"image_recognition", "anger_detection"};
 
@@ -382,7 +382,7 @@ public class MainTest {
 			String[] functionNames = {"image-recognition", "anger-detection"};
 			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
 			Integer[] timeouts = {30, 30};
-			Integer[] memories = {512, 512};
+			Integer[] memories = {1024, 1024};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
 			String[] zipFileNames = {"image_recognition_java_aws-1.0.jar", "anger_detection_java_aws-1.0.jar"};
 
@@ -431,6 +431,28 @@ public class MainTest {
 		/* Node.js on Amazon Web Services */
 
 		{
+			String[] functionNames = {"image-recognition", "anger-detection"};
+			String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {1024, 1024};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/aws/node/face_recognition",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.NODE_10_X_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
+
+		{
 			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
 			String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
 			Integer[] timeouts = {30, 30};
@@ -468,19 +490,19 @@ public class MainTest {
 
 		{
 			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
+			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
 			Integer[] timeouts = {30, 30};
-			Integer[] memories = {512, 512};
+			Integer[] memories = {1024, 1024};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
+			String[] zipFileNames = {"image_recognition_java_aws-1.0.jar", "anger_detection_java_aws-1.0.jar"};
 
 			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/node/face_recognition",
+							"_project/serverless_functions/aws/java/face_recognition",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,
-					AmazonCommandUtility.NODE_10_X_RUNTIME,
+					AmazonCommandUtility.JAVA_11_RUNTIME,
 					entryPoints,
 					timeouts,
 					memories,
