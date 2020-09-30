@@ -62,7 +62,7 @@ public class Handler implements RequestStreamHandler {
 		DetectFacesResult result = client.detectFaces(request);
 		for (FaceDetail detail : result.getFaceDetails()) {
 			for (Emotion emotion : detail.getEmotions()) {
-				if (emotion.getType().equals("ANGRY") && emotion.getConfidence()>=60) {
+				if (emotion.getType().equals("ANGRY") && emotion.getConfidence() >= 60) {
 					return true;
 				}
 			}
