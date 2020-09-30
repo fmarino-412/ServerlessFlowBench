@@ -1,6 +1,5 @@
 import urllib.request as urlrequest
 from google.cloud import vision
-from google.cloud.vision import types
 
 
 # noinspection DuplicatedCode
@@ -23,7 +22,7 @@ def gc_functions_handler(request):
 
 def detect_anger(image) -> str:
 	client = vision.ImageAnnotatorClient()
-	image = types.Image(content=image)
+	image = vision.Image(content=image)
 
 	response = client.face_detection(image=image)
 	for face in response.face_annotations:

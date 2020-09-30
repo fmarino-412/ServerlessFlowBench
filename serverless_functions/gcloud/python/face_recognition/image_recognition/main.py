@@ -1,6 +1,5 @@
 import urllib.request as urlrequest
 from google.cloud import vision
-from google.cloud.vision import types
 
 
 # noinspection DuplicatedCode
@@ -30,7 +29,7 @@ def gc_functions_handler(request):
 
 def detect_object_and_scenes(image) -> dict:
 	client = vision.ImageAnnotatorClient()
-	image = types.Image(content=image)
+	image = vision.Image(content=image)
 
 	response = client.label_detection(image=image)
 	result = {}

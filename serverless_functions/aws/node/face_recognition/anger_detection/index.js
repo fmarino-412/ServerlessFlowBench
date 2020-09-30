@@ -59,11 +59,11 @@ function detectAnger(image, callback) {
             response.FaceDetails.forEach(faceDetail => {
                 faceDetail.Emotions.forEach(emotion => {
                     if (emotion.Type === 'ANGRY' && emotion.Confidence >= 60) {
-                        callback(null, true);
+                        callback(null, true.toString());
                     }
                 });
             });
-            callback(null, false);
+            callback(null, false.toString());
         }
     });
 }
