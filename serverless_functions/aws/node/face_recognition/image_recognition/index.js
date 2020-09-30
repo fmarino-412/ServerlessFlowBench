@@ -1,4 +1,4 @@
-exports.lambda_handler = function (event, context, callback) {
+exports.lambdaHandler = function (event, context, callback) {
 
     let url;
 
@@ -14,14 +14,14 @@ exports.lambda_handler = function (event, context, callback) {
     request.get(url, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             const image = Buffer.from(body).toString('base64');
-            detect_objects_and_scenes(image, url, callback);
+            detectObjectsAndScenes(image, url, callback);
         } else {
             callback(null, "Error");
         }
     });
 }
 
-function ret_result(result, url, callback) {
+function retResult(result, url, callback) {
     const ret = {
         'result': result,
         'image': url
@@ -29,7 +29,7 @@ function ret_result(result, url, callback) {
     callback(null, ret);
 }
 
-function get_binary(base64Image) {
+function getBinary(base64Image) {
     const atob = require('atob');
     const Blob = require('node-blob');
     const binaryImg = atob(base64Image);
@@ -46,11 +46,11 @@ function get_binary(base64Image) {
     return ab;
 }
 
-function detect_objects_and_scenes(image, url, callback) {
+function detectObjectsAndScenes(image, url, callback) {
 
     const AWS = require('aws-sdk');
 
-    image = get_binary(image);
+    image = getBinary(image);
 
     const client = new AWS.Rekognition();
     const params = {
@@ -69,7 +69,7 @@ function detect_objects_and_scenes(image, url, callback) {
             response.Labels.forEach(label => {
                 result = result + label.Name.toLowerCase() + ", "
             })
-            ret_result(result.slice(0, result.length - 2), url, callback);
+            retResult(result.slice(0, result.length - 2), url, callback);
         }
     });
 }

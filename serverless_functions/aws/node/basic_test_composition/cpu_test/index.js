@@ -1,4 +1,4 @@
-exports.lambda_handler = function (event, context, callback) {
+exports.lambdaHandler = function (event, context, callback) {
 
     let n;
 
@@ -8,10 +8,10 @@ exports.lambda_handler = function (event, context, callback) {
         n = 71950288374236;
     }
 
-    let start_time = Date.now();
+    let startTime = Date.now();
     let result = factorize(n);
-    let end_time = Date.now();
-    let execution_time = (end_time - start_time);
+    let endTime = Date.now();
+    let executionTime = (endTime - startTime);
 
     const ret = {
         statusCode: 200,
@@ -24,7 +24,7 @@ exports.lambda_handler = function (event, context, callback) {
                 'test': 'cpu_test',
                 'number': n,
                 'result': result,
-                'milliseconds': execution_time
+                'milliseconds': executionTime
             }
         })
     };

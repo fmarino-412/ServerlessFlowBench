@@ -1,4 +1,4 @@
-exports.lambda_handler = function (event, context, callback) {
+exports.lambdaHandler = function (event, context, callback) {
 
     let url;
 
@@ -14,14 +14,14 @@ exports.lambda_handler = function (event, context, callback) {
     request.get(url, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             const image = Buffer.from(body).toString('base64');
-            detect_anger(image, callback);
+            detectAnger(image, callback);
         } else {
             callback(null, "Error");
         }
     });
 }
 
-function get_binary(base64Image) {
+function getBinary(base64Image) {
     const atob = require('atob');
     const Blob = require('node-blob');
     const binaryImg = atob(base64Image);
@@ -38,11 +38,11 @@ function get_binary(base64Image) {
     return ab;
 }
 
-function detect_anger(image, callback) {
+function detectAnger(image, callback) {
 
     const AWS = require('aws-sdk');
 
-    image = get_binary(image);
+    image = getBinary(image);
 
     const client = new AWS.Rekognition();
     const params = {

@@ -1,4 +1,4 @@
-exports.lambda_handler = function (event, context, callback) {
+exports.lambdaHandler = function (event, context, callback) {
 
     let n;
 
@@ -8,10 +8,10 @@ exports.lambda_handler = function (event, context, callback) {
         n = 1300000;
     }
 
-    let start_time = Date.now();
-    memory_stress(n);
-    let end_time = Date.now();
-    let execution_time = (end_time - start_time);
+    let startTime = Date.now();
+    memoryStress(n);
+    let endTime = Date.now();
+    let executionTime = (endTime - startTime);
 
     const ret = {
         statusCode: 200,
@@ -23,16 +23,16 @@ exports.lambda_handler = function (event, context, callback) {
             payload: {
                 'test': 'memory_test',
                 'dimension': n,
-                'milliseconds': execution_time
+                'milliseconds': executionTime
             }
         })
     };
     callback(null, ret);
 }
 
-function memory_stress(n) {
-    let memory_list = [];
+function memoryStress(n) {
+    let memoryList = [];
     for (let i = 0; i < n; i++) {
-        memory_list.push(i);
+        memoryList.push(i);
     }
 }

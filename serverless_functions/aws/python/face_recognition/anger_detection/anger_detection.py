@@ -33,8 +33,8 @@ def detect_anger(image) -> bool:
 		Attributes=['ALL']
 	)
 
-	for faceDetail in response['FaceDetails']:
-		for emotion in faceDetail['Emotions']:
+	for face_detail in response['FaceDetails']:
+		for emotion in face_detail['Emotions']:
 			if emotion['Type'] == "ANGRY" and float(emotion['Confidence']) >= 60:
 				return True
 

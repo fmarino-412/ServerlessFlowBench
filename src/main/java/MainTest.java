@@ -200,7 +200,7 @@ public class MainTest {
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
 				AmazonCommandUtility.NODE_10_X_RUNTIME,
-				"index.lambda_handler",
+				"index.lambdaHandler",
 				30,
 				128,
 				AmazonCommandUtility.OHIO,
@@ -210,7 +210,7 @@ public class MainTest {
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
 				AmazonCommandUtility.NODE_10_X_RUNTIME,
-				"index.lambda_handler",
+				"index.lambdaHandler",
 				30,
 				128,
 				AmazonCommandUtility.OHIO,
@@ -220,7 +220,7 @@ public class MainTest {
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
 				AmazonCommandUtility.NODE_10_X_RUNTIME,
-				"index.lambda_handler",
+				"index.lambdaHandler",
 				30,
 				128,
 				AmazonCommandUtility.OHIO,
@@ -432,7 +432,7 @@ public class MainTest {
 
 		{
 			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"index.lambda_handler", "index.lambda_handler"};
+			String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
 			Integer[] timeouts = {30, 30};
 			Integer[] memories = {128, 128};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
@@ -468,7 +468,7 @@ public class MainTest {
 
 		{
 			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"index.lambda_handler", "index.lambda_handler"};
+			String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
 			Integer[] timeouts = {30, 30};
 			Integer[] memories = {512, 512};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};

@@ -1,4 +1,4 @@
-exports.lambda_handler = function (event, context, callback) {
+exports.lambdaHandler = function (event, context, callback) {
 
     const ret = {
         statusCode: 200,
