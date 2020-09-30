@@ -4,22 +4,24 @@ exports.lambda_handler = function (event, context, callback) {
 
     if (event.queryStringParameters && event.queryStringParameters.url) {
         url = event.queryStringParameters.url;
+    } else if (event.url) {
+        url = event.url;
     } else {
         callback(null, "Error");
     }
 
     const request = require('request').defaults({ encoding: null });
-    let image;
     request.get(url, function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            image = Buffer.from(body).toString('base64');
+            const image = Buffer.from(body).toString('base64');
+            detect_objects_and_scenes(image, url, callback);
         } else {
             callback(null, "Error");
         }
     });
-    // image is null!
+}
 
-    let result = detect_objects_and_scenes(getBinary(image));
+function ret_result(result, url, callback) {
     if (result === null) {
         callback(null, "Error");
     } else {
@@ -31,7 +33,9 @@ exports.lambda_handler = function (event, context, callback) {
     }
 }
 
-function getBinary(base64Image) {
+function get_binary(base64Image) {
+    const atob = require('atob');
+    const Blob = require('node-blob');
     const binaryImg = atob(base64Image);
     const length = binaryImg.length;
     const ab = new ArrayBuffer(length);
@@ -39,19 +43,18 @@ function getBinary(base64Image) {
     for (let i = 0; i < length; i++) {
         ua[i] = binaryImg.charCodeAt(i);
     }
+    let blob = new Blob([ab], {
+        type: "image/jpeg"
+    });
+
     return ab;
 }
 
-function detect_objects_and_scenes(image) {
+function detect_objects_and_scenes(image, url, callback) {
 
     const AWS = require('aws-sdk');
-    /*const uuid = require('node-uuid');
 
-    const config = new AWS.Config({
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        region: process.env.AWS_REGION
-    });*/
+    image = get_binary(image);
 
     const client = new AWS.Rekognition();
     const params = {
@@ -62,16 +65,15 @@ function detect_objects_and_scenes(image) {
         MinConfidence: 70.0
     };
 
-    let result = "";
     client.detectLabels(params, function (err, response) {
         if (err) {
-            return null;
+            callback(null, "Error: " + err);
         } else {
+            let result = "";
             response.Labels.forEach(label => {
                 result = result + label.Name.toLowerCase() + ", "
             })
+            ret_result(result.slice(0, result.length - 2), url, callback);
         }
     });
-
-    return result.substr(0, -2);
 }

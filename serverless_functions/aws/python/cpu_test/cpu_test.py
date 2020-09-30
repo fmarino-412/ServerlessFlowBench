@@ -13,6 +13,8 @@ def lambda_handler(event, context):
 	if event.get('queryStringParameters') is not None:
 		if 'n' in event['queryStringParameters']:
 			n = int(event['queryStringParameters']['n'])
+	elif event.get('n') is not None:
+		n = event.get('n')
 	else:
 		n = 71950288374236
 
