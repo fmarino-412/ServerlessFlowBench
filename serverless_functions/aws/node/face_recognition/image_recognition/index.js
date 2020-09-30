@@ -22,15 +22,11 @@ exports.lambda_handler = function (event, context, callback) {
 }
 
 function ret_result(result, url, callback) {
-    if (result === null) {
-        callback(null, "Error");
-    } else {
-        const ret = {
-            'result': result,
-            'image': url
-        };
-        callback(null, ret);
-    }
+    const ret = {
+        'result': result,
+        'image': url
+    };
+    callback(null, ret);
 }
 
 function get_binary(base64Image) {

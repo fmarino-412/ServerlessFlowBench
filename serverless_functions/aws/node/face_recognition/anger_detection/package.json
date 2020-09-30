@@ -4,5 +4,11 @@
   "description": "Anger detection for Amazon Lambda node runtime",
   "main": "index.js",
   "author": "Francesco Marino",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "atob": "^2.1.2",
+    "aws-sdk": "^2.763.0",
+    "node-blob": "0.0.2",
+    "request": "^2.88.2"
+  }
 }

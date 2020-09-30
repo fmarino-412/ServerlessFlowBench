@@ -467,12 +467,12 @@ public class MainTest {
 	private static void customFunction() {
 
 		{
-			String[] functionNames = {"image-recognition"};
-			String[] entryPoints = {"index.lambda_handler"};
-			Integer[] timeouts = {30};
-			Integer[] memories = {128};
-			String[] regions = {AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"image_recognition.zip"};
+			String[] functionNames = {"image-recognition", "anger-detection"};
+			String[] entryPoints = {"index.lambda_handler", "index.lambda_handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {512, 512};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
 			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
