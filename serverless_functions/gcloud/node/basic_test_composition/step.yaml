@@ -1,0 +1,12 @@
+- latencytest:
+    call: http.get
+    args:
+      url: __PLACEHOLDER__
+    next: cputest
+- cputest:
+    call: http.get
+    args:
+      url: __PLACEHOLDER__
+    next: endstate
+- endstate:
+    return: "Execution completed"

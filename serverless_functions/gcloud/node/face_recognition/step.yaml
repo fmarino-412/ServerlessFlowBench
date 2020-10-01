@@ -1,0 +1,36 @@
+- analyzeImage:
+    call: http.get
+    args:
+      url: __PLACEHOLDER__?url=https://image.shutterstock.com/image-photo/beautiful-calm-face-young-woman-260nw-1493659754.jpg
+    result: FaceRecognitionResult
+- conditionalFaceSwitch:
+    switch:
+      - condition: ${"Error" in FaceRecognitionResult.body.result}
+        next: error
+      - condition: ${"face" in FaceRecognitionResult.body.result}
+        next: prepareAnger
+    next: notFace
+- prepareAnger:
+    assign:
+      - anger_url_start: __PLACEHOLDER__
+      - anger_url: ${anger_url_start + FaceRecognitionResult.body.image}
+- detectAnger:
+    call: http.get
+    args:
+      url: ${anger_url}
+    result: AngerRecognitionResult
+- conditionalAngerSwitch:
+    switch:
+      - condition: ${AngerRecognitionResult.body == "Error"}
+        next: error
+      - condition: ${AngerRecognitionResult.body == "True"}
+        next: angry
+    next: calm
+- notFace:
+    return: "The image you provided does not contain a face"
+- error:
+    return: "An error occurred, please check passed image url"
+- calm:
+    return: "There is no angry person in the image"
+- angry:
+    return: "Anger detected"
