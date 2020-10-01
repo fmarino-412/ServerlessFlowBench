@@ -5,9 +5,9 @@
     result: FaceRecognitionResult
 - conditionalFaceSwitch:
     switch:
-      - condition: ${"Error" in FaceRecognitionResult.body.result}
+      - condition: ${FaceRecognitionResult.body.result == "Error}
         next: error
-      - condition: ${"face" in FaceRecognitionResult.body.result}
+      - condition: ${FaceRecognitionResult.body.result == "face"}
         next: prepareAnger
     next: notFace
 - prepareAnger:

@@ -537,7 +537,14 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("image-recognition",
+				GoogleCommandUtility.NODE_10_RUNTIME,
+				"gcFunctionsHandler",
+				30,
+				512,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/node/face_recognition/image_recognition");
 
 	}
 }
