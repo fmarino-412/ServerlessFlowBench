@@ -4,5 +4,11 @@
   "description": "Anger detection for Google Cloud Functions node runtime",
   "main": "index.js",
   "author": "Francesco Marino",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "atob": "^2.1.2",
+    "@google-cloud/vision": "^2.1.2",
+    "node-blob": "0.0.2",
+    "request": "^2.88.2"
+  }
 }

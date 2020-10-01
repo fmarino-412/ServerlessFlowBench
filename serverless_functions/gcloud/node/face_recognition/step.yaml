@@ -1,31 +1,36 @@
+- prepareInput:
+    assign:
+      - image_analyze_url_start: __PLACEHOLDER__
+      - image_to_analize: ?url=https://image.shutterstock.com/image-photo/beautiful-calm-face-young-woman-260nw-1493659754.jpg
+      - image_analyze_url: ${image_analyze_url_start + image_to_analize}
 - analyzeImage:
     call: http.get
     args:
-      url: __PLACEHOLDER__?url=https://image.shutterstock.com/image-photo/beautiful-calm-face-young-woman-260nw-1493659754.jpg
+      url: ${image_analyze_url}
     result: FaceRecognitionResult
 - conditionalFaceSwitch:
     switch:
-      - condition: ${FaceRecognitionResult.body.result == "Error}
+      - condition: ${FaceRecognitionResult.body == "Error"}
         next: error
-      - condition: ${FaceRecognitionResult.body.result == "face"}
+      - condition: ${FaceRecognitionResult.body == "face"}
         next: prepareAnger
     next: notFace
 - prepareAnger:
     assign:
-      - anger_url_start: __PLACEHOLDER__
-      - anger_url: ${anger_url_start + FaceRecognitionResult.body.image}
+      - face_analyze_url_start: __PLACEHOLDER__
+      - face_analyze_url: ${face_analyze_url_start + image_to_analize}
 - detectAnger:
     call: http.get
     args:
-      url: ${anger_url}
+      url: ${face_analyze_url}
     result: AngerRecognitionResult
 - conditionalAngerSwitch:
     switch:
       - condition: ${AngerRecognitionResult.body == "Error"}
         next: error
-      - condition: ${AngerRecognitionResult.body == "True"}
-        next: angry
-    next: calm
+      - condition: ${AngerRecognitionResult.body == "False"}
+        next: calm
+    next: angry
 - notFace:
     return: "The image you provided does not contain a face"
 - error:

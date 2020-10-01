@@ -454,6 +454,28 @@ public class MainTest {
 		/* Node.js on Google Cloud Platform */
 
 		{
+			String[] functionNames = {"image-recognition", "anger-detection"};
+			String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {1024, 1024};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"image_recognition", "anger_detection"};
+
+			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/node/face_recognition",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					GoogleCommandUtility.NODE_10_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		}
+
+		{
 			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
 			String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler"};
 			Integer[] timeouts = {30, 30};
@@ -537,14 +559,7 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("image-recognition",
-				GoogleCommandUtility.NODE_10_RUNTIME,
-				"gcFunctionsHandler",
-				30,
-				512,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/face_recognition/image_recognition");
+
 
 	}
 }

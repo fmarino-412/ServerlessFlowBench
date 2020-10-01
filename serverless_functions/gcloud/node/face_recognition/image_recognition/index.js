@@ -28,10 +28,7 @@ function retResult(result, url, res) {
     } else {
         result = "other";
     }
-    res.send(JSON.stringify({
-        'image': url,
-        'result': result
-    }));
+    res.send(result);
 }
 
 function detectObjectsAndScenes(image, url, res) {
