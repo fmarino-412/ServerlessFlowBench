@@ -13,6 +13,8 @@ def lambda_handler(event, context):
 			arn = (event['queryStringParameters']['arn'])
 	elif event.get('arn') is not None:
 		arn = event['arn']
+	else:
+		return "Missing machine arn"
 
 	date = datetime.now()
 

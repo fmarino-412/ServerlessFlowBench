@@ -15,12 +15,12 @@ def gc_functions_handler(request):
 	if request.args.get('token') is not None:
 		access_token = request.args.get('token')
 	else:
-		return "missing token"
+		return "Missing token"
 
 	if request.args.get('workflow') is not None:
 		workflow_name = request.args.get('workflow')
 	else:
-		return "missing workflow"
+		return "Missing workflow"
 
 	_, project_name = google.auth.default()
 
