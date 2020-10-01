@@ -194,6 +194,15 @@ public class MainTest {
 
 		/* Node.js on Google Cloud Platform */
 
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
+				GoogleCommandUtility.NODE_10_RUNTIME,
+				"gcFunctionsHandler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/node/basic_test_composition/latency_test");
+
 
 
 		/* Node.js on Amazon Web Services */
@@ -488,27 +497,14 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"image_recognition_java_aws-1.0.jar", "anger_detection_java_aws-1.0.jar"};
-
-			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/java/face_recognition",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.JAVA_11_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
-		}
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
+				GoogleCommandUtility.NODE_10_RUNTIME,
+				"gcFunctionsHandler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/node/memory_test");
 
 	}
 }
