@@ -203,6 +203,24 @@ public class MainTest {
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 						"project/serverless_functions/gcloud/node/basic_test_composition/latency_test");
 
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
+				GoogleCommandUtility.NODE_10_RUNTIME,
+				"gcFunctionsHandler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/node/basic_test_composition/cpu_test");
+
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
+				GoogleCommandUtility.NODE_10_RUNTIME,
+				"gcFunctionsHandler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/node/memory_test");
+
 
 
 		/* Node.js on Amazon Web Services */
@@ -435,6 +453,28 @@ public class MainTest {
 
 		/* Node.js on Google Cloud Platform */
 
+		{
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+			String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"latency_test", "cpu_test"};
+
+			CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/node/basic_test_composition",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					GoogleCommandUtility.NODE_10_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		}
+
 
 
 		/* Node.js on Amazon Web Services */
@@ -497,14 +537,7 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
-				GoogleCommandUtility.NODE_10_RUNTIME,
-				"gcFunctionsHandler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/memory_test");
+
 
 	}
 }
