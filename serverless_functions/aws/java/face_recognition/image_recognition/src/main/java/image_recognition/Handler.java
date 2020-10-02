@@ -57,6 +57,7 @@ public class Handler implements RequestStreamHandler {
 				resultBuilder.append(label.getName().toLowerCase()).append(", ");
 			}
 			resultBuilder.delete(resultBuilder.length() - 3, resultBuilder.length() - 1);
+
 			returnResult(outputStream, resultBuilder.toString(), url);
 		} catch (IOException ignored) {
 			returnResult(outputStream, null, null);

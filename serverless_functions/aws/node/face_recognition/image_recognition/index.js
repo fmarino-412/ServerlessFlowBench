@@ -29,6 +29,8 @@ function retResult(result, url, callback) {
     callback(null, ret);
 }
 
+// credits: Micheal Dennis @ Stack Overflow
+// https://stackoverflow.com/questions/43494736/aws-rekognition-javascript-sdk-using-bytes
 function getBinary(base64Image) {
     const atob = require('atob');
     const Blob = require('node-blob');

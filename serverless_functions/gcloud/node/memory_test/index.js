@@ -20,7 +20,7 @@ exports.gcFunctionsHandler = function (req, res) {
     res.send(JSON.stringify({
         success: true,
         payload: {
-            "test": "cpu_test",
+            "test": "memory_test",
             "dimension": n,
             "milliseconds": executionTime
         }

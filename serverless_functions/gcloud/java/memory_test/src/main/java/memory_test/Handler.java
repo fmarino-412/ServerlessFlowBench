@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Handler implements HttpFunction {
+
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 

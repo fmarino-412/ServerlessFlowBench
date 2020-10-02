@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.Collections;
 
 public class Handler implements HttpFunction {
+
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 		// request reading
@@ -31,6 +32,7 @@ public class Handler implements HttpFunction {
 		if (bool != null) {
 			toRet = bool.toString();
 		}
+
 		returnResult(httpResponse.getWriter(), toRet);
 	}
 

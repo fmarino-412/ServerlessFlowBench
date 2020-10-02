@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.Collections;
 
 public class Handler implements HttpFunction {
+
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 
@@ -35,6 +36,7 @@ public class Handler implements HttpFunction {
 		} else if (toRet != null) {
 			toRet = "other";
 		}
+
 		returnResult(httpResponse.getWriter(), toRet);
 	}
 
