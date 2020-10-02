@@ -2,6 +2,7 @@ exports.lambdaHandler = function (event, context, callback) {
 
     let url;
 
+    // search for image url in request
     if (event.queryStringParameters && event.queryStringParameters.url) {
         url = event.queryStringParameters.url;
     } else if (event.url) {
@@ -10,6 +11,7 @@ exports.lambdaHandler = function (event, context, callback) {
         callback(null, "Error");
     }
 
+    // download image and perform analysis
     const request = require('request').defaults({ encoding: null });
     request.get(url, function (error, response, body) {
         if (!error && response.statusCode === 200) {
@@ -24,6 +26,7 @@ exports.lambdaHandler = function (event, context, callback) {
 // credits: Micheal Dennis @ Stack Overflow
 // https://stackoverflow.com/questions/43494736/aws-rekognition-javascript-sdk-using-bytes
 function getBinary(base64Image) {
+    // turn from base64 image representation to binary
     const atob = require('atob');
     const Blob = require('node-blob');
     const binaryImg = atob(base64Image);
@@ -44,6 +47,7 @@ function detectAnger(image, callback) {
 
     const AWS = require('aws-sdk');
 
+    // prepare request
     image = getBinary(image);
 
     const client = new AWS.Rekognition();
@@ -54,6 +58,7 @@ function detectAnger(image, callback) {
         Attributes: ['ALL']
     };
 
+    // submit request and analyze results
     client.detectFaces(params, function (err, response) {
         if (err) {
             callback(null, "Error: " + err);

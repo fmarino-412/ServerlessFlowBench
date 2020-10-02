@@ -15,8 +15,7 @@ public class Handler implements HttpFunction {
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 
-		// request reading
-		// limit from Java on Google Cloud FUnctions! AWS is ok with 2000000 too
+		// request reading, search for array dimension in request
 		long n = Long.parseLong(httpRequest.getFirstQueryParameter("n").orElse("1300000"));
 
 		// computation
@@ -40,7 +39,7 @@ public class Handler implements HttpFunction {
 	}
 
 	private static void memoryStress(long n) {
-		// finds factors for n
+		// dynamic append of elements to an array
 		List<Long> memoryList = new ArrayList<>();
 		for (long i = 0; i < n; i++) {
 			memoryList.add(i);

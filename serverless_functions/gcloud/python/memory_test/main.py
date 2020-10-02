@@ -5,13 +5,16 @@ import re
 
 # noinspection DuplicatedCode
 def gc_functions_handler(request):
+
+	# search for array dimension in request
 	n = None
-	# available_start, memory_total = memory_stats(True)
 
 	if request.args.get('n') is not None:
 		n = int(request.args.get('n'))
 	else:
 		n = 1300000
+
+	# available_start, memory_total = memory_stats(True)
 
 	start_time = time.time()
 	memory_stress(n)
@@ -20,6 +23,7 @@ def gc_functions_handler(request):
 
 	# available_end, _ = memory_stats(False)
 
+	# prepare response
 	headers = {
 		'Content-Type': 'application/json'
 	}
@@ -48,6 +52,7 @@ def memory_stats(total):
 		memory_info = f.read()
 	f.close()
 
+	# parse memory info
 	if total:
 		total_pattern = re.compile("(MemTotal:\s)(.+B)")
 		memory_total = total_pattern.search(memory_info)[2]
@@ -60,6 +65,7 @@ def memory_stats(total):
 
 # noinspection DuplicatedCode
 def memory_stress(n):
+	# create and populate dynamically an array
 	memory_list = []
 	for i in range(0, n):
 		memory_list.append(i)

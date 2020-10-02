@@ -1,3 +1,4 @@
+import cmd.CommandExecutor;
 import cmd.benchmark_commands.BenchmarkCommandExecutor;
 import cmd.functionality_commands.AmazonCommandUtility;
 import cmd.functionality_commands.CompositionCommandExecutor;
@@ -502,6 +503,10 @@ public class MainTest {
 		/* Node.js on Amazon Web Services */
 
 		{
+			// debug purposes: due to heaviness of packets to deploy a wait can help in network performance
+			CommandExecutor.waitFor("Preparing...", 10);
+
+
 			String[] functionNames = {"image-recognition", "anger-detection"};
 			String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
 			Integer[] timeouts = {30, 30};
@@ -559,5 +564,26 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
+		{
+			String[] functionNames = {"image-recognition", "anger-detection"};
+			String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {1024, 1024};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/aws/node/face_recognition",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.NODE_10_X_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
 	}
 }

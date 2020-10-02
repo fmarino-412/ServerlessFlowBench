@@ -31,6 +31,7 @@ public class Handler implements RequestStreamHandler {
 		} catch (JsonSyntaxException ignored) {
 			event = new HashMap();
 		}
+		// extract number to factorize if in request
 		long n;
 		if (event.containsKey("n")) {
 			n = Long.parseLong((String)event.get("n"));
@@ -72,6 +73,7 @@ public class Handler implements RequestStreamHandler {
 	private static String factorize(long n) {
 		// finds factors for n
 		List<Long> factors = new ArrayList<>();
+		// optimized searching methods, just half of the cycles
 		for (long i = 1; i < Math.floor(Math.sqrt(n) + 1); i++) {
 			if (n % i == 0) {
 				factors.add(i);
@@ -80,6 +82,7 @@ public class Handler implements RequestStreamHandler {
 				}
 			}
 		}
+		// sort list and returns as string
 		Collections.sort(factors);
 		return factors.stream().map(Object::toString).collect(Collectors.joining(", "));
 	}

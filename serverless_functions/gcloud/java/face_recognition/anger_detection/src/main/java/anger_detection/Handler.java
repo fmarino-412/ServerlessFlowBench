@@ -16,7 +16,7 @@ public class Handler implements HttpFunction {
 
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
-		// request reading
+		// request reading, search for image url in request
 		String url = httpRequest.getFirstQueryParameter("url").orElse("");
 		if (url.equals("")) {
 			returnResult(httpResponse.getWriter(), null);
@@ -24,9 +24,11 @@ public class Handler implements HttpFunction {
 		}
 
 		// computation
+		// image download
 		URL connection = new URL(url);
 		ByteString image = ByteString.readFrom(connection.openStream());
 
+		// anger detection
 		Boolean bool = detectAnger(image);
 		String toRet = null;
 		if (bool != null) {
@@ -38,12 +40,14 @@ public class Handler implements HttpFunction {
 
 	private static Boolean detectAnger(ByteString image) {
 		try {
+			// prepare request
 			Image img = Image.newBuilder().setContent(image).build();
 			Feature feat = Feature.newBuilder().setType(Feature.Type.FACE_DETECTION).build();
 			AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
 
 			ImageAnnotatorClient client = ImageAnnotatorClient.create();
 
+			// perform request and anlyze results
 			for (AnnotateImageResponse response : client.batchAnnotateImages(Collections.singletonList(request))
 					.getResponsesList()) {
 				if (response.hasError()) {

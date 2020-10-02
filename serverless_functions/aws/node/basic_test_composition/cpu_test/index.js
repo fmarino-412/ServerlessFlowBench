@@ -2,6 +2,7 @@ exports.lambdaHandler = function (event, context, callback) {
 
     let n;
 
+    // search for number to factorize in request
     if (event.queryStringParameters && event.queryStringParameters.n) {
         n = event.queryStringParameters.n;
     } else if (event.n) {
@@ -10,11 +11,13 @@ exports.lambdaHandler = function (event, context, callback) {
         n = 71950288374236;
     }
 
+    // measure execution
     let startTime = Date.now();
     let result = factorize(n);
     let endTime = Date.now();
     let executionTime = (endTime - startTime);
 
+    // create response
     const ret = {
         statusCode: 200,
         headers: {
@@ -36,6 +39,7 @@ exports.lambdaHandler = function (event, context, callback) {
 function factorize(n) {
     // finds factors for n
     let factors = [];
+    // optimized research
     for (let i = 1; i < Math.floor(Math.sqrt(n)) + 1; i++) {
         if (n % i === 0) {
             factors.push(i);
@@ -45,7 +49,7 @@ function factorize(n) {
         }
     }
 
+    // sort result and return
     factors.sort(function(n1, n2){return n1 - n2;});
-
     return factors;
 }

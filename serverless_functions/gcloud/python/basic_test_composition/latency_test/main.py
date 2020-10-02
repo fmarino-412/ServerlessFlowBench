@@ -3,6 +3,10 @@ import json
 
 # noinspection DuplicatedCode
 def gc_functions_handler(request):
+
+	# test invocation and response timing
+
+	# response creation
 	headers = {
 		'Content-Type': 'application/json'
 	}

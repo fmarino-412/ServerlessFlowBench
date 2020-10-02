@@ -3,6 +3,10 @@ import json
 
 # noinspection DuplicatedCode
 def lambda_handler(event, context):
+
+	# test invocation and response timing
+
+	# response creation
 	return {
 		'statusCode': 200,
 		'headers': {

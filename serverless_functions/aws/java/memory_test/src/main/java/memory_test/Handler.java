@@ -28,6 +28,7 @@ public class Handler implements RequestStreamHandler {
 		} catch (JsonSyntaxException ignored) {
 			event = new HashMap();
 		}
+		// search for array dimension in request
 		long n;
 		if (event.containsKey("n")) {
 			n = Long.parseLong((String)event.get("n"));
@@ -66,7 +67,7 @@ public class Handler implements RequestStreamHandler {
 	}
 
 	private static void memoryStress(long n) {
-		// finds factors for n
+		// dynamic append of elements to an array
 		List<Long> memoryList = new ArrayList<>();
 		for (long i = 0; i < n; i++) {
 			memoryList.add(i);

@@ -19,7 +19,7 @@ public class Handler implements HttpFunction {
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 
-		// request reading
+		// request reading, search for image url in request
 		String url = httpRequest.getFirstQueryParameter("url").orElse("");
 		if (url.equals("")) {
 			returnResult(httpResponse.getWriter(), null);
@@ -27,9 +27,11 @@ public class Handler implements HttpFunction {
 		}
 
 		// computation
+		// image download
 		URL connection = new URL(url);
 		ByteString image = ByteString.readFrom(connection.openStream());
 
+		// objects and scenes detection
 		String toRet = detectObjectsAndScenes(image);
 		if (toRet != null && toRet.contains("face")) {
 			toRet = "face";
@@ -42,6 +44,7 @@ public class Handler implements HttpFunction {
 
 	private static String detectObjectsAndScenes(ByteString image) {
 		try {
+			// prepare request
 			JsonObjectBuilder result = Json.createObjectBuilder();
 			Image img = Image.newBuilder().setContent(image).build();
 			Feature feat = Feature.newBuilder().setType(Feature.Type.LABEL_DETECTION).build();
@@ -49,6 +52,7 @@ public class Handler implements HttpFunction {
 
 			ImageAnnotatorClient client = ImageAnnotatorClient.create();
 
+			// perform request and analyze results
 			for (AnnotateImageResponse response : client.batchAnnotateImages(Collections.singletonList(request))
 					.getResponsesList()) {
 				if (response.hasError()) {

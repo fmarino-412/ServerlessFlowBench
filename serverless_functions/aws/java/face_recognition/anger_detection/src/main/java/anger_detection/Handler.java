@@ -31,6 +31,7 @@ public class Handler implements RequestStreamHandler {
 		} catch (JsonSyntaxException ignored) {
 			event = new HashMap();
 		}
+		// search for image url in request
 		String url;
 		if (event.containsKey("url")) {
 			url = (String)event.get("url");
@@ -41,11 +42,13 @@ public class Handler implements RequestStreamHandler {
 
 		try {
 			// computation
+			// image download
 			URL connection = new URL(url);
 			BufferedImage bufferedImage = ImageIO.read(connection);
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
 
+			// anger detection
 			returnResult(outputStream, detectAnger(ByteBuffer.wrap(byteArrayOutputStream.toByteArray())));
 		} catch (IOException ignored) {
 			returnResult(outputStream, null);
@@ -54,12 +57,14 @@ public class Handler implements RequestStreamHandler {
 
 	private static boolean detectAnger(ByteBuffer image) {
 
+		// prepare request
 		AmazonRekognition client = AmazonRekognitionClientBuilder.defaultClient();
 
 		DetectFacesRequest request = new DetectFacesRequest()
 				.withImage(new Image().withBytes(image))
 				.withAttributes("ALL");
 
+		// perform request and analyze results
 		DetectFacesResult result = client.detectFaces(request);
 		for (FaceDetail detail : result.getFaceDetails()) {
 			for (Emotion emotion : detail.getEmotions()) {

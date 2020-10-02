@@ -292,6 +292,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		} catch (IllegalNameException e) {
 			System.err.println("Could not deploy function '" + functionName + "' to AWS Lambda: " +
 					e.getMessage());
+			return;
 		}
 
 		System.out.println("\n" + "\u001B[33m" +

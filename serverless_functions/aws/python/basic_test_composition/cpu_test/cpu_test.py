@@ -6,9 +6,9 @@ import re
 
 # noinspection DuplicatedCode
 def lambda_handler(event, context):
-	n = None
 
-	# cpu_model, cpu_cores = get_cpu_info()
+	# search for number to factorize in request
+	n = None
 
 	if event.get('queryStringParameters') is not None:
 		if 'n' in event['queryStringParameters']:
@@ -18,11 +18,15 @@ def lambda_handler(event, context):
 	else:
 		n = 71950288374236
 
+	# cpu_model, cpu_cores = get_cpu_info()
+
+	# measure computation
 	start_time = time.time()
 	result = factorize(n)
 	end_time = time.time()
 	execution_time = (end_time - start_time) * 1000
 
+	# prepare response
 	return {
 		'statusCode': 200,
 		'headers': {
@@ -48,6 +52,7 @@ def lambda_handler(event, context):
 def factorize(n):
 	# finds factors for n
 	factors = []
+	# optimized research
 	for i in range(1, math.floor(math.sqrt(n)) + 1):
 		if n % i == 0:
 			factors.append(i)
@@ -68,6 +73,7 @@ def get_cpu_info():
 		cpu_info = f.read()
 	f.close()
 
+	# parse infos
 	model_pattern = re.compile("(model name\s:\s)(.+@.*z)")
 	cores_pattern = re.compile("(cpu cores\s:\s)([0-9]+)")
 	cpu_model = model_pattern.search(cpu_info)[2]

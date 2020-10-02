@@ -13,6 +13,8 @@ public class Handler implements RequestStreamHandler {
 	@Override
 	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) {
 
+		// test invocation and response timing
+
 		// response creation
 		JsonObjectBuilder job1 = Json.createObjectBuilder();
 		job1.add("isBase64Encoded", false);

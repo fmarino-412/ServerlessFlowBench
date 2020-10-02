@@ -37,6 +37,7 @@ public class Handler implements RequestStreamHandler {
 		} catch (JsonSyntaxException ignored) {
 			event = new HashMap();
 		}
+		// search for image url in request
 		String url;
 		if (event.containsKey("url")) {
 			url = (String)event.get("url");
@@ -47,11 +48,13 @@ public class Handler implements RequestStreamHandler {
 
 		try {
 			// computation
+			// image download
 			URL connection = new URL(url);
 			BufferedImage bufferedImage = ImageIO.read(connection);
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
 
+			// objects and scenes detection
 			StringBuilder resultBuilder = new StringBuilder();
 			for (Label label : detectObjectsAndScenes(ByteBuffer.wrap(byteArrayOutputStream.toByteArray()))) {
 				resultBuilder.append(label.getName().toLowerCase()).append(", ");
@@ -66,6 +69,7 @@ public class Handler implements RequestStreamHandler {
 
 	private static List<Label> detectObjectsAndScenes(ByteBuffer image) {
 
+		// prepare request
 		AmazonRekognition client = AmazonRekognitionClientBuilder.defaultClient();
 
 		DetectLabelsRequest request = new DetectLabelsRequest()
@@ -73,6 +77,7 @@ public class Handler implements RequestStreamHandler {
 				.withMaxLabels(100)
 				.withMinConfidence(70f);
 
+		// perform request and return results
 		DetectLabelsResult result = client.detectLabels(request);
 		return result.getLabels();
 	}

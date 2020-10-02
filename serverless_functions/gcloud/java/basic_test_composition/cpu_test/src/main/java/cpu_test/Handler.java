@@ -17,7 +17,7 @@ public class Handler implements HttpFunction {
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 
-		// request reading
+		// request reading, extract number to factorize if in request
 		long n = Long.parseLong(httpRequest.getFirstQueryParameter("n").orElse("71950288374236"));
 
 		// computation
@@ -44,6 +44,7 @@ public class Handler implements HttpFunction {
 	private static String factorize(long n) {
 		// finds factors for n
 		List<Long> factors = new ArrayList<>();
+		// optimized searching methods, just half of the cycles
 		for (long i = 1; i < Math.floor(Math.sqrt(n) + 1); i++) {
 			if (n % i == 0) {
 				factors.add(i);
@@ -52,6 +53,7 @@ public class Handler implements HttpFunction {
 				}
 			}
 		}
+		// sort list and returns as string
 		Collections.sort(factors);
 		return factors.stream().map(Object::toString).collect(Collectors.joining(", "));
 	}

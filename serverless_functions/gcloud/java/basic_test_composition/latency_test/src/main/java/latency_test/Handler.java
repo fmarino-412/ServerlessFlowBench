@@ -13,6 +13,8 @@ public class Handler implements HttpFunction {
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 
+		// test invocation and response timing
+
 		// response creation
 		JsonObjectBuilder job1 = Json.createObjectBuilder();
 		JsonObjectBuilder job2 = Json.createObjectBuilder();
