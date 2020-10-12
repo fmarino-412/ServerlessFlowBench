@@ -1,6 +1,8 @@
 package cmd.benchmark_commands;
 
 import cmd.CommandExecutor;
+import cmd.DockerException;
+import cmd.DockerExecutor;
 import cmd.StreamGobbler;
 import cmd.benchmark_commands.output_parsing.BenchmarkCollector;
 import cmd.benchmark_commands.output_parsing.BenchmarkStats;
@@ -221,6 +223,14 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		System.out.print("\n" + "\u001B[33m" +
 				"Starting benchmarks...\nFrom this moment on please make sure no one else is invoking " +
 				"your functions.\n");
+
+		try {
+			DockerExecutor.checkDocker();
+		} catch (DockerException e) {
+			System.err.println("Could not perform benchmarks: " + e.getMessage());
+			return;
+		}
+
 		if (iterations != null) {
 			System.out.print("Estimated time: approximately " +
 					(((COLD_START_SLEEP_INTERVAL_MS/1000)*iterations)/60)/60 + " hours");

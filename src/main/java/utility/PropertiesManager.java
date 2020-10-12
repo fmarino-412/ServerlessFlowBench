@@ -18,6 +18,8 @@ public class PropertiesManager {
 	/**
 	 * Property keys
 	 */
+	public static final String DOCKER_COMPOSE_DIR = "docker_compose_dir";
+
 	public static final String MYSQL_IP = "mysql_ip";
 	public static final String MYSQL_PORT = "mysql_port";
 	public static final String MYSQL_USR = "mysql_user";

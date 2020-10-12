@@ -1,6 +1,8 @@
 package cmd.functionality_commands;
 
 import cmd.CommandExecutor;
+import cmd.DockerException;
+import cmd.DockerExecutor;
 import cmd.StreamGobbler;
 import cmd.functionality_commands.output_parsing.UrlFinder;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
@@ -93,7 +95,8 @@ public class FunctionCommandExecutor extends CommandExecutor {
 
 		try {
 			functionName = GoogleCommandUtility.applyRuntimeId(functionName, runtime);
-		} catch (IllegalNameException e) {
+			DockerExecutor.checkDocker();
+		} catch (IllegalNameException | DockerException e) {
 			System.err.println("Could not deploy function '" + functionName + "' to Google Cloud Functions: " +
 					e.getMessage());
 			return "";
@@ -132,8 +135,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			if (process.waitFor() != 0) {
 				System.err.println("Could not deploy function '" + functionName + "'");
 				process.destroy();
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				return "";
 			}
 
@@ -289,7 +290,8 @@ public class FunctionCommandExecutor extends CommandExecutor {
 
 		try {
 			functionName = AmazonCommandUtility.applyRuntimeId(functionName, runtime);
-		} catch (IllegalNameException e) {
+			DockerExecutor.checkDocker();
+		} catch (IllegalNameException | DockerException e) {
 			System.err.println("Could not deploy function '" + functionName + "' to AWS Lambda: " +
 					e.getMessage());
 			return;
@@ -322,8 +324,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			executorServiceErr.submit(errorGobbler);
 			if (process.waitFor() != 0) {
 				System.err.println("Could not create api on API Gateway for '" + functionName + "'");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -341,8 +341,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			executorServiceErr.submit(errorGobbler);
 			if (process.waitFor() != 0) {
 				System.err.println("Could not get api id for '" + functionName + "'");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -350,8 +348,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			if (apiId.contains("\t")) {
 				System.err.println("Too many APIs with the same name ('" + functionName +
 						"'), could not continue execution");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -368,8 +364,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			executorServiceErr.submit(errorGobbler);
 			if (process.waitFor() != 0) {
 				System.err.println("Could not get api parent id for '" + functionName + "'");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -385,8 +379,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			executorServiceErr.submit(errorGobbler);
 			if (process.waitFor() != 0) {
 				System.err.println("Could not create resource on api for '" + functionName + "'");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -404,8 +396,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			executorServiceErr.submit(errorGobbler);
 			if (process.waitFor() != 0) {
 				System.err.println("Could not get api resource id for '" + functionName + "'");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -421,8 +411,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			executorServiceErr.submit(errorGobbler);
 			if (process.waitFor() != 0) {
 				System.err.println("Could not create api method for '" + functionName + "'");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -437,8 +425,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			executorServiceErr.submit(errorGobbler);
 			if (process.waitFor() != 0) {
 				System.err.println("Could not link api method and lambda function '" + functionName + "'");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -453,8 +439,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			executorServiceErr.submit(errorGobbler);
 			if (process.waitFor() != 0) {
 				System.err.println("Could not deploy api for '" + functionName + "'");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -469,8 +453,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			executorServiceErr.submit(errorGobbler);
 			if (process.waitFor() != 0) {
 				System.err.println("Could not authorize api gateway for '" + functionName + "' execution");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -504,6 +486,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	 */
 	protected static void removeGoogleFunction(String functionName, String region)
 			throws IOException, InterruptedException {
+
 		String cmd = GoogleCommandUtility.buildGoogleCloudFunctionsRemoveCommand(functionName, region);
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
@@ -533,6 +516,13 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		System.out.println("\n" + "\u001B[33m" +
 				"Cleaning up Google functions environment..." +
 				"\u001B[0m" + "\n");
+
+		try {
+			DockerExecutor.checkDocker();
+		} catch (DockerException e) {
+			System.err.println("Could not cleanup Google Cloud Functions: " + e.getMessage());
+			return;
+		}
 
 		List<FunctionalityData> toRemove = FunctionsRepositoryDAO.getGoogles();
 		if (toRemove == null) {
@@ -621,6 +611,13 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		System.out.println("\n" + "\u001B[33m" +
 				"Cleaning up Amazon functions environment..." +
 				"\u001B[0m" + "\n");
+
+		try {
+			DockerExecutor.checkDocker();
+		} catch (DockerException e) {
+			System.err.println("Could not cleanup Amazon function environment: " + e.getMessage());
+			return;
+		}
 
 		List<FunctionalityData> toRemove = FunctionsRepositoryDAO.getAmazons();
 		if (toRemove == null) {

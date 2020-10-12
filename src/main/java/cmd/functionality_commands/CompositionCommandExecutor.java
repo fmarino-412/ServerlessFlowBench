@@ -1,8 +1,6 @@
 package cmd.functionality_commands;
 
-import cmd.CommandExecutor;
-import cmd.CommandUtility;
-import cmd.StreamGobbler;
+import cmd.*;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
 import cmd.functionality_commands.security.GoogleAuthClient;
 import databases.mysql.FunctionalityData;
@@ -43,6 +41,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	 * Deploys a serverless composition handler on Google Cloud Functions
 	 */
 	private static void deployGoogleCompositionHandler() {
+
 		if (CompositionRepositoryDAO.existsGoogleHandler(null)) {
 			return;
 		}
@@ -60,6 +59,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	 * Deploys a serverless composition handler on AWS
 	 */
 	private static void deployAmazonCompositionHandler() {
+
 		if (CompositionRepositoryDAO.existsAmazonHandler(null)) {
 			return;
 		}
@@ -104,7 +104,8 @@ public class CompositionCommandExecutor extends CommandExecutor {
 
 		try {
 			workflowName = GoogleCommandUtility.applyRuntimeId(workflowName, runtime);
-		} catch (IllegalNameException e) {
+			DockerExecutor.checkDocker();
+		} catch (IllegalNameException | DockerException e) {
 			System.err.println("Could not deploy workflow '" + workflowName + "': " + e.getMessage());
 			return;
 		}
@@ -182,7 +183,6 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			executorServiceOut.submit(outputGobbler);
 			if (process.waitFor() != 0) {
 				System.err.println("Could not deploy workflow '" + workflowName + "' on Google Cloud Platform");
-				executorServiceOut.shutdown();
 				process.destroy();
 				return;
 			}
@@ -238,7 +238,8 @@ public class CompositionCommandExecutor extends CommandExecutor {
 
 		try {
 			machineName = AmazonCommandUtility.applyRuntimeId(machineName, runtime);
-		} catch (IllegalNameException e) {
+			DockerExecutor.checkDocker();
+		} catch (IllegalNameException | DockerException e) {
 			System.err.println("Could not deploy state machine '" + machineName + "': " + e.getMessage());
 			return;
 		}
@@ -309,8 +310,6 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			executorServiceErr.submit(errorGobbler);
 			if (process.waitFor() != 0) {
 				System.err.println("Could not deploy state machine '" + machineName + "' on Step Functions");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -321,8 +320,6 @@ public class CompositionCommandExecutor extends CommandExecutor {
 				machineArn = matcher.group(2);
 			} else {
 				System.err.println("Could not deploy state machine '" + machineName + "' on Step Functions");
-				executorServiceOut.shutdown();
-				executorServiceErr.shutdown();
 				process.destroy();
 				return;
 			}
@@ -380,6 +377,14 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		System.out.println("\n" + "\u001B[33m" +
 				"Cleaning up Google composition environment..." +
 				"\u001B[0m" + "\n");
+
+		try {
+			DockerExecutor.checkDocker();
+		} catch (DockerException e) {
+			System.err.println("Could not cleanup Google composition environment: " + e.getMessage());
+			return;
+		}
+
 		// remove handler
 		FunctionalityData handler = CompositionRepositoryDAO.getGoogleHandlerInfo();
 		if (handler != null) {
@@ -457,6 +462,14 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		System.out.println("\n" + "\u001B[33m" +
 				"Cleaning up Amazon composition environment..." +
 				"\u001B[0m" + "\n");
+
+		try {
+			DockerExecutor.checkDocker();
+		} catch (DockerException e) {
+			System.err.println("Could not cleanup Amazon composition environment: " + e.getMessage());
+			return;
+		}
+
 		// remove handler
 		FunctionalityData handler = CompositionRepositoryDAO.getAmazonHandlerInfo();
 		if (handler != null) {
