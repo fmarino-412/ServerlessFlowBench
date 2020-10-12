@@ -11,7 +11,7 @@ public class MainTest {
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 5;
+		int i = 6;
 
 		switch (i) {
 			case 0:
@@ -40,12 +40,12 @@ public class MainTest {
 				customFunction();
 				break;
 			case 5:
+				deployInfoFunctions();
+				break;
+			case 6:
 				cleanupFunctions();
 				cleanupCompositions();
-				deployInfoFunctions();
-				//customFunction();
-				//cleanupCompositions();
-				//deployCompositions();
+				customFunction();
 		}
 	}
 
@@ -587,34 +587,31 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		for (int i = 0; i < 10; i++) {
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/python/basic_test_composition/cpu_test");
 
-			cleanupCompositions();
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
+				GoogleCommandUtility.JAVA_11_RUNTIME,
+				"cpu_test.Handler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/java/basic_test_composition/cpu_test");
 
-			{
-				CommandExecutor.waitFor("Relax", 20);
-				String[] functionNames = {"image-recognition", "anger-detection"};
-				String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
-				Integer[] timeouts = {30, 30};
-				Integer[] memories = {1024, 1024};
-				String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-				String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
-
-				CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/aws/node/face_recognition",
-						AmazonCommandUtility.OHIO,
-						"step.json",
-						functionNames,
-						AmazonCommandUtility.NODE_10_X_RUNTIME,
-						entryPoints,
-						timeouts,
-						memories,
-						regions,
-						zipFileNames);
-			}
-		}
-
-		cleanupCompositions();
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
+				GoogleCommandUtility.NODE_10_RUNTIME,
+				"gcFunctionsHandler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/node/basic_test_composition/cpu_test");
 	}
 }
