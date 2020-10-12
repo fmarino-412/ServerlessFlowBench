@@ -6,17 +6,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="memory_test_java_gcp" />
-        <module name="anger_detection_java_gcp" />
         <module name="cpu_test_java_gcp" />
-        <module name="image_recognition_java_gcp" />
-        <module name="latency_test_java_aws" />
-        <module name="memory_test_java_aws" />
-        <module name="latency_test_java_gcp" />
-        <module name="anger_detection_java_aws" />
-        <module name="image_recognition_java_aws" />
-        <module name="cpu_test_java_aws" />
         <module name="serverless_composition_performance_project" />
+        <module name="image_recognition_java_gcp" />
+        <module name="anger_detection_java_gcp" />
+        <module name="memory_test_java_gcp" />
+        <module name="latency_test_java_aws" />
+        <module name="anger_detection_java_aws" />
+        <module name="cpu_test_java_aws" />
+        <module name="memory_test_java_aws" />
+        <module name="image_recognition_java_aws" />
+        <module name="latency_test_java_gcp" />
       </profile>
     </annotationProcessing>
   </component>

@@ -42,7 +42,8 @@ public class MainTest {
 			case 5:
 				cleanupFunctions();
 				cleanupCompositions();
-				customFunction();
+				deployInfoFunctions();
+				//customFunction();
 				//cleanupCompositions();
 				//deployCompositions();
 		}
@@ -561,6 +562,15 @@ public class MainTest {
 	}
 
 	private static void deployInfoFunctions() {
+
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				128,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/python/info_getter");
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter",
 				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
