@@ -20,7 +20,11 @@ import java.util.concurrent.Executors;
 
 public class BenchmarkCommandExecutor extends CommandExecutor {
 
-	private static final int COLD_START_SLEEP_INTERVAL_MS = 30 * 60 * 1000;
+	/**
+	 * Time needed for instance recycling, value determined using
+	 * https://www.usenix.org/conference/atc18/presentation/wang-liang
+	 */
+	private static final int COLD_START_SLEEP_INTERVAL_MS = 120 * 60 * 1000;
 
 
 	/**
