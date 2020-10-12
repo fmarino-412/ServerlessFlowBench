@@ -560,6 +560,19 @@ public class MainTest {
 				10);
 	}
 
+	private static void deployInfoFunctions() {
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"info_getter.lambda_handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/aws/python/info_getter",
+				"info_getter.zip");
+
+	}
 
 	@Deprecated
 	private static void customFunction() {
