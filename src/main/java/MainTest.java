@@ -8,12 +8,12 @@ import cmd.functionality_commands.GoogleCommandUtility;
 @SuppressWarnings("DuplicatedCode")
 public class MainTest {
 
+	private static final int OPERATION_SELECTION = 6;
+
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
-		int i = 6;
-
-		switch (i) {
+		switch (OPERATION_SELECTION) {
 			case 0:
 				deployFunctions();
 				deployCompositions();
