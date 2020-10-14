@@ -1,0 +1,149 @@
+{
+  "Comment": "An Amazon States Machine that recognizes text, translates it and ranks translated words",
+  "StartAt": "Input definition",
+  "States": {
+    "Input definition": {
+      "Type": "Pass",
+      "Result": {
+        "Payload": {
+          "Sentences": [
+            "ciao, ecco un esempio di testo da tradurre",
+            "ciao, ecco un secondo esempio di testo da tradurre"
+          ],
+          "NextIterationCounter": 0
+        }
+      },
+      "ResultPath": "$.Iterator",
+      "Next": "Loop entrance"
+    },
+    "Loop entrance": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "__PLACEHOLDER__",
+        "Payload": {
+          "Sentences.$": "$.Iterator.Payload.Sentences",
+          "NextIterationCounter.$": "$.Iterator.Payload.NextIterationCounter"
+        }
+      },
+      "ResultPath": "$.Iterator",
+      "Next": "Loop entrance choice"
+    },
+    "Loop entrance choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.Iterator.Payload",
+          "StringEquals": "Error",
+          "Next": "Error"
+        }
+      ],
+      "Default": "Detect language"
+    },
+    "Detect language": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "__PLACEHOLDER__",
+        "Payload": {
+          "sentence.$": "$.Iterator.Payload.CurrentSentence"
+        }
+      },
+      "ResultPath": "$.LanguageDetection",
+      "Next": "Language choice"
+    },
+    "Language choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.LanguageDetection.Payload",
+          "StringEquals": "Error",
+          "Next": "Error"
+        },
+        {
+          "Variable": "$.LanguageDetection.Payload.language",
+          "StringEquals": "en",
+          "Next": "Word ranking preamble"
+        }
+      ],
+      "Default": "Sentence translation"
+    },
+    "Sentence translation": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "__PLACEHOLDER__",
+        "Payload": {
+          "sentence.$": "$.LanguageDetection.Payload.sentence",
+          "language_code.$": "$.LanguageDetection.Payload.language"
+        }
+      },
+      "ResultPath": "$.SentenceTranslation",
+      "Next": "Sentence choice"
+    },
+    "Sentence choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.SentenceTranslation.Payload",
+          "StringEquals": "Error",
+          "Next": "Error"
+        }
+      ],
+      "Default": "Word ranking"
+    },
+    "Word ranking preamble": {
+      "Type": "Pass",
+      "Result": {
+        "sentence.$": "$.LanguageDetection.Payload.sentence"
+      },
+      "ResultPath": "$.SentenceTranslation",
+      "Next": "Word ranking"
+    },
+    "Word ranking": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "__PLACEHOLDER__",
+        "Payload": {
+          "sentence.$": "$.SentenceTranslation.Payload.sentence",
+          "ranking_table_name": "ranking_translator"
+        }
+      },
+      "ResultPath": "$.WordRanking",
+      "Next": "Word ranking choice"
+    },
+    "Word ranking choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.WordRanking.Payload",
+          "StringEquals": "Error",
+          "Next": "Error"
+        }
+      ],
+      "Default": "Iteration checker"
+    },
+    "Iteration checker": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.Iterator.Payload.EndNext",
+          "BooleanEquals": true,
+          "Next": "Completion"
+        }
+      ],
+      "Default": "Loop entrance"
+    },
+    "Error": {
+      "Type": "Pass",
+      "Result": "An error occurred, please check passed arguments",
+      "End": true
+    },
+    "Completion": {
+      "Type": "Pass",
+      "Result": "Ranking completed",
+      "End": true
+    }
+  }
+}

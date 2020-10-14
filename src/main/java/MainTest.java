@@ -603,25 +603,36 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("language-detection",
-				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-				"language_detection.lambda_handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/ranking_translator",
-				"language_detection.zip");
+		TablesCommandExecutor.createAmazonTable("ranking_translator",
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/" +
+						"serverless_functions/aws/dynamo_tables",
+				"ranking_translator.json",
+				AmazonCommandUtility.OHIO);
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("sentence-translation",
-				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-				"sentence_translation.lambda_handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/ranking_translator",
-				"sentence_translation.zip");
+		{
+			String[] functionNames = {"loop-start-controller", "language-detection", "sentence-translation", "word-ranking"};
+			String[] entryPoints = {"loop_start_controller.lambda_handler", "language_detection.lambda_handler",
+					"sentence_translation.lambda_handler", "word_ranking.lambda_handler"};
+			Integer[] timeouts = {30, 30, 30, 30};
+			Integer[] memories = {128, 512, 512, 512};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
+					AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"loop_start_controller.zip", "language_detection.zip", "sentence_translation.zip",
+					"word_ranking.zip"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("ranking-translator",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/python/ranking_translator",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
 
 	}
 }
