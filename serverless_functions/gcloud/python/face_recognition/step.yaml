@@ -1,7 +1,7 @@
 - analyzeImage:
     call: http.get
     args:
-      url: __PLACEHOLDER__?url=https://image.shutterstock.com/image-photo/beautiful-calm-face-young-woman-260nw-1493659754.jpg
+      url: __PLACEHOLDER__?url=https://images.freeimages.com/images/large-previews/8c4/requiem-for-a-daily-dream-2-1428558.jpg
     result: FaceRecognitionResult
 - conditionalFaceSwitch:
     switch:

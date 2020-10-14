@@ -587,33 +587,6 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/basic_test_composition/cpu_test");
-
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
-				GoogleCommandUtility.JAVA_11_RUNTIME,
-				"cpu_test.Handler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/java/basic_test_composition/cpu_test");
-
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
-				GoogleCommandUtility.NODE_10_RUNTIME,
-				"gcFunctionsHandler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/basic_test_composition/cpu_test");
-
 		{
 			String[] functionNames = {"image-recognition", "anger-detection"};
 			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
@@ -625,28 +598,6 @@ public class MainTest {
 			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/gcloud/python/face_recognition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
-
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"latency_test", "cpu_test"};
-
-			CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/basic_test_composition",
 					GoogleCommandUtility.IOWA,
 					"step.yaml",
 					functionNames,
@@ -681,28 +632,6 @@ public class MainTest {
 		}
 
 		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"latency_test", "cpu_test"};
-
-			CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/java/basic_test_composition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.JAVA_11_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
-
-		{
 			String[] functionNames = {"image-recognition", "anger-detection"};
 			String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler"};
 			Integer[] timeouts = {30, 30};
@@ -713,28 +642,6 @@ public class MainTest {
 			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/gcloud/node/face_recognition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.NODE_10_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
-
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"latency_test", "cpu_test"};
-
-			CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/node/basic_test_composition",
 					GoogleCommandUtility.IOWA,
 					"step.yaml",
 					functionNames,

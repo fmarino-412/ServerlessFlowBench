@@ -1,7 +1,7 @@
 - prepareInput:
     assign:
       - image_analyze_url_start: __PLACEHOLDER__
-      - image_to_analize: ?url=https://image.shutterstock.com/image-photo/beautiful-calm-face-young-woman-260nw-1493659754.jpg
+      - image_to_analize: ?url=https://images.freeimages.com/images/large-previews/8c4/requiem-for-a-daily-dream-2-1428558.jpg
       - image_analyze_url: ${image_analyze_url_start + image_to_analize}
 - analyzeImage:
     call: http.get
