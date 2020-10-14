@@ -6,6 +6,7 @@ COMPREHEND_CLIENT = boto3.client("comprehend", region_name=REGION)
 
 
 def lambda_handler(event, context):
+
     # search for string in request
     sentence = None
 

@@ -613,5 +613,15 @@ public class MainTest {
 						"project/serverless_functions/aws/python/ranking_translator",
 				"language_detection.zip");
 
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("sentence-translation",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"sentence_translation.lambda_handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/aws/python/ranking_translator",
+				"sentence_translation.zip");
+
 	}
 }
