@@ -95,8 +95,10 @@
     },
     "Word ranking preamble": {
       "Type": "Pass",
-      "Result": {
-        "sentence.$": "$.LanguageDetection.Payload.sentence"
+      "Parameters": {
+        "Payload": {
+          "sentence.$": "$.LanguageDetection.Payload.sentence"
+        }
       },
       "ResultPath": "$.SentenceTranslation",
       "Next": "Word ranking"
