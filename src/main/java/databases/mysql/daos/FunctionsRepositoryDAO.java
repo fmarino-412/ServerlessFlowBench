@@ -1,6 +1,6 @@
 package databases.mysql.daos;
 
-import databases.mysql.FunctionalityData;
+import databases.mysql.CloudEntityData;
 import databases.mysql.FunctionalityURL;
 import databases.mysql.MySQLConnect;
 import utility.PropertiesManager;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Data Access Object for serverless function related information
  */
-@SuppressWarnings("DuplicatedCode")
+@SuppressWarnings({"DuplicatedCode", "SqlResolve"})
 public class FunctionsRepositoryDAO extends DAO {
 
 	/**
@@ -201,9 +201,9 @@ public class FunctionsRepositoryDAO extends DAO {
 
 	/**
 	 * List every Google Cloud Functions function
-	 * @return list of functions (FunctionalityData)
+	 * @return list of functions (CloudEntityData)
 	 */
-	public static List<FunctionalityData> getGoogles() {
+	public static List<CloudEntityData> getGoogles() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -215,10 +215,10 @@ public class FunctionsRepositoryDAO extends DAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_FUNCTIONS_INFO);
 
-			List<FunctionalityData> result = new ArrayList<>();
+			List<CloudEntityData> result = new ArrayList<>();
 
 			while (resultSet.next()) {
-				result.add(new FunctionalityData(resultSet.getString("function_name"),
+				result.add(new CloudEntityData(resultSet.getString("function_name"),
 						resultSet.getString("region")));
 			}
 
@@ -234,9 +234,9 @@ public class FunctionsRepositoryDAO extends DAO {
 
 	/**
 	 * List every Amazon Lambda and API Gateway function
-	 * @return list of functions (FunctionalityData)
+	 * @return list of functions (CloudEntityData)
 	 */
-	public static List<FunctionalityData> getAmazons() {
+	public static List<CloudEntityData> getAmazons() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -248,10 +248,10 @@ public class FunctionsRepositoryDAO extends DAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_AMAZON_FUNCTIONS_INFO);
 
-			List<FunctionalityData> result = new ArrayList<>();
+			List<CloudEntityData> result = new ArrayList<>();
 
 			while (resultSet.next()) {
-				result.add(new FunctionalityData(resultSet.getString("function_name"),
+				result.add(new CloudEntityData(resultSet.getString("function_name"),
 						resultSet.getString("region"), resultSet.getString("api_id")));
 			}
 

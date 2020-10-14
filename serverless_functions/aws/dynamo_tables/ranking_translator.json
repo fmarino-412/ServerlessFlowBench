@@ -1,0 +1,18 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "word",
+      "AttributeType": "S"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "WriteCapacityUnits": 5,
+    "ReadCapacityUnits": 5
+  },
+  "KeySchema": [
+    {
+      "KeyType": "HASH",
+      "AttributeName": "word"
+    }
+  ]
+}

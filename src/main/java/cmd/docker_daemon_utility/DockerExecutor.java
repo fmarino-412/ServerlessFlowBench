@@ -1,5 +1,8 @@
-package cmd;
+package cmd.docker_daemon_utility;
 
+import cmd.CommandExecutor;
+import cmd.StreamGobbler;
+import cmd.docker_daemon_utility.DockerException;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
 import utility.PropertiesManager;
 

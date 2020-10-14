@@ -3,13 +3,13 @@ package databases.mysql;
 import com.sun.istack.internal.Nullable;
 
 /**
- * Collection of functionality (function or composition) information
+ * Collection of cloud entity (function, composition ot table) information
  */
-public class FunctionalityData {
+public class CloudEntityData {
 	/**
 	 * Information
 	 */
-	private final String functionalityName;
+	private final String entityName;
 	private final String region;
 
 	/**
@@ -21,29 +21,29 @@ public class FunctionalityData {
 
 	/**
 	 * Constructor without id
-	 * @param functionalityName name of the functionality
+	 * @param entityName name of the entity
 	 * @param region functionality region of deployment
 	 */
-	public FunctionalityData(String functionalityName, String region) {
-		this.functionalityName = functionalityName;
+	public CloudEntityData(String entityName, String region) {
+		this.entityName = entityName;
 		this.region = region;
 		this.id = null;
 	}
 
 	/**
 	 * All arguments constructor
-	 * @param functionalityName name of the functionality
+	 * @param entityName name of the entity
 	 * @param region functionality region of deployment
 	 * @param id functionality ARN or API id
 	 */
-	public FunctionalityData(String functionalityName, String region, String id) {
-		this.functionalityName = functionalityName;
+	public CloudEntityData(String entityName, String region, String id) {
+		this.entityName = entityName;
 		this.region = region;
 		this.id = id;
 	}
 
-	public String getFunctionalityName() {
-		return functionalityName;
+	public String getEntityName() {
+		return entityName;
 	}
 
 	public String getRegion() {

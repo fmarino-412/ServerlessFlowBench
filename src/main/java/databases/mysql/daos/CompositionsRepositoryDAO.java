@@ -1,7 +1,7 @@
 package databases.mysql.daos;
 
 import com.sun.istack.internal.Nullable;
-import databases.mysql.FunctionalityData;
+import databases.mysql.CloudEntityData;
 import databases.mysql.FunctionalityURL;
 import databases.mysql.MySQLConnect;
 import utility.PropertiesManager;
@@ -14,8 +14,8 @@ import java.util.List;
 /**
  * Data Access Object for serverless function composition related information
  */
-@SuppressWarnings("DuplicatedCode")
-public class CompositionRepositoryDAO extends DAO {
+@SuppressWarnings({"DuplicatedCode", "SqlResolve"})
+public class CompositionsRepositoryDAO extends DAO {
 
 	/**
 	 * Queries
@@ -500,9 +500,9 @@ public class CompositionRepositoryDAO extends DAO {
 
 	/**
 	 * Getter for Google Workflows [BETA] handler
-	 * @return FunctionalityData containing handler info
+	 * @return CloudEntityData containing handler info
 	 */
-	public static FunctionalityData getGoogleHandlerInfo() {
+	public static CloudEntityData getGoogleHandlerInfo() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -515,9 +515,9 @@ public class CompositionRepositoryDAO extends DAO {
 			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_HANDLER_INFO);
 
 			// function name and region
-			FunctionalityData result = null;
+			CloudEntityData result = null;
 			if (resultSet.next()) {
-				result = new FunctionalityData(resultSet.getString("function_name"),
+				result = new CloudEntityData(resultSet.getString("function_name"),
 						resultSet.getString("region"));
 			}
 
@@ -533,9 +533,9 @@ public class CompositionRepositoryDAO extends DAO {
 
 	/**
 	 * Getter for Amazon Step Functions handler
-	 * @return FunctionalityData containing handler info
+	 * @return CloudEntityData containing handler info
 	 */
-	public static FunctionalityData getAmazonHandlerInfo() {
+	public static CloudEntityData getAmazonHandlerInfo() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -548,9 +548,9 @@ public class CompositionRepositoryDAO extends DAO {
 			ResultSet resultSet = statement.executeQuery(SELECT_AMAZON_HANDLER_INFO);
 
 			// function name, region and api id
-			FunctionalityData result = null;
+			CloudEntityData result = null;
 			if (resultSet.next()) {
-				result = new FunctionalityData(resultSet.getString("function_name"),
+				result = new CloudEntityData(resultSet.getString("function_name"),
 						resultSet.getString("region"), resultSet.getString("api_id"));
 			}
 
@@ -566,9 +566,9 @@ public class CompositionRepositoryDAO extends DAO {
 
 	/**
 	 * Getter for every workflow associated Google Cloud Functions function
-	 * @return list of FunctionalityData with function information
+	 * @return list of CloudEntityData with function information
 	 */
-	public static List<FunctionalityData> getGoogleFunctionInfos() {
+	public static List<CloudEntityData> getGoogleFunctionInfos() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -580,11 +580,11 @@ public class CompositionRepositoryDAO extends DAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_FUNCTION_INFOS);
 
-			List<FunctionalityData> result = new ArrayList<>();
+			List<CloudEntityData> result = new ArrayList<>();
 
 			// function_name, function_region
 			while (resultSet.next()) {
-				result.add(new FunctionalityData(resultSet.getString("function_name"),
+				result.add(new CloudEntityData(resultSet.getString("function_name"),
 						resultSet.getString("function_region"), null));
 			}
 
@@ -600,9 +600,9 @@ public class CompositionRepositoryDAO extends DAO {
 
 	/**
 	 * Getter for every state machine associated Amazon Lambda function
-	 * @return list of FunctionalityData with function information
+	 * @return list of CloudEntityData with function information
 	 */
-	public static List<FunctionalityData> getAmazonFunctionInfos() {
+	public static List<CloudEntityData> getAmazonFunctionInfos() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -614,11 +614,11 @@ public class CompositionRepositoryDAO extends DAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_AMAZON_FUNCTION_INFOS);
 
-			List<FunctionalityData> result = new ArrayList<>();
+			List<CloudEntityData> result = new ArrayList<>();
 
 			// function_name, function_region
 			while (resultSet.next()) {
-				result.add(new FunctionalityData(resultSet.getString("function_name"),
+				result.add(new CloudEntityData(resultSet.getString("function_name"),
 						resultSet.getString("function_region"), null));
 			}
 
@@ -634,9 +634,9 @@ public class CompositionRepositoryDAO extends DAO {
 
 	/**
 	 * Getter for every Google Cloud Platform Workflows [BETA] workflow
-	 * @return list of FunctionalityData with workflow information
+	 * @return list of CloudEntityData with workflow information
 	 */
-	public static List<FunctionalityData> getGoogleWorkflowInfos() {
+	public static List<CloudEntityData> getGoogleWorkflowInfos() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -648,10 +648,10 @@ public class CompositionRepositoryDAO extends DAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_WORKFLOW_INFOS);
 
-			List<FunctionalityData> result = new ArrayList<>();
+			List<CloudEntityData> result = new ArrayList<>();
 
 			while (resultSet.next()) {
-				result.add(new FunctionalityData(resultSet.getString("workflow_name"),
+				result.add(new CloudEntityData(resultSet.getString("workflow_name"),
 						resultSet.getString("workflow_region")));
 			}
 
@@ -667,9 +667,9 @@ public class CompositionRepositoryDAO extends DAO {
 
 	/**
 	 * Getter for every AWS Step Functions state machine
-	 * @return list of FunctionalityData with state machine information
+	 * @return list of CloudEntityData with state machine information
 	 */
-	public static List<FunctionalityData> getAmazonMachineInfos() {
+	public static List<CloudEntityData> getAmazonMachineInfos() {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -681,10 +681,10 @@ public class CompositionRepositoryDAO extends DAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(SELECT_AMAZON_MACHINE_INFOS);
 
-			List<FunctionalityData> result = new ArrayList<>();
+			List<CloudEntityData> result = new ArrayList<>();
 
 			while (resultSet.next()) {
-				result.add(new FunctionalityData(resultSet.getString("machine_name"),
+				result.add(new CloudEntityData(resultSet.getString("machine_name"),
 						resultSet.getString("machine_region"),
 						resultSet.getString("machine_arn")));
 			}

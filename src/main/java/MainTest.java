@@ -1,9 +1,6 @@
 import cmd.CommandExecutor;
 import cmd.benchmark_commands.BenchmarkCommandExecutor;
-import cmd.functionality_commands.AmazonCommandUtility;
-import cmd.functionality_commands.CompositionCommandExecutor;
-import cmd.functionality_commands.FunctionCommandExecutor;
-import cmd.functionality_commands.GoogleCommandUtility;
+import cmd.functionality_commands.*;
 
 @SuppressWarnings("DuplicatedCode")
 public class MainTest {
@@ -587,70 +584,12 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"image_recognition", "anger_detection"};
+		TablesCommandExecutor.createAmazonTable("ranking_translator",
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/" +
+						"serverless_functions/aws/dynamo_tables",
+				"ranking_translator.json",
+				AmazonCommandUtility.OHIO);
 
-			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/face_recognition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
-
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"image_recognition", "anger_detection"};
-
-			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/java/face_recognition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.JAVA_11_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
-
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"image_recognition", "anger_detection"};
-
-			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/node/face_recognition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.NODE_10_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
+		TablesCommandExecutor.cleanupAmazonCloudTables();
 	}
 }

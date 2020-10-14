@@ -61,6 +61,13 @@ public class AmazonCommandUtility extends CommandUtility {
 	private static final String STEP_FUNCTIONS_CREATE = STEP_FUNCTIONS + SEP + "create-state-machine";
 	private static final String STEP_FUNCTIONS_DROP = STEP_FUNCTIONS + SEP + "delete-state-machine";
 
+	/**
+	 * DynamoDB commands
+	 */
+	private static final String DYNAMO_DB = "dynamodb";
+	private static final String DYNAMO_DB_CREATE_TABLE = DYNAMO_DB + SEP + "create-table";
+	private static final String DYNAMO_DB_DELETE_TABLE = DYNAMO_DB + SEP + "delete-table";
+
 
 	/**
 	 * Builds AWS CLI command for Lambda function deployment
@@ -340,6 +347,28 @@ public class AmazonCommandUtility extends CommandUtility {
 	}
 
 	/**
+	 * Builds AWS CLI command to create a Dynamo DB table
+	 * @param jsonFolder absolute path of the folder containing json table definition
+	 * @param jsonName json definition file name
+	 * @param region table region of creation
+	 * @return command as string
+	 */
+	public static String buildDynamoTableCreationCommand(String tableName, String jsonFolder, String jsonName, String region) {
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// volume attachment
+						"-v" + SEP + jsonFolder + ":" + FUNCTIONALITIES_DIR + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
+						// operation define
+						DYNAMO_DB_CREATE_TABLE + SEP +
+						// parameters setting
+						"--region" + SEP + region + SEP +
+						"--table-name" + SEP + tableName + SEP +
+						"--cli-input-json" + SEP + "fileb://" + FUNCTIONALITIES_DIR + "/" + jsonName;
+	}
+
+	/**
 	 * Builds AWS CLI command to delete a Lambda function
 	 * @param functionName name of function to delete
 	 * @param region deployment region of function to delete
@@ -388,6 +417,24 @@ public class AmazonCommandUtility extends CommandUtility {
 						STEP_FUNCTIONS_DROP + SEP +
 						"--region" + SEP + region + SEP +
 						"--state-machine-arn" + SEP + machineArn;
+	}
+
+	/**
+	 * Builds AWS CLI command to delete a Dynamo DB table
+	 * @param tableName name of the table to delete
+	 * @param region region where the table to delete has been created
+	 * @return command as string
+	 */
+	public static String buildDynamoTableDropCommand(String tableName, String region) {
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
+						// operation define
+						DYNAMO_DB_DELETE_TABLE + SEP +
+						// parameters setting
+						"--region" + SEP + region + SEP +
+						"--table-name" + SEP + tableName;
 	}
 
 	/**

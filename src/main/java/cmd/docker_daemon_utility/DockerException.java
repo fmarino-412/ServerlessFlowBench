@@ -1,4 +1,4 @@
-package cmd;
+package cmd.docker_daemon_utility;
 
 /**
  * Exception raised in case Docker daemon execution problem occurs

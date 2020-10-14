@@ -1,10 +1,12 @@
 package cmd.functionality_commands;
 
 import cmd.*;
+import cmd.docker_daemon_utility.DockerException;
+import cmd.docker_daemon_utility.DockerExecutor;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
 import cmd.functionality_commands.security.GoogleAuthClient;
-import databases.mysql.FunctionalityData;
-import databases.mysql.daos.CompositionRepositoryDAO;
+import databases.mysql.CloudEntityData;
+import databases.mysql.daos.CompositionsRepositoryDAO;
 import utility.PropertiesManager;
 
 import java.io.File;
@@ -42,7 +44,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	 */
 	private static void deployGoogleCompositionHandler() {
 
-		if (CompositionRepositoryDAO.existsGoogleHandler(null)) {
+		if (CompositionsRepositoryDAO.existsGoogleHandler(null)) {
 			return;
 		}
 		// timeout and memory set to avoid the handler being a bottleneck
@@ -60,7 +62,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	 */
 	private static void deployAmazonCompositionHandler() {
 
-		if (CompositionRepositoryDAO.existsAmazonHandler(null)) {
+		if (CompositionsRepositoryDAO.existsAmazonHandler(null)) {
 			return;
 		}
 		// timeout and memory set to avoid the handler being a bottleneck
@@ -193,7 +195,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 				System.err.println("WARNING:\tCould not delete temporary files, check: " + tempYaml.toString());
 			}
 
-			String url = CompositionRepositoryDAO.getGoogleHandlerUrl(null);
+			String url = CompositionsRepositoryDAO.getGoogleHandlerUrl(null);
 			if (url == null) {
 				System.err.println("WARNING: Handler not found! Workflow is not reachable");
 			}
@@ -202,7 +204,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 
 			process.destroy();
 
-			CompositionRepositoryDAO.persistGoogle(workflowName, workflowRegion, functionNames, regions);
+			CompositionsRepositoryDAO.persistGoogle(workflowName, workflowRegion, functionNames, regions);
 		} catch (InterruptedException | IOException e) {
 			System.err.println("Could not deploy workflow '" + workflowName + "' on Google Cloud Platform: " +
 					e.getMessage());
@@ -324,7 +326,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 				return;
 			}
 
-			String url = CompositionRepositoryDAO.getAmazonHandlerUrl(null);
+			String url = CompositionsRepositoryDAO.getAmazonHandlerUrl(null);
 			if (url == null) {
 				System.err.println("WARNING: Handler not found! Machine is not reachable");
 			}
@@ -333,7 +335,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 
 			process.destroy();
 
-			CompositionRepositoryDAO.persistAmazon(machineName, machineArn, machineRegion, functionNames, regions);
+			CompositionsRepositoryDAO.persistAmazon(machineName, machineArn, machineRegion, functionNames, regions);
 		} catch (InterruptedException | IOException e) {
 			System.err.println("Could not deploy state machine '" + machineName + "' on Step Functions: " +
 					e.getMessage());
@@ -386,42 +388,42 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		}
 
 		// remove handler
-		FunctionalityData handler = CompositionRepositoryDAO.getGoogleHandlerInfo();
+		CloudEntityData handler = CompositionsRepositoryDAO.getGoogleHandlerInfo();
 		if (handler != null) {
 			try {
-				FunctionCommandExecutor.removeGoogleFunction(handler.getFunctionalityName(), handler.getRegion());
+				FunctionCommandExecutor.removeGoogleFunction(handler.getEntityName(), handler.getRegion());
 			} catch (InterruptedException | IOException e) {
 				System.err.println("Could not remove handler from Google Cloud Functions: " + e.getMessage());
 			}
 		}
 		// remove functions
-		List<FunctionalityData> toRemove = CompositionRepositoryDAO.getGoogleFunctionInfos();
+		List<CloudEntityData> toRemove = CompositionsRepositoryDAO.getGoogleFunctionInfos();
 		if (toRemove != null) {
-			for (FunctionalityData functionalityData : toRemove) {
+			for (CloudEntityData functionalityData : toRemove) {
 				try {
-					FunctionCommandExecutor.removeGoogleFunction(functionalityData.getFunctionalityName(),
+					FunctionCommandExecutor.removeGoogleFunction(functionalityData.getEntityName(),
 							functionalityData.getRegion());
 				} catch (InterruptedException | IOException e) {
-					System.err.println("Could not delete '" + functionalityData.getFunctionalityName() +
+					System.err.println("Could not delete '" + functionalityData.getEntityName() +
 							"' from Google Cloud Functions: " + e.getMessage());
 				}
 			}
 		}
 		// remove state machines
-		toRemove = CompositionRepositoryDAO.getGoogleWorkflowInfos();
+		toRemove = CompositionsRepositoryDAO.getGoogleWorkflowInfos();
 		if (toRemove != null) {
-			for (FunctionalityData functionalityData : toRemove) {
+			for (CloudEntityData functionalityData : toRemove) {
 				try {
-					removeGoogleWorkflow(functionalityData.getFunctionalityName(), functionalityData.getRegion());
+					removeGoogleWorkflow(functionalityData.getEntityName(), functionalityData.getRegion());
 				} catch (InterruptedException | IOException e) {
-					System.err.println("Could not delete '" + functionalityData.getFunctionalityName() +
+					System.err.println("Could not delete '" + functionalityData.getEntityName() +
 							"' workflow from Google Cloud Platform Workflows [BETA]: " + e.getMessage());
 				}
 			}
 		}
 		System.out.println("\u001B[32m" + "\nGoogle cleanup completed!\n" + "\u001B[0m");
 
-		CompositionRepositoryDAO.dropGoogle();
+		CompositionsRepositoryDAO.dropGoogle();
 	}
 
 	/**
@@ -471,15 +473,15 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		}
 
 		// remove handler
-		FunctionalityData handler = CompositionRepositoryDAO.getAmazonHandlerInfo();
+		CloudEntityData handler = CompositionsRepositoryDAO.getAmazonHandlerInfo();
 		if (handler != null) {
 			try {
-				FunctionCommandExecutor.removeLambdaFunction(handler.getFunctionalityName(), handler.getRegion());
+				FunctionCommandExecutor.removeLambdaFunction(handler.getEntityName(), handler.getRegion());
 			} catch (InterruptedException | IOException e) {
 				System.err.println("Could not remove handler from AWS Lambda: " + e.getMessage());
 			}
 			try {
-				FunctionCommandExecutor.removeGatewayApi(handler.getFunctionalityName(), handler.getId(),
+				FunctionCommandExecutor.removeGatewayApi(handler.getEntityName(), handler.getId(),
 						handler.getRegion());
 			} catch (InterruptedException | IOException e) {
 				System.err.println("Could not remove handler from API Gateway: " + e.getMessage());
@@ -487,28 +489,28 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			waitFor("Cleanup", 30);
 		}
 		// remove functions
-		List<FunctionalityData> toRemove = CompositionRepositoryDAO.getAmazonFunctionInfos();
+		List<CloudEntityData> toRemove = CompositionsRepositoryDAO.getAmazonFunctionInfos();
 		if (toRemove != null) {
-			for (FunctionalityData functionalityData : toRemove) {
+			for (CloudEntityData functionalityData : toRemove) {
 				try {
-					FunctionCommandExecutor.removeLambdaFunction(functionalityData.getFunctionalityName(),
+					FunctionCommandExecutor.removeLambdaFunction(functionalityData.getEntityName(),
 							functionalityData.getRegion());
 				} catch (InterruptedException | IOException e) {
-					System.err.println("Could not delete '" + functionalityData.getFunctionalityName() +
+					System.err.println("Could not delete '" + functionalityData.getEntityName() +
 							"' from AWS Lambda: " + e.getMessage());
 				}
 			}
 		}
 		// remove state machines
-		toRemove = CompositionRepositoryDAO.getAmazonMachineInfos();
+		toRemove = CompositionsRepositoryDAO.getAmazonMachineInfos();
 		if (toRemove != null) {
-			for (FunctionalityData functionalityData : toRemove) {
+			for (CloudEntityData functionalityData : toRemove) {
 				try {
-					removeCompositionMachine(functionalityData.getFunctionalityName(),
+					removeCompositionMachine(functionalityData.getEntityName(),
 							functionalityData.getId(),
 							functionalityData.getRegion());
 				} catch (InterruptedException | IOException e) {
-					System.err.println("Could not delete '" + functionalityData.getFunctionalityName() +
+					System.err.println("Could not delete '" + functionalityData.getEntityName() +
 							"' workflow from AWS Step Functions: " + e.getMessage());
 				}
 				waitFor("Cleanup", 30);
@@ -516,6 +518,6 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		}
 		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
 
-		CompositionRepositoryDAO.dropAmazon();
+		CompositionsRepositoryDAO.dropAmazon();
 	}
 }

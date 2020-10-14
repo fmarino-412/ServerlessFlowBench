@@ -1,14 +1,14 @@
 package cmd.functionality_commands;
 
 import cmd.CommandExecutor;
-import cmd.DockerException;
-import cmd.DockerExecutor;
+import cmd.docker_daemon_utility.DockerException;
+import cmd.docker_daemon_utility.DockerExecutor;
 import cmd.StreamGobbler;
 import cmd.functionality_commands.output_parsing.UrlFinder;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
-import databases.mysql.daos.CompositionRepositoryDAO;
+import databases.mysql.CloudEntityData;
+import databases.mysql.daos.CompositionsRepositoryDAO;
 import databases.mysql.daos.FunctionsRepositoryDAO;
-import databases.mysql.FunctionalityData;
 
 import java.io.IOException;
 import java.util.List;
@@ -148,7 +148,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			switch (functionality) {
 				case 0:
 					// handler
-					CompositionRepositoryDAO.persistGoogleHandler(functionName, url, region);
+					CompositionsRepositoryDAO.persistGoogleHandler(functionName, url, region);
 					break;
 				case 1:
 					// function to persist
@@ -465,7 +465,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			process.destroy();
 
 			if (handler) {
-				CompositionRepositoryDAO.persistAmazonHandler(functionName, url, apiId, region);
+				CompositionsRepositoryDAO.persistAmazonHandler(functionName, url, apiId, region);
 			} else {
 				FunctionsRepositoryDAO.persistAmazon(functionName, url, apiId, region);
 			}
@@ -524,16 +524,16 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			return;
 		}
 
-		List<FunctionalityData> toRemove = FunctionsRepositoryDAO.getGoogles();
+		List<CloudEntityData> toRemove = FunctionsRepositoryDAO.getGoogles();
 		if (toRemove == null) {
 			return;
 		}
 
-		for (FunctionalityData elem : toRemove) {
+		for (CloudEntityData elem : toRemove) {
 			try {
-				removeGoogleFunction(elem.getFunctionalityName(), elem.getRegion());
+				removeGoogleFunction(elem.getEntityName(), elem.getRegion());
 			} catch (IOException | InterruptedException e) {
-				System.err.println("Could not delete '" + elem.getFunctionalityName() + "': " + e.getMessage());
+				System.err.println("Could not delete '" + elem.getEntityName() + "': " + e.getMessage());
 			}
 		}
 
@@ -551,6 +551,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	 */
 	protected static void removeLambdaFunction(String functionName, String region)
 			throws IOException, InterruptedException {
+
 		String cmd = AmazonCommandUtility.buildLambdaDropCommand(functionName, region);
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
@@ -619,23 +620,23 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			return;
 		}
 
-		List<FunctionalityData> toRemove = FunctionsRepositoryDAO.getAmazons();
+		List<CloudEntityData> toRemove = FunctionsRepositoryDAO.getAmazons();
 		if (toRemove == null) {
 			return;
 		}
 
-		for (FunctionalityData elem : toRemove) {
+		for (CloudEntityData elem : toRemove) {
 			try {
-				removeLambdaFunction(elem.getFunctionalityName(), elem.getRegion());
+				removeLambdaFunction(elem.getEntityName(), elem.getRegion());
 			} catch (InterruptedException | IOException e) {
-				System.err.println("Could not delete lambda function '" + elem.getFunctionalityName() + "': " +
+				System.err.println("Could not delete lambda function '" + elem.getEntityName() + "': " +
 						e.getMessage());
 			}
 
 			try {
-				removeGatewayApi(elem.getFunctionalityName(), elem.getId(), elem.getRegion());
+				removeGatewayApi(elem.getEntityName(), elem.getId(), elem.getRegion());
 			} catch (InterruptedException | IOException e) {
-				System.err.println("Could not delete gateway api '" + elem.getFunctionalityName() + "': " +
+				System.err.println("Could not delete gateway api '" + elem.getEntityName() + "': " +
 						e.getMessage());
 			}
 			waitFor("Cleanup", 30);

@@ -1,14 +1,14 @@
 package cmd.benchmark_commands;
 
 import cmd.CommandExecutor;
-import cmd.DockerException;
-import cmd.DockerExecutor;
+import cmd.docker_daemon_utility.DockerException;
+import cmd.docker_daemon_utility.DockerExecutor;
 import cmd.StreamGobbler;
 import cmd.benchmark_commands.output_parsing.BenchmarkCollector;
 import cmd.benchmark_commands.output_parsing.BenchmarkStats;
 import databases.influx.InfluxClient;
 import databases.mysql.FunctionalityURL;
-import databases.mysql.daos.CompositionRepositoryDAO;
+import databases.mysql.daos.CompositionsRepositoryDAO;
 import databases.mysql.daos.FunctionsRepositoryDAO;
 import jline.internal.Nullable;
 
@@ -123,7 +123,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		} else {
 			total.addAll(functions);
 		}
-		List<FunctionalityURL> machines = CompositionRepositoryDAO.getUrls();
+		List<FunctionalityURL> machines = CompositionsRepositoryDAO.getUrls();
 		if (machines == null) {
 			System.err.println("Could not perform benchmarks on state machines");
 		} else {
@@ -457,6 +457,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			while (iterations != 0) {
 				// time to let provider deallocate resources for function execution
 				try {
+					//noinspection BusyWait
 					Thread.sleep(sleepMs);
 				} catch (InterruptedException ignored) {
 					return;
