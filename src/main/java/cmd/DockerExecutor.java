@@ -12,6 +12,8 @@ import java.util.concurrent.Executors;
  */
 public class DockerExecutor extends CommandExecutor {
 
+	private static final Integer DOCKER_DAEMON_NOT_FOUND_EXIT_CODE = 16;
+
 	private static final String COMPOSE_DIR = PropertiesManager.getInstance().getProperty(
 			PropertiesManager.DOCKER_COMPOSE_DIR);
 
@@ -34,7 +36,8 @@ public class DockerExecutor extends CommandExecutor {
 
 			if (process.waitFor() != 0) {
 				process.destroy();
-				throw new DockerException("Docker daemon not in execution");
+				System.err.println("Docker daemon not in execution");
+				System.exit(DOCKER_DAEMON_NOT_FOUND_EXIT_CODE);
 			}
 
 			process.destroy();
@@ -72,7 +75,7 @@ public class DockerExecutor extends CommandExecutor {
 
 			if (collector.getResult().contains(NEW_COMPOSITION_SUBSTRING)) {
 				// need to wait for compose environment coming up
-				waitFor("Deploying environment", 15);
+				waitFor("Deploying Docker", 15);
 			}
 
 			process.destroy();
