@@ -1,6 +1,10 @@
 INIT GCLOUD CONTAINER - 
 docker run -it --name gcloud-cli google/cloud-sdk gcloud init
+
 COMMANDS
 docker run --rm -it --volumes-from gcloud-cli google/cloud-sdk gcloud info
 
 docker run --rm -it -v /Users/francescomarino/Desktop/function_zips/gcloud/latency_test:/mnt/functions --volumes-from gcloud-cli google/cloud-sdk gcloud functions deploy latency-test --allow-unauthenticated --entry-point=gc_functions_handler --memory=128MB --runtime=python37 --timeout=30s --region=us-east4 --trigger-http --stage-bucket=gcloudfunctions_stage_bucket --source=/mnt/functions
+
+ACCOUNT DI SERVIZIO PER L'UTILIZZO DELL'HANDLER
+IAM e amministrazione > account di servizio > scegli account > genera chiave json
