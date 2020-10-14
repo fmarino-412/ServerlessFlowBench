@@ -21,6 +21,7 @@ public class MainTest {
 			case 2:
 				cleanupFunctions();
 				cleanupCompositions();
+				cleanupTables();
 				break;
 			case 3:
 				deployFunctions();
@@ -28,12 +29,14 @@ public class MainTest {
 				benchmarkPerform();
 				cleanupCompositions();
 				cleanupFunctions();
+				cleanupTables();
 				break;
 			case 4:
 				deployFunctions();
 				deployCompositions();
 				cleanupCompositions();
 				cleanupFunctions();
+				cleanupTables();
 				customFunction();
 				break;
 			case 5:
@@ -42,6 +45,7 @@ public class MainTest {
 			case 6:
 				cleanupFunctions();
 				cleanupCompositions();
+				cleanupTables();
 				customFunction();
 		}
 	}
@@ -56,6 +60,11 @@ public class MainTest {
 		System.out.println("\u001B[35m" + "\n\nRemoving benchmark compositions...\n" + "\u001B[0m");
 		CompositionCommandExecutor.cleanupGoogleComposition();
 		CompositionCommandExecutor.cleanupAmazonComposition();
+	}
+
+	private static void cleanupTables() {
+		System.out.println("\u001B[35m" + "\n\nRemoving cloud tables...\n" + "\u001B[0m");
+		TablesCommandExecutor.cleanupAmazonCloudTables();
 	}
 
 	private static void deployFunctions() {
@@ -257,6 +266,16 @@ public class MainTest {
 
 	private static void deployCompositions() {
 		System.out.println("\u001B[35m" + "\n\nDeploying benchmark compositions...\n" + "\u001B[0m");
+
+		/* Cloud tables */
+
+		TablesCommandExecutor.createAmazonTable("ranking_translator",
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/" +
+						"serverless_functions/aws/dynamo_tables",
+				"ranking_translator.json",
+				AmazonCommandUtility.OHIO);
+
+
 
 		/* Python on Google Cloud Platform */
 
@@ -584,12 +603,15 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		TablesCommandExecutor.createAmazonTable("ranking_translator",
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/" +
-						"serverless_functions/aws/dynamo_tables",
-				"ranking_translator.json",
-				AmazonCommandUtility.OHIO);
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("language-detection",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"language_detection.lambda_handler",
+				30,
+				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/aws/python/ranking_translator",
+				"language_detection.zip");
 
-		TablesCommandExecutor.cleanupAmazonCloudTables();
 	}
 }
