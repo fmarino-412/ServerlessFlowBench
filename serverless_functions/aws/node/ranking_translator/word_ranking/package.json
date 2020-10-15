@@ -1,0 +1,8 @@
+{
+  "name": "word_ranking",
+  "version": "1.0.0",
+  "description": "Word ranker for Amazon Lambda node runtime",
+  "main": "index.js",
+  "author": "Francesco Marino",
+  "license": "ISC"
+}

@@ -8,14 +8,18 @@
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/node/basic_test_composition/cpu_test/cpu_test_node_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/node/basic_test_composition/cpu_test/cpu_test_node_gcp.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/face_recognition/image_recognition/image_recognition_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/face_recognition/image_recognition/image_recognition_node_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/node/face_recognition/image_recognition/image_recognition_node_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/node/face_recognition/image_recognition/image_recognition_node_gcp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/ranking_translator/language_detection/language_detection_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/ranking_translator/language_detection/language_detection_node_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/basic_test_composition/latency_test/latency_test_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/basic_test_composition/latency_test/latency_test_node_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/node/basic_test_composition/latency_test/latency_test_node_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/node/basic_test_composition/latency_test/latency_test_node_gcp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/ranking_translator/loop_controller/loop_controller_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/ranking_translator/loop_controller/loop_controller_node_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/memory_test/memory_test_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/memory_test/memory_test_node_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/node/memory_test/memory_test_node_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/node/memory_test/memory_test_node_gcp.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/orchestration_handler/orchestration_handler_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/orchestration_handler/orchestration_handler_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/orchestration_handler/orchestration_handler_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/orchestration_handler/orchestration_handler_gcp.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/python/python_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/python/python_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/python/python_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/python/python_gcp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/ranking_translator/sentence_translation/sentence_translation_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/ranking_translator/sentence_translation/sentence_translation_node_aws.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/ranking_translator/word_ranking/word_ranking_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/ranking_translator/word_ranking/word_ranking_node_aws.iml" />
     </modules>
   </component>
 </project>
