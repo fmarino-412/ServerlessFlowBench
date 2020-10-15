@@ -4,6 +4,7 @@ import re
 DYNAMODB = boto3.resource("dynamodb")
 
 
+# noinspection DuplicatedCode
 def lambda_handler(event, context):
     # search for string and table in request
     sentence = None

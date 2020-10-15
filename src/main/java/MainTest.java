@@ -654,5 +654,15 @@ public class MainTest {
 						"/serverless_functions/aws/java/ranking_translator/loop_controller/target",
 				"loop_controller_java_aws-1.0.jar");
 
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("sentence-translation",
+				AmazonCommandUtility.JAVA_11_RUNTIME,
+				"sentence_translation.Handler",
+				30,
+				512,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/aws/java/ranking_translator/sentence_translation/target",
+				"sentence_translation_java_aws-1.0.jar");
+
 	}
 }

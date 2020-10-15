@@ -1,3 +1,4 @@
+# noinspection DuplicatedCode
 def lambda_handler(event, context):
 
     # search for list of string and counter in request

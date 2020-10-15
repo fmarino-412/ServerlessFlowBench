@@ -5,6 +5,7 @@ REGION = os.environ['AWS_REGION']
 COMPREHEND_CLIENT = boto3.client("comprehend", region_name=REGION)
 
 
+# noinspection DuplicatedCode
 def lambda_handler(event, context):
 
     # search for string in request
