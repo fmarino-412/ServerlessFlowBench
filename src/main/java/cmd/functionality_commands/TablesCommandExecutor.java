@@ -124,7 +124,9 @@ public class TablesCommandExecutor extends CommandExecutor {
 
 		TablesRepositoryDAO.dropAmazon();
 
-		waitFor("Cleanup", 5);
+		if (!toRemove.isEmpty()) {
+			waitFor("Cleanup", 5);
+		}
 		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
 	}
 

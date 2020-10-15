@@ -14,7 +14,7 @@ exports.lambdaHandler = function (event, context, callback) {
 
     if (event.queryStringParameters && event.queryStringParameters.NextIterationCounter) {
         counter = event.queryStringParameters.NextIterationCounter;
-    } else if (event.NextIterationCounter) {
+    } else if (event.hasOwnProperty('NextIterationCounter')) {
         counter = event.NextIterationCounter;
     } else {
         callback(null, "Error");

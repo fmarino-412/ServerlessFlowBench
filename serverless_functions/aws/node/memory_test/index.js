@@ -5,7 +5,7 @@ exports.lambdaHandler = function (event, context, callback) {
     // search for array dimension in request
     if (event.queryStringParameters && event.queryStringParameters.n) {
         n = event.queryStringParameters.n;
-    } else if (event.n) {
+    } else if (event.hasOwnProperty('n')) {
         n = event.n;
     } else {
         n = 1300000;

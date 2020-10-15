@@ -649,7 +649,7 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		TablesCommandExecutor.createAmazonTable("ranking_translator",
+		/*TablesCommandExecutor.createAmazonTable("ranking_translator",
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/" +
 						"serverless_functions/aws/dynamo_tables",
 				"ranking_translator.json",
@@ -664,7 +664,7 @@ public class MainTest {
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
 						"/serverless_functions/aws/node/ranking_translator",
-				"language_detection.zip");
+				"language_detection.zip");*/
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("loop-controller",
 				AmazonCommandUtility.NODE_10_X_RUNTIME,

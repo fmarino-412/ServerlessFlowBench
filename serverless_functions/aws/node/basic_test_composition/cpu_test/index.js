@@ -5,7 +5,7 @@ exports.lambdaHandler = function (event, context, callback) {
     // search for number to factorize in request
     if (event.queryStringParameters && event.queryStringParameters.n) {
         n = event.queryStringParameters.n;
-    } else if (event.n) {
+    } else if (event.hasOwnProperty('n')) {
         n = event.n;
     } else {
         n = 71950288374236;
