@@ -656,7 +656,7 @@ public class MainTest {
 				AmazonCommandUtility.OHIO);
 
 
-		/*FunctionCommandExecutor.deployOnAmazonRESTFunction("language-detection",
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("language-detection",
 				AmazonCommandUtility.NODE_10_X_RUNTIME,
 				"index.lambdaHandler",
 				30,
@@ -684,7 +684,7 @@ public class MainTest {
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
 						"/serverless_functions/aws/node/ranking_translator",
-				"sentence_translation.zip");*/
+				"sentence_translation.zip");
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("word-ranking",
 				AmazonCommandUtility.NODE_10_X_RUNTIME,

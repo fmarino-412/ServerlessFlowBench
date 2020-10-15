@@ -68,7 +68,7 @@ public class Handler implements RequestStreamHandler {
 
 		// prepare and perform request
 		Table table = connection.getTable(tableName);
-		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("word", word)
+		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("word", word.toLowerCase())
 				.withUpdateExpression("ADD word_counter :word_counter")
 				.withValueMap(new ValueMap().withNumber(":word_counter", 1))
 				.withReturnValues("NONE");

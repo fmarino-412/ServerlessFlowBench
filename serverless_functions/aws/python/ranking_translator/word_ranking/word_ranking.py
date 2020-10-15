@@ -28,7 +28,7 @@ def lambda_handler(event, context):
 
     # isolate words
     for word in re.findall("[a-zA-Z]+", sentence):
-        rank_word(word, ranking_table_name)
+        rank_word(word.lower(), ranking_table_name)
 
     # prepare and return response
     return "Updated"

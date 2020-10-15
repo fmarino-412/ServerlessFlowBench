@@ -27,18 +27,12 @@ exports.lambdaHandler = function (event, context, callback) {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
     // isolate words
-    const matchAll = require("match-all");
-    const regEx = new RegExp("[a-zA-Z]+", "g");
-    let matches = matchAll(sentence, regEx).toArray();
-    matches.forEach(word => rankWord(word, rankingTableName, dynamoDB, matches.length, callback));
+    const regExp = new RegExp("[a-zA-Z]+", 'g');
+    sentence.match(regExp).forEach(word => rankWord(word.toLowerCase(), rankingTableName, dynamoDB, callback));
+    callback(null, "Updated");
 }
 
-function rankWord(word, tableName, client, total, callback) {
-
-    // static counter
-    if(typeof rankWord.counter == 'undefined' ) {
-        rankWord.counter = 0;
-    }
+function rankWord(word, tableName, client, callback) {
 
     // prepare request
     const request = {
@@ -56,12 +50,6 @@ function rankWord(word, tableName, client, total, callback) {
     client.update(request, function (err, response) {
         if (err) {
             callback(null, "Error");
-        } else {
-            // if last return
-            rankWord.counter++;
-            if (rankWord.counter === total) {
-                callback(null, "Updated");
-            }
         }
-    })
+    });
 }
