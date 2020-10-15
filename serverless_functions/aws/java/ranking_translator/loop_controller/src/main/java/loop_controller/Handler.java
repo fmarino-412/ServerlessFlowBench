@@ -8,7 +8,6 @@ import com.google.gson.JsonSyntaxException;
 import org.jetbrains.annotations.NotNull;
 
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.io.*;
@@ -16,10 +15,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class Handler implements RequestStreamHandler {
 
 	@Override
-	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
+	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) {
 
 		// request reading
 		HashMap event;

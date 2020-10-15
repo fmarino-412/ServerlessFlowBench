@@ -18,6 +18,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
+@SuppressWarnings("rawtypes")
 public class Handler implements RequestStreamHandler {
 
 	@Override

@@ -18,10 +18,11 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
+@SuppressWarnings("rawtypes")
 public class Handler implements RequestStreamHandler {
 
 	@Override
-	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
+	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) {
 
 		// request reading
 		HashMap event;

@@ -376,7 +376,7 @@ public class MainTest {
 			String[] entryPoints = {"loop_controller.lambda_handler", "language_detection.lambda_handler",
 					"sentence_translation.lambda_handler", "word_ranking.lambda_handler"};
 			Integer[] timeouts = {30, 30, 30, 30};
-			Integer[] memories = {128, 512, 512, 512};
+			Integer[] memories = {512, 512, 512, 512};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
 					AmazonCommandUtility.OHIO};
 			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
@@ -628,7 +628,7 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		/*TablesCommandExecutor.createAmazonTable("ranking_translator",
+		TablesCommandExecutor.createAmazonTable("ranking_translator",
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/" +
 						"serverless_functions/aws/dynamo_tables",
 				"ranking_translator.json",
@@ -642,13 +642,13 @@ public class MainTest {
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
 						"/serverless_functions/aws/java/ranking_translator/language_detection/target",
-				"language_detection_java_aws-1.0.jar");*/
+				"language_detection_java_aws-1.0.jar");
 
 		FunctionCommandExecutor.deployOnAmazonRESTFunction("loop-controller",
 				AmazonCommandUtility.JAVA_11_RUNTIME,
 				"loop_controller.Handler",
 				30,
-				128,
+				512,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
 						"/serverless_functions/aws/java/ranking_translator/loop_controller/target",
