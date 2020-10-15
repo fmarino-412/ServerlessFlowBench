@@ -34,7 +34,7 @@ public class Handler implements RequestStreamHandler {
 		// extract number to factorize if in request
 		long n;
 		if (event.containsKey("n")) {
-			n = Long.parseLong((String)event.get("n"));
+			n = (long)Math.round((double)event.get("n"));
 		} else {
 			n = 71950288374236L;
 		}

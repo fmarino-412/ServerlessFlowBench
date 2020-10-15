@@ -1,6 +1,6 @@
 def lambda_handler(event, context):
 
-    # search for string in request
+    # search for list of string and counter in request
     sentences = None
     counter = None
 

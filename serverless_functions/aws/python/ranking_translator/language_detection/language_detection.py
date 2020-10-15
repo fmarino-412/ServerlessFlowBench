@@ -31,11 +31,11 @@ def detect_dominant_language(text) -> str:
     languages = COMPREHEND_CLIENT.detect_dominant_language(Text=text)['Languages']
 
     # analyze result
-    max_index = 0
+    max_language = ""
     max_score = 0
     for language in languages:
         if language['Score'] > max_score:
             max_score = language['Score']
-            max_index = languages.index(language)
+            max_language = language['LanguageCode'].lower()
 
-    return languages[max_index]['LanguageCode'].lower()
+    return max_language
