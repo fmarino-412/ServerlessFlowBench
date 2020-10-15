@@ -61,7 +61,7 @@ function detectAnger(image, callback) {
     // submit request and analyze results
     client.detectFaces(params, function (err, response) {
         if (err) {
-            callback(null, "Error: " + err);
+            callback(null, "Error");
         } else {
             response.FaceDetails.forEach(faceDetail => {
                 faceDetail.Emotions.forEach(emotion => {

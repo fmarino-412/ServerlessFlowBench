@@ -4,5 +4,8 @@
   "description": "Language detection for Amazon Lambda node runtime",
   "main": "index.js",
   "author": "Francesco Marino",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.763.0"
+  }
 }

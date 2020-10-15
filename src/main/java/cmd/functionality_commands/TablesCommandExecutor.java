@@ -122,9 +122,10 @@ public class TablesCommandExecutor extends CommandExecutor {
 			}
 		}
 
-		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
-
 		TablesRepositoryDAO.dropAmazon();
+
+		waitFor("Cleanup", 5);
+		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
 	}
 
 }
