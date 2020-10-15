@@ -371,6 +371,31 @@ public class MainTest {
 					zipFileNames);
 		}
 
+		{
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation", "word-ranking"};
+			String[] entryPoints = {"loop_controller.lambda_handler", "language_detection.lambda_handler",
+					"sentence_translation.lambda_handler", "word_ranking.lambda_handler"};
+			Integer[] timeouts = {30, 30, 30, 30};
+			Integer[] memories = {128, 512, 512, 512};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
+					AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
+					"word_ranking.zip"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("ranking-translator",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/python/ranking_translator",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
+
 
 
 		/* Java on Google Cloud Platform */
@@ -610,14 +635,14 @@ public class MainTest {
 				AmazonCommandUtility.OHIO);
 
 		{
-			String[] functionNames = {"loop-start-controller", "language-detection", "sentence-translation", "word-ranking"};
-			String[] entryPoints = {"loop_start_controller.lambda_handler", "language_detection.lambda_handler",
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation", "word-ranking"};
+			String[] entryPoints = {"loop_controller.lambda_handler", "language_detection.lambda_handler",
 					"sentence_translation.lambda_handler", "word_ranking.lambda_handler"};
 			Integer[] timeouts = {30, 30, 30, 30};
 			Integer[] memories = {128, 512, 512, 512};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
 					AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"loop_start_controller.zip", "language_detection.zip", "sentence_translation.zip",
+			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
 					"word_ranking.zip"};
 
 			CompositionCommandExecutor.deployOnAmazonComposition("ranking-translator",
