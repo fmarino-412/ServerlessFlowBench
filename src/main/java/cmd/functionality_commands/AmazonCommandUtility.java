@@ -1,6 +1,7 @@
 package cmd.functionality_commands;
 
 import cmd.CommandUtility;
+import cmd.StreamGobbler;
 import utility.PropertiesManager;
 
 /**
@@ -26,6 +27,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	private static final String PREAMBLE = "docker" + SEP + "run" + SEP + "--rm" + SEP + "-i" + SEP +
 			"-v" + SEP + PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_AUTH_CONFIG) +
 			":" + "/root/.aws";
+	private static final String CLOSURE = "--cli-connect-timeout" + SEP + "0";
 
 	/**
 	 * Auth utils
@@ -103,7 +105,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--timeout" + SEP + timeout + SEP +
 						"--publish" + SEP +
 						"--region" + SEP + region + SEP +
-						"--zip-file" + SEP + "fileb://" + FUNCTIONALITIES_DIR + "/" + zipName;
+						"--zip-file" + SEP + "fileb://" + FUNCTIONALITIES_DIR + "/" + zipName + SEP +
+						CLOSURE;
 
 	}
 
@@ -123,7 +126,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						LAMBDA_LIST_FUNC + SEP +
 						"--query" + SEP + "\"Functions[?FunctionName=='" + functionName + "'].FunctionArn\"" + SEP +
 						"--region" + SEP + region + SEP +
-						"--output" + SEP + "text";
+						"--output" + SEP + "text" + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -143,7 +147,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						GATEWAY_CREATE_API + SEP +
 						"--name" + SEP + "\"" + apiName + "\"" + SEP +
 						"--description" + SEP + "\"" + description + "\"" + SEP +
-						"--region" + SEP + region;
+						"--region" + SEP + region + SEP +
+						CLOSURE;
 
 	}
 
@@ -162,7 +167,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						GATEWAY_GET_API + SEP +
 						"--query" + SEP + "\"items[?name=='"+ apiName + "'].id\"" + SEP +
 						"--region" + SEP + region + SEP +
-						"--output" + SEP + "text";
+						"--output" + SEP + "text" + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -181,7 +187,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--rest-api-id" + SEP + apiId + SEP +
 						"--query" + SEP + "\"items[?path=='/'].id\"" + SEP +
 						"--region" + SEP + region + SEP +
-						"--output" + SEP + "text";
+						"--output" + SEP + "text" + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -203,7 +210,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--rest-api-id" + SEP + apiId + SEP +
 						"--parent-id" + SEP + parentId + SEP +
 						"--path-part" + SEP + functionName + SEP +
-						"--region" + SEP + region;
+						"--region" + SEP + region + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -224,7 +232,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--rest-api-id" + SEP + apiId + SEP +
 						"--query" + SEP + "\"items[?path=='/" + functionName + "'].id\"" + SEP +
 						"--region" + SEP + region + SEP +
-						"--output" + SEP + "text";
+						"--output" + SEP + "text" + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -247,7 +256,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--resource-id" + SEP + resourceId + SEP +
 						"--http-method" + SEP + "ANY" + SEP +
 						"--authorization-type" + SEP + "NONE" + SEP +
-						"--region" + SEP + region;
+						"--region" + SEP + region + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -274,7 +284,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--integration-http-method" + SEP + "POST" + SEP +
 						"--uri" + SEP + "arn:aws:apigateway:" + region + ":" + LAMBDA +
 							":path/2015-03-31/functions/" + lambdaARN + "/invocations" + SEP +
-						"--region" + SEP + region;
+						"--region" + SEP + region + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -294,7 +305,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						GATEWAY_CREATE_DEPLOYMENT + SEP +
 						"--rest-api-id" + SEP + apiId + SEP +
 						"--stage-name" + SEP + stageName + SEP +
-						"--region" + SEP + region;
+						"--region" + SEP + region + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -321,7 +333,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						"--action" + SEP + LAMBDA + ":" + "InvokeFunction" + SEP +
 						"--principal" + SEP + "apigateway.amazonaws.com" + SEP +
 						"--source-arn" + SEP + "\"" + apiARN + "/*/*/" + functionName + "\"" + SEP +
-						"--region" + SEP + region;
+						"--region" + SEP + region + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -343,7 +356,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_STEP_FUNCTIONS_EXEC_ROLE) +
 						SEP + "--type" + SEP + "STANDARD" + SEP +
 						"--region" + SEP + region + SEP +
-						"--definition" + SEP + definitionJson;
+						"--definition" + SEP + definitionJson + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -365,7 +379,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						// parameters setting
 						"--region" + SEP + region + SEP +
 						"--table-name" + SEP + tableName + SEP +
-						"--cli-input-json" + SEP + "fileb://" + FUNCTIONALITIES_DIR + "/" + jsonName;
+						"--cli-input-json" + SEP + "fileb://" + FUNCTIONALITIES_DIR + "/" + jsonName + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -382,7 +397,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						// operation define
 						LAMBDA_DEL + SEP +
 						"--function-name" + SEP + functionName + SEP +
-						"--region" + SEP + region;
+						"--region" + SEP + region + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -399,7 +415,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						// operation define
 						GATEWAY_DEL + SEP +
 						"--rest-api-id" + SEP + apiId + SEP +
-						"--region" + SEP + region;
+						"--region" + SEP + region + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -416,7 +433,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						// operation define
 						STEP_FUNCTIONS_DROP + SEP +
 						"--region" + SEP + region + SEP +
-						"--state-machine-arn" + SEP + machineArn;
+						"--state-machine-arn" + SEP + machineArn + SEP +
+						CLOSURE;
 	}
 
 	/**
@@ -434,7 +452,8 @@ public class AmazonCommandUtility extends CommandUtility {
 						DYNAMO_DB_DELETE_TABLE + SEP +
 						// parameters setting
 						"--region" + SEP + region + SEP +
-						"--table-name" + SEP + tableName;
+						"--table-name" + SEP + tableName + SEP +
+						CLOSURE;
 	}
 
 	/**

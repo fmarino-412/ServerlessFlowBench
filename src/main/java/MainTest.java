@@ -376,7 +376,7 @@ public class MainTest {
 			String[] entryPoints = {"loop_controller.lambda_handler", "language_detection.lambda_handler",
 					"sentence_translation.lambda_handler", "word_ranking.lambda_handler"};
 			Integer[] timeouts = {30, 30, 30, 30};
-			Integer[] memories = {512, 512, 512, 512};
+			Integer[] memories = {512, 1024, 1024, 1024};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
 					AmazonCommandUtility.OHIO};
 			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
@@ -481,6 +481,31 @@ public class MainTest {
 			CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
 							"_project/serverless_functions/aws/java/basic_test_composition",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.JAVA_11_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
+
+		{
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation", "word-ranking"};
+			String[] entryPoints = {"loop_controller.Handler", "language_detection.Handler",
+					"sentence_translation.Handler", "word_ranking.Handler"};
+			Integer[] timeouts = {30, 30, 30, 30};
+			Integer[] memories = {512, 1024, 1024, 1024};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
+					AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"loop_controller_java_aws-1.0.jar", "language_detection_java_aws-1.0.jar",
+					"sentence_translation_java_aws-1.0.jar", "word_ranking_java_aws-1.0.jar"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("ranking-translator",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/java/ranking_translator",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,
@@ -634,35 +659,31 @@ public class MainTest {
 				"ranking_translator.json",
 				AmazonCommandUtility.OHIO);
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("language-detection",
-				AmazonCommandUtility.JAVA_11_RUNTIME,
-				"language_detection.Handler",
-				30,
-				512,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/java/ranking_translator/language_detection/target",
-				"language_detection_java_aws-1.0.jar");
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("loop-controller",
-				AmazonCommandUtility.JAVA_11_RUNTIME,
-				"loop_controller.Handler",
-				30,
-				512,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/java/ranking_translator/loop_controller/target",
-				"loop_controller_java_aws-1.0.jar");
+		{
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation", "word-ranking"};
+			String[] entryPoints = {"loop_controller.Handler", "language_detection.Handler",
+					"sentence_translation.Handler", "word_ranking.Handler"};
+			Integer[] timeouts = {30, 30, 30, 30};
+			Integer[] memories = {512, 1024, 1024, 1024};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
+					AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"loop_controller_java_aws-1.0.jar", "language_detection_java_aws-1.0.jar",
+					"sentence_translation_java_aws-1.0.jar", "word_ranking_java_aws-1.0.jar"};
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("sentence-translation",
-				AmazonCommandUtility.JAVA_11_RUNTIME,
-				"sentence_translation.Handler",
-				30,
-				512,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/java/ranking_translator/sentence_translation/target",
-				"sentence_translation_java_aws-1.0.jar");
+			CompositionCommandExecutor.deployOnAmazonComposition("ranking-translator",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/java/ranking_translator",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.JAVA_11_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
 
 	}
 }

@@ -8,7 +8,6 @@
         "Payload": {
           "Sentences": [
             "ciao, qusto è un esempio di testo da tradurre",
-            "ciao, questo è un secondo esempio di testo da tradurre",
             "hello, this is an example of already translated text"
           ],
           "NextIterationCounter": 0
