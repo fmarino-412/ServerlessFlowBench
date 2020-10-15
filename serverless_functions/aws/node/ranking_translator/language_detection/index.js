@@ -27,7 +27,7 @@ function detectDominantLanguage(text, callback) {
     // perform request
     client.detectDominantLanguage(request, function (err, response) {
         if (err) {
-            callback(null, "Error")
+            callback(null, "Error");
         } else {
             // analyze result
             let maxLanguage = "";
