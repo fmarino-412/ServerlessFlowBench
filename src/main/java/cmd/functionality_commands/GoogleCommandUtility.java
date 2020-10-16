@@ -1,6 +1,7 @@
 package cmd.functionality_commands;
 
 import cmd.CommandUtility;
+import cmd.StreamGobbler;
 import utility.PropertiesManager;
 
 /**
@@ -18,6 +19,9 @@ public class GoogleCommandUtility extends CommandUtility {
 
 	public static final String NORTH_VIRGINIA = "us-east4";
 	public static final String IOWA = "us-central1";
+
+	public static final String HARD_DISK_STORAGE = "HDD";
+	public static final String SOLID_STATE_STORAGE = "SSD";
 
 	/**
 	 * Docker utils
@@ -39,6 +43,15 @@ public class GoogleCommandUtility extends CommandUtility {
 	private static final String WORKFLOWS = "gcloud" + SEP + "beta" + SEP + "workflows";
 	private static final String DEPLOY_WORKFLOW_CMD = WORKFLOWS + SEP + "deploy";
 	private static final String REMOVE_WORKFLOW_CMD = WORKFLOWS + SEP + "delete";
+
+	/**
+	 * Google Cloud BigTable commands
+	 */
+	private static final String CLOUD_BIG_TABLE = "cbt";
+	private static final String CBT_CREATE_INSTANCE = CLOUD_BIG_TABLE + SEP + "createinstance";
+	private static final String CREATE_TABLE = CLOUD_BIG_TABLE + SEP + "createtable";
+	private static final String CREATE_FAMILY = CLOUD_BIG_TABLE + SEP + "createfamily";
+	private static final String CBT_DELETE_INSTANCE = CLOUD_BIG_TABLE + SEP + "deleteinstance";
 
 
 	/**
@@ -130,7 +143,7 @@ public class GoogleCommandUtility extends CommandUtility {
 	}
 
 	/**
-	 * Builds Google Cloud CLI command to remo a workflow from Google Cloud Platform Workflows [BETA]
+	 * Builds Google Cloud CLI command to remove a workflow from Google Cloud Platform Workflows [BETA]
 	 * @param workflowName name of the workflow to delete
 	 * @param region workflow to delete region of deployment
 	 * @return command as string
@@ -148,6 +161,93 @@ public class GoogleCommandUtility extends CommandUtility {
 						workflowName + SEP +
 						"--location=" + region + SEP +
 						"--quiet";
+	}
+
+	/**
+	 * Builds Google Cloud CLI command to create a new BigTable instance
+	 * @param name name of the instance
+	 * @param id id to assign to the instance
+	 * @param clusterId instance cluster id
+	 * @param region region of the instance cluster
+	 * @param clusterNodes number of nodes in the instance cluster
+	 * @param storageType type of storage: HDD or SSD
+	 * @return command as string
+	 */
+	public static String buildGoogleCloudBigTableCreateInstanceCommand(String name, String id, String clusterId, String region, int clusterNodes, String storageType) {
+		return 	// command beginning
+				"docker run --rm -i" + SEP +
+						// project config binding
+						GOOGLE_CONFIG_BIND + SEP +
+						// select docker image to use
+						GOOGLE_CLI + SEP +
+						// CLI command to deploy a new function
+						CBT_CREATE_INSTANCE + SEP +
+						// instance options
+						id + SEP + name + SEP +
+						clusterId + SEP + region + "-a" + SEP +
+						clusterNodes + SEP + storageType;
+	}
+
+	/**
+	 * Builds Google Cloud CLI command to delete a BigTable instance
+	 * @param id id of the instance to delete
+	 * @return command as string
+	 */
+	public static String buildGoogleCloudBigTableDropInstanceCommand(String id) {
+		return 	// command beginning
+				"docker run --rm -i" + SEP +
+						// project config binding
+						GOOGLE_CONFIG_BIND + SEP +
+						// select docker image to use
+						GOOGLE_CLI + SEP +
+						// CLI command to deploy a new function
+						CBT_DELETE_INSTANCE + SEP +
+						// instance id
+						id;
+	}
+
+	/**
+	 * Builds Google Cloud CLI command to create a new table in Big Table
+	 * @param instanceId id of the Big Table instance
+	 * @param tableName name of the table
+	 * @return command as string
+	 */
+	public static String buildGoogleCloudBigTableCreateTableCommand(String instanceId, String tableName) {
+		return 	// command beginning
+				"docker run --rm -i" + SEP +
+						// project config binding
+						GOOGLE_CONFIG_BIND + SEP +
+						// select docker image to use
+						GOOGLE_CLI + SEP +
+						// CLI command to deploy a new function
+						CLOUD_BIG_TABLE + SEP +
+						"-instance=" + instanceId + SEP +
+						CREATE_TABLE + SEP +
+						// table name
+						tableName;
+	}
+
+	/**
+	 * Builds Google Cloud CLI command to create a new family in a table in Big Table
+	 * @param instanceId id of the Big Table instance
+	 * @param tableName name of the table
+	 * @param familyName name of the new family
+	 * @return command as string
+	 */
+	public static String buildGoogleCloudBigTableCreateFamilyCommand(String instanceId, String tableName,
+																	 String familyName) {
+		return 	// command beginning
+				"docker run --rm -i" + SEP +
+						// project config binding
+						GOOGLE_CONFIG_BIND + SEP +
+						// select docker image to use
+						GOOGLE_CLI + SEP +
+						// CLI command to deploy a new function
+						CLOUD_BIG_TABLE + SEP +
+						"-instance=" + instanceId + SEP +
+						CREATE_FAMILY + SEP +
+						// table and family
+						tableName + SEP + familyName;
 	}
 
 	/**
