@@ -64,6 +64,7 @@ public class MainTest {
 
 	private static void cleanupTables() {
 		System.out.println("\u001B[35m" + "\n\nRemoving cloud tables...\n" + "\u001B[0m");
+		TablesCommandExecutor.cleanupGoogleCloudTables();
 		TablesCommandExecutor.cleanupAmazonCloudTables();
 	}
 
@@ -674,11 +675,8 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		TablesCommandExecutor.createAmazonTable("ranking_translator",
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/" +
-						"serverless_functions/aws/dynamo_tables",
-				"ranking_translator.json",
-				AmazonCommandUtility.OHIO);
+		TablesCommandExecutor.createGoogleTable("ranking_translator", GoogleCommandUtility.IOWA,
+				1, GoogleCommandUtility.HARD_DISK_STORAGE, "stats");
 
 
 

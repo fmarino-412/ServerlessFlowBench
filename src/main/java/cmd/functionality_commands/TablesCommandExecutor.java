@@ -18,6 +18,99 @@ import java.util.concurrent.Executors;
 public class TablesCommandExecutor extends CommandExecutor {
 
 	/**
+	 * Creates a new table to Google CLoud Big Table
+	 * @param tableName name of the new table
+	 * @param region region of deployment
+	 * @param nodes number of nodes to store the table
+	 * @param storageType type of storage: HDD or SSD
+	 * @param columnFamilies column families of the table
+	 */
+	public static void createGoogleTable(String tableName, String region, int nodes, String storageType,
+										 String... columnFamilies) {
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Creating table \"" + tableName + "\" to Google..." +
+				"\u001B[0m" + "\n");
+
+		try {
+			DockerExecutor.checkDocker();
+		} catch (DockerException e) {
+			System.err.println("Could not create table '" + tableName + "' on Amazon: " + e.getMessage());
+			return;
+		}
+
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+		String cmd;
+
+		try {
+			Process process;
+			StreamGobbler errorGobbler;
+
+			// generate id
+			String instanceId = tableName.toLowerCase().replace("_", "-") + "-" +
+					System.currentTimeMillis();
+			instanceId = instanceId.substring(0, Math.min(instanceId.length(), 30));
+			String clusterId = "cl-" + instanceId;
+			clusterId = clusterId.substring(0, Math.min(clusterId.length(), 30));
+
+			// create instance
+			System.out.println("Creating instance for '" + tableName + "'");
+			cmd = GoogleCommandUtility.buildGoogleCloudBigTableCreateInstanceCommand(tableName,
+					instanceId,
+					clusterId,
+					region,
+					nodes,
+					storageType);
+			process = buildCommand(cmd).start();
+			errorGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
+			executorServiceErr.submit(errorGobbler);
+			if (process.waitFor() != 0) {
+				System.err.println("Could not create instance for table '" + tableName + "' on Google");
+				process.destroy();
+				return;
+			}
+			process.destroy();
+			TablesRepositoryDAO.persistGoogle(instanceId, tableName);
+
+			// create table
+			System.out.println("Creating '" + tableName + "'");
+			cmd = GoogleCommandUtility.buildGoogleCloudBigTableCreateTableCommand(instanceId, tableName);
+			process = buildCommand(cmd).start();
+			errorGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
+			executorServiceErr.submit(errorGobbler);
+			if (process.waitFor() != 0) {
+				System.err.println("Could not create table '" + tableName + "' on Google");
+				process.destroy();
+				return;
+			}
+			process.destroy();
+
+			// create column families
+			for (String family : columnFamilies) {
+				System.out.println("Creating family '" + family + "' in '" + tableName + "'");
+				cmd = GoogleCommandUtility.buildGoogleCloudBigTableCreateFamilyCommand(instanceId, tableName, family);
+				process = buildCommand(cmd).start();
+				errorGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
+				executorServiceErr.submit(errorGobbler);
+				if (process.waitFor() != 0) {
+					System.err.println("Could not create family '" + family + " in '" + tableName + "' on Google");
+					process.destroy();
+					return;
+				}
+				process.destroy();
+
+			}
+
+			System.out.println("'" + tableName + "' created on Google");
+		} catch (InterruptedException | IOException e) {
+			System.out.println("'" + tableName + "' creation on Google failed: " + e.getMessage());
+		} finally {
+			executorServiceErr.shutdown();
+		}
+
+	}
+
+	/**
 	 * Creates a new table to Amazon Dynamo DB
 	 * @param tableName name of the new table
 	 * @param directoryAbsolutePath path of the table definition file directory
@@ -66,6 +159,32 @@ public class TablesCommandExecutor extends CommandExecutor {
 	}
 
 	/**
+	 * Removes an instance storing a table in Google Cloud Big Table
+	 * @param instanceId id of the instance
+	 * @param tableName name of the table stored
+	 * @throws IOException exception related to process execution
+	 * @throws InterruptedException exception related to Thread management
+	 */
+	private static void removeGoogleInstance(String instanceId, String tableName)
+			throws IOException, InterruptedException {
+
+		String cmd = GoogleCommandUtility.buildGoogleCloudBigTableDropInstanceCommand(instanceId);
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+
+		Process process = buildCommand(cmd).start();
+		StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
+
+		executorServiceErr.submit(errorGobbler);
+		if (process.waitFor() != 0) {
+			System.err.println("Could not delete instance '" + tableName + "' from Google");
+		} else {
+			System.out.println("'" + tableName + "' instance removed from Google!");
+		}
+		process.destroy();
+		executorServiceErr.shutdown();
+	}
+
+	/**
 	 * Removes a table from Amazon Dynamo DB
 	 * @param tableName name of the table to remove
 	 * @param region region of the table to remove
@@ -90,6 +209,45 @@ public class TablesCommandExecutor extends CommandExecutor {
 		}
 		process.destroy();
 		executorServiceErr.shutdown();
+	}
+
+	/**
+	 * Removes every instance and table from Google Cloud Big Table
+	 */
+	public static void cleanupGoogleCloudTables() {
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Google tables environment..." +
+				"\u001B[0m" + "\n");
+
+		try {
+			DockerExecutor.checkDocker();
+		} catch (DockerException e) {
+			System.err.println("Could not cleanup Google tables environment: " + e.getMessage());
+			return;
+		}
+
+		List<CloudEntityData> toRemove = TablesRepositoryDAO.getGoogles();
+		if (toRemove == null) {
+			return;
+		}
+
+		for (CloudEntityData elem : toRemove) {
+			try {
+				removeGoogleInstance(elem.getId(), elem.getEntityName());
+			} catch (InterruptedException | IOException e) {
+				System.err.println("Could not delete Google table '" + elem.getEntityName() + "': " +
+						e.getMessage());
+			}
+		}
+
+		TablesRepositoryDAO.dropGoogle();
+
+		if (!toRemove.isEmpty()) {
+			// cluster deallocate
+			waitFor("Cleanup", 60);
+		}
+		System.out.println("\u001B[32m" + "\nGoogle cleanup completed!\n" + "\u001B[0m");
 	}
 
 	/**

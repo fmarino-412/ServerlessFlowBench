@@ -43,16 +43,6 @@ public class CloudEntityData {
 		this.id = id;
 	}
 
-	/**
-	 * Constructor for only id information
-	 * @param id entity id
-	 */
-	public CloudEntityData(String id) {
-		this.entityName = "BigTable_instance";
-		this.region = null;
-		this.id = id;
-	}
-
 	public String getEntityName() {
 		return entityName;
 	}

@@ -49,8 +49,8 @@ public class GoogleCommandUtility extends CommandUtility {
 	 */
 	private static final String CLOUD_BIG_TABLE = "cbt";
 	private static final String CBT_CREATE_INSTANCE = CLOUD_BIG_TABLE + SEP + "createinstance";
-	private static final String CREATE_TABLE = CLOUD_BIG_TABLE + SEP + "createtable";
-	private static final String CREATE_FAMILY = CLOUD_BIG_TABLE + SEP + "createfamily";
+	private static final String CREATE_TABLE = "createtable";
+	private static final String CREATE_FAMILY = "createfamily";
 	private static final String CBT_DELETE_INSTANCE = CLOUD_BIG_TABLE + SEP + "deleteinstance";
 
 
@@ -108,7 +108,7 @@ public class GoogleCommandUtility extends CommandUtility {
 						GOOGLE_CONFIG_BIND + SEP +
 						// select docker image to use
 						GOOGLE_CLI + SEP +
-						// CLI command to deploy a new function
+						// CLI command to remove a function
 						REMOVE_FUNCTION_CMD + SEP +
 						// function name
 						functionName + SEP +
@@ -134,7 +134,7 @@ public class GoogleCommandUtility extends CommandUtility {
 						GOOGLE_CONFIG_BIND + SEP +
 						// select docker image to use
 						GOOGLE_CLI + SEP +
-						// CLI command to deploy a new function
+						// CLI command to deploy a new workflow
 						DEPLOY_WORKFLOW_CMD + SEP +
 						// function name
 						workflowName + SEP +
@@ -155,7 +155,7 @@ public class GoogleCommandUtility extends CommandUtility {
 						GOOGLE_CONFIG_BIND + SEP +
 						// select docker image to use
 						GOOGLE_CLI + SEP +
-						// CLI command to deploy a new function
+						// CLI command to remove a workflow
 						REMOVE_WORKFLOW_CMD + SEP +
 						// function name
 						workflowName + SEP +
@@ -173,14 +173,16 @@ public class GoogleCommandUtility extends CommandUtility {
 	 * @param storageType type of storage: HDD or SSD
 	 * @return command as string
 	 */
-	public static String buildGoogleCloudBigTableCreateInstanceCommand(String name, String id, String clusterId, String region, int clusterNodes, String storageType) {
+	public static String buildGoogleCloudBigTableCreateInstanceCommand(String name, String id, String clusterId,
+																	   String region, int clusterNodes,
+																	   String storageType) {
 		return 	// command beginning
 				"docker run --rm -i" + SEP +
 						// project config binding
 						GOOGLE_CONFIG_BIND + SEP +
 						// select docker image to use
 						GOOGLE_CLI + SEP +
-						// CLI command to deploy a new function
+						// CLI command to deploy a new instance
 						CBT_CREATE_INSTANCE + SEP +
 						// instance options
 						id + SEP + name + SEP +
@@ -200,7 +202,7 @@ public class GoogleCommandUtility extends CommandUtility {
 						GOOGLE_CONFIG_BIND + SEP +
 						// select docker image to use
 						GOOGLE_CLI + SEP +
-						// CLI command to deploy a new function
+						// CLI command to deploy a delete an instance
 						CBT_DELETE_INSTANCE + SEP +
 						// instance id
 						id;
@@ -219,7 +221,7 @@ public class GoogleCommandUtility extends CommandUtility {
 						GOOGLE_CONFIG_BIND + SEP +
 						// select docker image to use
 						GOOGLE_CLI + SEP +
-						// CLI command to deploy a new function
+						// CLI command to deploy a new table
 						CLOUD_BIG_TABLE + SEP +
 						"-instance=" + instanceId + SEP +
 						CREATE_TABLE + SEP +
@@ -242,7 +244,7 @@ public class GoogleCommandUtility extends CommandUtility {
 						GOOGLE_CONFIG_BIND + SEP +
 						// select docker image to use
 						GOOGLE_CLI + SEP +
-						// CLI command to deploy a new function
+						// CLI command to add a new column family
 						CLOUD_BIG_TABLE + SEP +
 						"-instance=" + instanceId + SEP +
 						CREATE_FAMILY + SEP +

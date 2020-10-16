@@ -19,7 +19,8 @@ public class TablesRepositoryDAO extends DAO {
 	 */
 	private static final String CREATE_GOOGLE_TABLES_TABLE = "CREATE TABLE IF NOT EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_cloud_tables (" +
-			"instance_id varchar(100) NOT NULL, " +
+			"instance_id varchar(30) NOT NULL, " +
+			"table_name varchar(50) NOT NULL, " +
 			"PRIMARY KEY (instance_id)" +
 			")";
 
@@ -32,15 +33,15 @@ public class TablesRepositoryDAO extends DAO {
 
 	private static final String INSERT_GOOGLE_TABLE = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_cloud_tables " +
-			"(instance_id) " + "VALUES (?) " +
-			"ON DUPLICATE KEY UPDATE instance_id=VALUES(instance_id)";
+			"(instance_id, table_name) " + "VALUES (?, ?) " +
+			"ON DUPLICATE KEY UPDATE instance_id=VALUES(instance_id), table_name=VALUES(table_name)";
 
 	private static final String INSERT_AMAZON_TABLE = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_cloud_tables " +
 			"(table_name, region) " + "VALUES (?, ?) " +
 			"ON DUPLICATE KEY UPDATE table_name=VALUES(table_name), region=VALUES(region)";
 
-	private static final String SELECT_GOOGLE_TABLES = "SELECT instance_id FROM " +
+	private static final String SELECT_GOOGLE_TABLES = "SELECT instance_id, table_name FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_cloud_tables";
 
 	private static final String SELECT_AMAZON_TABLES = "SELECT table_name, region FROM " +
@@ -132,8 +133,9 @@ public class TablesRepositoryDAO extends DAO {
 	/**
 	 * Persists a new Google Big Table table to database
 	 * @param instanceId Big Table instance id
+	 * @param tableName name of the table
 	 */
-	public static void persistGoogle(String instanceId) {
+	public static void persistGoogle(String instanceId, String tableName) {
 		try {
 			Connection connection = MySQLConnect.connectDatabase();
 			if (connection == null) {
@@ -144,6 +146,7 @@ public class TablesRepositoryDAO extends DAO {
 
 			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GOOGLE_TABLE);
 			preparedStatement.setString(1, instanceId);
+			preparedStatement.setString(2, tableName);
 			preparedStatement.execute();
 			preparedStatement.close();
 			MySQLConnect.closeConnection(connection);
@@ -196,7 +199,9 @@ public class TablesRepositoryDAO extends DAO {
 			List<CloudEntityData> result = new ArrayList<>();
 
 			while (resultSet.next()) {
-				result.add(new CloudEntityData(resultSet.getString("instance_id")));
+				result.add(new CloudEntityData(resultSet.getString("table_name"),
+						null,
+						resultSet.getString("instance_id")));
 			}
 
 			statement.close();
