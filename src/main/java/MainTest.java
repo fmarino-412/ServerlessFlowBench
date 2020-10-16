@@ -613,6 +613,31 @@ public class MainTest {
 					zipFileNames);
 		}
 
+		{
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation", "word-ranking"};
+			String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler", "index.lambdaHandler",
+					"index.lambdaHandler"};
+			Integer[] timeouts = {30, 30, 30, 30};
+			Integer[] memories = {512, 1024, 1024, 1024};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
+					AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
+					"word_ranking.zip"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("ranking-translator",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/aws/node/ranking_translator",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.NODE_10_X_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
+
 	}
 
 	private static void benchmarkPerform() {
@@ -656,45 +681,6 @@ public class MainTest {
 				AmazonCommandUtility.OHIO);
 
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("language-detection",
-				AmazonCommandUtility.NODE_10_X_RUNTIME,
-				"index.lambdaHandler",
-				30,
-				1024,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/node/ranking_translator",
-				"language_detection.zip");
-
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("loop-controller",
-				AmazonCommandUtility.NODE_10_X_RUNTIME,
-				"index.lambdaHandler",
-				30,
-				512,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/node/ranking_translator",
-				"loop_controller.zip");
-
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("sentence-translation",
-				AmazonCommandUtility.NODE_10_X_RUNTIME,
-				"index.lambdaHandler",
-				30,
-				1024,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/node/ranking_translator",
-				"sentence_translation.zip");
-
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("word-ranking",
-				AmazonCommandUtility.NODE_10_X_RUNTIME,
-				"index.lambdaHandler",
-				30,
-				1024,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/node/ranking_translator",
-				"word_ranking.zip");
 
 	}
 }
