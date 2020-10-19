@@ -29,3 +29,4 @@ A.Y. 2019/2020
 5. Light changes in Java Image Detection workflow in **Google Cloud Workflows** [BETA] implementation due to impossibility for **Java** to create **dictionaries**!
 6. Execution region decided on the basis of Google CLoud Workflows [BETA] availability!
 7. **Java** on **Google Cloud Functions** is the **bottleneck** of the array dimension in **memory test**! AWS is ok with 2000000 too!
+8. Amazon AWS **Throttling Exception** when calling execution state on Step Functions. A busy waiting operation has been added in cycle to avoid too many API calls!
