@@ -5,7 +5,8 @@ TRANSLATE_CLIENT = translate.Client()
 
 # noinspection DuplicatedCode
 def gc_functions_handler(request):
-	# search for string in request
+
+	# search for string in request - %3f for ? character
 	sentence = None
 
 	if request.args.get('sentence') is not None:
