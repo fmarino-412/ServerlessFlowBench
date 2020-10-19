@@ -677,49 +677,14 @@ public class MainTest {
 		/*TablesCommandExecutor.createGoogleTable("ranking_translator", GoogleCommandUtility.IOWA,
 				1, GoogleCommandUtility.HARD_DISK_STORAGE, "stats");*/
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"image_recognition", "anger_detection"};
-
-			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/face_recognition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
-
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"image_recognition.lambda_handler", "anger_detection.lambda_handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
-
-			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/python/face_recognition",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
-		}
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				1024,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/python/cycle_translator/language_detection");
 
 	}
 }
