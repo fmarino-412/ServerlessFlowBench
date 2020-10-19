@@ -1,5 +1,6 @@
 import boto3
 import json
+import time
 from datetime import datetime
 
 STEPFUNCTIONS_CLIENT = boto3.client("stepfunctions")
@@ -24,9 +25,11 @@ def lambda_handler(event, context):
 	)
 
 	execution_arn = response.get("executionArn")
+	busy_wait(0.5)
 	execution_info = STEPFUNCTIONS_CLIENT.describe_execution(executionArn=execution_arn)
 
 	while execution_info.get("status") == "RUNNING":
+		busy_wait(0.05)
 		execution_info = STEPFUNCTIONS_CLIENT.describe_execution(executionArn=execution_arn)
 
 	success = execution_info.get("status") == "SUCCEEDED"
@@ -47,3 +50,10 @@ def lambda_handler(event, context):
 			}
 		})
 	}
+
+
+def busy_wait(dt):
+	# to avoid scheduler decisions
+	current_time = time.time()
+	while time.time() < current_time + dt:
+		continue

@@ -1,6 +1,7 @@
 import httplib2
 import google.auth
 import json
+import time
 from oauth2client.client import AccessTokenCredentials
 
 
@@ -38,12 +39,21 @@ def gc_functions_handler(request):
 
 	execution_name = resp.get('name')
 
+	busy_wait(0.5)
 	resp = json.loads((http.request(url_slice1 + execution_name, method="GET"))[1])
 
 	while resp.get('state') == "ACTIVE":
+		busy_wait(0.05)
 		resp = json.loads((http.request(url_slice1 + execution_name, method="GET"))[1])
 
 	if 'result' not in resp:
 		return resp.get('state')
 	else:
 		return resp.get('result')
+
+
+def busy_wait(dt):
+	# to avoid scheduler decisions
+	current_time = time.time()
+	while time.time() < current_time + dt:
+		continue
