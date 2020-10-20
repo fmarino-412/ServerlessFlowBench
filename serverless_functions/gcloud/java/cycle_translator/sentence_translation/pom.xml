@@ -39,6 +39,11 @@
             <artifactId>annotations</artifactId>
             <version>13.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-translate</artifactId>
+            <version>1.95.2</version>
+        </dependency>
     </dependencies>
 
     <!-- Required for Java 11 functions in the inline editor -->

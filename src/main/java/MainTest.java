@@ -695,5 +695,14 @@ public class MainTest {
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 						"project/serverless_functions/gcloud/python/cycle_translator/sentence_translation");
 
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
+				GoogleCommandUtility.JAVA_11_RUNTIME,
+				"language_detection.Handler",
+				30,
+				1024,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/java/cycle_translator/language_detection");
+
 	}
 }

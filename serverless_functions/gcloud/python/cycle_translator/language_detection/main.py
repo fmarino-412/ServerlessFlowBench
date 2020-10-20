@@ -13,12 +13,12 @@ def gc_functions_handler(request):
 		sentence = request.args.get('sentence')
 	else:
 		return {
-			'result': {"Error": "sentence error"}
+			'result': "Error"
 		}
 
 	# prepare and return response
 	return {
-		'result': {"Ok": "language detected"},
+		'result': "Ok",
 		'sentence': sentence,
 		'language': detect_dominant_language(sentence)
 	}

@@ -15,19 +15,19 @@ def gc_functions_handler(request):
 		sentence = request.args.get('sentence')
 	else:
 		return {
-			'result': {"Error": "sentence error"}
+			'result': "Error"
 		}
 
 	if request.args.get('language_code') is not None:
 		language_code = request.args.get('language_code')
 	else:
 		return {
-			'result': {"Error": "language code error"}
+			'result': "Error"
 		}
 
 	# prepare and return response
 	return {
-		'result': {"Ok": "sentence translated"},
+		'result': "Ok",
 		'original_sentence': sentence,
 		'sentence': translate_text(sentence, language_code)
 	}
