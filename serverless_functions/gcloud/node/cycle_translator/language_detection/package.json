@@ -4,5 +4,8 @@
   "description": "Language detection for Google Cloud Functions node runtime",
   "main": "index.js",
   "author": "Francesco Marino",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/translate": "^6.0.3"
+  }
 }
