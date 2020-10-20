@@ -13,8 +13,10 @@
         <module name="word_ranking_java_aws" />
         <module name="sentence_translation_java_aws" />
         <module name="language_detection_java_aws" />
+        <module name="sentence_translation_java_gcp" />
         <module name="serverless_composition_performance_project" />
         <module name="image_recognition_java_aws" />
+        <module name="language_detection_java_gcp" />
         <module name="image_recognition_java_gcp" />
         <module name="cpu_test_java_gcp" />
         <module name="anger_detection_java_gcp" />

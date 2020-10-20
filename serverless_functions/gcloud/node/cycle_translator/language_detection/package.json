@@ -1,0 +1,8 @@
+{
+  "name": "language_detection",
+  "version": "1.0.0",
+  "description": "Language detection for Google Cloud Functions node runtime",
+  "main": "index.js",
+  "author": "Francesco Marino",
+  "license": "ISC"
+}

@@ -1,7 +1,7 @@
 {
   "name": "memory_test",
   "version": "1.0.0",
-  "description": "Memory test for Google CLoud Functions node runtime",
+  "description": "Memory test for Google Cloud Functions node runtime",
   "main": "index.js",
   "author": "Francesco Marino",
   "license": "ISC"

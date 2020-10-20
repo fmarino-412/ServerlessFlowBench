@@ -1,0 +1,8 @@
+{
+  "name": "sentence_translation",
+  "version": "1.0.0",
+  "description": "Sentence translation for Google Cloud Functions node runtime",
+  "main": "index.js",
+  "author": "Francesco Marino",
+  "license": "ISC"
+}
