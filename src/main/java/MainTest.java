@@ -269,10 +269,10 @@ public class MainTest {
 
 		/* Cloud tables */
 
-		TablesCommandExecutor.createAmazonTable("ranking_translator",
+		TablesCommandExecutor.createAmazonTable("cycle_translator",
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/" +
 						"serverless_functions/aws/dynamo_tables",
-				"ranking_translator.json",
+				"cycle_translator.json",
 				AmazonCommandUtility.OHIO);
 
 
@@ -382,9 +382,9 @@ public class MainTest {
 			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
 					"word_ranking.zip"};
 
-			CompositionCommandExecutor.deployOnAmazonComposition("ranking-translator",
+			CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/python/ranking_translator",
+							"project/serverless_functions/aws/python/cycle_translator",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,
@@ -503,9 +503,9 @@ public class MainTest {
 			String[] zipFileNames = {"loop_controller_java_aws-1.0.jar", "language_detection_java_aws-1.0.jar",
 					"sentence_translation_java_aws-1.0.jar", "word_ranking_java_aws-1.0.jar"};
 
-			CompositionCommandExecutor.deployOnAmazonComposition("ranking-translator",
+			CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/java/ranking_translator",
+							"project/serverless_functions/aws/java/cycle_translator",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,
@@ -624,9 +624,9 @@ public class MainTest {
 			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
 					"word_ranking.zip"};
 
-			CompositionCommandExecutor.deployOnAmazonComposition("ranking-translator",
+			CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/node/ranking_translator",
+							"_project/serverless_functions/aws/node/cycle_translator",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,
@@ -674,7 +674,7 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		/*TablesCommandExecutor.createGoogleTable("ranking_translator", GoogleCommandUtility.IOWA,
+		/*TablesCommandExecutor.createGoogleTable("cycle_translator", GoogleCommandUtility.IOWA,
 				1, GoogleCommandUtility.HARD_DISK_STORAGE, "stats");*/
 
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
