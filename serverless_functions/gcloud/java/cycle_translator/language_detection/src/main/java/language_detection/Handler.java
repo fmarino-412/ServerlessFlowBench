@@ -18,7 +18,7 @@ public class Handler implements HttpFunction {
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 
-		// request reading, search for image url in request
+		// request reading, search for sentence in request
 		String sentence = httpRequest.getFirstQueryParameter("sentence").orElse("");
 		if (sentence.equals("")) {
 			returnResult(httpResponse.getWriter(), null, null);

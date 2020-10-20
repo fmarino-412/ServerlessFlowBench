@@ -7,7 +7,7 @@ TRANSLATE_CLIENT = translate.Client()
 # noinspection DuplicatedCode
 def gc_functions_handler(request):
 
-	# search for string in request
+	# search for string and language code in request
 	sentence = None
 	language_code = None
 
