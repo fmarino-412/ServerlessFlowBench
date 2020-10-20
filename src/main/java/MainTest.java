@@ -677,7 +677,7 @@ public class MainTest {
 		/*TablesCommandExecutor.createGoogleTable("cycle_translator", GoogleCommandUtility.IOWA,
 				1, GoogleCommandUtility.HARD_DISK_STORAGE, "stats");*/
 
-		/*FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
 				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 				"gc_functions_handler",
 				30,
@@ -720,7 +720,7 @@ public class MainTest {
 				1024,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/cycle_translator/language_detection");*/
+						"project/serverless_functions/gcloud/node/cycle_translator/language_detection");
 
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("sentence-translation",
 				GoogleCommandUtility.NODE_10_RUNTIME,
