@@ -730,8 +730,8 @@ public class MainTest {
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 						"project/serverless_functions/gcloud/node/cycle_translator/sentence_translation");*/
 
-		BucketsCommandExecutor.createAmazonBucket("benchmarking-project-translator-logging-bucket",
-				AmazonCommandUtility.S3_ACL_PRIVATE, AmazonCommandUtility.OHIO);
+		/*BucketsCommandExecutor.createAmazonBucket("benchmarking-project-translator-logging-bucket",
+				AmazonCommandUtility.S3_ACL_PRIVATE, AmazonCommandUtility.OHIO);*/
 
 
 
