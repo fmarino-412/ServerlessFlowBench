@@ -85,9 +85,9 @@ public class AmazonCommandUtility extends CommandUtility {
 	/**
 	 * S3 commands
 	 */
-	private static final String S3 = "s3api";
-	private static final String S3_CREATE_BUCKET = S3 + SEP + "create-bucket";
-	private static final String S3_DELETE_BUCKET = S3 + SEP + "delete-bucket";
+	private static final String S3 = "s3";
+	private static final String S3_CREATE_BUCKET = S3 + "api" + SEP + "create-bucket";
+	private static final String S3_DELETE_BUCKET = S3 + SEP + "rb";
 
 
 	/**
@@ -510,7 +510,7 @@ public class AmazonCommandUtility extends CommandUtility {
 						// operation define
 						S3_DELETE_BUCKET + SEP +
 						// parameters setting
-						"--bucket" + SEP + bucketName + SEP +
+						"s3://" + bucketName + SEP +
 						"--region" + SEP + region + SEP +
 						"--force" + SEP +
 						CLOSURE;

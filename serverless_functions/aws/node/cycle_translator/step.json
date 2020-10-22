@@ -1,5 +1,5 @@
 {
-  "Comment": "An Amazon States Machine that recognizes text, translates it and ranks translated words",
+  "Comment": "An Amazon States Machine that recognizes text, translates it and logs translation",
   "StartAt": "Input definition",
   "States": {
     "Input definition": {
@@ -63,7 +63,7 @@
         {
           "Variable": "$.LanguageDetection.Payload.language",
           "StringEquals": "en",
-          "Next": "Word ranking preamble"
+          "Next": "Translation log preamble"
         }
       ],
       "Default": "Sentence translation"
@@ -90,9 +90,9 @@
           "Next": "Error"
         }
       ],
-      "Default": "Word ranking"
+      "Default": "Translation log"
     },
-    "Word ranking preamble": {
+    "Translation log preamble": {
       "Type": "Pass",
       "Parameters": {
         "Payload": {
@@ -100,26 +100,28 @@
         }
       },
       "ResultPath": "$.SentenceTranslation",
-      "Next": "Word ranking"
+      "Next": "Translation log"
     },
-    "Word ranking": {
+    "Translation log": {
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
       "Parameters": {
         "FunctionName": "__PLACEHOLDER__",
         "Payload": {
-          "sentence.$": "$.SentenceTranslation.Payload.sentence",
-          "ranking_table_name": "ranking_translator"
+          "original_sentence.$": "$.LanguageDetection.Payload.sentence",
+          "original_language_code.$": "$.LanguageDetection.Payload.language",
+          "translated_sentence.$": "$.SentenceTranslation.Payload.sentence",
+          "logging_bucket_name": "benchmarking-project-translator-logging-bucket"
         }
       },
-      "ResultPath": "$.WordRanking",
-      "Next": "Word ranking choice"
+      "ResultPath": "$.TranslationLog",
+      "Next": "Translation log choice"
     },
-    "Word ranking choice": {
+    "Translation log choice": {
       "Type": "Choice",
       "Choices": [
         {
-          "Variable": "$.WordRanking.Payload",
+          "Variable": "$.TranslationLog.Payload",
           "StringEquals": "Error",
           "Next": "Error"
         }
@@ -144,7 +146,7 @@
     },
     "Completion": {
       "Type": "Pass",
-      "Result": "Ranking completed",
+      "Result": "Translations completed: check logs",
       "End": true
     }
   }
