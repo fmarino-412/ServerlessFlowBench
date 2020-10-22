@@ -10,18 +10,25 @@ import utility.PropertiesManager;
 public class GoogleCommandUtility extends CommandUtility {
 
 	/**
-	 * Public constant variables
+	 * Public constant variables: Languages
 	 */
 	public static final String PYTHON_3_7_RUNTIME = "python37";
 	public static final String GO_1_RUNTIME = "go111";
 	public static final String JAVA_11_RUNTIME = "java11";
 	public static final String NODE_10_RUNTIME = "nodejs10";
 
+	/**
+	 * Public constant variables: Zones
+	 */
 	public static final String NORTH_VIRGINIA = "us-east4";
 	public static final String IOWA = "us-central1";
 
-	public static final String HARD_DISK_STORAGE = "HDD";
-	public static final String SOLID_STATE_STORAGE = "SSD";
+	/**
+	 * Public constant variables: Big Table memorization mediums
+	 */
+	public static final String BT_HARD_DISK_STORAGE = "HDD";
+	public static final String BT_SOLID_STATE_STORAGE = "SSD";
+
 
 	/**
 	 * Docker utils

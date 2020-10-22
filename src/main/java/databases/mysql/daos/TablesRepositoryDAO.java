@@ -53,6 +53,7 @@ public class TablesRepositoryDAO extends DAO {
 	private static final String DROP_AMAZON_TABLES = "DROP TABLE IF EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_cloud_tables";
 
+
 	/**
 	 * Initializes tables
 	 * @param connection database connection to use
@@ -85,14 +86,14 @@ public class TablesRepositoryDAO extends DAO {
 	}
 
 	/**
-	 * Drop every table associated to Google Cloud Platform
+	 * Drop every table associated to Google Cloud Platform NoSQL tables
 	 */
 	public static void dropGoogle() {
 		dropTable(GOOGLE);
 	}
 
 	/**
-	 * Drop every table associated to Amazon Web Services
+	 * Drop every table associated to Amazon Web Services NoSQL tables
 	 */
 	public static void dropAmazon() {
 		dropTable(AMAZON);

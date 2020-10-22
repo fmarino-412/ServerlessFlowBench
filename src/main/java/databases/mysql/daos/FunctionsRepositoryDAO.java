@@ -98,14 +98,14 @@ public class FunctionsRepositoryDAO extends DAO {
 	}
 
 	/**
-	 * Drop every table associated to Google Cloud Platform
+	 * Drop every table associated to Google Cloud Platform Functions
 	 */
 	public static void dropGoogle() {
 		dropTable(GOOGLE);
 	}
 
 	/**
-	 * Drop every table associated to Amazon Web Services
+	 * Drop every table associated to Amazon Web Services Functions
 	 */
 	public static void dropAmazon() {
 		dropTable(AMAZON);

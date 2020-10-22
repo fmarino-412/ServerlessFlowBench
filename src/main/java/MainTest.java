@@ -18,35 +18,28 @@ public class MainTest {
 				benchmarkPerform();
 				break;
 			case 2:
-				cleanupFunctions();
-				cleanupCompositions();
-				cleanupTables();
+				cleanup();
 				break;
 			case 3:
 				deployFunctions();
 				deployCompositions();
 				benchmarkPerform();
-				cleanupCompositions();
-				cleanupFunctions();
-				cleanupTables();
+				cleanup();
 				break;
 			case 4:
-				deployFunctions();
-				deployCompositions();
-				cleanupCompositions();
-				cleanupFunctions();
-				cleanupTables();
-				customFunction();
-				break;
-			case 5:
 				deployInfoFunctions();
 				break;
-			case 6:
-				cleanupFunctions();
-				cleanupCompositions();
-				cleanupTables();
+			case 5:
+				cleanup();
 				customFunction();
 		}
+	}
+
+	private static void cleanup() {
+		cleanupFunctions();
+		cleanupCompositions();
+		cleanupTables();
+		cleanupBuckets();
 	}
 
 	private static void cleanupFunctions() {
@@ -65,6 +58,12 @@ public class MainTest {
 		System.out.println("\u001B[35m" + "\n\nRemoving cloud tables...\n" + "\u001B[0m");
 		TablesCommandExecutor.cleanupGoogleCloudTables();
 		TablesCommandExecutor.cleanupAmazonCloudTables();
+	}
+
+	private static void cleanupBuckets() {
+		System.out.println("\u001B[35m" + "\n\nRemoving cloud buckets...\n" + "\u001B[0m");
+		// BucketsCommandExecutor.cleanupGoogleCloudBuckets();
+		BucketsCommandExecutor.cleanupAmazonCloudBuckets();
 	}
 
 	private static void deployFunctions() {
@@ -267,13 +266,10 @@ public class MainTest {
 	private static void deployCompositions() {
 		System.out.println("\u001B[35m" + "\n\nDeploying benchmark compositions...\n" + "\u001B[0m");
 
-		/* Cloud tables */
+		/* Cloud buckets */
 
-		TablesCommandExecutor.createAmazonTable("cycle_translator",
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/" +
-						"serverless_functions/aws/dynamo_tables",
-				"cycle_translator.json",
-				AmazonCommandUtility.OHIO);
+		BucketsCommandExecutor.createAmazonBucket("benchmarking-project-translator-logging-bucket",
+				AmazonCommandUtility.S3_ACL_PRIVATE, AmazonCommandUtility.OHIO);
 
 
 
@@ -372,15 +368,16 @@ public class MainTest {
 		}
 
 		{
-			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation", "word-ranking"};
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+					"translation-logger"};
 			String[] entryPoints = {"loop_controller.lambda_handler", "language_detection.lambda_handler",
-					"sentence_translation.lambda_handler", "word_ranking.lambda_handler"};
+					"sentence_translation.lambda_handler", "translation_logger.lambda_handler"};
 			Integer[] timeouts = {30, 30, 30, 30};
 			Integer[] memories = {512, 1024, 1024, 1024};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
 					AmazonCommandUtility.OHIO};
 			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
-					"word_ranking.zip"};
+					"translation_logger.zip"};
 
 			CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
@@ -677,7 +674,7 @@ public class MainTest {
 		/*TablesCommandExecutor.createGoogleTable("cycle_translator", GoogleCommandUtility.IOWA,
 				1, GoogleCommandUtility.HARD_DISK_STORAGE, "stats");*/
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
+		/*FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
 				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 				"gc_functions_handler",
 				30,
@@ -729,7 +726,37 @@ public class MainTest {
 				1024,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/cycle_translator/sentence_translation");
+						"project/serverless_functions/gcloud/node/cycle_translator/sentence_translation");*/
+
+		BucketsCommandExecutor.createAmazonBucket("benchmarking-project-translator-logging-bucket",
+				AmazonCommandUtility.S3_ACL_PRIVATE, AmazonCommandUtility.OHIO);
+
+		{
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+					"translation-logger"};
+			String[] entryPoints = {"loop_controller.lambda_handler", "language_detection.lambda_handler",
+					"sentence_translation.lambda_handler", "translation_logger.lambda_handler"};
+			Integer[] timeouts = {30, 30, 30, 30};
+			Integer[] memories = {512, 1024, 1024, 1024};
+			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
+					AmazonCommandUtility.OHIO};
+			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
+					"translation_logger.zip"};
+
+			CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/python/cycle_translator",
+					AmazonCommandUtility.OHIO,
+					"step.json",
+					functionNames,
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					zipFileNames);
+		}
+
 
 	}
 }

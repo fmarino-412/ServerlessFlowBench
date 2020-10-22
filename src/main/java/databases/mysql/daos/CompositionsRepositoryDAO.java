@@ -227,14 +227,14 @@ public class CompositionsRepositoryDAO extends DAO {
 	}
 
 	/**
-	 * Drop every table associated to Google Cloud Platform
+	 * Drop every table associated to Google Cloud Platform Function Compositions
 	 */
 	public static void dropGoogle() {
 		dropTable(GOOGLE);
 	}
 
 	/**
-	 * Drop every table associated to Amazon Web Services
+	 * Drop every table associated to Amazon Web Services Function Compositions
 	 */
 	public static void dropAmazon() {
 		dropTable(AMAZON);

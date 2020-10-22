@@ -10,15 +10,27 @@ import utility.PropertiesManager;
 public class AmazonCommandUtility extends CommandUtility {
 
 	/**
-	 * Public constant variables
+	 * Public constant variables: Languages
 	 */
 	public static final String PYTHON_3_7_RUNTIME = "python3.7";
 	public static final String GO_1_X_RUNTIME = "go1.x";
 	public static final String JAVA_11_RUNTIME = "java11";
 	public static final String NODE_10_X_RUNTIME = "nodejs10.x";
 
+	/**
+	 * Public constant variables: Zones
+	 */
 	public static final String NORTH_VIRGINIA = "us-east-1";
 	public static final String OHIO = "us-east-2";
+
+	/**
+	 * Public constant variables: S3 ACLs
+	 */
+	public static final String S3_ACL_PUBLIC = "public-read-write";
+	public static final String S3_ACL_PUBLIC_READ = "public-read";
+	public static final String S3_ACL_AUTH_READ= "authenticated-read";
+	public static final String S3_ACL_PRIVATE = "private";
+
 
 	/**
 	 * Docker utils
@@ -69,6 +81,13 @@ public class AmazonCommandUtility extends CommandUtility {
 	private static final String DYNAMO_DB = "dynamodb";
 	private static final String DYNAMO_DB_CREATE_TABLE = DYNAMO_DB + SEP + "create-table";
 	private static final String DYNAMO_DB_DELETE_TABLE = DYNAMO_DB + SEP + "delete-table";
+
+	/**
+	 * S3 commands
+	 */
+	private static final String S3 = "s3api";
+	private static final String S3_CREATE_BUCKET = S3 + SEP + "create-bucket";
+	private static final String S3_DELETE_BUCKET = S3 + SEP + "delete-bucket";
 
 
 	/**
@@ -384,6 +403,28 @@ public class AmazonCommandUtility extends CommandUtility {
 	}
 
 	/**
+	 * Builds AWS CLI command to create a new S3 bucket
+	 * @param bucketName name of the new bucket
+	 * @param acl access control list of the new bucket: use static options
+	 * @param region region of the new bucket
+	 * @return command as string
+	 */
+	public static String buildS3BucketCreationCommand(String bucketName, String acl, String region) {
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
+						// operation define
+						S3_CREATE_BUCKET + SEP +
+						// parameters setting
+						"--bucket" + SEP + bucketName + SEP +
+						"--acl" + SEP + acl + SEP +
+						"--region" + SEP + region + SEP +
+						"--create-bucket-configuration" + SEP + "LocationConstraint=" + region + SEP +
+						CLOSURE;
+	}
+
+	/**
 	 * Builds AWS CLI command to delete a Lambda function
 	 * @param functionName name of function to delete
 	 * @param region deployment region of function to delete
@@ -453,6 +494,24 @@ public class AmazonCommandUtility extends CommandUtility {
 						// parameters setting
 						"--region" + SEP + region + SEP +
 						"--table-name" + SEP + tableName + SEP +
+						CLOSURE;
+	}
+
+	/**
+	 * Builds AWS CLI command to delete a S3 bucket
+	 * @param bucketName name of the bucket to delete
+	 * @return command as string
+	 */
+	public static String buildS3BucketDropCommand(String bucketName, String region) {
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// select docker image to use
+						AWS_CLI + SEP +
+						// operation define
+						S3_DELETE_BUCKET + SEP +
+						// parameters setting
+						"--bucket" + SEP + bucketName + SEP +
+						"--region" + SEP + region + SEP +
 						CLOSURE;
 	}
 

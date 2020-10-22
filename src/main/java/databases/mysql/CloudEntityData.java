@@ -3,7 +3,7 @@ package databases.mysql;
 import com.sun.istack.internal.Nullable;
 
 /**
- * Collection of cloud entity (function, composition, table or instance) information
+ * Collection of cloud entity (function, composition, bucket, table or instance) information
  */
 public class CloudEntityData {
 	/**
@@ -35,7 +35,7 @@ public class CloudEntityData {
 	 * All arguments constructor
 	 * @param entityName name of the entity
 	 * @param region entity region of deployment
-	 * @param id functionality ARN or API id
+	 * @param id entity id
 	 */
 	public CloudEntityData(String entityName, String region, String id) {
 		this.entityName = entityName;
