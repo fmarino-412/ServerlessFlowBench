@@ -1,0 +1,11 @@
+{
+  "name": "translation_logger",
+  "version": "1.0.0",
+  "description": "Translation logger for Amazon Lambda node runtime",
+  "main": "index.js",
+  "author": "Francesco Marino",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.763.0"
+  }
+}

@@ -29,7 +29,7 @@
         <option value="$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/language_detection/pom.xml" />
         <option value="$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/loop_controller/pom.xml" />
         <option value="$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/sentence_translation/pom.xml" />
-        <option value="$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/word_ranking/pom.xml" />
+        <option value="$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/translation_logger/pom.xml" />
       </list>
     </option>
   </component>

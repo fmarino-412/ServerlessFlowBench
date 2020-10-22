@@ -55,11 +55,11 @@ def log_translation(original_sentence, original_language_code, translated_senten
                     logging_bucket_name):
 
     # timestamp
-    timestamp = datetime.datetime.now()
+    timestamp = datetime.datetime.utcnow()
 
     # create filename
-    filename = "Translation " + str(timestamp) + ".log"
-    filename.replace(" ", "_")
+    filename = "Translation " + str(timestamp.isoformat(sep=' ', timespec='milliseconds')) + ".log"
+    filename = filename.replace(" ", "_")
 
     # create body
     body = "Translation info:" + "\n\n" + "original sentence: " + original_sentence + "\n" + "original language: " + \

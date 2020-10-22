@@ -731,32 +731,32 @@ public class MainTest {
 		BucketsCommandExecutor.createAmazonBucket("benchmarking-project-translator-logging-bucket",
 				AmazonCommandUtility.S3_ACL_PRIVATE, AmazonCommandUtility.OHIO);
 
+
 		{
 			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
 					"translation-logger"};
-			String[] entryPoints = {"loop_controller.lambda_handler", "language_detection.lambda_handler",
-					"sentence_translation.lambda_handler", "translation_logger.lambda_handler"};
+			String[] entryPoints = {"loop_controller.Handler", "language_detection.Handler",
+					"sentence_translation.Handler", "translation_logger.Handler"};
 			Integer[] timeouts = {30, 30, 30, 30};
 			Integer[] memories = {512, 1024, 1024, 1024};
 			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
 					AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
-					"translation_logger.zip"};
+			String[] zipFileNames = {"loop_controller_java_aws-1.0.jar", "language_detection_java_aws-1.0.jar",
+					"sentence_translation_java_aws-1.0.jar", "translation_logger_java_aws-1.0.jar"};
 
 			CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/python/cycle_translator",
+							"project/serverless_functions/aws/java/cycle_translator",
 					AmazonCommandUtility.OHIO,
 					"step.json",
 					functionNames,
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					AmazonCommandUtility.JAVA_11_RUNTIME,
 					entryPoints,
 					timeouts,
 					memories,
 					regions,
 					zipFileNames);
 		}
-
 
 	}
 }

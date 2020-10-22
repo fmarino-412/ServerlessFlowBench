@@ -9,8 +9,8 @@
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/loop_controller/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/sentence_translation/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/sentence_translation/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/word_ranking/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/word_ranking/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/translation_logger/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/translation_logger/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/face_recognition/anger_detection/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/face_recognition/anger_detection/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/face_recognition/image_recognition/src/main/java" charset="UTF-8" />
