@@ -4,7 +4,7 @@ import cmd.functionality_commands.*;
 @SuppressWarnings("DuplicatedCode")
 public class MainTest {
 
-	private static final int OPERATION_SELECTION = 6;
+	private static final int OPERATION_SELECTION = 5;
 
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
