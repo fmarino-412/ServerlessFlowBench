@@ -1,7 +1,6 @@
 package cmd.functionality_commands;
 
 import cmd.CommandUtility;
-import cmd.StreamGobbler;
 import utility.PropertiesManager;
 
 /**
@@ -178,6 +177,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * @return command as string
 	 */
 	public static String buildGatewayApiIdGetterCommand(String apiName, String region) {
+
 		return	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
@@ -197,6 +197,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * @return command as string
 	 */
 	public static String buildGatewayApiParentIdGetterCommand(String apiId, String region) {
+
 		return	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
@@ -220,6 +221,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 */
 	public static String buildGatewayResourceApiCreationCommand(String functionName, String apiId, String parentId,
 																String region) {
+
 		return 	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
@@ -338,6 +340,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 */
 	public static String buildGatewayLambdaAuthCommand(String functionName, String apiId, String lambdaARN,
 													   String region) {
+
 		String apiARN = lambdaARN.replace(LAMBDA, EXECUTE_API);
 		apiARN = apiARN.replace("function:" + functionName, apiId);
 
@@ -364,6 +367,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * @return command as string
 	 */
 	public static String buildStepFunctionCreationCommand(String machineName, String region, String definitionJson) {
+
 		return	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
@@ -387,6 +391,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * @return command as string
 	 */
 	public static String buildDynamoTableCreationCommand(String tableName, String jsonFolder, String jsonName, String region) {
+
 		return 	// command beginning
 				PREAMBLE + SEP +
 						// volume attachment
@@ -410,6 +415,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * @return command as string
 	 */
 	public static String buildS3BucketCreationCommand(String bucketName, String acl, String region) {
+
 		return 	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
@@ -431,6 +437,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * @return command as string
 	 */
 	public static String buildLambdaDropCommand(String functionName, String region) {
+
 		return	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
@@ -449,6 +456,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * @return command as string
 	 */
 	public static String buildGatewayDropCommand(String apiId, String region) {
+
 		return	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
@@ -467,6 +475,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * @return command as string
 	 */
 	public static String buildStepFunctionDropCommand(String machineArn, String region) {
+
 		return	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
@@ -485,6 +494,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * @return command as string
 	 */
 	public static String buildDynamoTableDropCommand(String tableName, String region) {
+
 		return 	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
@@ -503,6 +513,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 * @return command as string
 	 */
 	public static String buildS3BucketDropCommand(String bucketName, String region) {
+
 		return 	// command beginning
 				PREAMBLE + SEP +
 						// select docker image to use
@@ -525,6 +536,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	 */
 	@SuppressWarnings("DuplicatedCode")
 	public static String applyRuntimeId(String functionalityName, String runtime) throws IllegalNameException {
+
 		if (needsRuntimeId(functionalityName)) {
 			switch (runtime) {
 				case PYTHON_3_7_RUNTIME:

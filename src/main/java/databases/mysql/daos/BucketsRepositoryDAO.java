@@ -19,9 +19,8 @@ public class BucketsRepositoryDAO extends DAO {
 	 */
 	private static final String CREATE_GOOGLE_BUCKETS_TABLE = "CREATE TABLE IF NOT EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_cloud_buckets (" +
-			"instance_id varchar(30) NOT NULL, " +
-			"table_name varchar(50) NOT NULL, " +
-			"PRIMARY KEY (instance_id)" +
+			"bucket_name varchar(100) NOT NULL, " +
+			"PRIMARY KEY (bucket_name)" +
 			")";
 
 	private static final String CREATE_AMAZON_BUCKETS_TABLE = "CREATE TABLE IF NOT EXISTS " +
@@ -33,15 +32,15 @@ public class BucketsRepositoryDAO extends DAO {
 
 	private static final String INSERT_GOOGLE_BUCKET = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_cloud_buckets " +
-			"(instance_id, table_name) " + "VALUES (?, ?) " +
-			"ON DUPLICATE KEY UPDATE instance_id=VALUES(instance_id), table_name=VALUES(table_name)";
+			"(bucket_name) " + "VALUES (?) " +
+			"ON DUPLICATE KEY UPDATE bucket_name=VALUES(bucket_name)";
 
 	private static final String INSERT_AMAZON_BUCKET = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_cloud_buckets " +
 			"(bucket_name, region) " + "VALUES (?, ?) " +
 			"ON DUPLICATE KEY UPDATE bucket_name=VALUES(bucket_name), region=VALUES(region)";
 
-	private static final String SELECT_GOOGLE_BUCKETS = "SELECT instance_id, table_name FROM " +
+	private static final String SELECT_GOOGLE_BUCKETS = "SELECT bucket_name FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_cloud_buckets";
 
 	private static final String SELECT_AMAZON_BUCKETS = "SELECT bucket_name, region FROM " +
@@ -132,6 +131,29 @@ public class BucketsRepositoryDAO extends DAO {
 	}
 
 	/**
+	 * Persists a new Google Cloud Storage bucket to database
+	 * @param bucketName name of the bucket
+	 */
+	public static void persistGoogle(String bucketName) {
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return;
+			}
+			initTables(connection, GOOGLE);
+
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GOOGLE_BUCKET);
+			preparedStatement.setString(1, bucketName);
+			preparedStatement.execute();
+			preparedStatement.close();
+			MySQLConnect.closeConnection(connection);
+		} catch (SQLException e) {
+			System.err.println("Could not perform insertion: " + e.getMessage());
+		}
+	}
+
+	/**
 	 * Persists a new Amazon S3 bucket to database
 	 * @param bucketName name of the bucket
 	 * @param region bucket region
@@ -153,6 +175,38 @@ public class BucketsRepositoryDAO extends DAO {
 			MySQLConnect.closeConnection(connection);
 		} catch (SQLException e) {
 			System.err.println("Could not perform insertion: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * List every Google Cloud Storage bucket
+	 * @return list of buckets (CloudEntityData)
+	 */
+	public static List<CloudEntityData> getGoogles() {
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return null;
+			}
+			initTables(connection, GOOGLE);
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_BUCKETS);
+
+			List<CloudEntityData> result = new ArrayList<>();
+
+			while (resultSet.next()) {
+				result.add(new CloudEntityData(resultSet.getString("bucket_name")));
+			}
+
+			statement.close();
+			resultSet.close();
+			MySQLConnect.closeConnection(connection);
+			return result;
+		} catch (SQLException e) {
+			System.err.println("Could not perform select: " + e.getMessage());
+			return null;
 		}
 	}
 

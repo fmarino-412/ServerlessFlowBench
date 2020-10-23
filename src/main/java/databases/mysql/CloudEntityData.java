@@ -21,6 +21,16 @@ public class CloudEntityData {
 
 
 	/**
+	 * Constructor without region and id
+	 * @param entityName name of the entity
+	 */
+	public CloudEntityData(String entityName) {
+		this.entityName = entityName;
+		this.region = null;
+		this.id = null;
+	}
+
+	/**
 	 * Constructor without id
 	 * @param entityName name of the entity
 	 * @param region entity region of deployment

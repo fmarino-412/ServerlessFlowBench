@@ -1,7 +1,6 @@
 package cmd.functionality_commands;
 
 import cmd.CommandUtility;
-import cmd.StreamGobbler;
 import utility.PropertiesManager;
 
 /**
@@ -33,6 +32,7 @@ public class GoogleCommandUtility extends CommandUtility {
 	/**
 	 * Docker utils
 	 */
+	private static final String PREAMBLE = "docker" + SEP + "run" + SEP + "--rm" + SEP + "-i";
 	private static final String GOOGLE_CLI = "google/cloud-sdk";
 	private static final String GOOGLE_CONFIG_BIND = "--volumes-from" + SEP +
 							PropertiesManager.getInstance().getProperty(PropertiesManager.GOOGLE_CONTAINER);
@@ -60,6 +60,13 @@ public class GoogleCommandUtility extends CommandUtility {
 	private static final String CREATE_FAMILY = "createfamily";
 	private static final String CBT_DELETE_INSTANCE = CLOUD_BIG_TABLE + SEP + "deleteinstance";
 
+	/**
+	 * Google Cloud Storage Commands
+	 */
+	private static final String CLOUD_STORAGE_UTILS = "gsutils";
+	private static final String CLOUD_STORAGE_CREATE_BUCKET = CLOUD_STORAGE_UTILS + SEP + "mb";
+	private static final String CLOUD_STORAGE_DELETE_BUCKET = CLOUD_STORAGE_UTILS + SEP + "rm";
+
 
 	/**
 	 * Builds Google Cloud CLI command for Functions function deployment
@@ -77,7 +84,7 @@ public class GoogleCommandUtility extends CommandUtility {
 																String functionDirPath) {
 
 		return 	// command beginning
-				"docker run --rm -i" + SEP +
+				PREAMBLE + SEP +
 						// volume attachment
 						"-v" + SEP + functionDirPath + ":" + FUNCTIONALITIES_DIR + SEP +
 						// project config binding
@@ -102,28 +109,6 @@ public class GoogleCommandUtility extends CommandUtility {
 	}
 
 	/**
-	 * Builds Google Cloud CLI command for Functions function deletion
-	 * @param functionName name of the function to remove
-	 * @param region function to remove region of deployment
-	 * @return command as string
-	 */
-	public static String buildGoogleCloudFunctionsRemoveCommand(String functionName, String region) {
-
-		return 	// command beginning
-				"docker run --rm -i" + SEP +
-						// project config binding
-						GOOGLE_CONFIG_BIND + SEP +
-						// select docker image to use
-						GOOGLE_CLI + SEP +
-						// CLI command to remove a function
-						REMOVE_FUNCTION_CMD + SEP +
-						// function name
-						functionName + SEP +
-						"--region=" + region + SEP +
-						"--quiet";
-	}
-
-	/**
 	 * Builds Google Cloud CLI command to deploy a new workflow to Google Cloud Platform Workflows [BETA]
 	 * @param workflowName name of the new workflow
 	 * @param region workflow region of deployment
@@ -133,8 +118,9 @@ public class GoogleCommandUtility extends CommandUtility {
 	 */
 	public static String buildGoogleCloudWorkflowsDeployCommand(String workflowName, String region,
 																String workflowDirPath, String fileName) {
+
 		return 	// command beginning
-				"docker run --rm -i" + SEP +
+				PREAMBLE + SEP +
 						// volume attachment
 						"-v" + SEP + workflowDirPath + ":" + FUNCTIONALITIES_DIR + SEP +
 						// project config binding
@@ -150,27 +136,6 @@ public class GoogleCommandUtility extends CommandUtility {
 	}
 
 	/**
-	 * Builds Google Cloud CLI command to remove a workflow from Google Cloud Platform Workflows [BETA]
-	 * @param workflowName name of the workflow to delete
-	 * @param region workflow to delete region of deployment
-	 * @return command as string
-	 */
-	public static String buildGoogleCloudWorkflowsRemoveCommand(String workflowName, String region) {
-		return 	// command beginning
-				"docker run --rm -i" + SEP +
-						// project config binding
-						GOOGLE_CONFIG_BIND + SEP +
-						// select docker image to use
-						GOOGLE_CLI + SEP +
-						// CLI command to remove a workflow
-						REMOVE_WORKFLOW_CMD + SEP +
-						// function name
-						workflowName + SEP +
-						"--location=" + region + SEP +
-						"--quiet";
-	}
-
-	/**
 	 * Builds Google Cloud CLI command to create a new BigTable instance
 	 * @param name name of the instance
 	 * @param id id to assign to the instance
@@ -183,8 +148,9 @@ public class GoogleCommandUtility extends CommandUtility {
 	public static String buildGoogleCloudBigTableCreateInstanceCommand(String name, String id, String clusterId,
 																	   String region, int clusterNodes,
 																	   String storageType) {
+
 		return 	// command beginning
-				"docker run --rm -i" + SEP +
+				PREAMBLE + SEP +
 						// project config binding
 						GOOGLE_CONFIG_BIND + SEP +
 						// select docker image to use
@@ -198,32 +164,15 @@ public class GoogleCommandUtility extends CommandUtility {
 	}
 
 	/**
-	 * Builds Google Cloud CLI command to delete a BigTable instance
-	 * @param id id of the instance to delete
-	 * @return command as string
-	 */
-	public static String buildGoogleCloudBigTableDropInstanceCommand(String id) {
-		return 	// command beginning
-				"docker run --rm -i" + SEP +
-						// project config binding
-						GOOGLE_CONFIG_BIND + SEP +
-						// select docker image to use
-						GOOGLE_CLI + SEP +
-						// CLI command to deploy a delete an instance
-						CBT_DELETE_INSTANCE + SEP +
-						// instance id
-						id;
-	}
-
-	/**
 	 * Builds Google Cloud CLI command to create a new table in Big Table
 	 * @param instanceId id of the Big Table instance
 	 * @param tableName name of the table
 	 * @return command as string
 	 */
 	public static String buildGoogleCloudBigTableCreateTableCommand(String instanceId, String tableName) {
+
 		return 	// command beginning
-				"docker run --rm -i" + SEP +
+				PREAMBLE + SEP +
 						// project config binding
 						GOOGLE_CONFIG_BIND + SEP +
 						// select docker image to use
@@ -246,7 +195,7 @@ public class GoogleCommandUtility extends CommandUtility {
 	public static String buildGoogleCloudBigTableCreateFamilyCommand(String instanceId, String tableName,
 																	 String familyName) {
 		return 	// command beginning
-				"docker run --rm -i" + SEP +
+				PREAMBLE + SEP +
 						// project config binding
 						GOOGLE_CONFIG_BIND + SEP +
 						// select docker image to use
@@ -260,6 +209,112 @@ public class GoogleCommandUtility extends CommandUtility {
 	}
 
 	/**
+	 * Builds Google Cloud CLI command for Cloud Storage bucket creation
+	 * @param bucketName name of the new bucket
+	 * @param region region of the new bucket
+	 * @return command as string
+	 */
+	public static String buildGoogleCloudStorageBucketCreationCommand(String bucketName, String region) {
+
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// project config binding
+						GOOGLE_CONFIG_BIND + SEP +
+						// select docker image to use
+						GOOGLE_CLI + SEP +
+						// CLI command to create a new bucket
+						CLOUD_STORAGE_CREATE_BUCKET + SEP +
+						"-l" + SEP + region + SEP +
+						// bucket name
+						"gs://" + bucketName;
+	}
+
+	/**
+	 * Builds Google Cloud CLI command for Functions function deletion
+	 * @param functionName name of the function to remove
+	 * @param region function to remove region of deployment
+	 * @return command as string
+	 */
+	public static String buildGoogleCloudFunctionsRemoveCommand(String functionName, String region) {
+
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// project config binding
+						GOOGLE_CONFIG_BIND + SEP +
+						// select docker image to use
+						GOOGLE_CLI + SEP +
+						// CLI command to remove a function
+						REMOVE_FUNCTION_CMD + SEP +
+						// function name
+						functionName + SEP +
+						"--region=" + region + SEP +
+						"--quiet";
+	}
+
+	/**
+	 * Builds Google Cloud CLI command to remove a workflow from Google Cloud Platform Workflows [BETA]
+	 * @param workflowName name of the workflow to delete
+	 * @param region workflow to delete region of deployment
+	 * @return command as string
+	 */
+	public static String buildGoogleCloudWorkflowsRemoveCommand(String workflowName, String region) {
+
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// project config binding
+						GOOGLE_CONFIG_BIND + SEP +
+						// select docker image to use
+						GOOGLE_CLI + SEP +
+						// CLI command to remove a workflow
+						REMOVE_WORKFLOW_CMD + SEP +
+						// function name
+						workflowName + SEP +
+						"--location=" + region + SEP +
+						"--quiet";
+	}
+
+	/**
+	 * Builds Google Cloud CLI command to delete a BigTable instance
+	 * @param id id of the instance to delete
+	 * @return command as string
+	 */
+	public static String buildGoogleCloudBigTableDropInstanceCommand(String id) {
+
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// project config binding
+						GOOGLE_CONFIG_BIND + SEP +
+						// select docker image to use
+						GOOGLE_CLI + SEP +
+						// CLI command to deploy a delete an instance
+						CBT_DELETE_INSTANCE + SEP +
+						// instance id
+						id;
+	}
+
+	/**
+	 * Builds Google Cloud CLI command for Cloud Storage bucket deletion
+	 * @param bucketName name of the bucket to delete
+	 * @return command as string
+	 */
+	public static String buildGoogleCloudStorageBucketDropCommand(String bucketName) {
+
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// project config binding
+						GOOGLE_CONFIG_BIND + SEP +
+						// select docker image to use
+						GOOGLE_CLI + SEP +
+						// multi-thread - for large amount of data deletion
+						"-m" + SEP +
+						// CLI command to delete a bucket
+						CLOUD_STORAGE_DELETE_BUCKET + SEP +
+						"-r" + SEP +
+						// bucket name
+						"gs://" + bucketName;
+	}
+
+	/**
 	 * Translates function name and runtime to a string that will work as function identifier
 	 * @param functionalityName name of the function to apply id
 	 * @param runtime to translate
@@ -268,6 +323,7 @@ public class GoogleCommandUtility extends CommandUtility {
 	 */
 	@SuppressWarnings("DuplicatedCode")
 	public static String applyRuntimeId(String functionalityName, String runtime) throws IllegalNameException {
+
 		if (needsRuntimeId(functionalityName)) {
 			switch (runtime) {
 				case PYTHON_3_7_RUNTIME:

@@ -182,7 +182,7 @@ public class TablesRepositoryDAO extends DAO {
 	}
 
 	/**
-	 * List every Google Bug Table table
+	 * List every Google Big Table table
 	 * @return list of tables (CloudEntityData)
 	 */
 	public static List<CloudEntityData> getGoogles() {
