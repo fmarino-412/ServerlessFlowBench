@@ -737,7 +737,14 @@ public class MainTest {
 				GoogleCommandUtility.IOWA);
 
 
-
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				1024,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/python/cycle_translator/translation_logger");
 
 	}
 }
