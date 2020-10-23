@@ -28,16 +28,16 @@ public class TablesCommandExecutor extends CommandExecutor {
 	public static void createGoogleTable(String tableName, String region, int nodes, String storageType,
 										 String... columnFamilies) {
 
-		System.out.println("\n" + "\u001B[33m" +
-				"Creating table \"" + tableName + "\" to Google..." +
-				"\u001B[0m" + "\n");
-
 		try {
 			DockerExecutor.checkDocker();
 		} catch (DockerException e) {
-			System.err.println("Could not create table '" + tableName + "' on Amazon: " + e.getMessage());
+			System.err.println("Could not create table '" + tableName + "' on Google: " + e.getMessage());
 			return;
 		}
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Creating table \"" + tableName + "\" to Google..." +
+				"\u001B[0m" + "\n");
 
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 		String cmd;
@@ -117,11 +117,8 @@ public class TablesCommandExecutor extends CommandExecutor {
 	 * @param definitionFileName table definition file name
 	 * @param region region for table creation
 	 */
-	public static void createAmazonTable(String tableName, String directoryAbsolutePath, String definitionFileName, String region) {
-
-		System.out.println("\n" + "\u001B[33m" +
-				"Creating table \"" + tableName + "\" to Amazon Web Services..." +
-				"\u001B[0m" + "\n");
+	public static void createAmazonTable(String tableName, String directoryAbsolutePath, String definitionFileName,
+										 String region) {
 
 		try {
 			DockerExecutor.checkDocker();
@@ -129,6 +126,10 @@ public class TablesCommandExecutor extends CommandExecutor {
 			System.err.println("Could not create table '" + tableName + "' on Amazon: " + e.getMessage());
 			return;
 		}
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Creating table \"" + tableName + "\" to Amazon Web Services..." +
+				"\u001B[0m" + "\n");
 
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 
@@ -216,16 +217,16 @@ public class TablesCommandExecutor extends CommandExecutor {
 	 */
 	public static void cleanupGoogleCloudTables() {
 
-		System.out.println("\n" + "\u001B[33m" +
-				"Cleaning up Google tables environment..." +
-				"\u001B[0m" + "\n");
-
 		try {
 			DockerExecutor.checkDocker();
 		} catch (DockerException e) {
 			System.err.println("Could not cleanup Google tables environment: " + e.getMessage());
 			return;
 		}
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Google tables environment..." +
+				"\u001B[0m" + "\n");
 
 		List<CloudEntityData> toRemove = TablesRepositoryDAO.getGoogles();
 		if (toRemove == null) {
@@ -255,16 +256,16 @@ public class TablesCommandExecutor extends CommandExecutor {
 	 */
 	public static void cleanupAmazonCloudTables() {
 
-		System.out.println("\n" + "\u001B[33m" +
-				"Cleaning up Amazon tables environment..." +
-				"\u001B[0m" + "\n");
-
 		try {
 			DockerExecutor.checkDocker();
 		} catch (DockerException e) {
 			System.err.println("Could not cleanup Amazon tables environment: " + e.getMessage());
 			return;
 		}
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Amazon tables environment..." +
+				"\u001B[0m" + "\n");
 
 		List<CloudEntityData> toRemove = TablesRepositoryDAO.getAmazons();
 		if (toRemove == null) {

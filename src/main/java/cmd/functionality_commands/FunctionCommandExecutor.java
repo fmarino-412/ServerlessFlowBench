@@ -513,16 +513,16 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	 */
 	public static void cleanupGoogleCloudFunctions() {
 
-		System.out.println("\n" + "\u001B[33m" +
-				"Cleaning up Google functions environment..." +
-				"\u001B[0m" + "\n");
-
 		try {
 			DockerExecutor.checkDocker();
 		} catch (DockerException e) {
 			System.err.println("Could not cleanup Google Cloud Functions: " + e.getMessage());
 			return;
 		}
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Google functions environment..." +
+				"\u001B[0m" + "\n");
 
 		List<CloudEntityData> toRemove = FunctionsRepositoryDAO.getGoogles();
 		if (toRemove == null) {
@@ -609,16 +609,16 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	 */
 	public static void cleanupAmazonRESTFunctions() {
 
-		System.out.println("\n" + "\u001B[33m" +
-				"Cleaning up Amazon functions environment..." +
-				"\u001B[0m" + "\n");
-
 		try {
 			DockerExecutor.checkDocker();
 		} catch (DockerException e) {
 			System.err.println("Could not cleanup Amazon function environment: " + e.getMessage());
 			return;
 		}
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Amazon functions environment..." +
+				"\u001B[0m" + "\n");
 
 		List<CloudEntityData> toRemove = FunctionsRepositoryDAO.getAmazons();
 		if (toRemove == null) {

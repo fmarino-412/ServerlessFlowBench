@@ -220,9 +220,6 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	 */
 	public static void performBenchmarks(Integer concurrency, Integer threadNum, Integer seconds,
 										 Integer requestsPerSecond, @Nullable Integer iterations) {
-		System.out.print("\n" + "\u001B[33m" +
-				"Starting benchmarks...\nFrom this moment on please make sure no one else is invoking " +
-				"your functions.\n");
 
 		try {
 			DockerExecutor.checkDocker();
@@ -230,6 +227,10 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			System.err.println("Could not perform benchmarks: " + e.getMessage());
 			return;
 		}
+
+		System.out.print("\n" + "\u001B[33m" +
+				"Starting benchmarks...\nFrom this moment on please make sure no one else is invoking " +
+				"your functions.\n");
 
 		if (iterations != null) {
 			System.out.print("Estimated time: approximately " +

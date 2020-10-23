@@ -62,7 +62,7 @@ public class MainTest {
 
 	private static void cleanupBuckets() {
 		System.out.println("\u001B[35m" + "\n\nRemoving cloud buckets...\n" + "\u001B[0m");
-		// BucketsCommandExecutor.cleanupGoogleCloudBuckets();
+		BucketsCommandExecutor.cleanupGoogleCloudBuckets();
 		BucketsCommandExecutor.cleanupAmazonCloudBuckets();
 	}
 
@@ -732,6 +732,9 @@ public class MainTest {
 
 		/*BucketsCommandExecutor.createAmazonBucket("benchmarking-project-translator-logging-bucket",
 				AmazonCommandUtility.S3_ACL_PRIVATE, AmazonCommandUtility.OHIO);*/
+
+		BucketsCommandExecutor.createGoogleBucket("benchmarking-project-translator-logging-bucket",
+				GoogleCommandUtility.IOWA);
 
 
 

@@ -376,9 +376,6 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	 * Removes every workflow and related functions (handler included) from Google Cloud Platform
 	 */
 	public static void cleanupGoogleComposition() {
-		System.out.println("\n" + "\u001B[33m" +
-				"Cleaning up Google composition environment..." +
-				"\u001B[0m" + "\n");
 
 		try {
 			DockerExecutor.checkDocker();
@@ -386,6 +383,10 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			System.err.println("Could not cleanup Google composition environment: " + e.getMessage());
 			return;
 		}
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Google composition environment..." +
+				"\u001B[0m" + "\n");
 
 		// remove handler
 		CloudEntityData handler = CompositionsRepositoryDAO.getGoogleHandlerInfo();
@@ -461,9 +462,6 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	 * Removes every workflow and related functions (handler included) from AWS
 	 */
 	public static void cleanupAmazonComposition() {
-		System.out.println("\n" + "\u001B[33m" +
-				"Cleaning up Amazon composition environment..." +
-				"\u001B[0m" + "\n");
 
 		try {
 			DockerExecutor.checkDocker();
@@ -471,6 +469,10 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			System.err.println("Could not cleanup Amazon composition environment: " + e.getMessage());
 			return;
 		}
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Amazon composition environment..." +
+				"\u001B[0m" + "\n");
 
 		// remove handler
 		CloudEntityData handler = CompositionsRepositoryDAO.getAmazonHandlerInfo();
