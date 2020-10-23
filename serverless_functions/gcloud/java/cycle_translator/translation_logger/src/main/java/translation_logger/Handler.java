@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 public class Handler implements HttpFunction {
 
@@ -55,7 +56,7 @@ public class Handler implements HttpFunction {
 		String timestamp = formatter.format(LocalDateTime.now());
 
 		// create filename
-		String filename = "Translation " + timestamp + ".log";
+		String filename = "Translation " + timestamp + makeId() + ".log";
 		filename = filename.replace(" ", "_");
 
 		// create body
@@ -87,5 +88,15 @@ public class Handler implements HttpFunction {
 
 		// response writing
 		outputWriter.write(result);
+	}
+
+	private static String makeId() {
+
+		StringBuilder result = new StringBuilder();
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		for (int i = 0; i < 8; i++) {
+			result.append(characters.charAt(Math.abs(new Random().nextInt()) % characters.length()));
+		}
+		return "[JavaRuntime_" + result.toString() + "]";
 	}
 }

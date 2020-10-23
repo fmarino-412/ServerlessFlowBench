@@ -54,8 +54,8 @@ function logTranslation(originalSentence, originalLanguageCode, translatedSenten
     let date = "" + now.getFullYear() + "-" + checkZero(now.getMonth()) + "-" + checkZero(now.getDay());
     let time = "" + checkZero(now.getHours()) + ":" + checkZero(now.getMinutes()) + ":" + checkZero(now.getSeconds()) + "." + now.getMilliseconds();
 
-    // create key
-    let key = "Translation_" + date + "_" + time + ".log";
+    // create filename
+    let filename = "Translation_" + date + "_" + time + makeId() + ".log";
 
     // create body
     let body = "Translation info:" + "\n\n" + "original sentence: " + originalSentence + "\n" +
@@ -71,7 +71,7 @@ function logTranslation(originalSentence, originalLanguageCode, translatedSenten
     // connect Google Cloud Storage
     const {Storage} = require("@google-cloud/storage");
     const cloudStorage = new Storage();
-    let file = cloudStorage.bucket(loggingBucketName).file(key);
+    let file = cloudStorage.bucket(loggingBucketName).file(filename);
     bufferStream.pipe(file.createWriteStream({
         metadata: {
             contentType: 'text/plain',
@@ -90,4 +90,14 @@ function checkZero(data) {
         data = "0" + data.toString();
     }
     return data;
+}
+
+function makeId() {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < 8; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return "[NodeRuntime_" + result + "]";
 }

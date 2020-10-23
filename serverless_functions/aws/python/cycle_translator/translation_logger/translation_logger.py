@@ -1,5 +1,7 @@
 import boto3
 import datetime
+import random
+import string
 
 S3_CLIENT = boto3.client("s3")
 
@@ -58,7 +60,7 @@ def log_translation(original_sentence, original_language_code, translated_senten
     timestamp = datetime.datetime.utcnow()
 
     # create filename
-    filename = "Translation " + str(timestamp.isoformat(sep=' ', timespec='milliseconds')) + ".log"
+    filename = "Translation " + str(timestamp.isoformat(sep=' ', timespec='milliseconds')) + make_id() + ".log"
     filename = filename.replace(" ", "_")
 
     # create body
@@ -73,3 +75,9 @@ def log_translation(original_sentence, original_language_code, translated_senten
         Key=filename,
         Body=body
     )
+
+
+def make_id() -> str:
+    letters = string.ascii_letters
+    fingerprint = ''.join(random.choice(letters) for _ in range(8))
+    return "[PythonRuntime_" + fingerprint + "]"
