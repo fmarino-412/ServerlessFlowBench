@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="memory_test_java_gcp" />
         <module name="cpu_test_java_aws" />
+        <module name="translation_logger_java_gcp" />
         <module name="anger_detection_java_aws" />
         <module name="sentence_translation_java_gcp" />
         <module name="language_detection_java_aws" />

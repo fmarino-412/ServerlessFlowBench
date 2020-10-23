@@ -53,6 +53,7 @@ def log_translation(original_sentence, original_language_code, translated_senten
            "destination language: " + destination_language_code + "\n" + "log date: " + str(timestamp.date()) + "\n" + \
            "log time: " + str(timestamp.time())
 
+    # connect Google Cloud Storage
     client = storage.Client()
     bucket = client.get_bucket(logging_bucket_name)
 

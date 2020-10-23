@@ -268,6 +268,9 @@ public class MainTest {
 
 		/* Cloud buckets */
 
+		BucketsCommandExecutor.createGoogleBucket("benchmarking-project-translator-logging-bucket",
+				GoogleCommandUtility.IOWA);
+
 		BucketsCommandExecutor.createAmazonBucket("benchmarking-project-translator-logging-bucket",
 				AmazonCommandUtility.S3_ACL_PRIVATE, AmazonCommandUtility.OHIO);
 
@@ -745,6 +748,15 @@ public class MainTest {
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 						"project/serverless_functions/gcloud/python/cycle_translator/translation_logger");
+
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
+				GoogleCommandUtility.JAVA_11_RUNTIME,
+				"translation_logger.Handler",
+				30,
+				1024,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/java/cycle_translator/translation_logger");
 
 	}
 }

@@ -22,6 +22,7 @@
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/cycle_translator/sentence_translation/sentence_translation_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/cycle_translator/sentence_translation/sentence_translation_node_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/node/cycle_translator/sentence_translation/sentence_translation_node_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/node/cycle_translator/sentence_translation/sentence_translation_node_gcp.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/cycle_translator/translation_logger/translation_logger_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/cycle_translator/translation_logger/translation_logger_node_aws.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/node/cycle_translator/translation_logger/translation_logger_node_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/node/cycle_translator/translation_logger/translation_logger_node_gcp.iml" />
     </modules>
   </component>
 </project>
