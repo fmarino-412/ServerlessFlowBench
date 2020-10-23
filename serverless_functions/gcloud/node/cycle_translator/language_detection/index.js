@@ -11,6 +11,7 @@ exports.gcFunctionsHandler = function (req, res) {
         res.send(JSON.stringify({
             "result": "Error"
         }));
+        return;
     }
 
     detectDominantLanguage(sentence, res);
@@ -33,7 +34,7 @@ function detectDominantLanguage(text, res) {
         };
 
         res.send(JSON.stringify(ret));
-    }).catch((err) => {
+    }).catch(() => {
         res.send(JSON.stringify({
             "result": "Error"
         }));

@@ -9,6 +9,7 @@ exports.gcFunctionsHandler = function (req, res) {
         url = req.url;
     } else {
         res.send("Error");
+        return;
     }
 
     // download image and perform analysis
@@ -64,7 +65,7 @@ function detectObjectsAndScenes(image, url, res) {
 
         retResult(string.slice(0, string.length - 2), url, res);
 
-    }).catch((err) => {res.send("Error");});
+    }).catch(() => {res.send("Error");});
 
 
 

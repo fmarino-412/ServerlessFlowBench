@@ -9,6 +9,7 @@ exports.gcFunctionsHandler = function (req, res) {
         url = req.url;
     } else {
         res.send("Error");
+        return;
     }
 
     // download image and perform analysis
@@ -55,5 +56,5 @@ function detectAnger(image, url, res) {
 
         res.send("False");
 
-    }).catch((err) => {res.send("Error");});
+    }).catch(() => {res.send("Error");});
 }

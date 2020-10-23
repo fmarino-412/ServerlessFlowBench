@@ -758,5 +758,14 @@ public class MainTest {
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 						"project/serverless_functions/gcloud/java/cycle_translator/translation_logger");
 
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
+				GoogleCommandUtility.NODE_10_RUNTIME,
+				"gcFunctionsHandler",
+				30,
+				1024,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/node/cycle_translator/translation_logger");
+
 	}
 }
