@@ -1,5 +1,6 @@
 import cmd.benchmark_commands.BenchmarkCommandExecutor;
 import cmd.functionality_commands.*;
+import com.google.auth.oauth2.GoogleCredentials;
 
 @SuppressWarnings("DuplicatedCode")
 public class MainTest {
@@ -702,44 +703,9 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		/*TablesCommandExecutor.createGoogleTable("cycle_translator", GoogleCommandUtility.IOWA,
-				1, GoogleCommandUtility.HARD_DISK_STORAGE, "stats");*/
+		/*
 
-		/*FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				1024,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/cycle_translator/language_detection");
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("sentence-translation",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				1024,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/cycle_translator/sentence_translation");*/
-
-		/*FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
-				GoogleCommandUtility.JAVA_11_RUNTIME,
-				"language_detection.Handler",
-				30,
-				1024,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/java/cycle_translator/language_detection");
-
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("sentence-translation",
-				GoogleCommandUtility.JAVA_11_RUNTIME,
-				"sentence_translation.Handler",
-				30,
-				1024,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/java/cycle_translator/sentence_translation");
 
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
 				GoogleCommandUtility.NODE_10_RUNTIME,
@@ -762,24 +728,7 @@ public class MainTest {
 		BucketsCommandExecutor.createGoogleBucket("benchmarking-project-translator-logging-bucket",
 				GoogleCommandUtility.IOWA);
 
-
-		/*FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				1024,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/cycle_translator/translation_logger");*/
-
-		/*FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
-				GoogleCommandUtility.JAVA_11_RUNTIME,
-				"translation_logger.Handler",
-				30,
-				1024,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/java/cycle_translator/translation_logger");
+		/*
 
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
 				GoogleCommandUtility.NODE_10_RUNTIME,
@@ -789,6 +738,33 @@ public class MainTest {
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 						"project/serverless_functions/gcloud/node/cycle_translator/translation_logger");*/
+
+
+		{
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+					"translation-logger"};
+			String[] entryPoints = {"loop_controller.Handler", "language_detection.Handler",
+					"sentence_translation.Handler", "translation_logger.Handler"};
+			Integer[] timeouts = {30, 30, 30, 30};
+			Integer[] memories = {512, 1024, 1024, 1024};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
+					GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
+					"translation_logger"};
+
+			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/java/cycle_translator",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					GoogleCommandUtility.JAVA_11_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		}
 
 	}
 }

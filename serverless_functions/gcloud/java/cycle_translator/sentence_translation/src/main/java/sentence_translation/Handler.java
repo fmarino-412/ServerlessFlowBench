@@ -6,6 +6,10 @@ import com.google.cloud.functions.HttpResponse;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
 import javax.json.Json;
@@ -15,17 +19,37 @@ import java.io.IOException;
 
 public class Handler implements HttpFunction {
 
+	private static final Gson gson = new Gson();
+
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 
+		// set up response type
+		httpResponse.setContentType("application/json");
+
 		// request reading, search for string and code in request
-		String sentence = httpRequest.getFirstQueryParameter("sentence").orElse("");
-		if (sentence.equals("")) {
+		JsonElement requestParsed = gson.fromJson(httpRequest.getReader(), JsonElement.class);
+		JsonObject requestJson = null;
+
+		if (requestParsed != null && requestParsed.isJsonObject()) {
+			requestJson = requestParsed.getAsJsonObject();
+		} else {
 			returnResult(httpResponse.getWriter(), null, null);
 			return;
 		}
-		String languageCode = httpRequest.getFirstQueryParameter("language_code").orElse("");
-		if (languageCode.equals("")) {
+
+		String sentence = null;
+		if (requestJson != null && requestJson.has("sentence")) {
+			sentence = requestJson.get("sentence").getAsString();
+		} else {
+			returnResult(httpResponse.getWriter(), null, null);
+			return;
+		}
+
+		String languageCode = null;
+		if (requestJson.has("language_code")) {
+			languageCode = requestJson.get("language_code").getAsString();
+		} else {
 			returnResult(httpResponse.getWriter(), null, null);
 			return;
 		}

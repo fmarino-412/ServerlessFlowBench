@@ -5,6 +5,9 @@ import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
 import com.google.cloud.storage.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedWriter;
@@ -16,27 +19,50 @@ import java.util.Random;
 
 public class Handler implements HttpFunction {
 
+	private static final Gson gson = new Gson();
+
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 
 		// search for strings, original language code and logging bucket in request
-		String originalSentence = httpRequest.getFirstQueryParameter("original_sentence").orElse("");
-		if (originalSentence.equals("")) {
+		JsonElement requestParsed = gson.fromJson(httpRequest.getReader(), JsonElement.class);
+		JsonObject requestJson = null;
+
+		if (requestParsed != null && requestParsed.isJsonObject()) {
+			requestJson = requestParsed.getAsJsonObject();
+		} else {
 			returnResult(httpResponse.getWriter(), false);
 			return;
 		}
-		String originalLanguageCode = httpRequest.getFirstQueryParameter("original_language_code").orElse("");
-		if (originalLanguageCode.equals("")) {
+
+		String originalSentence = null;
+		if (requestJson != null && requestJson.has("original_sentence")) {
+			originalSentence = requestJson.get("original_sentence").getAsString();
+		} else {
 			returnResult(httpResponse.getWriter(), false);
 			return;
 		}
-		String translatedSentence = httpRequest.getFirstQueryParameter("translated_sentence").orElse("");
-		if (translatedSentence.equals("")) {
+
+		String originalLanguageCode = null;
+		if (requestJson.has("original_language_code")) {
+			originalLanguageCode = requestJson.get("original_language_code").getAsString();
+		} else {
 			returnResult(httpResponse.getWriter(), false);
 			return;
 		}
-		String loggingBucketName = httpRequest.getFirstQueryParameter("logging_bucket_name").orElse("");
-		if (loggingBucketName.equals("")) {
+
+		String translatedSentence = null;
+		if (requestJson.has("translated_sentence")) {
+			translatedSentence = requestJson.get("translated_sentence").getAsString();
+		} else {
+			returnResult(httpResponse.getWriter(), false);
+			return;
+		}
+
+		String loggingBucketName = null;
+		if (requestJson.has("logging_bucket_name")) {
+			loggingBucketName = requestJson.get("logging_bucket_name").getAsString();
+		} else {
 			returnResult(httpResponse.getWriter(), false);
 			return;
 		}

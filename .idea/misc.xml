@@ -31,6 +31,7 @@
         <option value="$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/sentence_translation/pom.xml" />
         <option value="$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/translation_logger/pom.xml" />
         <option value="$PROJECT_DIR$/serverless_functions/gcloud/java/cycle_translator/translation_logger/pom.xml" />
+        <option value="$PROJECT_DIR$/serverless_functions/gcloud/java/cycle_translator/loop_controller/pom.xml" />
       </list>
     </option>
   </component>
