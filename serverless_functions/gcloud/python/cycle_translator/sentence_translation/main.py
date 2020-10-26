@@ -11,15 +11,17 @@ def gc_functions_handler(request):
 	sentence = None
 	language_code = None
 
-	if request.args.get('sentence') is not None:
-		sentence = request.args.get('sentence')
+	request_json = request.get_json(silent=True)
+
+	if request_json and 'sentence' in request_json:
+		sentence = request_json['sentence']
 	else:
 		return {
 			'result': "Error"
 		}
 
-	if request.args.get('language_code') is not None:
-		language_code = request.args.get('language_code')
+	if request_json and 'language_code' in request_json:
+		language_code = request_json['language_code']
 	else:
 		return {
 			'result': "Error"

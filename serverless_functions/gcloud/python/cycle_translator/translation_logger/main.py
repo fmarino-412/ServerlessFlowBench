@@ -1,6 +1,5 @@
 from google.cloud import storage
 import datetime
-import string
 import random
 
 
@@ -12,23 +11,25 @@ def gc_functions_handler(request):
 	translated_sentence = None
 	logging_bucket_name = None
 
-	if request.args.get('original_sentence') is not None:
-		original_sentence = request.args.get('original_sentence')
+	request_json = request.get_json(silent=True)
+
+	if request_json and 'original_sentence' in request_json:
+		original_sentence = request_json['original_sentence']
 	else:
 		return "Error"
 
-	if request.args.get('original_language_code') is not None:
-		original_language_code = request.args.get('original_language_code')
+	if request_json and 'original_language_code' in request_json:
+		original_language_code = request_json['original_language_code']
 	else:
 		return "Error"
 
-	if request.args.get('translated_sentence') is not None:
-		translated_sentence = request.args.get('translated_sentence')
+	if request_json and 'translated_sentence' in request_json:
+		translated_sentence = request_json['translated_sentence']
 	else:
 		return "Error"
 
-	if request.args.get('logging_bucket_name') is not None:
-		logging_bucket_name = request.args.get('logging_bucket_name')
+	if request_json and 'logging_bucket_name' in request_json:
+		logging_bucket_name = request_json['logging_bucket_name']
 	else:
 		return "Error"
 
@@ -66,6 +67,6 @@ def log_translation(original_sentence, original_language_code, translated_senten
 
 
 def make_id() -> str:
-	letters = string.ascii_letters
+	letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 	fingerprint = ''.join(random.choice(letters) for _ in range(8))
 	return "[PythonRuntime_" + fingerprint + "]"

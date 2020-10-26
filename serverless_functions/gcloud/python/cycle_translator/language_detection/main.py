@@ -6,11 +6,13 @@ TRANSLATE_CLIENT = translate.Client()
 # noinspection DuplicatedCode
 def gc_functions_handler(request):
 
-	# search for string in request - %3f for ? character
+	# search for string in request
 	sentence = None
 
-	if request.args.get('sentence') is not None:
-		sentence = request.args.get('sentence')
+	request_json = request.get_json(silent=True)
+
+	if request_json and 'sentence' in request_json:
+		sentence = request_json['sentence']
 	else:
 		return {
 			'result': "Error"

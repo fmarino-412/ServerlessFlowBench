@@ -1,7 +1,6 @@
 import boto3
 import datetime
 import random
-import string
 
 S3_CLIENT = boto3.client("s3")
 
@@ -78,6 +77,6 @@ def log_translation(original_sentence, original_language_code, translated_senten
 
 
 def make_id() -> str:
-    letters = string.ascii_letters
+    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     fingerprint = ''.join(random.choice(letters) for _ in range(8))
     return "[PythonRuntime_" + fingerprint + "]"

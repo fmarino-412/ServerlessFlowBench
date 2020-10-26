@@ -27,5 +27,4 @@ def lambda_handler(event, context):
         'CurrentSentence': sentences[counter],
         'NextIterationCounter': counter + 1,
         'EndNext': len(sentences) == counter + 1
-
     }

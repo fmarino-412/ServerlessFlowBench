@@ -695,9 +695,9 @@ public class MainTest {
 				1024,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/cycle_translator/sentence_translation");
+						"project/serverless_functions/gcloud/python/cycle_translator/sentence_translation");*/
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
+		/*FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
 				GoogleCommandUtility.JAVA_11_RUNTIME,
 				"language_detection.Handler",
 				30,
@@ -736,17 +736,43 @@ public class MainTest {
 		BucketsCommandExecutor.createGoogleBucket("benchmarking-project-translator-logging-bucket",
 				GoogleCommandUtility.IOWA);
 
+		{
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+					"translation-logger"};
+			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler", "gc_functions_handler",
+					"gc_functions_handler"};
+			Integer[] timeouts = {30, 30, 30, 30};
+			Integer[] memories = {512, 1024, 1024, 1024};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
+					GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
+					"translation_logger"};
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
+			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/cycle_translator",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		}
+
+
+		/*FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
 				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 				"gc_functions_handler",
 				30,
 				1024,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/cycle_translator/translation_logger");
+						"project/serverless_functions/gcloud/python/cycle_translator/translation_logger");*/
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
+		/*FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
 				GoogleCommandUtility.JAVA_11_RUNTIME,
 				"translation_logger.Handler",
 				30,
@@ -762,7 +788,7 @@ public class MainTest {
 				1024,
 				GoogleCommandUtility.IOWA,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/cycle_translator/translation_logger");
+						"project/serverless_functions/gcloud/node/cycle_translator/translation_logger");*/
 
 	}
 }
