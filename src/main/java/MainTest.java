@@ -1,6 +1,5 @@
 import cmd.benchmark_commands.BenchmarkCommandExecutor;
 import cmd.functionality_commands.*;
-import com.google.auth.oauth2.GoogleCredentials;
 
 @SuppressWarnings("DuplicatedCode")
 public class MainTest {
