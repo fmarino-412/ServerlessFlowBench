@@ -1,0 +1,79 @@
+- inputDefinition:
+    assign:
+      - Iterator: {
+                    body: {
+                      Sentences: ["ciao, questo è un esempio di testo da tradurre", "hello, this is an example of already translated text"],
+                      NextIterationCounter: 0
+                    }
+      }
+- loopEntrance:
+    call: http.post
+    args:
+      url: __PLACEHOLDER__
+      body:
+        Sentences: ${Iterator.body.Sentences}
+        NextIterationCounter: ${Iterator.body.NextIterationCounter}
+    result: Iterator
+- loopEntranceChoice:
+    switch:
+      - condition: ${Iterator.body.result == "Error"}
+        next: error
+    next: detectLanguage
+- detectLanguage:
+    call: http.post
+    args:
+      url: __PLACEHOLDER__
+      body:
+        sentence: ${Iterator.body.CurrentSentence}
+    result: LanguageDetection
+- languageChoice:
+    switch:
+      - condition: ${LanguageDetection.body.result == "Error"}
+        next: error
+      - condition: ${LanguageDetection.body.language == "en"}
+        next: translationLogPreamble
+    next: sentenceTranslation
+- sentenceTranslation:
+    call: http.post
+    args:
+      url: __PLACEHOLDER__
+      body:
+        sentence: ${LanguageDetection.body.sentence}
+        language_code: ${LanguageDetection.body.language}
+    result: SentenceTranslation
+- sentenceChoice:
+    switch:
+      - condition: ${SentenceTranslation.body.result == "Error"}
+        next: error
+    next: translationLog
+- translationLogPreamble:
+    assign:
+      - SentenceTranslation: {
+                               body: {
+                                       sentence: "${LanguageDetection.body.sentence}"
+                               }
+      }
+- translationLog:
+    call: http.post
+    args:
+      url: __PLACEHOLDER__
+      body:
+        original_sentence: ${LanguageDetection.body.sentence}
+        original_language_code: ${LanguageDetection.body.language}
+        translated_sentence: ${SentenceTranslation.body.sentence}
+        logging_bucket_name: "benchmarking-project-translator-logging-bucket"
+    result: TranslationLog
+- translationLogChoice:
+    switch:
+      - condition: ${TranslationLog.body == "Error"}
+        next: error
+    next: iterationChecker
+- iterationChecker:
+    switch:
+      - condition: ${Iterator.body.EndNext}
+        next: completion
+    next: loopEntrance
+- error:
+    return: "An error occurred, please check passed arguments"
+- completion:
+    return: "Translations completed: check logs"

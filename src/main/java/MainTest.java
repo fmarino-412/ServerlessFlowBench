@@ -322,6 +322,32 @@ public class MainTest {
 					functionDirs);
 		}
 
+		{
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+					"translation-logger"};
+			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler", "gc_functions_handler",
+					"gc_functions_handler"};
+			Integer[] timeouts = {30, 30, 30, 30};
+			Integer[] memories = {512, 1024, 1024, 1024};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
+					GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
+					"translation_logger"};
+
+			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/cycle_translator",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		}
+
 
 
 		/* Python on Amazon Web Services */
@@ -735,32 +761,6 @@ public class MainTest {
 
 		BucketsCommandExecutor.createGoogleBucket("benchmarking-project-translator-logging-bucket",
 				GoogleCommandUtility.IOWA);
-
-		{
-			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
-					"translation-logger"};
-			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler", "gc_functions_handler",
-					"gc_functions_handler"};
-			Integer[] timeouts = {30, 30, 30, 30};
-			Integer[] memories = {512, 1024, 1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
-					GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
-					"translation_logger"};
-
-			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/cycle_translator",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
 
 
 		/*FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
