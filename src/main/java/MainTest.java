@@ -728,53 +728,34 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
-		/*
-
-
-
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("language-detection",
-				GoogleCommandUtility.NODE_10_RUNTIME,
-				"gcFunctionsHandler",
-				30,
-				1024,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/cycle_translator/language_detection");
-
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("sentence-translation",
-				GoogleCommandUtility.NODE_10_RUNTIME,
-				"gcFunctionsHandler",
-				30,
-				1024,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/cycle_translator/sentence_translation");*/
-
 		BucketsCommandExecutor.createGoogleBucket("benchmarking-project-translator-logging-bucket",
 				GoogleCommandUtility.IOWA);
 
-		/*
+		{
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+					"translation-logger"};
+			String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler", "gcFunctionsHandler",
+					"gcFunctionsHandler"};
+			Integer[] timeouts = {30, 30, 30, 30};
+			Integer[] memories = {512, 1024, 1024, 1024};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
+					GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
+					"translation_logger"};
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("translation-logger",
-				GoogleCommandUtility.NODE_10_RUNTIME,
-				"gcFunctionsHandler",
-				30,
-				1024,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/cycle_translator/translation_logger");*/
-
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("loop-controller",
-				GoogleCommandUtility.NODE_10_RUNTIME,
-				"gcFunctionsHandler",
-				30,
-				1024,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/cycle_translator/loop_controller");
-
-
-
+			CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/node/cycle_translator",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					GoogleCommandUtility.NODE_10_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		}
 
 	}
 }

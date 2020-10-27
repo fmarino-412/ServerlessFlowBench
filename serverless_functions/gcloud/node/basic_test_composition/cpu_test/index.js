@@ -23,9 +23,7 @@ exports.gcFunctionsHandler = function (req, res) {
     let executionTime = (endTime - startTime);
 
     // create response
-    res.set("Content-Type", "application/json");
-    res.status(200);
-    res.send(JSON.stringify({
+    res.send({
         success: true,
         payload: {
             "test": "cpu_test",
@@ -33,7 +31,7 @@ exports.gcFunctionsHandler = function (req, res) {
             "result": result,
             "milliseconds": executionTime
         }
-    }));
+    });
 
 }
 

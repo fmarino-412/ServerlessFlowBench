@@ -9,9 +9,9 @@ exports.gcFunctionsHandler = function (req, res) {
     } else if (req.body && req.body["sentence"]) {
         sentence = req.body["sentence"];
     } else {
-        res.send(JSON.stringify({
-            "result": "Error"
-        }));
+        res.send({
+            result: "Error"
+        });
         return;
     }
     if (req.query && req.query.language_code) {
@@ -19,9 +19,9 @@ exports.gcFunctionsHandler = function (req, res) {
     } else if (req.body && req.body["language_code"]) {
         languageCode = req.body["language_code"];
     } else {
-        res.send(JSON.stringify({
-            "result": "Error"
-        }));
+        res.send({
+            result: "Error"
+        });
         return;
     }
 
@@ -43,15 +43,15 @@ function translateText(text, sourceLanguageCode, res) {
         result = JSON.parse(JSON.stringify(result));
 
         const ret = {
-            "result": "Ok",
-            "sentence": text,
-            "language": result[0]
+            result: "Ok",
+            sentence: text,
+            language: result[0]
         };
 
-        res.send(JSON.stringify(ret));
+        res.send(ret);
     }).catch(() => {
-        res.send(JSON.stringify({
-            "result": "Error"
-        }));
+        res.send({
+            result: "Error"
+        });
     });
 }

@@ -23,16 +23,14 @@ exports.gcFunctionsHandler = function (req, res) {
     let executionTime = (endTime - startTime);
 
     // response creation
-    res.set("Content-Type", "application/json");
-    res.status(200);
-    res.send(JSON.stringify({
+    res.send({
         success: true,
         payload: {
             "test": "memory_test",
             "dimension": n,
             "milliseconds": executionTime
         }
-    }));
+    });
 }
 
 function memoryStress(n) {

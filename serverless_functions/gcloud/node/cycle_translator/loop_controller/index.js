@@ -10,7 +10,7 @@ exports.gcFunctionsHandler = function (req, res) {
         sentences = req.body["Sentences"];
     } else {
         res.send({
-            "result": "Error"
+            result: "Error"
         });
         return;
     }
@@ -20,13 +20,14 @@ exports.gcFunctionsHandler = function (req, res) {
         counter = req.body["NextIterationCounter"];
     } else {
         res.send({
-            "result": "Error"
+            result: "Error"
         });
         return;
     }
 
     // prepare and return response
     const ret = {
+        result: "Ok",
         Sentences: sentences,
         CurrentSentence: sentences[counter],
         NextIterationCounter: counter + 1,

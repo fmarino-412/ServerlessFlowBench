@@ -8,9 +8,9 @@ exports.gcFunctionsHandler = function (req, res) {
     } else if (req.body && req.body["sentence"]) {
         sentence = req.body["sentence"];
     } else {
-        res.send(JSON.stringify({
-            "result": "Error"
-        }));
+        res.send({
+            result: "Error"
+        });
         return;
     }
 
@@ -28,15 +28,15 @@ function detectDominantLanguage(text, res) {
         result = JSON.parse(JSON.stringify(result));
 
         const ret = {
-            "result": "Ok",
-            "sentence": text,
-            "language": result[0].language
+            result: "Ok",
+            sentence: text,
+            language: result[0].language
         };
 
-        res.send(JSON.stringify(ret));
+        res.send(ret);
     }).catch(() => {
-        res.send(JSON.stringify({
-            "result": "Error"
-        }));
+        res.send({
+            result: "Error"
+        });
     });
 }
