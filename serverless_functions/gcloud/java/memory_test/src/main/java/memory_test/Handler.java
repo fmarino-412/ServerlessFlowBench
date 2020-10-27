@@ -17,6 +17,10 @@ public class Handler implements HttpFunction {
 
 		// request reading, search for array dimension in request
 		long n = Long.parseLong(httpRequest.getFirstQueryParameter("n").orElse("1300000"));
+		// check value
+		if (n <= 0) {
+			n = 1300000;
+		}
 
 		// computation
 		long startTime = System.currentTimeMillis();

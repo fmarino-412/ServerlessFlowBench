@@ -10,6 +10,10 @@ exports.lambdaHandler = function (event, context, callback) {
     } else {
         n = 1300000;
     }
+    // check value
+    if (n <= 0) {
+        n = 1300000;
+    }
 
     // measure computation
     let startTime = Date.now();

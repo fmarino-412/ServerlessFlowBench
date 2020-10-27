@@ -10,6 +10,10 @@ exports.lambdaHandler = function (event, context, callback) {
     } else {
         n = 71950288374236;
     }
+    // check value
+    if (n <= 0) {
+        n = 71950288374236;
+    }
 
     // measure execution
     let startTime = Date.now();

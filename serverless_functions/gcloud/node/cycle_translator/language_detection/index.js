@@ -5,8 +5,8 @@ exports.gcFunctionsHandler = function (req, res) {
     // search for sentence in request
     if (req.query && req.query.sentence) {
         sentence = req.query.sentence;
-    } else if (req.sentence) {
-        sentence = req.sentence;
+    } else if (req.body && req.body["sentence"]) {
+        sentence = req.body["sentence"];
     } else {
         res.send(JSON.stringify({
             "result": "Error"

@@ -8,8 +8,8 @@ exports.gcFunctionsHandler = function (req, res) {
     // search for strings, original language code and logging bucket in request
     if (req.query && req.query.original_sentence) {
         originalSentence = req.query.original_sentence;
-    } else if (req.original_sentence) {
-        originalSentence = req.original_sentence;
+    } else if (req.body && req.body["original_sentence"]) {
+        originalSentence = req.body["original_sentence"];
     } else {
         res.send("Error");
         return;
@@ -17,8 +17,8 @@ exports.gcFunctionsHandler = function (req, res) {
 
     if (req.query && req.query.original_language_code) {
         originalLanguageCode = req.query.original_language_code;
-    } else if (req.original_language_code) {
-        originalLanguageCode = req.original_language_code;
+    } else if (req.body && req.body["original_language_code"]) {
+        originalLanguageCode = req.body["original_language_code"];
     } else {
         res.send("Error");
         return;
@@ -26,8 +26,8 @@ exports.gcFunctionsHandler = function (req, res) {
 
     if (req.query && req.query.translated_sentence) {
         translatedSentence = req.query.translated_sentence;
-    } else if (req.translated_sentence) {
-        translatedSentence = req.translated_sentence;
+    } else if (req.body && req.body["translated_sentence"]) {
+        translatedSentence = req.body["translated_sentence"];
     } else {
         res.send("Error");
         return;
@@ -35,8 +35,8 @@ exports.gcFunctionsHandler = function (req, res) {
 
     if (req.query && req.query.logging_bucket_name) {
         loggingBucketName = req.query.logging_bucket_name;
-    } else if (req.logging_bucket_name) {
-        loggingBucketName = req.logging_bucket_name;
+    } else if (req.body && req.body["logging_bucket_name"]) {
+        loggingBucketName = req.body["logging_bucket_name"];
     } else {
         res.send("Error");
         return;

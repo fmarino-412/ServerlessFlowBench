@@ -18,6 +18,10 @@ def lambda_handler(event, context):
 	else:
 		n = 71950288374236
 
+	# check value
+	if n <= 0:
+		n = 71950288374236
+
 	# cpu_model, cpu_cores = get_cpu_info()
 
 	# measure computation

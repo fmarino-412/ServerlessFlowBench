@@ -19,6 +19,10 @@ public class Handler implements HttpFunction {
 
 		// request reading, extract number to factorize if in request
 		long n = Long.parseLong(httpRequest.getFirstQueryParameter("n").orElse("71950288374236"));
+		// check value
+		if (n <= 0) {
+			n = 71950288374236L;
+		}
 
 		// computation
 		long startTime = System.currentTimeMillis();

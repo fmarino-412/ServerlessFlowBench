@@ -3,11 +3,16 @@ exports.gcFunctionsHandler = function (req, res) {
     let n;
 
     // search for number to factorize in request
-    if (req.query && req.query.n) {
+    if (req.query && req.query.hasOwnProperty("n")) {
         n = req.query.n;
-    } else if (req.n) {
-        n = req.n;
+    } else if (req.body && req.body.hasOwnProperty("n")) {
+        n = req.body["n"];
     } else {
+        n = 71950288374236;
+    }
+
+    // check value
+    if (n <= 0) {
         n = 71950288374236;
     }
 

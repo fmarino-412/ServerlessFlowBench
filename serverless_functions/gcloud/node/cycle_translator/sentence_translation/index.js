@@ -6,8 +6,8 @@ exports.gcFunctionsHandler = function (req, res) {
     // search for sentence and language code in request
     if (req.query && req.query.sentence) {
         sentence = req.query.sentence;
-    } else if (req.sentence) {
-        sentence = req.sentence;
+    } else if (req.body && req.body["sentence"]) {
+        sentence = req.body["sentence"];
     } else {
         res.send(JSON.stringify({
             "result": "Error"
@@ -16,8 +16,8 @@ exports.gcFunctionsHandler = function (req, res) {
     }
     if (req.query && req.query.language_code) {
         languageCode = req.query.language_code;
-    } else if (req.language_code) {
-        languageCode = req.language_code;
+    } else if (req.body && req.body["language_code"]) {
+        languageCode = req.body["language_code"];
     } else {
         res.send(JSON.stringify({
             "result": "Error"

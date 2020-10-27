@@ -1,0 +1,8 @@
+{
+  "name": "loop_controller",
+  "version": "1.0.0",
+  "description": "Loop controller for Google Cloud Functions node runtime",
+  "main": "index.js",
+  "author": "Francesco Marino",
+  "license": "ISC"
+}

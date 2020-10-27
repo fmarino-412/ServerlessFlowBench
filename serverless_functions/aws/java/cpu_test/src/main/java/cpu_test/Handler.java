@@ -39,6 +39,10 @@ public class Handler implements RequestStreamHandler {
 		} else {
 			n = 71950288374236L;
 		}
+		// check value
+		if (n <= 0) {
+			n = 71950288374236L;
+		}
 
 		// computation
 		long startTime = System.currentTimeMillis();

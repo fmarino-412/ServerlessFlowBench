@@ -5,8 +5,8 @@ exports.gcFunctionsHandler = function (req, res) {
     // search for image url in request
     if (req.query && req.query.url) {
         url = req.query.url;
-    } else if (req.url) {
-        url = req.url;
+    } else if (req.body && req.body["url"]) {
+        url = req.body["url"];
     } else {
         res.send("Error");
         return;

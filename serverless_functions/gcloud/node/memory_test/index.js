@@ -3,11 +3,16 @@ exports.gcFunctionsHandler = function (req, res) {
     let n;
 
     // search for array dimension in request
-    if (req.query && req.query.n) {
+    if (req.query && req.query.hasOwnProperty("n")) {
         n = req.query.n;
-    } else if (req.n) {
-        n = req.n;
+    } else if (req.body && req.body.hasOwnProperty("n")) {
+        n = req.body["n"];
     } else {
+        n = 1300000;
+    }
+
+    // check value
+    if (n <= 0) {
         n = 1300000;
     }
 

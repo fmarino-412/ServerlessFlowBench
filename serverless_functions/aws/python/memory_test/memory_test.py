@@ -17,6 +17,10 @@ def lambda_handler(event, context):
 	else:
 		n = 1300000
 
+	# check value
+	if n <= 0:
+		n = 1300000
+
 	# available_start, memory_total = memory_stats(True)
 
 	start_time = time.time()
