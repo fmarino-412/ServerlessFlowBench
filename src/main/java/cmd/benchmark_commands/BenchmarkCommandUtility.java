@@ -10,7 +10,7 @@ public class BenchmarkCommandUtility extends CommandUtility {
 	/**
 	 * Docker image and command preamble
 	 */
-	private static final String WRK2_IMG = "bschitter/alpine-with-wrk2:0.1";
+	public static final String WRK2_IMG = "bschitter/alpine-with-wrk2:0.1";
 	private static final String PREAMBLE = "docker" + SEP + "run" + SEP + "--rm" + SEP + WRK2_IMG;
 
 

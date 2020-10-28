@@ -34,7 +34,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	/**
 	 * Docker utils
 	 */
-	private static final String AWS_CLI = "amazon/aws-cli";
+	public static final String AWS_CLI = "amazon/aws-cli";
 	private static final String PREAMBLE = "docker" + SEP + "run" + SEP + "--rm" + SEP + "-i" + SEP +
 			"-v" + SEP + PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_AUTH_CONFIG) +
 			":" + "/root/.aws";

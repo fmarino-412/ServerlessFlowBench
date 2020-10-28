@@ -831,5 +831,8 @@ public class MainTest {
 	@Deprecated
 	private static void customFunction() {
 
+		deployFunctions();
+		deployCompositions();
+
 	}
 }

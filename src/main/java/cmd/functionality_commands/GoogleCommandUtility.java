@@ -33,7 +33,7 @@ public class GoogleCommandUtility extends CommandUtility {
 	 * Docker utils
 	 */
 	private static final String PREAMBLE = "docker" + SEP + "run" + SEP + "--rm" + SEP + "-i";
-	private static final String GOOGLE_CLI = "google/cloud-sdk";
+	public static final String GOOGLE_CLI = "google/cloud-sdk";
 	private static final String GOOGLE_CONFIG_BIND = "--volumes-from" + SEP +
 							PropertiesManager.getInstance().getProperty(PropertiesManager.GOOGLE_CONTAINER);
 
