@@ -1,6 +1,5 @@
 import cmd.benchmark_commands.BenchmarkCommandExecutor;
 import cmd.functionality_commands.*;
-import databases.mysql.daos.CompositionsRepositoryDAO;
 
 @SuppressWarnings("DuplicatedCode")
 public class MainTest {
@@ -730,8 +729,9 @@ public class MainTest {
 	}
 
 	private static void deployInfoFunctions() {
+		System.out.println("\u001B[35m" + "\n\nDeploying information collecting functions...\n" + "\u001B[0m");
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter",
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-128",
 				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
 				"gc_functions_handler",
 				30,
@@ -740,11 +740,87 @@ public class MainTest {
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 						"project/serverless_functions/gcloud/python/info_getter");
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter",
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-256",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				256,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/python/info_getter");
+
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-512",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				512,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/python/info_getter");
+
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-1024",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				1024,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/python/info_getter");
+
+		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-2048",
+				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+				"gc_functions_handler",
+				30,
+				2048,
+				GoogleCommandUtility.IOWA,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/gcloud/python/info_getter");
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-128",
 				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
 				"info_getter.lambda_handler",
 				30,
 				128,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/aws/python/info_getter",
+				"info_getter.zip");
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-256",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"info_getter.lambda_handler",
+				30,
+				256,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/aws/python/info_getter",
+				"info_getter.zip");
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-512",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"info_getter.lambda_handler",
+				30,
+				512,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/aws/python/info_getter",
+				"info_getter.zip");
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-1024",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"info_getter.lambda_handler",
+				30,
+				1024,
+				AmazonCommandUtility.OHIO,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+						"project/serverless_functions/aws/python/info_getter",
+				"info_getter.zip");
+
+		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-2048",
+				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+				"info_getter.lambda_handler",
+				30,
+				2048,
 				AmazonCommandUtility.OHIO,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 						"project/serverless_functions/aws/python/info_getter",
