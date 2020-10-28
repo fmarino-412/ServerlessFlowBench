@@ -2,7 +2,7 @@ import cmd.benchmark_commands.BenchmarkCommandExecutor;
 import cmd.functionality_commands.*;
 
 @SuppressWarnings("DuplicatedCode")
-public class MainTest {
+public class ServerlessBenchmarkToolMain {
 
 	private static final int OPERATION_SELECTION = 5;
 
