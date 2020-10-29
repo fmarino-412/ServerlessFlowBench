@@ -35,8 +35,8 @@ public class DockerExecutor extends CommandExecutor {
 	 * Docker needed containers
 	 */
 	private static final String PULL = "docker pull ";
-	private static final String AWS_CLI = AmazonCommandUtility.AWS_CLI;
-	private static final String GOOGLE_CLI = GoogleCommandUtility.GOOGLE_CLI;
+	private static final String AWS_CLI = AmazonCommandUtility.getCli();
+	private static final String GOOGLE_CLI = GoogleCommandUtility.getCli();
 	private static final String MYSQL = "mysql:8.0.17";
 	private static final String INFLUX = "influxdb:1.8.2";
 	private static final String GRAFANA = "grafana/grafana:6.5.0";

@@ -1,5 +1,6 @@
 package databases.influx;
 
+import cmd.CommandUtility;
 import cmd.benchmark_commands.output_parsing.BenchmarkStats;
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
@@ -8,6 +9,7 @@ import org.influxdb.dto.Point;
 import org.influxdb.dto.Pong;
 import utility.PropertiesManager;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -77,8 +79,9 @@ public class InfluxClient {
 	 */
 	public static boolean insertColdPoint(String functionalityName, String provider, long latency, long millis) {
 
-		String name = functionalityName.split("__")[0];
-		String runtime = functionalityName.split("__")[1];
+		String[] parts = splitNameEnv(functionalityName);
+		String runtime = parts[1];
+		String name = parts[0];
 
 		Point cold_start_latency =  Point.measurement("cold_start_latency_" + name)
 				.time(millis, TimeUnit.MILLISECONDS)
@@ -111,11 +114,11 @@ public class InfluxClient {
 	public static boolean insertLoadPoints(String functionalityName, String provider, BenchmarkStats stats,
 										   long millis) {
 
-		String name = functionalityName.split("__")[0];
-		String runtime = functionalityName.split("__")[1];
+		String[] parts = splitNameEnv(functionalityName);
+		String runtime = parts[1];
+		String name = parts[0];
 
 		// insert multiple points at a time using a batch
-
 		BatchPoints batch = BatchPoints
 				.database(DB_NAME)
 				.retentionPolicy("defaultPolicy")
@@ -175,5 +178,29 @@ public class InfluxClient {
 			return true;
 		}
 
+	}
+
+	/**
+	 * Extract function name and runtime info from the joined name
+	 * @param completeName joined name
+	 * @return String[], name in position 0, runtime in position 1
+	 */
+	private static String[] splitNameEnv(String completeName) {
+
+		String separator = CommandUtility.getRuntimeSep();
+		String[] parts = completeName.split(separator);
+
+		// extract runtime info
+		String runtime = parts[parts.length - 1];
+
+		// extract function common name info
+		StringBuilder name = new StringBuilder();
+		for (int i = 0; i < parts.length - 1; i++) {
+			name.append(parts[i]).append(separator);
+		}
+		// ignore last separation character
+		name.setLength(name.length() - separator.length());
+
+		return new String[]{name.toString(), runtime};
 	}
 }

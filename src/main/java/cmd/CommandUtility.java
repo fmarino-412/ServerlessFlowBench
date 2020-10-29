@@ -15,11 +15,12 @@ public abstract class CommandUtility {
 	protected static final String FUNCTIONALITIES_DIR = "/mnt/functionalities";
 
 	// runtime IDs
-	protected static final String PYTHON_ID = "__python";
-	protected static final String JAVA_ID = "__java";
-	protected static final String NODE_ID = "__node";
-	protected static final String GO_ID = "__go";
-	protected static final String OTHERS_ID = "__not-supported";
+	private static final String RUNTIME_SEP = "__";
+	protected static final String PYTHON_ID = RUNTIME_SEP + "python";
+	protected static final String JAVA_ID = RUNTIME_SEP + "java";
+	protected static final String NODE_ID = RUNTIME_SEP + "node";
+	protected static final String GO_ID = RUNTIME_SEP + "go";
+	protected static final String OTHERS_ID = RUNTIME_SEP + "not-supported";
 
 	/**
 	 * Tells whether the host system is a Windows OS based or not
@@ -38,6 +39,14 @@ public abstract class CommandUtility {
 	}
 
 	/**
+	 * Returns runtime separation string
+	 * @return separation string
+	 */
+	public static String getRuntimeSep() {
+		return RUNTIME_SEP;
+	}
+
+	/**
 	 * Tells whether a runtime identifier needs to be placed in function name
 	 * This has been necessary due to impossibility to deploy function with same name but different runtime on
 	 * serverless services!
@@ -52,8 +61,9 @@ public abstract class CommandUtility {
 				functionalityName.contains(GO_ID) ||
 				functionalityName.contains(OTHERS_ID);
 
-		if ((!hasId && functionalityName.contains("__")) || countOccurrences(functionalityName, "__") > 1) {
-			throw new IllegalNameException("Original name cannot contain '__'");
+		if ((!hasId && functionalityName.contains(RUNTIME_SEP)) ||
+				countOccurrences(functionalityName, RUNTIME_SEP) > 1) {
+			throw new IllegalNameException("Original name cannot contain '" + RUNTIME_SEP + "'");
 		}
 
 		return !hasId;

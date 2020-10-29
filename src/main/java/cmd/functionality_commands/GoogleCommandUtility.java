@@ -33,7 +33,7 @@ public class GoogleCommandUtility extends CommandUtility {
 	 * Docker utils
 	 */
 	private static final String PREAMBLE = "docker" + SEP + "run" + SEP + "--rm" + SEP + "-i";
-	public static final String GOOGLE_CLI = "google/cloud-sdk";
+	private static final String GOOGLE_CLI = "google/cloud-sdk";
 	private static final String GOOGLE_CONFIG_BIND = "--volumes-from" + SEP +
 							PropertiesManager.getInstance().getProperty(PropertiesManager.GOOGLE_CONTAINER);
 
@@ -67,6 +67,14 @@ public class GoogleCommandUtility extends CommandUtility {
 	private static final String CLOUD_STORAGE_CREATE_BUCKET = CLOUD_STORAGE_UTILS + SEP + "mb";
 	private static final String CLOUD_STORAGE_DELETE_BUCKET = CLOUD_STORAGE_UTILS + SEP + "-m" + SEP + "rm";
 
+
+	/**
+	 * Google CLI Docker image getter
+	 * @return CLI Docker image name
+	 */
+	public static String getCli() {
+		return GOOGLE_CLI;
+	}
 
 	/**
 	 * Builds Google Cloud CLI command for Functions function deployment

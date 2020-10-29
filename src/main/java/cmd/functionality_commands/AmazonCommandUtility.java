@@ -34,7 +34,7 @@ public class AmazonCommandUtility extends CommandUtility {
 	/**
 	 * Docker utils
 	 */
-	public static final String AWS_CLI = "amazon/aws-cli";
+	private static final String AWS_CLI = "amazon/aws-cli";
 	private static final String PREAMBLE = "docker" + SEP + "run" + SEP + "--rm" + SEP + "-i" + SEP +
 			"-v" + SEP + PropertiesManager.getInstance().getProperty(PropertiesManager.AWS_AUTH_CONFIG) +
 			":" + "/root/.aws";
@@ -88,6 +88,14 @@ public class AmazonCommandUtility extends CommandUtility {
 	private static final String S3_CREATE_BUCKET = S3 + "api" + SEP + "create-bucket";
 	private static final String S3_DELETE_BUCKET = S3 + SEP + "rb";
 
+
+	/**
+	 * AWS CLI Docker image getter
+	 * @return CLI Docker image name
+	 */
+	public static String getCli() {
+		return AWS_CLI;
+	}
 
 	/**
 	 * Builds AWS CLI command for Lambda function deployment
