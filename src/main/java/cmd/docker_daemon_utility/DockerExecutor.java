@@ -3,7 +3,6 @@ package cmd.docker_daemon_utility;
 import cmd.CommandExecutor;
 import cmd.StreamGobbler;
 import cmd.benchmark_commands.BenchmarkCommandUtility;
-import cmd.docker_daemon_utility.DockerException;
 import cmd.functionality_commands.AmazonCommandUtility;
 import cmd.functionality_commands.GoogleCommandUtility;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
@@ -48,12 +47,13 @@ public class DockerExecutor extends CommandExecutor {
 	private static final String GOOGLE_CONFIG_CONTAINER = PropertiesManager.getInstance().getProperty(
 			PropertiesManager.GOOGLE_CONTAINER);
 	private static final String GOOGLE_CONFIG_COMMAND = "docker run -it --name " + GOOGLE_CONFIG_CONTAINER +
-			" google/cloud-sdk gcloud init";
+			" " + GOOGLE_CLI + " gcloud init";
 
 	/**
-	 * New docker-compose containers report this string
+	 * New docker-compose start containers report this string
 	 */
-	private static final String NEW_COMPOSITION_SUBSTRING = "Starting";
+	private static final String START_COMPOSITION_SUBSTRING = "Starting";
+	private static final String NEW_COMPOSITION_SUBSTRING = "Creating";
 
 	/**
 	 * Checks if Docker daemon is running
@@ -232,7 +232,8 @@ public class DockerExecutor extends CommandExecutor {
 				throw new DockerException("Could not deploy docker compose environment");
 			}
 
-			if (collector.getResult().contains(NEW_COMPOSITION_SUBSTRING)) {
+			String response = collector.getResult();
+			if (response.contains(START_COMPOSITION_SUBSTRING) || response.contains(NEW_COMPOSITION_SUBSTRING)) {
 				// need to wait for compose environment coming up
 				waitFor("Deploying Docker", 15);
 			}
