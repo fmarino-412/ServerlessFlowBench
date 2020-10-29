@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Data Access Object for cloud buckets related information
  */
-@SuppressWarnings({"DuplicatedCode", "SqlResolve"})
+@SuppressWarnings({"DuplicatedCode", "SqlResolve", "RedundantSuppression"})
 public class BucketsRepositoryDAO extends DAO {
 
 	/**

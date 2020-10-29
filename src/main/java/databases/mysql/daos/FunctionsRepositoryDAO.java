@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Data Access Object for serverless function related information
  */
-@SuppressWarnings({"DuplicatedCode", "SqlResolve"})
+@SuppressWarnings({"DuplicatedCode", "SqlResolve", "RedundantSuppression"})
 public class FunctionsRepositoryDAO extends DAO {
 
 	/**

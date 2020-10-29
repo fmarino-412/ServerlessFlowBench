@@ -6,6 +6,7 @@ import utility.PropertiesManager;
 /**
  * Utility for Google Cloud CLI command build
  */
+@SuppressWarnings({"unused", "RedundantSuppression"})
 public class GoogleCommandUtility extends CommandUtility {
 
 	/**
@@ -55,9 +56,13 @@ public class GoogleCommandUtility extends CommandUtility {
 	 * Google Cloud BigTable commands
 	 */
 	private static final String CLOUD_BIG_TABLE = "cbt";
+	@SuppressWarnings("SpellCheckingInspection")
 	private static final String CBT_CREATE_INSTANCE = CLOUD_BIG_TABLE + SEP + "createinstance";
+	@SuppressWarnings("SpellCheckingInspection")
 	private static final String CREATE_TABLE = "createtable";
+	@SuppressWarnings("SpellCheckingInspection")
 	private static final String CREATE_FAMILY = "createfamily";
+	@SuppressWarnings("SpellCheckingInspection")
 	private static final String CBT_DELETE_INSTANCE = CLOUD_BIG_TABLE + SEP + "deleteinstance";
 
 	/**

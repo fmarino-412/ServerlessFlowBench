@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Data Access Object for serverless function composition related information
  */
-@SuppressWarnings({"DuplicatedCode", "SqlResolve"})
+@SuppressWarnings({"DuplicatedCode", "SqlResolve", "RedundantSuppression"})
 public class CompositionsRepositoryDAO extends DAO {
 
 	/**
@@ -158,6 +158,7 @@ public class CompositionsRepositoryDAO extends DAO {
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".google_serverless_compositions_main";
 
+	@SuppressWarnings("SpellCheckingInspection")
 	private static final String SELECT_AMAZON_MACHINES_ARNS = "SELECT machine_name, machine_arn " +
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_main";

@@ -6,6 +6,7 @@ import utility.PropertiesManager;
 /**
  * Utility for AWS CLI command build
  */
+@SuppressWarnings({"SpellCheckingInspection", "unused", "RedundantSuppression"})
 public class AmazonCommandUtility extends CommandUtility {
 
 	/**
