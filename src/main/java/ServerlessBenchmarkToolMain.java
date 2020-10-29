@@ -335,7 +335,7 @@ public class ServerlessBenchmarkToolMain {
 			String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
 					"translation_logger"};
 
-			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
+			CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/gcloud/python/cycle_translator",
 					GoogleCommandUtility.IOWA,
@@ -483,7 +483,7 @@ public class ServerlessBenchmarkToolMain {
 			String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
 					"translation_logger"};
 
-			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
+			CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 							"project/serverless_functions/gcloud/java/cycle_translator",
 					GoogleCommandUtility.IOWA,
@@ -832,8 +832,31 @@ public class ServerlessBenchmarkToolMain {
 	@Deprecated
 	private static void customFunction() {
 
-		deployFunctions();
-		deployCompositions();
+		{
+			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+					"translation-logger"};
+			String[] entryPoints = {"loop_controller.Handler", "language_detection.Handler",
+					"sentence_translation.Handler", "translation_logger.Handler"};
+			Integer[] timeouts = {30, 30, 30, 30};
+			Integer[] memories = {512, 1024, 1024, 1024};
+			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
+					GoogleCommandUtility.IOWA};
+			String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
+					"translation_logger"};
+
+			CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/java/cycle_translator",
+					GoogleCommandUtility.IOWA,
+					"step.yaml",
+					functionNames,
+					GoogleCommandUtility.JAVA_11_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					regions,
+					functionDirs);
+		}
 
 	}
 }
