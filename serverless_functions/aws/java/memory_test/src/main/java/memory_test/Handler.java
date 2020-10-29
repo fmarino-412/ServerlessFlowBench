@@ -32,7 +32,7 @@ public class Handler implements RequestStreamHandler {
 		// search for array dimension in request
 		long n;
 		if (event.containsKey("n")) {
-			n = (long)Math.round((double)event.get("n"));
+			n = Math.round((double)event.get("n"));
 		} else {
 			n = 1300000;
 		}

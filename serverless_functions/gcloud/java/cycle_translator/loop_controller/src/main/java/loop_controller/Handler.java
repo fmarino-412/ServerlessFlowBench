@@ -27,7 +27,7 @@ public class Handler implements HttpFunction {
 
 		// search for list of string and counter in request
 		JsonElement requestParsed = gson.fromJson(httpRequest.getReader(), JsonElement.class);
-		JsonObject requestJson = null;
+		JsonObject requestJson;
 
 		if (requestParsed != null && requestParsed.isJsonObject()) {
 			requestJson = requestParsed.getAsJsonObject();
@@ -36,7 +36,7 @@ public class Handler implements HttpFunction {
 			return;
 		}
 
-		JsonArray sentences = null;
+		JsonArray sentences;
 		if (requestJson != null && requestJson.has("Sentences")) {
 			sentences = requestJson.get("Sentences").getAsJsonArray();
 		} else {
@@ -44,7 +44,7 @@ public class Handler implements HttpFunction {
 			return;
 		}
 
-		Integer counter = null;
+		int counter;
 		if (requestJson.has("NextIterationCounter")) {
 			counter = requestJson.get("NextIterationCounter").getAsInt();
 		} else {

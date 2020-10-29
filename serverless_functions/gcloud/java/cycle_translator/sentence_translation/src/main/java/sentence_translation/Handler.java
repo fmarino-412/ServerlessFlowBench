@@ -29,7 +29,7 @@ public class Handler implements HttpFunction {
 
 		// request reading, search for string and code in request
 		JsonElement requestParsed = gson.fromJson(httpRequest.getReader(), JsonElement.class);
-		JsonObject requestJson = null;
+		JsonObject requestJson;
 
 		if (requestParsed != null && requestParsed.isJsonObject()) {
 			requestJson = requestParsed.getAsJsonObject();
@@ -38,7 +38,7 @@ public class Handler implements HttpFunction {
 			return;
 		}
 
-		String sentence = null;
+		String sentence;
 		if (requestJson != null && requestJson.has("sentence")) {
 			sentence = requestJson.get("sentence").getAsString();
 		} else {
@@ -46,7 +46,7 @@ public class Handler implements HttpFunction {
 			return;
 		}
 
-		String languageCode = null;
+		String languageCode;
 		if (requestJson.has("language_code")) {
 			languageCode = requestJson.get("language_code").getAsString();
 		} else {

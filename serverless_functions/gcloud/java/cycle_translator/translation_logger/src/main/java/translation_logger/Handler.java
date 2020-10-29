@@ -26,7 +26,7 @@ public class Handler implements HttpFunction {
 
 		// search for strings, original language code and logging bucket in request
 		JsonElement requestParsed = gson.fromJson(httpRequest.getReader(), JsonElement.class);
-		JsonObject requestJson = null;
+		JsonObject requestJson;
 
 		if (requestParsed != null && requestParsed.isJsonObject()) {
 			requestJson = requestParsed.getAsJsonObject();
@@ -35,7 +35,7 @@ public class Handler implements HttpFunction {
 			return;
 		}
 
-		String originalSentence = null;
+		String originalSentence;
 		if (requestJson != null && requestJson.has("original_sentence")) {
 			originalSentence = requestJson.get("original_sentence").getAsString();
 		} else {
@@ -43,7 +43,7 @@ public class Handler implements HttpFunction {
 			return;
 		}
 
-		String originalLanguageCode = null;
+		String originalLanguageCode;
 		if (requestJson.has("original_language_code")) {
 			originalLanguageCode = requestJson.get("original_language_code").getAsString();
 		} else {
@@ -51,7 +51,7 @@ public class Handler implements HttpFunction {
 			return;
 		}
 
-		String translatedSentence = null;
+		String translatedSentence;
 		if (requestJson.has("translated_sentence")) {
 			translatedSentence = requestJson.get("translated_sentence").getAsString();
 		} else {
@@ -59,7 +59,7 @@ public class Handler implements HttpFunction {
 			return;
 		}
 
-		String loggingBucketName = null;
+		String loggingBucketName;
 		if (requestJson.has("logging_bucket_name")) {
 			loggingBucketName = requestJson.get("logging_bucket_name").getAsString();
 		} else {

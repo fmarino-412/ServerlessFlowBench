@@ -7,7 +7,6 @@ import com.google.cloud.translate.Detection;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +28,7 @@ public class Handler implements HttpFunction {
 
 		// request reading, search for sentence in request
 		JsonElement requestParsed = gson.fromJson(httpRequest.getReader(), JsonElement.class);
-		JsonObject requestJson = null;
+		JsonObject requestJson;
 
 		if (requestParsed != null && requestParsed.isJsonObject()) {
 			requestJson = requestParsed.getAsJsonObject();
@@ -38,7 +37,7 @@ public class Handler implements HttpFunction {
 			return;
 		}
 
-		String sentence = null;
+		String sentence;
 		if (requestJson != null && requestJson.has("sentence")) {
 			sentence = requestJson.get("sentence").getAsString();
 		} else {
