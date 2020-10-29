@@ -28,7 +28,7 @@ import java.util.List;
 public class Handler implements RequestStreamHandler {
 
 	@Override
-	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
+	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) {
 		// request reading
 		HashMap event;
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));

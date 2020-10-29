@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 /**
  * Utility for CLI serverless function related command execution
  */
-@SuppressWarnings("DuplicatedCode")
+@SuppressWarnings({"DuplicatedCode", "SameParameterValue"})
 public class FunctionCommandExecutor extends CommandExecutor {
 
 	/**

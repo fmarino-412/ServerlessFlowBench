@@ -29,6 +29,7 @@ public class ServerlessBenchmarkToolMain {
 			case 4:
 				deployInfoFunctions();
 				break;
+			// TODO: remove case 5
 			case 5:
 				cleanup();
 				customFunction();

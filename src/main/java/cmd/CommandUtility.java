@@ -1,6 +1,5 @@
 package cmd;
 
-import cmd.functionality_commands.GoogleCommandUtility;
 import cmd.functionality_commands.IllegalNameException;
 
 /**
@@ -75,6 +74,7 @@ public abstract class CommandUtility {
 	 * @param subString string to find
 	 * @return number of occurrences (0 if not present)
 	 */
+	@SuppressWarnings("SameParameterValue")
 	private static int countOccurrences(String string, String subString) {
 		int lastIndex = 0;
 		int count = 0;
