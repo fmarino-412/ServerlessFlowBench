@@ -17,6 +17,9 @@ public class Handler implements HttpFunction {
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 
+		// set up response type
+		httpResponse.setContentType("application/json");
+
 		// request reading, extract number to factorize if in request
 		long n = Long.parseLong(httpRequest.getFirstQueryParameter("n").orElse("71950288374236"));
 		// check value

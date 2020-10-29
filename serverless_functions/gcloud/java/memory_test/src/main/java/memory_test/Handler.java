@@ -15,6 +15,9 @@ public class Handler implements HttpFunction {
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 
+		// set up response type
+		httpResponse.setContentType("application/json");
+
 		// request reading, search for array dimension in request
 		long n = Long.parseLong(httpRequest.getFirstQueryParameter("n").orElse("1300000"));
 		// check value
