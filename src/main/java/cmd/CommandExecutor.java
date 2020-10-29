@@ -4,6 +4,8 @@ import cmd.functionality_commands.GoogleCommandUtility;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarStyle;
 
+import java.io.IOException;
+
 /**
  * Utility for CLI related command execution
  */
@@ -46,5 +48,25 @@ public abstract class CommandExecutor {
 		progressBar.stepTo(100);
 		progressBar.setExtraMessage("Completed!");
 		progressBar.stop();
+	}
+
+	/**
+	 * Executes a command ignoring return values
+	 * @param command command to execute
+	 * @return true if execution completed, false if error occurs
+	 * @throws IOException process start related problems
+	 * @throws InterruptedException process execution related problems
+	 */
+	protected static boolean commandSilentExecution(String command) throws IOException, InterruptedException {
+
+		Process process = buildCommand(command).start();
+
+		if (process.waitFor() != 0) {
+			process.destroy();
+			return false;
+		}
+
+		process.destroy();
+		return true;
 	}
 }

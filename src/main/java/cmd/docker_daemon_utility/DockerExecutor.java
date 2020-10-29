@@ -66,16 +66,10 @@ public class DockerExecutor extends CommandExecutor {
 		String cmd = "docker info";
 
 		try {
-			Process process = buildCommand(cmd).start();
-
-			if (process.waitFor() != 0) {
-				process.destroy();
+			if (!commandSilentExecution(cmd)) {
 				System.err.println("Docker daemon not in execution");
 				System.exit(DOCKER_DAEMON_NOT_FOUND_EXIT_CODE);
 			}
-
-			process.destroy();
-
 		} catch (InterruptedException | IOException e) {
 			throw new DockerException("Docker daemon not checked: " + e.getMessage());
 		}
@@ -133,28 +127,69 @@ public class DockerExecutor extends CommandExecutor {
 
 			if (google || amazon || mySql || influx || grafana || wrk2) {
 
-				System.err.println("Docker images are missing!\n" +
-						"Please execute the following command(s) in your shell:");
+				System.out.println("Docker images are missing!\n" +
+						"Please wait for the following command(s) to be executed (several minutes may be needed):");
+				int counter = 1;
 
 				if (google) {
-					System.err.println("\u001B[34m" + PULL + GOOGLE_CLI + "\u001B[0m");
+					System.out.println(counter + ") " + "\u001B[34m" + PULL + GOOGLE_CLI + "\u001B[0m");
+					counter++;
+					if (commandSilentExecution(PULL + GOOGLE_CLI)) {
+						System.out.println("Completed!");
+					} else {
+						System.err.println("Failed!");
+						System.exit(DOCKER_MISSING_IMAGE);
+					}
 				}
 				if (amazon) {
-					System.err.println("\u001B[34m" + PULL + AWS_CLI + "\u001B[0m");
+					System.out.println(counter + ") " + "\u001B[34m" + PULL + AWS_CLI + "\u001B[0m");
+					counter++;
+					if (commandSilentExecution(PULL + AWS_CLI)) {
+						System.out.println("Completed!");
+					} else {
+						System.err.println("Failed!");
+						System.exit(DOCKER_MISSING_IMAGE);
+					}
 				}
 				if (mySql) {
-					System.err.println("\u001B[34m" + PULL + MYSQL + "\u001B[0m");
+					System.out.println(counter + ") " + "\u001B[34m" + PULL + MYSQL + "\u001B[0m");
+					counter++;
+					if (commandSilentExecution(PULL + MYSQL)) {
+						System.out.println("Completed!");
+					} else {
+						System.err.println("Failed!");
+						System.exit(DOCKER_MISSING_IMAGE);
+					}
 				}
 				if (influx) {
-					System.err.println("\u001B[34m" + PULL + INFLUX + "\u001B[0m");
+					System.out.println(counter + ") " + "\u001B[34m" + PULL + INFLUX + "\u001B[0m");
+					counter++;
+					if (commandSilentExecution(PULL + INFLUX)) {
+						System.out.println("Completed!");
+					} else {
+						System.err.println("Failed!");
+						System.exit(DOCKER_MISSING_IMAGE);
+					}
 				}
 				if (grafana) {
-					System.err.println("\u001B[34m" + PULL + GRAFANA + "\u001B[0m");
+					System.out.println(counter + ") " + "\u001B[34m" + PULL + GRAFANA + "\u001B[0m");
+					counter++;
+					if (commandSilentExecution(PULL + GRAFANA)) {
+						System.out.println("Completed!");
+					} else {
+						System.err.println("Failed!");
+						System.exit(DOCKER_MISSING_IMAGE);
+					}
 				}
 				if (wrk2) {
-					System.err.println("\u001B[34m" + PULL + WRK2 + "\u001B[0m");
+					System.out.println(counter + ") " + "\u001B[34m" + PULL + WRK2 + "\u001B[0m");
+					if (commandSilentExecution(PULL + WRK2)) {
+						System.out.println("Completed!");
+					} else {
+						System.err.println("Failed!");
+						System.exit(DOCKER_MISSING_IMAGE);
+					}
 				}
-				System.exit(DOCKER_MISSING_IMAGE);
 			}
 
 		} catch (Exception e) {

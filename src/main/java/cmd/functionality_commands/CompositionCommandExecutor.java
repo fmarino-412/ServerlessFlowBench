@@ -438,6 +438,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 	 */
 	private static void removeCompositionMachine(String machineName, String machineArn, String machineRegion)
 			throws IOException, InterruptedException {
+
 		String cmd = AmazonCommandUtility.buildStepFunctionDropCommand(machineArn, machineRegion);
 		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
