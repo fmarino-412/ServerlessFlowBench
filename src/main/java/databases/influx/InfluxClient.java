@@ -9,7 +9,6 @@ import org.influxdb.dto.Point;
 import org.influxdb.dto.Pong;
 import utility.PropertiesManager;
 
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 /**
