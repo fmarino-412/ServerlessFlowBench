@@ -722,18 +722,20 @@ public class ServerlessBenchmarkToolMain {
 	}
 
 	private static void benchmarkPerform() {
-		/*BenchmarkCommandExecutor.performBenchmarks(1000,
-				100,
-				60,
-				100000,
-				10);*/
+		/*BenchmarkCommandExecutor.performBenchmarks(
+				concurrency: 1000,
+				threadNum: 100,
+				seconds: 60,
+				requestsPerSecond: 100000,
+				iterations: 10);*/
 		// influx and grafana test
-		BenchmarkCommandExecutor.performBenchmarks(10,
-				2,
-				60,
+		BenchmarkCommandExecutor.performBenchmarks(1,
 				1,
-				10,
-				30);
+				120,
+				1,
+				30,
+				null,
+				1);
 	}
 
 	private static void deployInfoFunctions() {

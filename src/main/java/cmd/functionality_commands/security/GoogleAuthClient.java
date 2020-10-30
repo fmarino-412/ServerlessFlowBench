@@ -52,10 +52,10 @@ public class GoogleAuthClient {
 	 * Get the access token
 	 * @return string containing the refreshed access token, "" if any error occurred
 	 */
-	public String getUrlToken() {
+	public synchronized String getUrlToken() {
 		try {
 			if (credential == null) {
-				// create new credentials if current instance is null
+				// create new credentials if current instance is null: needs to be synchronized for this part of code
 				credential = authenticateApplication();
 			}
 			// refresh token

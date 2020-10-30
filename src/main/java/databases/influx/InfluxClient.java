@@ -78,6 +78,10 @@ public class InfluxClient {
 	 */
 	public static boolean insertColdPoint(String functionalityName, String provider, long latency, long millis) {
 
+		if (functionalityName == null || provider == null) {
+			return false;
+		}
+
 		String[] parts = splitNameEnv(functionalityName);
 		String runtime = parts[1];
 		String name = parts[0];
@@ -112,6 +116,12 @@ public class InfluxClient {
 	 */
 	public static boolean insertLoadPoints(String functionalityName, String provider, BenchmarkStats stats,
 										   long millis) {
+
+		if (functionalityName == null || provider == null || stats == null
+				|| stats.getAvgLatency() == null || stats.getMaxLatency() == null || stats.getStdDevLatency() == null
+				|| stats.getRequestsThroughput() == null || stats.getTransferThroughput() == null) {
+			return false;
+		}
 
 		String[] parts = splitNameEnv(functionalityName);
 		String runtime = parts[1];

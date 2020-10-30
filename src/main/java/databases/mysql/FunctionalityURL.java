@@ -46,7 +46,7 @@ public class FunctionalityURL {
 	}
 
 	public String getGoogleUrl() {
-		if (needsGoogleAuth) {
+		if (needsGoogleAuth && googleUrl != null) {
 			// returns always current token version
 			return googleUrl + GoogleAuthClient.getInstance().getUrlToken();
 		} else {
