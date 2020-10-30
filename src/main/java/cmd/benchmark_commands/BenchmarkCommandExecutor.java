@@ -562,7 +562,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 						System.err.println("Failed measuring Google cold start latency for " + function.getName());
 					}
 
-					// load test
+					// load test, TODO: composition load test failing! FIX
 					try {
 						benchmarkSem.acquire();
 					} catch (InterruptedException ignored) {
