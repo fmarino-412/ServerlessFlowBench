@@ -183,6 +183,7 @@ public class DockerExecutor extends CommandExecutor {
 				}
 				if (wrk2) {
 					System.out.println(counter + ") " + "\u001B[34m" + PULL + WRK2 + "\u001B[0m");
+					counter++;
 					if (commandSilentExecution(PULL + WRK2)) {
 						System.out.println("Completed!");
 					} else {
@@ -190,6 +191,9 @@ public class DockerExecutor extends CommandExecutor {
 						System.exit(DOCKER_MISSING_IMAGE);
 					}
 				}
+
+				counter--;
+				System.out.println(counter + " out of " + counter + " command(s) executed!");
 			}
 
 		} catch (Exception e) {
