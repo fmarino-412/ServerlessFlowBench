@@ -59,8 +59,10 @@ public abstract class CommandExecutor {
 	 */
 	protected static boolean commandSilentExecution(String command) throws IOException, InterruptedException {
 
+		// start execution
 		Process process = buildCommand(command).start();
 
+		// wait for completion
 		if (process.waitFor() != 0) {
 			process.destroy();
 			return false;

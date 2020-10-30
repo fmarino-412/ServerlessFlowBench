@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 /**
  * Utility for Docker related executions
  */
-@SuppressWarnings("SpellCheckingInspection")
+@SuppressWarnings({"SpellCheckingInspection", "RedundantSuppression"})
 public class DockerExecutor extends CommandExecutor {
 
 	/**
