@@ -211,7 +211,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	}
 
 	/**
-	 * Performs multiple cold start and load benchmarks
+	 * Performs multiple cold start and load benchmarks, uses default value for milliseconds sleep interval
 	 * @param concurrency number of concurrent requests in load test
 	 * @param threadNum number of threads in load test
 	 * @param seconds load test duration
@@ -221,6 +221,23 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	public static void performBenchmarks(Integer concurrency, Integer threadNum, Integer seconds,
 										 Integer requestsPerSecond, @Nullable Integer iterations) {
 
+		performBenchmarks(concurrency, threadNum, seconds, requestsPerSecond, iterations, null);
+	}
+
+	/**
+	 * Performs multiple cold start and load benchmarks
+	 * @param concurrency number of concurrent requests in load test
+	 * @param threadNum number of threads in load test
+	 * @param seconds load test duration
+	 * @param requestsPerSecond requests per second in load test
+	 * @param iterations number of iterations, can be null and the test will run indefinitely
+	 * @param sleepIntervalMs interval in milliseconds for functions VM deletion and cold start perform if function is
+	 *                           invoked
+	 */
+	public static void performBenchmarks(Integer concurrency, Integer threadNum, Integer seconds,
+										 Integer requestsPerSecond, @Nullable Integer iterations,
+										 @Nullable Integer sleepIntervalMs) {
+
 		try {
 			DockerExecutor.checkDocker();
 		} catch (DockerException e) {
@@ -228,19 +245,30 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			return;
 		}
 
+		if (iterations!= null && iterations <= 0) {
+			System.err.println("Could not perform benchmarks: iterations number must be greater than 0");
+			return;
+		}
+
+		if (sleepIntervalMs != null && sleepIntervalMs <= 0) {
+			System.err.println("Could not perform benchmarks: sleep interval in milliseconds be greater than 0");
+			return;
+		} else if (sleepIntervalMs == null) {
+			sleepIntervalMs = COLD_START_SLEEP_INTERVAL_MS;
+		}
+
 		System.out.print("\n" + "\u001B[33m" +
 				"Starting benchmarks...\nFrom this moment on please make sure no one else is invoking " +
 				"your functions.\n");
-
 		if (iterations != null) {
 			System.out.print("Estimated time: approximately " +
-					(((COLD_START_SLEEP_INTERVAL_MS/1000)*iterations)/60)/60 + " hours");
+					(((sleepIntervalMs/1000)*iterations)/60)/60 + " hours");
 		}
 		System.out.println("\u001B[0m" + "\n");
 
 		List<FunctionalityURL> total = extractUrls();
 		if (total.isEmpty()) {
-			System.err.println("Could not perform benchmarks");
+			System.err.println("Could not perform benchmarks: no functionality to test found");
 			return;
 		}
 
@@ -250,7 +278,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 		for (FunctionalityURL url : total) {
 			runner = new BenchmarkRunner(url, concurrency, threadNum, seconds, requestsPerSecond,
-					COLD_START_SLEEP_INTERVAL_MS, iterations);
+					sleepIntervalMs, iterations);
 			t = new Thread(runner);
 			threads.add(t);
 			t.start();

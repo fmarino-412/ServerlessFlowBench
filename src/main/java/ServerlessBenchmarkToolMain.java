@@ -4,7 +4,7 @@ import cmd.functionality_commands.*;
 @SuppressWarnings({"DuplicatedCode", "SpellCheckingInspection"})
 public class ServerlessBenchmarkToolMain {
 
-	private static final int OPERATION_SELECTION = 5;
+	private static final int OPERATION_SELECTION = 1;
 
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
@@ -732,7 +732,8 @@ public class ServerlessBenchmarkToolMain {
 				2,
 				60,
 				1,
-				10);
+				10,
+				30);
 	}
 
 	private static void deployInfoFunctions() {
