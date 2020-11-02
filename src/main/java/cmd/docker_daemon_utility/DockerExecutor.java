@@ -40,7 +40,7 @@ public class DockerExecutor extends CommandExecutor {
 	private static final String MYSQL = "mysql:8.0.17";
 	private static final String INFLUX = "influxdb:1.8.2";
 	private static final String GRAFANA = "grafana/grafana:6.5.0";
-	private static final String WRK2 = BenchmarkCommandUtility.WRK2_IMG;
+	private static final String WRK2 = BenchmarkCommandUtility.getImg();
 
 	/**
 	 * Google cloud CLI configuration

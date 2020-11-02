@@ -16,6 +16,14 @@ public class BenchmarkCommandUtility extends CommandUtility {
 
 
 	/**
+	 * Wrk2 Docker image getter
+	 * @return Docker image name
+	 */
+	public static String getImg() {
+		return WRK2_IMG;
+	}
+
+	/**
 	 * Builds wrk2 benchmark execution command
 	 * @param url url to perform benchmark on
 	 * @param concurrency number of concurrent requests
