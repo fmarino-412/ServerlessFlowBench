@@ -4,15 +4,14 @@ import cmd.functionality_commands.*;
 @SuppressWarnings({"DuplicatedCode", "SpellCheckingInspection"})
 public class ServerlessBenchmarkToolMain {
 
-	private static final int OPERATION_SELECTION = 5;
+	private static final int OPERATION_SELECTION = 2;
 
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
 		switch (OPERATION_SELECTION) {
 			case 0:
-				deployFunctions();
-				deployCompositions();
+				deploy();
 				break;
 			case 1:
 				benchmarkPerform();
@@ -21,8 +20,7 @@ public class ServerlessBenchmarkToolMain {
 				cleanup();
 				break;
 			case 3:
-				deployFunctions();
-				deployCompositions();
+				deploy();
 				benchmarkPerform();
 				cleanup();
 				break;
@@ -65,6 +63,11 @@ public class ServerlessBenchmarkToolMain {
 		System.out.println("\u001B[35m" + "\n\nRemoving cloud buckets...\n" + "\u001B[0m");
 		BucketsCommandExecutor.cleanupGoogleCloudBuckets();
 		BucketsCommandExecutor.cleanupAmazonCloudBuckets();
+	}
+
+	private static void deploy() {
+		deployFunctions();
+		deployCompositions();
 	}
 
 	private static void deployFunctions() {
