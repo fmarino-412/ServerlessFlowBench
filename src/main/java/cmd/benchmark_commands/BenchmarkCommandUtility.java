@@ -42,7 +42,7 @@ public class BenchmarkCommandUtility extends CommandUtility {
 						"-d" + seconds + "s" + SEP +
 						"-R" + requestsPerSecond + SEP +
 						"-L" + SEP +
-						url;
+						"\"" + url + "\"";
 
 	}
 }

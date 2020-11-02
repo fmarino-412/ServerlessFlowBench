@@ -372,7 +372,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 				}
 			}
 			if (amazon != null) {
-				System.out.println(function.getName() + "avg latency amazon = " + amazon.getAvgLatency());
+				System.out.println(function.getName() + " avg latency amazon = " + amazon.getAvgLatency());
 				if (InfluxClient.insertLoadPoints(function.getName(), "amazon", amazon,
 						System.currentTimeMillis())) {
 					System.out.println("\u001B[32m" + "Persisted amazon benchmark for: " + function.getName() +
@@ -495,7 +495,6 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		}
 
 		public void performColdStartWait() throws InterruptedException {
-			//noinspection BusyWait
 			Thread.sleep(sleepMs);
 		}
 
@@ -562,7 +561,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 						System.err.println("Failed measuring Google cold start latency for " + function.getName());
 					}
 
-					// load test, TODO: composition load test failing! FIX
+					// load test
 					try {
 						benchmarkSem.acquire();
 					} catch (InterruptedException ignored) {
@@ -573,7 +572,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					benchmarkSem.release();
 
 					if (googleStats != null) {
-						System.out.println(function.getName() + "avg latency Google = " + googleStats.getAvgLatency());
+						System.out.println(function.getName() + " avg latency Google = " + googleStats.getAvgLatency());
 						// influx persist
 						if (InfluxClient.insertLoadPoints(function.getName(), "google", googleStats,
 								System.currentTimeMillis())) {
@@ -634,7 +633,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					benchmarkSem.release();
 
 					if (amazonStats != null) {
-						System.out.println(function.getName() + "avg latency Amazon = " + amazonStats.getAvgLatency());
+						System.out.println(function.getName() + " avg latency Amazon = " + amazonStats.getAvgLatency());
 						if (InfluxClient.insertLoadPoints(function.getName(), "amazon", amazonStats,
 								System.currentTimeMillis())) {
 							System.out.println("\u001B[32m" + "Persisted Amazon benchmark for: " + function.getName() +

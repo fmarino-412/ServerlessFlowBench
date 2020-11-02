@@ -4,7 +4,7 @@ import cmd.functionality_commands.*;
 @SuppressWarnings({"DuplicatedCode", "SpellCheckingInspection"})
 public class ServerlessBenchmarkToolMain {
 
-	private static final int OPERATION_SELECTION = 0;
+	private static final int OPERATION_SELECTION = 5;
 
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
@@ -729,7 +729,8 @@ public class ServerlessBenchmarkToolMain {
 				requestsPerSecond: 100000,
 				iterations: 10);*/
 		// influx and grafana test
-		BenchmarkCommandExecutor.performBenchmarks(1,
+		BenchmarkCommandExecutor.performBenchmarks(
+				1,
 				1,
 				120,
 				1,
