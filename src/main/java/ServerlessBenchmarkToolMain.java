@@ -735,7 +735,7 @@ public class ServerlessBenchmarkToolMain {
 		BenchmarkCommandExecutor.performBenchmarks(
 				1,
 				1,
-				120,
+				60,
 				1,
 				30,
 				null,
