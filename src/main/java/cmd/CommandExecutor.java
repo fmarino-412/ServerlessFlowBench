@@ -35,7 +35,8 @@ public abstract class CommandExecutor {
 	 * @param seconds time to wait in seconds
 	 */
 	public static void waitFor(String message, Integer seconds) {
-		ProgressBar progressBar = new ProgressBar(message, 100, ProgressBarStyle.ASCII);
+		ProgressBar progressBar = new ProgressBar(message, 100, 1000, System.out,
+				ProgressBarStyle.ASCII);
 		progressBar.setExtraMessage("Wait...");
 		progressBar.start();
 		for (int i = 0; i < seconds; i++) {
