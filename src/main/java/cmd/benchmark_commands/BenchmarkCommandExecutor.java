@@ -40,7 +40,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	 * Semaphores and maximum concurrency levels
 	 */
 	private static final int MAX_COLD_START_CONCURRENCY = 5;
-	private static final int MAX_LOAD_BENCHMARK_CONCURRENCY = 3;
+	private static final int MAX_LOAD_BENCHMARK_CONCURRENCY = 5;
 	private static final Semaphore COLD_START_SEM = new Semaphore(MAX_COLD_START_CONCURRENCY, true);
 	private static final Semaphore BENCHMARK_SEM = new Semaphore(MAX_LOAD_BENCHMARK_CONCURRENCY, true);
 
