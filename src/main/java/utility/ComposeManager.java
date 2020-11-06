@@ -14,6 +14,8 @@ public class ComposeManager {
 
 	// singleton instance
 	private static ComposeManager singletonInstance = null;
+
+	// composition file loaded in a Java Map
 	private Map<String, Object> composition = null;
 
 	/**
@@ -58,6 +60,10 @@ public class ComposeManager {
 		}
 	}
 
+	/**
+	 * Getter for MySQL docker image
+	 * @return name of the docker image as string
+	 */
 	public String getMysql() {
 		try {
 			initComposition();
@@ -70,6 +76,10 @@ public class ComposeManager {
 
 	}
 
+	/**
+	 * Getter for InfluxDB docker image
+	 * @return name of the docker image as string
+	 */
 	public String getInflux() {
 		try {
 			initComposition();
@@ -81,6 +91,10 @@ public class ComposeManager {
 		}
 	}
 
+	/**
+	 * Getter for Grafana docker image
+	 * @return name of the docker image as string
+	 */
 	public String getGrafana() {
 		try {
 			initComposition();
