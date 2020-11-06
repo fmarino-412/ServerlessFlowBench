@@ -6,6 +6,7 @@ import cmd.benchmark_commands.BenchmarkCommandUtility;
 import cmd.functionality_commands.AmazonCommandUtility;
 import cmd.functionality_commands.GoogleCommandUtility;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
+import utility.ComposeManager;
 import utility.PropertiesManager;
 
 import java.io.IOException;
@@ -37,9 +38,9 @@ public class DockerExecutor extends CommandExecutor {
 	private static final String PULL = "docker pull ";
 	private static final String AWS_CLI = AmazonCommandUtility.getCli();
 	private static final String GOOGLE_CLI = GoogleCommandUtility.getCli();
-	private static final String MYSQL = "mysql:8.0.17";
-	private static final String INFLUX = "influxdb:1.8.2";
-	private static final String GRAFANA = "grafana/grafana:6.5.0";
+	private static final String MYSQL = ComposeManager.getInstance().getMysql();
+	private static final String INFLUX = ComposeManager.getInstance().getInflux();
+	private static final String GRAFANA = ComposeManager.getInstance().getGrafana();
 	private static final String WRK2 = BenchmarkCommandUtility.getImg();
 
 	/**

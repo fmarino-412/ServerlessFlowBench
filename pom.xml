@@ -29,6 +29,11 @@
             <artifactId>progressbar</artifactId>
             <version>0.5.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.21</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -13,7 +13,7 @@ services:
     - ./mysql_storage:/var/lib/mysql
 
   influx-db:
-    image: library/influxdb:1.8.2
+    image: influxdb:1.8.2
     environment:
       INFLUXDB_USERNAME: root
       INFLUXDB_PASSWORD: password
