@@ -5,6 +5,7 @@ import cmd.StreamGobbler;
 import cmd.benchmark_commands.BenchmarkCommandUtility;
 import cmd.functionality_commands.AmazonCommandUtility;
 import cmd.functionality_commands.GoogleCommandUtility;
+import cmd.functionality_commands.OpenWhiskCommandUtility;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
 import utility.ComposeManager;
 import utility.PropertiesManager;
@@ -38,6 +39,7 @@ public class DockerExecutor extends CommandExecutor {
 	private static final String PULL = "docker pull ";
 	private static final String AWS_CLI = AmazonCommandUtility.getCli();
 	private static final String GOOGLE_CLI = GoogleCommandUtility.getCli();
+	private static final String OPENWHISK_CLI = OpenWhiskCommandUtility.getCli();
 	private static final String MYSQL = ComposeManager.getInstance().getMysql();
 	private static final String INFLUX = ComposeManager.getInstance().getInflux();
 	private static final String GRAFANA = ComposeManager.getInstance().getGrafana();
@@ -121,6 +123,7 @@ public class DockerExecutor extends CommandExecutor {
 
 			boolean google = needsDockerImage(GOOGLE_CLI);
 			boolean amazon = needsDockerImage(AWS_CLI);
+			boolean openWhisk = needsDockerImage(OPENWHISK_CLI);
 			boolean mySql = needsDockerImage(MYSQL);
 			boolean influx = needsDockerImage(INFLUX);
 			boolean grafana = needsDockerImage(GRAFANA);
@@ -146,6 +149,16 @@ public class DockerExecutor extends CommandExecutor {
 					System.out.println(counter + ") " + "\u001B[34m" + PULL + AWS_CLI + "\u001B[0m");
 					counter++;
 					if (commandSilentExecution(PULL + AWS_CLI)) {
+						System.out.println("Completed!");
+					} else {
+						System.err.println("Failed!");
+						System.exit(DOCKER_MISSING_IMAGE);
+					}
+				}
+				if (openWhisk) {
+					System.out.println(counter + ") " + "\u001B[34m" + PULL + OPENWHISK_CLI + "\u001B[0m");
+					counter++;
+					if (commandSilentExecution(PULL + OPENWHISK_CLI)) {
 						System.out.println("Completed!");
 					} else {
 						System.err.println("Failed!");

@@ -10,6 +10,7 @@ API DA ABILITARE:
 build api
 cloud vision api
 workflows api
+translate api
 
 ACCOUNT DI SERVIZIO PER L'UTILIZZO DELL'HANDLER
 IAM e amministrazione > account di servizio > scegli account > genera chiave json
