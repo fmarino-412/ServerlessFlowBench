@@ -8,8 +8,24 @@ public class UrlFinder {
 	// string containing url
 	private String result;
 
+	// ignore SSL/TLS certificate validation in Open Whisk
+	private boolean openWhiskIgnoreSSL;
+
+	/**
+	 * Default constructor
+	 */
 	public UrlFinder() {
 		result = "";
+		openWhiskIgnoreSSL = false;
+	}
+
+	/**
+	 * One argument constructor
+	 * @param openWhiskIgnoreSSL tells whether to ignore SSL/TLS certificate validation or not in Open Whisk
+	 */
+	public UrlFinder(boolean openWhiskIgnoreSSL) {
+		result = "";
+		this.openWhiskIgnoreSSL = openWhiskIgnoreSSL;
 	}
 
 	/**
@@ -30,8 +46,12 @@ public class UrlFinder {
 	 * @param string output line to perform search on
 	 */
 	public void findOpenWhiskUrl(String string) {
-		if (string.contains("http")) {
+		if (string.contains("https")) {
 			// url found
+			if (openWhiskIgnoreSSL) {
+				// ignore ssl certificate validation
+				string = string.replace("https", "http");
+			}
 			result = string;
 		}
 	}

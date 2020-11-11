@@ -9,6 +9,7 @@ import cmd.functionality_commands.output_parsing.ReplyCollector;
 import databases.mysql.CloudEntityData;
 import databases.mysql.daos.CompositionsRepositoryDAO;
 import databases.mysql.daos.FunctionsRepositoryDAO;
+import utility.PropertiesManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -495,6 +496,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 													  String zipFileName) {
 
 		deployOnOpenWhisk(functionName, runtime, entryPoint, timeout, memory, zipFolderAbsolutePath, zipFileName,
+				Boolean.valueOf(PropertiesManager.getInstance().getProperty(PropertiesManager.OPENWHISK_SSL_IGNORE)),
 				0);
 	}
 
@@ -510,9 +512,10 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	 */
 	public static void deployOnOpenWhisk(String functionName, String runtime, String entryPoint, Integer timeout,
 										 Integer memory, String zipFolderAbsolutePath, String zipFileName) {
-		deployOnOpenWhisk(functionName, runtime, entryPoint, timeout, memory, zipFolderAbsolutePath, zipFileName,
-				1);
 
+		deployOnOpenWhisk(functionName, runtime, entryPoint, timeout, memory, zipFolderAbsolutePath, zipFileName,
+				Boolean.valueOf(PropertiesManager.getInstance().getProperty(PropertiesManager.OPENWHISK_SSL_IGNORE)),
+				1);
 	}
 
 	/**
@@ -530,9 +533,9 @@ public class FunctionCommandExecutor extends CommandExecutor {
 														  Integer timeout, Integer memory,
 														  String zipFolderAbsolutePath, String zipFileName) {
 
-		return deployOnOpenWhisk(functionName, runtime, entryPoint, timeout, memory, zipFolderAbsolutePath,
-				zipFileName, 2);
-
+		return deployOnOpenWhisk(functionName, runtime, entryPoint, timeout, memory, zipFolderAbsolutePath, zipFileName,
+				Boolean.valueOf(PropertiesManager.getInstance().getProperty(PropertiesManager.OPENWHISK_SSL_IGNORE)),
+				2);
 	}
 
 	/**
@@ -550,7 +553,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	 */
 	private static String deployOnOpenWhisk(String functionName, String runtime, String entryPoint,
 											Integer timeout, Integer memory, String zipFolderAbsolutePath,
-											String zipFileName, Integer functionality) {
+											String zipFileName, Boolean ignoreSSL, Integer functionality) {
 
 		assert functionality == 0 || functionality == 1 || functionality == 2;
 
@@ -599,7 +602,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			process = buildCommand(urlGetterCmd).start();
 
 			// create, execute and submit output gobblers
-			UrlFinder urlFinder = new UrlFinder();
+			UrlFinder urlFinder = new UrlFinder(ignoreSSL);
 			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), urlFinder::findOpenWhiskUrl);
 			errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 

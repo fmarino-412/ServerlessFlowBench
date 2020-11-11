@@ -506,17 +506,20 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 			boolean google = (function.getGoogleUrl() != null);
 			boolean amazon = (function.getAmazonUrl() != null);
+			boolean openWhisk = (function.getOpenWhiskUrl() != null);
 
-			if (!google && !amazon) {
+			if (!google && !amazon && !openWhisk) {
 				System.out.println("No url to test for '" + function.getName() + "'");
 				return;
 			}
 
 			long googleLatency;
 			long amazonLatency;
+			long openWhiskLatency;
 
 			BenchmarkStats googleStats;
 			BenchmarkStats amazonStats;
+			BenchmarkStats openWhiskStats;
 
 			while (iterations != 0) {
 				// time to let provider deallocate resources for function execution
@@ -644,6 +647,68 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 						}
 					} else {
 						System.err.println("Failed performing Amazon benchmark on " + function.getName());
+					}
+				}
+
+				if (openWhisk) {
+					// cold start test
+					try {
+						coldStartSem.acquire();
+					} catch (InterruptedException ignored) {
+						return;
+					}
+					while ((openWhiskLatency = measureHttpLatency(function.getOpenWhiskUrl(),
+							timeoutRequestMs)) == -2) {
+						coldStartSem.release();
+						// needs retry because service was un-available
+						try {
+							System.err.println(function.getName() + " service is un-available, performing new trial");
+							performColdStartWait();
+							coldStartSem.acquire();
+						} catch (InterruptedException ignored) {
+							return;
+						}
+					}
+					coldStartSem.release();
+
+					if (openWhiskLatency != -1) {
+						// influx persist
+						if (InfluxClient.insertColdPoint(function.getName(), "openwhisk", openWhiskLatency,
+								System.currentTimeMillis())) {
+							System.out.println("\u001B[32m" + "Persisted Open Whisk cold start benchmark for: " +
+									function.getName() + "\u001B[0m");
+						} else {
+							System.err.println("Failed persisting Open Whisk cold start latency for "
+									+ function.getName() + ": parameters or connection error");
+						}
+					} else {
+						System.err.println("Failed measuring Open Whisk cold start latency for " + function.getName());
+					}
+
+					// load test
+					try {
+						benchmarkSem.acquire();
+					} catch (InterruptedException ignored) {
+						return;
+					}
+					openWhiskStats = performBenchmark(function.getOpenWhiskUrl(), concurrency, threads, seconds,
+							requestsPerSecond);
+					benchmarkSem.release();
+
+					if (openWhiskStats != null) {
+						System.out.println(function.getName() + " avg latency Open Whisk = " +
+								openWhiskStats.getAvgLatency());
+						// influx persist
+						if (InfluxClient.insertLoadPoints(function.getName(), "openwhisk", openWhiskStats,
+								System.currentTimeMillis())) {
+							System.out.println("\u001B[32m" + "Persisted Open Whisk benchmark for: " + function.getName() +
+									"\u001B[0m");
+						} else {
+							System.err.println("Failed persisting Open Whisk benchmarks "
+									+ function.getName() + ": parameters or connection error");
+						}
+					} else {
+						System.err.println("Failed performing Open Whisk benchmark on " + function.getName());
 					}
 				}
 

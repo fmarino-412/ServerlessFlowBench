@@ -856,5 +856,7 @@ public class ServerlessBenchmarkToolMain {
 						"/serverless_functions/openwhisk/python/basic_test_composition/latency_test",
 				"latency_test.zip");
 
+		benchmarkPerform();
+
 	}
 }
