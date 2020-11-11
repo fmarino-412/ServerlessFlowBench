@@ -5,3 +5,8 @@ docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_compositio
 
 CONTROLLO CREDENZIALI
 docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root openwhisk/ow-utils:63a5498 wsk -i property get
+
+DEPLOY AZIONE
+docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/node/hello:/root/functions openwhisk/ow-utils:63a5498 wsk -i action create packageAction --memory 128 --timeout 60000 --kind nodejs:10 /root/functions/hello.zip
+
+docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root openwhisk/ow-utils:63a5498 wsk -i action invoke hello --result
