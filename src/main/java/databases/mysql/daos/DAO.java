@@ -17,6 +17,7 @@ public abstract class DAO {
 	 */
 	protected static final String GOOGLE = "GoogleCloud";
 	protected static final String AMAZON = "AmazonWebServices";
+	protected static final String OPENWHISK = "OpenWhisk";
 
 	/**
 	 * Create Database query

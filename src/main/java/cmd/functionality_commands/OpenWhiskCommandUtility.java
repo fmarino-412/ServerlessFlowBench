@@ -120,8 +120,36 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 						actionName;
 	}
 
+	/**
+	 * Translates function name and runtime to a string that will work as function identifier
+	 * @param functionalityName name of the function to apply id
+	 * @param runtime to translate
+	 * @return function identifier
+	 * @throws IllegalNameException if functionalityName is an illegal name
+	 */
+	@SuppressWarnings("DuplicatedCode")
+	public static String applyRuntimeId(String functionalityName, String runtime) throws IllegalNameException {
+
+		if (needsRuntimeId(functionalityName)) {
+			switch (runtime) {
+				case PYTHON_3_RUNTIME:
+					return functionalityName + PYTHON_ID;
+				case JAVA_8_RUNTIME:
+					return functionalityName + JAVA_ID;
+				case NODE_10_RUNTIME:
+					return functionalityName + NODE_ID;
+				case GO_1_RUNTIME:
+					return functionalityName + GO_1_RUNTIME;
+				default:
+					return functionalityName + OTHERS_ID;
+			}
+		} else {
+			return functionalityName;
+		}
+	}
+
 	// TODO: remove
-	public static void main(String[] args) {
+	public static void test(String[] args) {
 
 		System.out.println(buildActionDeployCommand("hello",
 				NODE_10_RUNTIME,

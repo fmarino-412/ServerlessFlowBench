@@ -36,6 +36,14 @@ public class FunctionsRepositoryDAO extends DAO {
 			"PRIMARY KEY (function_name)" +
 			")";
 
+	private static final String CREATE_OPENWHISK_FUNCTIONS_TABLE = "CREATE TABLE IF NOT EXISTS " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_functions (" +
+			"function_name varchar(50) NOT NULL, " +
+			"url varchar(100) NOT NULL, " +
+			"PRIMARY KEY (function_name)" +
+			")";
+
 	private static final String INSERT_GOOGLE_FUNCTION = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions " +
 			"(function_name, url, region) " + "VALUES (?, ?, ?) " +
@@ -47,11 +55,20 @@ public class FunctionsRepositoryDAO extends DAO {
 			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url), api_id=VALUES(api_id), " +
 			"region=VALUES(region)";
 
+	private static final String INSERT_OPENWHISK_FUNCTION = "INSERT INTO " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_functions " +
+			"(function_name, url) " + "VALUES (?, ?) " +
+			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), url=VALUES(url)";
+
 	private static final String SELECT_GOOGLE_FUNCTIONS_INFO = "SELECT function_name, region FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions";
 
 	private static final String SELECT_AMAZON_FUNCTIONS_INFO = "SELECT function_name, api_id, region FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions";
+
+	private static final String SELECT_OPENWHISK_FUNCTIONS_INFO = "SELECT function_name FROM " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".openwhisk_serverless_functions";
 
 	private static final String SELECT_GOOGLE_FUNCTIONS_URL = "SELECT function_name, url FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions";
@@ -59,11 +76,17 @@ public class FunctionsRepositoryDAO extends DAO {
 	private static final String SELECT_AMAZON_FUNCTIONS_URL = "SELECT function_name, url FROM " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions";
 
+	private static final String SELECT_OPENWHISK_FUNCTIONS_URL = "SELECT function_name, url FROM " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".openwhisk_serverless_functions";
+
 	private static final String DROP_GOOGLE_FUNCTIONS = "DROP TABLE IF EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".google_serverless_functions";
 
 	private static final String DROP_AMAZON_FUNCTIONS = "DROP TABLE IF EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".amazon_serverless_functions";
+
+	private static final String DROP_OPENWHISK_FUNCTIONS = "DROP TABLE IF EXISTS " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) + ".openwhisk_serverless_functions";
 
 
 	/**
@@ -86,9 +109,13 @@ public class FunctionsRepositoryDAO extends DAO {
 				case AMAZON:
 					statement.executeUpdate(CREATE_AMAZON_FUNCTIONS_TABLE);
 					break;
+				case OPENWHISK:
+					statement.executeUpdate(CREATE_OPENWHISK_FUNCTIONS_TABLE);
+					break;
 				default:
-					statement.executeUpdate(CREATE_AMAZON_FUNCTIONS_TABLE);
 					statement.executeUpdate(CREATE_GOOGLE_FUNCTIONS_TABLE);
+					statement.executeUpdate(CREATE_AMAZON_FUNCTIONS_TABLE);
+					statement.executeUpdate(CREATE_OPENWHISK_FUNCTIONS_TABLE);
 					break;
 			}
 			statement.close();
@@ -112,6 +139,13 @@ public class FunctionsRepositoryDAO extends DAO {
 	}
 
 	/**
+	 * Drop every table associated to Open Whisk Functions
+	 */
+	public static void dropOpenWhisk() {
+		dropTable(OPENWHISK);
+	}
+
+	/**
 	 * Generic drop table function
 	 * @param provider select which provider is needed to delete corresponding tables
 	 */
@@ -131,6 +165,9 @@ public class FunctionsRepositoryDAO extends DAO {
 					break;
 				case AMAZON:
 					statement.executeUpdate(DROP_AMAZON_FUNCTIONS);
+					break;
+				case OPENWHISK:
+					statement.executeUpdate(DROP_OPENWHISK_FUNCTIONS);
 					break;
 				default:
 					System.err.println("Provider not supported! Could not perform DB drop");
@@ -191,6 +228,31 @@ public class FunctionsRepositoryDAO extends DAO {
 			preparedStatement.setString(2, url);
 			preparedStatement.setString(3, apiId);
 			preparedStatement.setString(4, region);
+			preparedStatement.execute();
+			preparedStatement.close();
+			MySQLConnect.closeConnection(connection);
+		} catch (SQLException e) {
+			System.err.println("Could not perform insertion: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Persists a new Open Whisk function to database
+	 * @param functionName name of the function
+	 * @param url url for function execution
+	 */
+	public static void persistOpenWhisk(String functionName, String url) {
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return;
+			}
+			initTables(connection, OPENWHISK);
+
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_OPENWHISK_FUNCTION);
+			preparedStatement.setString(1, functionName);
+			preparedStatement.setString(2, url);
 			preparedStatement.execute();
 			preparedStatement.close();
 			MySQLConnect.closeConnection(connection);
@@ -266,6 +328,38 @@ public class FunctionsRepositoryDAO extends DAO {
 	}
 
 	/**
+	 * List every Open Whisk function
+	 * @return list of functions (CloudEntityData)
+	 */
+	public static List<CloudEntityData> getOpenWhisks() {
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return null;
+			}
+			initTables(connection, OPENWHISK);
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(SELECT_OPENWHISK_FUNCTIONS_INFO);
+
+			List<CloudEntityData> result = new ArrayList<>();
+
+			while (resultSet.next()) {
+				result.add(new CloudEntityData(resultSet.getString("function_name")));
+			}
+
+			statement.close();
+			resultSet.close();
+			MySQLConnect.closeConnection(connection);
+			return result;
+		} catch (SQLException e) {
+			System.err.println("Could not perform select: " + e.getMessage());
+			return null;
+		}
+	}
+
+	/**
 	 * List every function url, there can be one or more URL per function basing on different provider implementation
 	 * of the same function
 	 * @return list of function urls (FunctionalityURL)
@@ -320,6 +414,25 @@ public class FunctionsRepositoryDAO extends DAO {
 
 			statement.close();
 			resultSet.close();
+
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(SELECT_OPENWHISK_FUNCTIONS_URL);
+
+			while (resultSet.next()) {
+				name = resultSet.getString("function_name");
+				url = resultSet.getString("url");
+				if (dynamicResult.containsKey(name)) {
+					dynamicResult.get(name).setOpenWhiskUrl(url);
+				} else {
+					functionalityURL = new FunctionalityURL(name);
+					functionalityURL.setOpenWhiskUrl(url);
+					dynamicResult.put(name, functionalityURL);
+				}
+			}
+
+			statement.close();
+			resultSet.close();
+
 			MySQLConnect.closeConnection(connection);
 
 			return new ArrayList<>(dynamicResult.values());

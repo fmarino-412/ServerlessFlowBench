@@ -66,6 +66,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	 * @param memory function memory amount in megabytes
 	 * @param region function region of deployment
 	 * @param directoryAbsolutePath path of the directory containing function implementation
+	 * @return function URL
 	 */
 	protected static String deployOnGoogleCloudCompositionFunction(String functionName, String runtime, String entryPoint,
 																   Integer timeout, Integer memory, String region,
@@ -86,6 +87,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	 * @param directoryAbsolutePath path of the directory containing function implementation
 	 * @param functionality 0 for handler deployment and persistence, 1 for function deployment and persistence,
 	 *                         2 for deployment only
+	 * @return function URL
 	 */
 	private static String deployOnGoogleCloudFunctions(String functionName, String runtime, String entryPoint,
 													Integer timeout, Integer memory, String region,
@@ -479,6 +481,171 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	}
 
 	/**
+	 * Deploys a composition handler to OpenWhisk and persists on DB
+	 * @param functionName name of the handler
+	 * @param runtime runtime of the handler
+	 * @param entryPoint handler entry point path
+	 * @param timeout handler timeout in seconds
+	 * @param memory handler memory amount in megabytes
+	 * @param zipFolderAbsolutePath path of the folder containing handler zipped implementation
+	 * @param zipFileName file name of the zipped implementation
+	 */
+	public static void deployOpenWhiskHandlerFunction(String functionName, String runtime, String entryPoint,
+													  Integer timeout, Integer memory, String zipFolderAbsolutePath,
+													  String zipFileName) {
+
+		deployOnOpenWhisk(functionName, runtime, entryPoint, timeout, memory, zipFolderAbsolutePath, zipFileName,
+				0);
+	}
+
+	/**
+	 *
+	 * @param functionName name of the function
+	 * @param runtime runtime of the function
+	 * @param entryPoint function entry point path
+	 * @param timeout function timeout in seconds
+	 * @param memory function memory amount in megabytes
+	 * @param zipFolderAbsolutePath path of the folder containing function zipped implementation
+	 * @param zipFileName file name of the zipped implementation
+	 */
+	public static void deployOnOpenWhisk(String functionName, String runtime, String entryPoint, Integer timeout,
+										 Integer memory, String zipFolderAbsolutePath, String zipFileName) {
+		deployOnOpenWhisk(functionName, runtime, entryPoint, timeout, memory, zipFolderAbsolutePath, zipFileName,
+				1);
+
+	}
+
+	/**
+	 *
+	 * @param functionName name of the function
+	 * @param runtime runtime of the function
+	 * @param entryPoint function entry point path
+	 * @param timeout function timeout in seconds
+	 * @param memory function memory amount in megabytes
+	 * @param zipFolderAbsolutePath path of the folder containing function zipped implementation
+	 * @param zipFileName file name of the zipped implementation
+	 * @return function URL
+	 */
+	protected static String deployOnOpenWhiskCompositions(String functionName, String runtime, String entryPoint,
+														  Integer timeout, Integer memory,
+														  String zipFolderAbsolutePath, String zipFileName) {
+
+		return deployOnOpenWhisk(functionName, runtime, entryPoint, timeout, memory, zipFolderAbsolutePath,
+				zipFileName, 2);
+
+	}
+
+	/**
+	 * Deploys a generic function to OpenWhisk
+	 * @param functionName name of the function
+	 * @param runtime runtime of the function
+	 * @param entryPoint function entry point path
+	 * @param timeout function timeout in seconds
+	 * @param memory function memory amount in megabytes
+	 * @param zipFolderAbsolutePath path of the folder containing function zipped implementation
+	 * @param zipFileName file name of the zipped implementation
+	 * @param functionality 0 for handler deployment and persistence, 1 for function deployment and persistence,
+	 *                         2 for deployment only
+	 * @return function URL
+	 */
+	private static String deployOnOpenWhisk(String functionName, String runtime, String entryPoint,
+											Integer timeout, Integer memory, String zipFolderAbsolutePath,
+											String zipFileName, Integer functionality) {
+
+		assert functionality == 0 || functionality == 1 || functionality == 2;
+
+		try {
+			functionName = OpenWhiskCommandUtility.applyRuntimeId(functionName, runtime);
+			DockerExecutor.checkDocker();
+		} catch (IllegalNameException | DockerException e) {
+			System.err.println("Could not deploy function '" + functionName + "' to OpenWhisk: " +
+					e.getMessage());
+			return "";
+		}
+
+		if (functionality != 2) {
+			System.out.println("\n" + "\u001B[33m" +
+					"Deploying \"" + functionName + "\" to OpenWhisk..." +
+					"\u001B[0m" + "\n");
+		}
+
+		// build deploy commands
+		String deployCmd = OpenWhiskCommandUtility.buildActionDeployCommand(functionName, runtime, entryPoint, timeout,
+				memory, zipFolderAbsolutePath, zipFileName);
+		String urlGetterCmd = OpenWhiskCommandUtility.buildActionUrlGetterCommand(functionName);
+
+		// start executors
+		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+
+		try {
+			// start function deploy process execution
+			Process process = buildCommand(deployCmd).start();
+
+			// create, execute and submit output gobblers
+			StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+
+			executorServiceErr.submit(errorGobbler);
+
+			// wait for completion
+			if (process.waitFor() != 0) {
+				System.err.println("Could not deploy function '" + functionName + "'");
+				process.destroy();
+				return "";
+			}
+			process.destroy();
+
+			// start function URL retrieval process execution
+			process = buildCommand(urlGetterCmd).start();
+
+			// create, execute and submit output gobblers
+			UrlFinder urlFinder = new UrlFinder();
+			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), urlFinder::findOpenWhiskUrl);
+			errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+
+			executorServiceOut.submit(outputGobbler);
+			executorServiceErr.submit(errorGobbler);
+
+			// wait for completion
+			if (process.waitFor() != 0) {
+				System.err.println("Could not deploy function '" + functionName + "'");
+				process.destroy();
+				return "";
+			}
+
+			String url = urlFinder.getResult();
+			if (functionality != 2) {
+				System.out.println("\u001B[32m" + "Deployed function to: " + url + "\u001B[0m");
+			}
+
+			process.destroy();
+
+			switch (functionality) {
+				case 0:
+					// handler
+					// TODO: implement composition compatibility
+					//CompositionsRepositoryDAO.persistGoogleHandler(functionName, url, region);
+					break;
+				case 1:
+					// function to persist
+					FunctionsRepositoryDAO.persistOpenWhisk(functionName, url);
+					break;
+				default:
+					break;
+			}
+
+			return url;
+		} catch (InterruptedException | IOException e) {
+			System.err.println("Could not deploy function '" + functionName + "': " + e.getMessage());
+			return "";
+		} finally {
+			executorServiceOut.shutdown();
+			executorServiceErr.shutdown();
+		}
+
+	}
+
+	/**
 	 * Removes a function from Google Cloud Functions
 	 * @param functionName name of the function to remove
 	 * @param region function to remove deployment region
@@ -500,7 +667,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 
 		if (process.waitFor() != 0) {
-			System.err.println("Could not delete google function '" + functionName + "'");
+			System.err.println("Could not delete Google function '" + functionName + "'");
 		} else {
 			System.out.println("'" + functionName + "' function removed!");
 		}
@@ -565,7 +732,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 
 		if (process.waitFor() != 0) {
-			System.err.println("Could not delete lambda function '" + functionName + "'");
+			System.err.println("Could not delete Lambda function '" + functionName + "'");
 		} else {
 			System.out.println("'" + functionName + "' function removed!");
 		}
@@ -596,7 +763,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 
 		if (process.waitFor() != 0) {
-			System.err.println("Could not delete gateway api '" + functionName + "'");
+			System.err.println("Could not delete Gateway api '" + functionName + "'");
 		} else {
 			System.out.println("'" + functionName + "' api removed!");
 		}
@@ -630,14 +797,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			try {
 				removeLambdaFunction(elem.getEntityName(), elem.getRegion());
 			} catch (InterruptedException | IOException e) {
-				System.err.println("Could not delete lambda function '" + elem.getEntityName() + "': " +
+				System.err.println("Could not delete Lambda function '" + elem.getEntityName() + "': " +
 						e.getMessage());
 			}
 
 			try {
 				removeGatewayApi(elem.getEntityName(), elem.getId(), elem.getRegion());
 			} catch (InterruptedException | IOException e) {
-				System.err.println("Could not delete gateway api '" + elem.getEntityName() + "': " +
+				System.err.println("Could not delete Gateway api '" + elem.getEntityName() + "': " +
 						e.getMessage());
 			}
 			waitFor("Cleanup", 30);
@@ -646,5 +813,68 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
 
 		FunctionsRepositoryDAO.dropAmazon();
+	}
+
+	/**
+	 * Removes a function from Open Whisk
+	 * @param functionName name of the function to remove
+	 * @throws IOException exception related to process execution
+	 * @throws InterruptedException exception related to Thread management
+	 */
+	protected static void removeOpenWhiskFunction(String functionName) throws IOException, InterruptedException {
+
+		String cmd = OpenWhiskCommandUtility.buildActionDeletionCommand(functionName);
+		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+
+		Process process = buildCommand(cmd).start();
+		StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+		StreamGobbler errorGobbler = new StreamGobbler(process.getInputStream(), System.err::println);
+
+		executorServiceOut.submit(outputGobbler);
+		executorServiceErr.submit(errorGobbler);
+
+		if (process.waitFor() != 0) {
+			System.err.println("Could not delete Open Whisk function '" + functionName + "'");
+		} else {
+			System.out.println("'" + functionName + "' function removed!");
+		}
+		process.destroy();
+		executorServiceOut.shutdown();
+		executorServiceErr.shutdown();
+	}
+
+	/**
+	 * Removes every function from Open Whisk
+	 */
+	public static void cleanupOpenWhiskFunctions() {
+
+		try {
+			DockerExecutor.checkDocker();
+		} catch (DockerException e) {
+			System.err.println("Could not cleanup Open Whisk Functions: " + e.getMessage());
+			return;
+		}
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up Open Whisk functions environment..." +
+				"\u001B[0m" + "\n");
+
+		List<CloudEntityData> toRemove = FunctionsRepositoryDAO.getOpenWhisks();
+		if (toRemove == null) {
+			return;
+		}
+
+		for (CloudEntityData elem : toRemove) {
+			try {
+				removeOpenWhiskFunction(elem.getEntityName());
+			} catch (IOException | InterruptedException e) {
+				System.err.println("Could not delete '" + elem.getEntityName() + "': " + e.getMessage());
+			}
+		}
+
+		System.out.println("\u001B[32m" + "\nOpen Whisk cleanup completed!\n" + "\u001B[0m");
+
+		FunctionsRepositoryDAO.dropOpenWhisk();
 	}
 }

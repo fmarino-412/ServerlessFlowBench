@@ -26,6 +26,17 @@ public class UrlFinder {
 	}
 
 	/**
+	 * Searches for the URL inside the passed string
+	 * @param string output line to perform search on
+	 */
+	public void findOpenWhiskUrl(String string) {
+		if (string.contains("http")) {
+			// url found
+			result = string;
+		}
+	}
+
+	/**
 	 * Get final result
 	 * @return string containing the url
 	 */

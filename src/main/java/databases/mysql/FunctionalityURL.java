@@ -12,6 +12,7 @@ public class FunctionalityURL {
 	private final String name;
 	private String googleUrl;
 	private String amazonUrl;
+	private String openWhiskUrl;
 
 	/**
 	 * Tells whether the google url needs an authentication token
@@ -64,5 +65,13 @@ public class FunctionalityURL {
 
 	public void setAmazonUrl(String amazonUrl) {
 		this.amazonUrl = amazonUrl;
+	}
+
+	public String getOpenWhiskUrl() {
+		return openWhiskUrl;
+	}
+
+	public void setOpenWhiskUrl(String openWhiskUrl) {
+		this.openWhiskUrl = openWhiskUrl;
 	}
 }

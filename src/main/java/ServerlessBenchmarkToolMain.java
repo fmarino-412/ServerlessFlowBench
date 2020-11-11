@@ -44,6 +44,7 @@ public class ServerlessBenchmarkToolMain {
 		System.out.println("\u001B[35m" + "\n\nRemoving benchmark functions...\n" + "\u001B[0m");
 		FunctionCommandExecutor.cleanupGoogleCloudFunctions();
 		FunctionCommandExecutor.cleanupAmazonRESTFunctions();
+		FunctionCommandExecutor.cleanupOpenWhiskFunctions();
 	}
 
 	private static void cleanupCompositions() {
@@ -845,7 +846,15 @@ public class ServerlessBenchmarkToolMain {
 	private static void customFunction() {
 
 		cleanup();
-		deploy();
+
+		FunctionCommandExecutor.deployOnOpenWhisk("latency-test",
+				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+				"ow_handler",
+				30,
+				128,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/openwhisk/python/basic_test_composition/latency_test",
+				"latency_test.zip");
 
 	}
 }
