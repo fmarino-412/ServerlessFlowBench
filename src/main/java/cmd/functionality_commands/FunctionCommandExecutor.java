@@ -830,7 +830,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 
 		Process process = buildCommand(cmd).start();
-		StreamGobbler errorGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+		StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 
 		executorServiceErr.submit(errorGobbler);
 

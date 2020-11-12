@@ -5,6 +5,7 @@ import cmd.functionality_commands.*;
 public class ServerlessBenchmarkToolMain {
 
 	private static final int OPERATION_SELECTION = 5;
+	private static final boolean OPENWHISK_DEPLOY = true;
 
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
@@ -135,6 +136,40 @@ public class ServerlessBenchmarkToolMain {
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
 						"project/serverless_functions/aws/python/memory_test",
 				"memory_test.zip");
+
+
+
+		/* Python on Open Whisk */
+
+		if (OPENWHISK_DEPLOY) {
+
+			FunctionCommandExecutor.deployOnOpenWhisk("latency-test",
+					OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+					"ow_handler",
+					30,
+					128,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/openwhisk/python/basic_test_composition/latency_test",
+					"latency_test.zip");
+
+			FunctionCommandExecutor.deployOnOpenWhisk("cpu-test",
+					OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+					"ow_handler",
+					30,
+					128,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/openwhisk/python/basic_test_composition/cpu_test",
+					"cpu_test.zip");
+
+			FunctionCommandExecutor.deployOnOpenWhisk("memory-test",
+					OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+					"ow_handler",
+					30,
+					128,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/openwhisk/python/memory_test",
+					"memory_test.zip");
+		}
 
 
 
@@ -847,32 +882,7 @@ public class ServerlessBenchmarkToolMain {
 
 		cleanup();
 
-		FunctionCommandExecutor.deployOnOpenWhisk("latency-test",
-				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
-				"ow_handler",
-				30,
-				128,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/openwhisk/python/basic_test_composition/latency_test",
-				"latency_test.zip");
 
-		FunctionCommandExecutor.deployOnOpenWhisk("cpu-test",
-				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
-				"ow_handler",
-				30,
-				128,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/openwhisk/python/basic_test_composition/cpu_test",
-				"cpu_test.zip");
-
-		FunctionCommandExecutor.deployOnOpenWhisk("memory-test",
-				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
-				"ow_handler",
-				30,
-				128,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/openwhisk/python/memory_test",
-				"memory_test.zip");
 
 	}
 }
