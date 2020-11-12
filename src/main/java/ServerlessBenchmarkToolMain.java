@@ -300,6 +300,40 @@ public class ServerlessBenchmarkToolMain {
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
 						"/serverless_functions/aws/node/memory_test",
 				"memory_test.zip");
+
+
+
+		/* Node.js on Open Whisk */
+
+		if (OPENWHISK_DEPLOY) {
+
+			FunctionCommandExecutor.deployOnOpenWhisk("latency-test",
+					OpenWhiskCommandUtility.NODE_10_RUNTIME,
+					"index.owHandler",
+					30,
+					128,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/openwhisk/node/basic_test_composition/latency_test",
+					"latency_test.zip");
+
+			FunctionCommandExecutor.deployOnOpenWhisk("cpu-test",
+					OpenWhiskCommandUtility.NODE_10_RUNTIME,
+					"index.owHandler",
+					30,
+					128,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/openwhisk/node/basic_test_composition/cpu_test",
+					"cpu_test.zip");
+
+			FunctionCommandExecutor.deployOnOpenWhisk("memory-test",
+					OpenWhiskCommandUtility.NODE_10_RUNTIME,
+					"index.owHandler",
+					30,
+					128,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/openwhisk/node/memory_test",
+					"memory_test.zip");
+		}
 	}
 
 	private static void deployCompositions() {
