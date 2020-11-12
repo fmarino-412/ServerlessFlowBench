@@ -129,7 +129,7 @@ public class DockerExecutor extends CommandExecutor {
 			boolean grafana = needsDockerImage(GRAFANA);
 			boolean wrk2 = needsDockerImage(WRK2);
 
-			if (google || amazon || mySql || influx || grafana || wrk2) {
+			if (google || amazon || openWhisk || mySql || influx || grafana || wrk2) {
 
 				System.out.println("Docker images are missing!\n" +
 						"Please wait for the following command(s) to be executed (several minutes may be needed):");
