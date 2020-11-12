@@ -865,5 +865,14 @@ public class ServerlessBenchmarkToolMain {
 						"/serverless_functions/openwhisk/python/basic_test_composition/cpu_test",
 				"cpu_test.zip");
 
+		FunctionCommandExecutor.deployOnOpenWhisk("memory-test",
+				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+				"ow_handler",
+				30,
+				128,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/openwhisk/python/memory_test",
+				"memory_test.zip");
+
 	}
 }

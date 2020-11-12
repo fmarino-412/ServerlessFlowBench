@@ -827,14 +827,11 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	protected static void removeOpenWhiskFunction(String functionName) throws IOException, InterruptedException {
 
 		String cmd = OpenWhiskCommandUtility.buildActionDeletionCommand(functionName);
-		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 
 		Process process = buildCommand(cmd).start();
-		StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
-		StreamGobbler errorGobbler = new StreamGobbler(process.getInputStream(), System.err::println);
+		StreamGobbler errorGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
 
-		executorServiceOut.submit(outputGobbler);
 		executorServiceErr.submit(errorGobbler);
 
 		if (process.waitFor() != 0) {
@@ -843,7 +840,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			System.out.println("'" + functionName + "' function removed!");
 		}
 		process.destroy();
-		executorServiceOut.shutdown();
 		executorServiceErr.shutdown();
 	}
 

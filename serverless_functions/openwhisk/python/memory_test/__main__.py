@@ -3,13 +3,13 @@ import json
 
 
 # noinspection DuplicatedCode
-def gc_functions_handler(request):
+def ow_handler(request):
 
 	# search for array dimension in request
 	n = None
 
-	if request.args.get('n') is not None:
-		n = int(request.args.get('n'))
+	if request.get('n') is not None:
+		n = int(request.get('n'))
 	else:
 		n = 1300000
 
@@ -22,19 +22,14 @@ def gc_functions_handler(request):
 	end_time = time.time()
 	execution_time = (end_time - start_time) * 1000
 
-	# prepare response
-	headers = {
-		'Content-Type': 'application/json'
-	}
-
-	return (json.dumps({
-		'success': True,
-		'payload': {
+	# prepare and return response
+	return {
+		'body': {
 			'test': 'memory_test',
 			'dimension': n,
 			'milliseconds': execution_time
 		}
-	}), 200, headers)
+	}
 
 
 # noinspection DuplicatedCode
