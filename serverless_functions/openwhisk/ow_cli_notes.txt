@@ -1,7 +1,7 @@
 openwhisk/ow-utils:63a5498
 
 GENERARE FILE CREDENZIALI
-docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root openwhisk/ow-utils:63a5498 wsk property set --apihost 13.67.227.108 --auth 61071a13-4800-4d31-9cb3-8a9299f1a2f9:aUaI2pPuOK6PhMePmBoJ0QO1tCoH45JJcYy8Zon3iGJI4UbjcaN6zbudrOvt27uH
+docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials/credentials:/root/.wskprops openwhisk/ow-utils:63a5498 wsk property set --apihost 13.67.227.108 --auth 61071a13-4800-4d31-9cb3-8a9299f1a2f9:aUaI2pPuOK6PhMePmBoJ0QO1tCoH45JJcYy8Zon3iGJI4UbjcaN6zbudrOvt27uH
 
 CONTROLLO CREDENZIALI
 docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root openwhisk/ow-utils:63a5498 wsk -i property get
@@ -10,3 +10,10 @@ DEPLOY AZIONE
 docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/node/hello:/root/functions openwhisk/ow-utils:63a5498 wsk -i action create packageAction --memory 128 --timeout 60000 --kind nodejs:10 /root/functions/hello.zip
 
 docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root openwhisk/ow-utils:63a5498 wsk -i action invoke hello --result
+
+
+
+
+docker run --rm -it -v /Users/francescomarino/Desktop/example:/mnt/functionalities -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials/credentials:/mnt/.wskprops node:10 /bin/bash
+
+--apihost IP --auth AUTH

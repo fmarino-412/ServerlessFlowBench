@@ -53,7 +53,7 @@ hs_err_pid*
 # Privates
 serverless_functions/aws/.aws/credentials
 serverless_functions/gcloud/.credentials/credentials.json
-serverless_functions/openwhisk/.credentials/credentials
+config.properties
 
 # Dockers
 docker_env/grafana_storage/*

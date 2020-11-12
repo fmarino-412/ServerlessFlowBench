@@ -23,9 +23,9 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 	private static final String PREAMBLE = "docker" + SEP + "run" + SEP + "--rm" + SEP + "-i";
 	private static final String OPENWHISK_CLI = "openwhisk/ow-utils:63a5498";
 	@SuppressWarnings("SpellCheckingInspection")
-	private static final String OPENWHISK_CONFIG_BIND = "-v" + SEP +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.OPENWHISK_AUTH_CONFIG) + ":" +
-			"/root/.wskprops";
+	private static final String OPENWHISK_AUTH_CLOSURE = "--apihost" + SEP +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.OPENWHISK_HOST) + SEP + "--auth" + SEP +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.OPENWHISK_AUTH);
 
 	/**
 	 * Wsk command preamble
@@ -65,8 +65,6 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
-						// configuration binding
-						OPENWHISK_CONFIG_BIND + SEP +
 						// volume attachment
 						"-v" + SEP + zipFolder + ":" + FUNCTIONALITIES_DIR + SEP +
 						// select docker image to use
@@ -80,7 +78,9 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 						"--main" + SEP + entryPoint + SEP +
 						"--memory" + SEP + memory + SEP +
 						"--timeout" + SEP + timeout*1000 + SEP +
-						FUNCTIONALITIES_DIR + "/" + zipName;
+						FUNCTIONALITIES_DIR + "/" + zipName + SEP +
+						// configuration binding
+						OPENWHISK_AUTH_CLOSURE;
 	}
 
 	/**
@@ -92,15 +92,15 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
-						// configuration binding
-						OPENWHISK_CONFIG_BIND + SEP +
 						// select docker image to use
 						OPENWHISK_CLI + SEP +
 						// operation define
 						GET_ACTION + SEP +
 						// parameters setting
 						actionName + SEP +
-						"--url";
+						"--url" + SEP +
+						// configuration binding
+						OPENWHISK_AUTH_CLOSURE;
 	}
 
 	/**
@@ -112,14 +112,14 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
-						// configuration binding
-						OPENWHISK_CONFIG_BIND + SEP +
 						// select docker image to use
 						OPENWHISK_CLI + SEP +
 						// operation define
 						DELETE_ACTION + SEP +
 						// parameters setting
-						actionName;
+						actionName + SEP +
+						// configuration binding
+						OPENWHISK_AUTH_CLOSURE;
 	}
 
 	/**
@@ -148,33 +148,5 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 		} else {
 			return functionalityName;
 		}
-	}
-
-	// TODO: remove
-	public static void test(String[] args) {
-
-		System.out.println(buildActionDeployCommand("hello",
-				NODE_10_RUNTIME,
-				"main",
-				30,
-				128,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/node/hello",
-				"hello.zip"));
-
-		System.out.println(buildActionUrlGetterCommand("hello"));
-
-		System.out.println(buildActionDeletionCommand("hello"));
-
-		System.out.println(buildActionDeployCommand("latency-test",
-				PYTHON_3_RUNTIME,
-				"ow_handler",
-				30,
-				128,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/python/basic_test_composition/latency_test",
-				"latency_test.zip"));
-
-		System.out.println(buildActionUrlGetterCommand("latency-test"));
-
-		System.out.println(buildActionDeletionCommand("latency-test"));
 	}
 }
