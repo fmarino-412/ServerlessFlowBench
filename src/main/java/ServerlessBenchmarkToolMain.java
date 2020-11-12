@@ -916,7 +916,5 @@ public class ServerlessBenchmarkToolMain {
 
 		cleanup();
 
-
-
 	}
 }

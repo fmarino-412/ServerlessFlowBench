@@ -22,8 +22,10 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 	 */
 	private static final String PREAMBLE = "docker" + SEP + "run" + SEP + "--rm" + SEP + "-i";
 	private static final String OPENWHISK_CLI = "openwhisk/ow-utils:63a5498";
+	@SuppressWarnings("SpellCheckingInspection")
 	private static final String OPENWHISK_CONFIG_BIND = "-v" + SEP +
-			PropertiesManager.getInstance().getProperty(PropertiesManager.OPENWHISK_AUTH_CONFIG) + ":" + "/root";
+			PropertiesManager.getInstance().getProperty(PropertiesManager.OPENWHISK_AUTH_CONFIG) + ":" +
+			"/root/.wskprops";
 
 	/**
 	 * Wsk command preamble
