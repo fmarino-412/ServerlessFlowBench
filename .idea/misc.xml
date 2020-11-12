@@ -32,6 +32,9 @@
         <option value="$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/translation_logger/pom.xml" />
         <option value="$PROJECT_DIR$/serverless_functions/gcloud/java/cycle_translator/translation_logger/pom.xml" />
         <option value="$PROJECT_DIR$/serverless_functions/gcloud/java/cycle_translator/loop_controller/pom.xml" />
+        <option value="$PROJECT_DIR$/serverless_functions/openwhisk/java/basic_test_composition/cpu_test/pom.xml" />
+        <option value="$PROJECT_DIR$/serverless_functions/openwhisk/java/basic_test_composition/latency_test/pom.xml" />
+        <option value="$PROJECT_DIR$/serverless_functions/openwhisk/java/memory_test/pom.xml" />
       </list>
     </option>
   </component>

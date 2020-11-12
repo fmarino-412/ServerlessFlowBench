@@ -14,7 +14,7 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 	 */
 	public static final String PYTHON_3_RUNTIME = "python:3";
 	public static final String GO_1_RUNTIME = "go:1.11";
-	public static final String JAVA_8_RUNTIME = "java8";
+	public static final String JAVA_8_RUNTIME = "java:8";
 	public static final String NODE_10_RUNTIME = "nodejs:10";
 
 	/**

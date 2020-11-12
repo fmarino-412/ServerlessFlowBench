@@ -238,6 +238,40 @@ public class ServerlessBenchmarkToolMain {
 
 
 
+		/* Java on Open Whisk */
+
+		if (OPENWHISK_DEPLOY) {
+
+			FunctionCommandExecutor.deployOnOpenWhisk("latency-test",
+					OpenWhiskCommandUtility.JAVA_8_RUNTIME,
+					"latency_test.Handler",
+					30,
+					128,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/openwhisk/java/basic_test_composition/latency_test/target",
+					"latency_test_java_ow-1.0.jar");
+
+			FunctionCommandExecutor.deployOnOpenWhisk("cpu-test",
+					OpenWhiskCommandUtility.JAVA_8_RUNTIME,
+					"cpu_test.Handler",
+					30,
+					128,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/openwhisk/java/basic_test_composition/cpu_test/target",
+					"cpu_test_java_ow-1.0.jar");
+
+			FunctionCommandExecutor.deployOnOpenWhisk("memory-test",
+					OpenWhiskCommandUtility.JAVA_8_RUNTIME,
+					"memory_test.Handler",
+					30,
+					128,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/openwhisk/java/memory_test/target",
+					"memory_test_java_ow-1.0.jar");
+		}
+
+
+
 		/* Node.js on Google Cloud Platform */
 
 		FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
