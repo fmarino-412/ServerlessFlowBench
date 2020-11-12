@@ -1,6 +1,5 @@
 import time
 import json
-import re
 
 
 # noinspection DuplicatedCode
@@ -21,14 +20,10 @@ def lambda_handler(event, context):
 	if n <= 0:
 		n = 1300000
 
-	# available_start, memory_total = memory_stats(True)
-
 	start_time = time.time()
 	memory_stress(n)
 	end_time = time.time()
 	execution_time = (end_time - start_time) * 1000
-
-	# available_end, _ = memory_stats(False)
 
 	# prepare response
 	return {
@@ -50,26 +45,6 @@ def lambda_handler(event, context):
 			# }
 		})
 	}
-
-
-# noinspection DuplicatedCode
-def memory_stats(total):
-	memory_info, memory_total = None, None
-
-	f = open('/proc/meminfo', 'r')
-	if f.mode == 'r':
-		memory_info = f.read()
-	f.close()
-
-	# parse memory info
-	if total:
-		total_pattern = re.compile("(MemTotal:\s)(.+B)")
-		memory_total = total_pattern.search(memory_info)[2]
-
-	available_pattern = re.compile("(MemAvailable:\s)(.+B)")
-	memory_available = available_pattern.search(memory_info)[2]
-
-	return memory_available, memory_total
 
 
 # noinspection DuplicatedCode

@@ -19,8 +19,6 @@ def gc_functions_handler(request):
 	if n <= 0:
 		n = 71950288374236
 
-	# cpu_model, cpu_cores = get_cpu_info()
-
 	# measure computation
 	start_time = time.time()
 	result = factorize(n)
@@ -39,11 +37,7 @@ def gc_functions_handler(request):
 			'number': n,
 			'result': result,
 			'milliseconds': execution_time
-		}  # ,
-		# 'cpu_info': {
-		# 'model': cpu_model,
-		# 'cores': cpu_cores
-		# }
+		}
 	}), 200, headers)
 
 
@@ -61,21 +55,3 @@ def factorize(n):
 	factors.sort()
 
 	return factors
-
-
-# noinspection DuplicatedCode
-def get_cpu_info():
-	cpu_info = None
-
-	f = open("/proc/cpuinfo", "r")
-	if f.mode == 'r':
-		cpu_info = f.read()
-	f.close()
-
-	# parse infos
-	model_pattern = re.compile("(model name\s:\s)(.+@.*z)")
-	cores_pattern = re.compile("(cpu cores\s:\s)([0-9]+)")
-	cpu_model = model_pattern.search(cpu_info)[2]
-	cpu_cores = cores_pattern.search(cpu_info)[2]
-
-	return cpu_model, cpu_cores
