@@ -4,7 +4,7 @@ import cmd.functionality_commands.*;
 @SuppressWarnings({"DuplicatedCode", "SpellCheckingInspection"})
 public class ServerlessBenchmarkToolMain {
 
-	private static final int OPERATION_SELECTION = 2;
+	private static final int OPERATION_SELECTION = 5;
 	private static final boolean OPENWHISK_DEPLOY = true;
 
 	@SuppressWarnings("ConstantConditions")
@@ -532,6 +532,33 @@ public class ServerlessBenchmarkToolMain {
 
 
 
+		/* Java on OpenWhisk */
+
+		if (OPENWHISK_DEPLOY) {
+
+			{
+				String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+				String[] entryPoints = {"ow_handler", "ow_handler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {128, 128};
+				String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
+
+				CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/openwhisk/python/basic_test_composition",
+						"step.js",
+						functionNames,
+						OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						zipFileNames);
+			}
+
+		}
+
+
+
 		/* Java on Google Cloud Platform */
 
 		{
@@ -676,6 +703,33 @@ public class ServerlessBenchmarkToolMain {
 					memories,
 					regions,
 					zipFileNames);
+		}
+
+
+
+		/* Java on OpenWhisk */
+
+		if (OPENWHISK_DEPLOY) {
+
+			{
+				String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+				String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {128, 128};
+				String[] zipFileNames = {"latency_test_java_ow-1.0.jar", "cpu_test_java_ow-1.0.jar"};
+
+				CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/openwhisk/java/basic_test_composition",
+						"step.js",
+						functionNames,
+						OpenWhiskCommandUtility.JAVA_8_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						zipFileNames);
+			}
+
 		}
 
 
@@ -826,6 +880,33 @@ public class ServerlessBenchmarkToolMain {
 					zipFileNames);
 		}
 
+
+
+		/* Node.js on OpenWhisk */
+
+		if (OPENWHISK_DEPLOY) {
+
+			{
+				String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+				String[] entryPoints = {"index.owHandler", "index.owHandler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {128, 128};
+				String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
+
+				CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/openwhisk/node/basic_test_composition",
+						"step.js",
+						functionNames,
+						OpenWhiskCommandUtility.NODE_10_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						zipFileNames);
+			}
+
+		}
+
 	}
 
 	private static void benchmarkPerform() {
@@ -951,6 +1032,7 @@ public class ServerlessBenchmarkToolMain {
 
 		cleanup();
 
+
 		{
 			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
 			String[] entryPoints = {"index.owHandler", "index.owHandler"};
@@ -970,24 +1052,45 @@ public class ServerlessBenchmarkToolMain {
 					zipFileNames);
 		}
 
+		{
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+			String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] zipFileNames = {"latency_test_java_ow-1.0.jar", "cpu_test_java_ow-1.0.jar"};
 
-		FunctionCommandExecutor.deployOnOpenWhisk("latency-test",
-				OpenWhiskCommandUtility.NODE_10_RUNTIME,
-				"index.owHandler",
-				30,
-				128,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/openwhisk/node/basic_test_composition",
-				"latency_test.zip");
+			CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/openwhisk/java/basic_test_composition",
+					"step.js",
+					functionNames,
+					OpenWhiskCommandUtility.JAVA_8_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					zipFileNames);
+		}
 
-		FunctionCommandExecutor.deployOnOpenWhisk("cpu-test",
-				OpenWhiskCommandUtility.NODE_10_RUNTIME,
-				"index.owHandler",
-				30,
-				128,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/openwhisk/node/basic_test_composition",
-				"cpu_test.zip");
+		{
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+			String[] entryPoints = {"ow_handler", "ow_handler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
+
+			CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/openwhisk/python/basic_test_composition",
+					"step.js",
+					functionNames,
+					OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					zipFileNames);
+		}
+
+
 
 	}
 }
