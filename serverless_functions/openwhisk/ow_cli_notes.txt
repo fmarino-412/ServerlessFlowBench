@@ -1,19 +1,32 @@
 openwhisk/ow-utils:63a5498
 
 GENERARE FILE CREDENZIALI
-docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials/credentials:/root/.wskprops openwhisk/ow-utils:63a5498 wsk property set --apihost 13.67.227.108 --auth 61071a13-4800-4d31-9cb3-8a9299f1a2f9:aUaI2pPuOK6PhMePmBoJ0QO1tCoH45JJcYy8Zon3iGJI4UbjcaN6zbudrOvt27uH
+docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials/credentials:/root/.wskprops openwhisk/ow-utils:63a5498 wsk property set --apihost IP --auth AUTH
 
 CONTROLLO CREDENZIALI
-docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root openwhisk/ow-utils:63a5498 wsk -i property get
+docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root openwhisk/ow-utils:63a5498 wsk -i property get --apihost IP --auth AUTH
 
 DEPLOY AZIONE
-docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/node/hello:/root/functions openwhisk/ow-utils:63a5498 wsk -i action create packageAction --memory 128 --timeout 60000 --kind nodejs:10 /root/functions/hello.zip
+docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/node/hello:/root/functions openwhisk/ow-utils:63a5498 wsk -i action create packageAction --memory 128 --timeout 60000 --kind nodejs:10 /root/functions/hello.zip --apihost IP --auth AUTH
 
-docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root openwhisk/ow-utils:63a5498 wsk -i action invoke hello --result
+docker run --rm -it -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials:/root openwhisk/ow-utils:63a5498 wsk -i action invoke hello --result --apihost IP --auth AUTH
 
 
 
 
 docker run --rm -it -v /Users/francescomarino/Desktop/example:/mnt/functionalities -v /Users/francescomarino/IdeaProjects/serverless_composition_performance_project/serverless_functions/openwhisk/.credentials/credentials:/mnt/.wskprops node:10 /bin/bash
 
---apihost IP --auth AUTH
+
+docker run --rm -i -v /Users/francescomarino/Desktop/example:/mnt/functionalities francescom412/ow-utils-complete:63a5498 compose /mnt/functionalities/composition.js
+
+docker run --rm -i -v /Users/francescomarino/Desktop/example:/mnt/functionalities francescom412/ow-utils-complete:63a5498 deploy basic-composition /mnt/functionalities/composition.json -w -i --web true --apihost IP --auth AUTH
+
+docker run --rm -i francescom412/ow-utils-complete:63a5498 wsk -i action get basic-composition__node --url --apihost IP --auth AUTH
+
+docker run --rm -i francescom412/ow-utils-complete:63a5498 wsk -i action update basic-composition__node --web true --apihost IP --auth AUTH
+
+docker run --rm -i francescom412/ow-utils-complete:63a5498 wsk -i action delete basic-composition__node --apihost IP --auth AUTH
+
+docker run --rm -i francescom412/ow-utils-complete:63a5498 wsk -i action delete latency-test-workflow__node --apihost IP --auth AUTH
+
+docker run --rm -i francescom412/ow-utils-complete:63a5498 wsk -i action delete cpu-test-workflow__node --apihost IP --auth AUTH

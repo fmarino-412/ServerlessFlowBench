@@ -792,14 +792,14 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	}
 
 	/**
-	 * Removes a function from OpenWhisk
-	 * @param functionName name of the function to remove
+	 * Removes an action from OpenWhisk (function or composition)
+	 * @param actionName name of the action to remove
 	 * @throws IOException exception related to process execution
 	 * @throws InterruptedException exception related to Thread management
 	 */
-	protected static void removeOpenWhiskFunction(String functionName) throws IOException, InterruptedException {
+	protected static void removeOpenWhiskAction(String actionName) throws IOException, InterruptedException {
 
-		String cmd = OpenWhiskCommandUtility.buildActionDeletionCommand(functionName);
+		String cmd = OpenWhiskCommandUtility.buildActionDeletionCommand(actionName);
 		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 
 		Process process = buildCommand(cmd).start();
@@ -808,9 +808,9 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 
 		if (process.waitFor() != 0) {
-			System.err.println("Could not delete OpenWhisk function '" + functionName + "'");
+			System.err.println("Could not delete OpenWhisk action '" + actionName + "'");
 		} else {
-			System.out.println("'" + functionName + "' function removed!");
+			System.out.println("'" + actionName + "' action removed!");
 		}
 		process.destroy();
 		executorServiceErr.shutdown();
@@ -839,7 +839,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 
 		for (CloudEntityData elem : toRemove) {
 			try {
-				removeOpenWhiskFunction(elem.getEntityName());
+				removeOpenWhiskAction(elem.getEntityName());
 			} catch (IOException | InterruptedException e) {
 				System.err.println("Could not delete '" + elem.getEntityName() + "': " + e.getMessage());
 			}

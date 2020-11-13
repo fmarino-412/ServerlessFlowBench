@@ -58,6 +58,14 @@ public class CompositionsRepositoryDAO extends DAO {
 			"PRIMARY KEY (machine_name)" +
 			")";
 
+	private static final String CREATE_OPENWHISK_COMPOSITION_TABLE_MAIN = "CREATE TABLE IF NOT EXISTS " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_compositions_main (" +
+			"composition_name varchar(50) NOT NULL, " +
+			"url varchar(100) NOT NULL, " +
+			"PRIMARY KEY (composition_name)" +
+			")";
+
 	private static final String CREATE_GOOGLE_COMPOSITION_TABLE_FUNCTIONS = "CREATE TABLE IF NOT EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".google_serverless_compositions_functions (" +
@@ -80,6 +88,17 @@ public class CompositionsRepositoryDAO extends DAO {
 			"CONSTRAINT state_machine_arn_fk FOREIGN KEY (state_machine_arn) REFERENCES " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_main(machine_arn)" +
+			")";
+
+	private static final String CREATE_OPENWHISK_COMPOSITION_TABLE_FUNCTIONS = "CREATE TABLE IF NOT EXISTS " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_compositions_functions (" +
+			"function_name varchar(50) NOT NULL, " +
+			"composition varchar(50) NOT NULL, " +
+			"PRIMARY KEY (function_name), " +
+			"CONSTRAINT composition_name_fk FOREIGN KEY (composition) REFERENCES " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_compositions_main(composition_name)" +
 			")";
 
 	private static final String INSERT_GOOGLE_HANDLER = "INSERT INTO " +
@@ -108,6 +127,12 @@ public class CompositionsRepositoryDAO extends DAO {
 			"ON DUPLICATE KEY UPDATE machine_name=VALUES(machine_name), machine_arn=VALUES(machine_arn), " +
 			"machine_region=VALUES(machine_region)";
 
+	private static final String INSERT_OPENWHISK_COMPOSITION_MAIN = "INSERT INTO " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_compositions_main " +
+			"(composition_name, url) " + "VALUES (?, ?) " +
+			"ON DUPLICATE KEY UPDATE composition_name=VALUES(composition_name), url=VALUES(url)";
+
 	private static final String INSERT_GOOGLE_COMPOSITION_FUNCTION = "INSERT INTO " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".google_serverless_compositions_functions " +
@@ -121,6 +146,12 @@ public class CompositionsRepositoryDAO extends DAO {
 			"(function_name, function_region, state_machine_arn) " + "VALUES (?, ?, ?) " +
 			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), function_region=VALUES(function_region), " +
 			"state_machine_arn=VALUES(state_machine_arn)";
+
+	private static final String INSERT_OPENWHISK_COMPOSITION_FUNCTION = "INSERT INTO " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_compositions_functions " +
+			"(function_name, composition) " + "VALUES (?, ?) " +
+			"ON DUPLICATE KEY UPDATE function_name=VALUES(function_name), composition=VALUES(composition)";
 
 	private static final String SELECT_GOOGLE_HANDLER_INFO = "SELECT function_name, region " +
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
@@ -138,6 +169,10 @@ public class CompositionsRepositoryDAO extends DAO {
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_functions";
 
+	private static final String SELECT_OPENWHISK_FUNCTION_INFOS = "SELECT function_name " +
+			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_compositions_functions";
+
 	private static final String SELECT_GOOGLE_WORKFLOW_INFOS = "SELECT workflow_name, workflow_region " +
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".google_serverless_compositions_main";
@@ -145,6 +180,10 @@ public class CompositionsRepositoryDAO extends DAO {
 	private static final String SELECT_AMAZON_MACHINE_INFOS = "SELECT machine_name, machine_arn, machine_region " +
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_main";
+
+	private static final String SELECT_OPENWHISK_COMPOSITION_INFOS = "SELECT composition_name, url " +
+			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_compositions_main";
 
 	private static final String SELECT_GOOGLE_HANDLER_URL = "SELECT url " +
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
@@ -163,6 +202,10 @@ public class CompositionsRepositoryDAO extends DAO {
 			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_main";
 
+	private static final String SELECT_OPENWHISK_COMPOSITION_NAMES = "SELECT composition_name " +
+			"FROM " + PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_compositions_main";
+
 	private static final String DROP_CLOUD_FUNCTIONS_HANDLER = "DROP TABLE IF EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".google_serverless_handler_function";
@@ -179,6 +222,10 @@ public class CompositionsRepositoryDAO extends DAO {
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_functions";
 
+	private static final String DROP_OPENWHISK_COMPOSITION_FUNCTIONS = "DROP TABLE IF EXISTS " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_compositions_functions";
+
 	private static final String DROP_GOOGLE_COMPOSITION_MAIN = "DROP TABLE IF EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".google_serverless_compositions_main";
@@ -186,6 +233,10 @@ public class CompositionsRepositoryDAO extends DAO {
 	private static final String DROP_AMAZON_COMPOSITION_MAIN = "DROP TABLE IF EXISTS " +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
 			".amazon_serverless_compositions_main";
+
+	private static final String DROP_OPENWHISK_COMPOSITION_MAIN = "DROP TABLE IF EXISTS " +
+			PropertiesManager.getInstance().getProperty(PropertiesManager.MYSQL_DB) +
+			".openwhisk_serverless_compositions_main";
 
 
 	/**
@@ -212,6 +263,9 @@ public class CompositionsRepositoryDAO extends DAO {
 					statement.executeUpdate(CREATE_AMAZON_COMPOSITION_TABLE_MAIN);
 					statement.executeUpdate(CREATE_AMAZON_COMPOSITION_TABLE_FUNCTIONS);
 					break;
+				case OPENWHISK:
+					statement.executeUpdate(CREATE_OPENWHISK_COMPOSITION_TABLE_MAIN);
+					statement.executeUpdate(CREATE_OPENWHISK_COMPOSITION_TABLE_FUNCTIONS);
 				default:
 					statement.executeUpdate(CREATE_GOOGLE_COMPOSITION_CLOUD_FUNCTIONS_HANDLER);
 					statement.executeUpdate(CREATE_GOOGLE_COMPOSITION_TABLE_MAIN);
@@ -219,6 +273,8 @@ public class CompositionsRepositoryDAO extends DAO {
 					statement.executeUpdate(CREATE_AMAZON_COMPOSITION_LAMBDA_HANDLER);
 					statement.executeUpdate(CREATE_AMAZON_COMPOSITION_TABLE_MAIN);
 					statement.executeUpdate(CREATE_AMAZON_COMPOSITION_TABLE_FUNCTIONS);
+					statement.executeUpdate(CREATE_OPENWHISK_COMPOSITION_TABLE_MAIN);
+					statement.executeUpdate(CREATE_OPENWHISK_COMPOSITION_TABLE_FUNCTIONS);
 					break;
 			}
 			statement.close();
@@ -239,6 +295,13 @@ public class CompositionsRepositoryDAO extends DAO {
 	 */
 	public static void dropAmazon() {
 		dropTable(AMAZON);
+	}
+
+	/**
+	 * Drop every table associated to Open Whisk Compositions
+	 */
+	public static void dropOpenWhisk() {
+		dropTable(OPENWHISK);
 	}
 
 	/**
@@ -265,6 +328,10 @@ public class CompositionsRepositoryDAO extends DAO {
 					statement.executeUpdate(DROP_AMAZON_COMPOSITION_FUNCTIONS);
 					statement.executeUpdate(DROP_AMAZON_COMPOSITION_MAIN);
 					statement.executeUpdate(DROP_LAMBDA_HANDLER);
+					break;
+				case OPENWHISK:
+					statement.executeUpdate(DROP_OPENWHISK_COMPOSITION_FUNCTIONS);
+					statement.executeUpdate(DROP_OPENWHISK_COMPOSITION_MAIN);
 					break;
 				default:
 					System.err.println("Provider not supported! Could not perform DB drop");
@@ -411,6 +478,45 @@ public class CompositionsRepositoryDAO extends DAO {
 				preparedStatement.setString(1, functionNames[i]);
 				preparedStatement.setString(2, functionRegions[i]);
 				preparedStatement.setString(3, machineArn);
+				preparedStatement.addBatch();
+			}
+
+			preparedStatement.executeBatch();
+			preparedStatement.close();
+
+			MySQLConnect.closeConnection(connection);
+		} catch (SQLException e) {
+			System.err.println("Could not perform insertion: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Persists a new OpenWhisk composition and associated functions
+	 * @param compositionName name of the composition
+	 * @param url url of the composition
+	 * @param functionNames names of functions
+	 */
+	public static void persistOpenWhisk(String compositionName, String url, String[] functionNames) {
+
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return;
+			}
+			initTables(connection, OPENWHISK);
+
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_OPENWHISK_COMPOSITION_MAIN);
+			preparedStatement.setString(1, compositionName);
+			preparedStatement.setString(2, url);
+			preparedStatement.execute();
+			preparedStatement.close();
+
+			preparedStatement = connection.prepareStatement(INSERT_OPENWHISK_COMPOSITION_FUNCTION);
+
+			for (int i = 0; i < functionNames.length; i++) {
+				preparedStatement.setString(1, functionNames[i]);
+				preparedStatement.setString(2, compositionName);
 				preparedStatement.addBatch();
 			}
 
@@ -634,6 +740,39 @@ public class CompositionsRepositoryDAO extends DAO {
 	}
 
 	/**
+	 * Getter for every composition associated OpenWhisk function
+	 * @return list of CloudEntityData with function information
+	 */
+	public static List<CloudEntityData> getOpenWhiskFunctionInfos() {
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return null;
+			}
+			initTables(connection, OPENWHISK);
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(SELECT_OPENWHISK_FUNCTION_INFOS);
+
+			List<CloudEntityData> result = new ArrayList<>();
+
+			// function_name, function_region
+			while (resultSet.next()) {
+				result.add(new CloudEntityData(resultSet.getString("function_name")));
+			}
+
+			statement.close();
+			resultSet.close();
+			MySQLConnect.closeConnection(connection);
+			return result;
+		} catch (SQLException e) {
+			System.err.println("Could not perform select: " + e.getMessage());
+			return null;
+		}
+	}
+
+	/**
 	 * Getter for every Google Cloud Platform Workflows [BETA] workflow
 	 * @return list of CloudEntityData with workflow information
 	 */
@@ -688,6 +827,38 @@ public class CompositionsRepositoryDAO extends DAO {
 				result.add(new CloudEntityData(resultSet.getString("machine_name"),
 						resultSet.getString("machine_region"),
 						resultSet.getString("machine_arn")));
+			}
+
+			statement.close();
+			resultSet.close();
+			MySQLConnect.closeConnection(connection);
+			return result;
+		} catch (SQLException e) {
+			System.err.println("Could not perform select: " + e.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * Getter for every OpenWhisk composition
+	 * @return list of CloudEntityData with composition information
+	 */
+	public static List<CloudEntityData> getOpenWhiskCompositionInfos() {
+		try {
+			Connection connection = MySQLConnect.connectDatabase();
+			if (connection == null) {
+				System.err.println("Could not connect to database, please check your connection");
+				return null;
+			}
+			initTables(connection, OPENWHISK);
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(SELECT_OPENWHISK_COMPOSITION_NAMES);
+
+			List<CloudEntityData> result = new ArrayList<>();
+
+			while (resultSet.next()) {
+				result.add(new CloudEntityData(resultSet.getString("composition_name")));
 			}
 
 			statement.close();
@@ -852,6 +1023,25 @@ public class CompositionsRepositoryDAO extends DAO {
 				} else {
 					functionalityURL = new FunctionalityURL(name);
 					functionalityURL.setAmazonUrl(url);
+					dynamicResult.put(name, functionalityURL);
+				}
+			}
+
+			statement.close();
+			resultSet.close();
+
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(SELECT_OPENWHISK_COMPOSITION_INFOS);
+
+			while (resultSet.next()) {
+				name = resultSet.getString("composition_name");
+				url = resultSet.getString("url");
+
+				if (dynamicResult.containsKey(name)) {
+					dynamicResult.get(name).setOpenWhiskUrl(url);
+				} else {
+					functionalityURL = new FunctionalityURL(name);
+					functionalityURL.setOpenWhiskUrl(url);
 					dynamicResult.put(name, functionalityURL);
 				}
 			}

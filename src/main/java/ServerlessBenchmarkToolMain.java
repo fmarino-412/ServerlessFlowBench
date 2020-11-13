@@ -4,7 +4,7 @@ import cmd.functionality_commands.*;
 @SuppressWarnings({"DuplicatedCode", "SpellCheckingInspection"})
 public class ServerlessBenchmarkToolMain {
 
-	private static final int OPERATION_SELECTION = 5;
+	private static final int OPERATION_SELECTION = 2;
 	private static final boolean OPENWHISK_DEPLOY = true;
 
 	@SuppressWarnings("ConstantConditions")
@@ -52,6 +52,7 @@ public class ServerlessBenchmarkToolMain {
 		System.out.println("\u001B[35m" + "\n\nRemoving benchmark compositions...\n" + "\u001B[0m");
 		CompositionCommandExecutor.cleanupGoogleComposition();
 		CompositionCommandExecutor.cleanupAmazonComposition();
+		CompositionCommandExecutor.cleanupOpenWhiskComposition();
 	}
 
 	private static void cleanupTables() {

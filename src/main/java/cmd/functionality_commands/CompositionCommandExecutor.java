@@ -528,7 +528,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 
 			process.destroy();
 
-			// TODO: persist!
+			CompositionsRepositoryDAO.persistOpenWhisk(compositionName, url, functionNames);
 		} catch (InterruptedException | IOException e) {
 			System.err.println("Could not deploy composition '" + compositionName + "' on OpenWhisk: " +
 					e.getMessage());
@@ -718,5 +718,50 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
 
 		CompositionsRepositoryDAO.dropAmazon();
+	}
+
+	/**
+	 * Removes every composition from OpenWhisk
+	 */
+	public static void cleanupOpenWhiskComposition() {
+
+		try {
+			DockerExecutor.checkDocker();
+		} catch (DockerException e) {
+			System.err.println("Could not cleanup OpenWhisk composition environment: " + e.getMessage());
+			return;
+		}
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Cleaning up OpenWhisk composition environment..." +
+				"\u001B[0m" + "\n");
+
+		// remove functions
+		List<CloudEntityData> toRemove = CompositionsRepositoryDAO.getOpenWhiskFunctionInfos();
+		if (toRemove != null) {
+			for (CloudEntityData functionalityData : toRemove) {
+				try {
+					FunctionCommandExecutor.removeOpenWhiskAction(functionalityData.getEntityName());
+				} catch (InterruptedException | IOException e) {
+					System.err.println("Could not delete '" + functionalityData.getEntityName() +
+							"' from OpenWhisk: " + e.getMessage());
+				}
+			}
+		}
+		// remove state machines
+		toRemove = CompositionsRepositoryDAO.getOpenWhiskCompositionInfos();
+		if (toRemove != null) {
+			for (CloudEntityData functionalityData : toRemove) {
+				try {
+					FunctionCommandExecutor.removeOpenWhiskAction(functionalityData.getEntityName());
+				} catch (InterruptedException | IOException e) {
+					System.err.println("Could not delete '" + functionalityData.getEntityName() +
+							"' composition from OpenWhisk: " + e.getMessage());
+				}
+			}
+		}
+		System.out.println("\u001B[32m" + "\nOpenWhisk cleanup completed!\n" + "\u001B[0m");
+
+		CompositionsRepositoryDAO.dropOpenWhisk();
 	}
 }
