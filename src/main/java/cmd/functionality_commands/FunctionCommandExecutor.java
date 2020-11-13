@@ -482,25 +482,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	}
 
 	/**
-	 * Deploys a composition handler to OpenWhisk and persists on DB
-	 * @param functionName name of the handler
-	 * @param runtime runtime of the handler
-	 * @param entryPoint handler entry point path
-	 * @param timeout handler timeout in seconds
-	 * @param memory handler memory amount in megabytes
-	 * @param zipFolderAbsolutePath path of the folder containing handler zipped implementation
-	 * @param zipFileName file name of the zipped implementation
-	 */
-	public static void deployOpenWhiskHandlerFunction(String functionName, String runtime, String entryPoint,
-													  Integer timeout, Integer memory, String zipFolderAbsolutePath,
-													  String zipFileName) {
-
-		deployOnOpenWhisk(functionName, runtime, entryPoint, timeout, memory, zipFolderAbsolutePath, zipFileName,
-				Boolean.valueOf(PropertiesManager.getInstance().getProperty(PropertiesManager.OPENWHISK_SSL_IGNORE)),
-				0);
-	}
-
-	/**
 	 *
 	 * @param functionName name of the function
 	 * @param runtime runtime of the function
@@ -555,7 +536,8 @@ public class FunctionCommandExecutor extends CommandExecutor {
 											Integer timeout, Integer memory, String zipFolderAbsolutePath,
 											String zipFileName, Boolean ignoreSSL, Integer functionality) {
 
-		assert functionality == 0 || functionality == 1 || functionality == 2;
+		assert functionality == 1 || functionality == 2;
+		boolean webDeploy = functionality != 2;
 
 		try {
 			functionName = OpenWhiskCommandUtility.applyRuntimeId(functionName, runtime);
@@ -574,7 +556,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 
 		// build deploy commands
 		String deployCmd = OpenWhiskCommandUtility.buildActionDeployCommand(functionName, runtime, entryPoint, timeout,
-				memory, zipFolderAbsolutePath, zipFileName);
+				memory, zipFolderAbsolutePath, zipFileName, webDeploy);
 		String urlGetterCmd = OpenWhiskCommandUtility.buildActionUrlGetterCommand(functionName);
 
 		// start executors

@@ -950,5 +950,23 @@ public class ServerlessBenchmarkToolMain {
 
 		cleanup();
 
+		FunctionCommandExecutor.deployOnOpenWhisk("latency-test",
+				OpenWhiskCommandUtility.NODE_10_RUNTIME,
+				"index.owHandler",
+				30,
+				128,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/openwhisk/node/basic_test_composition/latency_test",
+				"latency_test.zip");
+
+		FunctionCommandExecutor.deployOnOpenWhisk("cpu-test",
+				OpenWhiskCommandUtility.NODE_10_RUNTIME,
+				"index.owHandler",
+				30,
+				128,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/openwhisk/node/basic_test_composition/cpu_test",
+				"cpu_test.zip");
+
 	}
 }

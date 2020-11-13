@@ -29,9 +29,13 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 			PropertiesManager.getInstance().getProperty(PropertiesManager.OPENWHISK_AUTH);
 
 	/**
-	 * Wsk command preamble
+	 * Command preambles
 	 */
-	private static final String WSK = "wsk" + SEP + "-i";
+	private static final String INSECURE_OPTION = "-i";
+	private static final String WSK = "wsk" + SEP + INSECURE_OPTION;
+	private static final String DEPLOY_COMPOSITION = "deploy" + SEP + INSECURE_OPTION;
+	// local command, does not need insecure option
+	private static final String CREATE_COMPOSITION = "compose";
 
 	/**
 	 * Wsk actions
@@ -62,7 +66,9 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 	 * @return command as string
 	 */
 	public static String buildActionDeployCommand(String actionName, String runtime, String entryPoint, Integer timeout,
-												  Integer memory, String zipFolder, String zipName) {
+												  Integer memory, String zipFolder, String zipName, boolean enableWeb) {
+
+		String webDeploy = enableWeb ? "true" : "false";
 
 		return 	// command beginning
 				PREAMBLE + SEP +
@@ -74,7 +80,7 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 						CREATE_ACTION + SEP +
 						// parameters setting
 						actionName + SEP +
-						"--web" + SEP + "true" + SEP +
+						"--web" + SEP + webDeploy + SEP +
 						"--kind" + SEP + runtime + SEP +
 						"--main" + SEP + entryPoint + SEP +
 						"--memory" + SEP + memory + SEP +
@@ -100,6 +106,45 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 						// parameters setting
 						actionName + SEP +
 						"--url" + SEP +
+						// configuration binding
+						OPENWHISK_AUTH_CLOSURE;
+	}
+
+	/**
+	 * Builds OpenWhisk CLI command for composition json file creation starting from javascript composition description
+	 * @param compositionFolder folder where the javascript description is located
+	 * @param compositionFileName name of the javascript description
+	 * @return command as string
+	 */
+	public static String buildCompositionFileCreationCommand(String compositionFolder, String compositionFileName) {
+
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// volume attachment
+						"-v" + SEP + compositionFolder + ":" + FUNCTIONALITIES_DIR + SEP +
+						// select docker image to use
+						OPENWHISK_CLI + SEP +
+						// operation define
+						CREATE_COMPOSITION + SEP +
+						// parameters setting
+						FUNCTIONALITIES_DIR + "/" + compositionFileName;
+	}
+
+	public static String buildCompositionDeployCommand(String compositionName, String compositionFolder,
+													   String compositionJsonName) {
+
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// volume attachment
+						"-v" + SEP + compositionFolder + ":" + FUNCTIONALITIES_DIR + SEP +
+						// select docker image to use
+						OPENWHISK_CLI + SEP +
+						// operation define
+						DEPLOY_COMPOSITION + SEP +
+						// parameters setting
+						compositionName + SEP +
+						FUNCTIONALITIES_DIR + "/" + compositionJsonName + SEP +
+						"--web" + SEP + "true" + SEP +
 						// configuration binding
 						OPENWHISK_AUTH_CLOSURE;
 	}
@@ -149,5 +194,11 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 		} else {
 			return functionalityName;
 		}
+	}
+
+	public static void main(String[] args) {
+		System.out.println(buildCompositionFileCreationCommand("/Users/francescomarino/Desktop/example", "composition.js"));
+		System.out.println(buildCompositionDeployCommand("prova", "/Users/francescomarino/Desktop/example", "composition.json"));
+		System.out.println(buildActionDeletionCommand("prova"));
 	}
 }
