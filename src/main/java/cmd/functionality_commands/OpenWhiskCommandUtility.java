@@ -21,7 +21,8 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 	 * Docker utils
 	 */
 	private static final String PREAMBLE = "docker" + SEP + "run" + SEP + "--rm" + SEP + "-i";
-	private static final String OPENWHISK_CLI = "openwhisk/ow-utils:63a5498";
+	@SuppressWarnings("SpellCheckingInspection")
+	private static final String OPENWHISK_CLI = "francescom412/ow-utils-complete:63a5498";
 	@SuppressWarnings("SpellCheckingInspection")
 	private static final String OPENWHISK_AUTH_CLOSURE = "--apihost" + SEP +
 			PropertiesManager.getInstance().getProperty(PropertiesManager.OPENWHISK_HOST) + SEP + "--auth" + SEP +

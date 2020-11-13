@@ -2,28 +2,16 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cpu_test/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cpu_test/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/language_detection/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/language_detection/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/loop_controller/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/loop_controller/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/sentence_translation/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/sentence_translation/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/translation_logger/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/cycle_translator/translation_logger/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/face_recognition/anger_detection/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/face_recognition/anger_detection/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/face_recognition/image_recognition/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/face_recognition/image_recognition/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/latency_test/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/latency_test/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/memory_test/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/aws/java/memory_test/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/openwhisk/java/basic_test_composition/cpu_test/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/openwhisk/java/basic_test_composition/cpu_test/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/openwhisk/java/basic_test_composition/latency_test/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/openwhisk/java/basic_test_composition/latency_test/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serverless_functions/openwhisk/java/memory_test/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serverless_functions/openwhisk/java/memory_test/src/main/resources" charset="UTF-8" />
   </component>
 </project>
