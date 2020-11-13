@@ -10,6 +10,7 @@ import java.util.Properties;
 public class PropertiesManager {
 
 	private final static String PROPERTIES_PATH = "config.properties";
+	private final static int MISSING_PROPERTIES_FILE_ERROR_CODE = 15;
 
 	// singleton instance: no need to reload file at each call
 	private static PropertiesManager singletonInstance = null;
@@ -80,6 +81,7 @@ public class PropertiesManager {
 			return properties.getProperty(propertyKey);
 		} catch (IOException ignored) {
 			System.err.println("Error in configuration file! Please check " + PROPERTIES_PATH);
+			System.exit(MISSING_PROPERTIES_FILE_ERROR_CODE);
 			return "";
 		}
 	}
