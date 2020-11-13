@@ -196,6 +196,7 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 		}
 	}
 
+	// TODO: remove
 	public static void main(String[] args) {
 		System.out.println(buildCompositionFileCreationCommand("/Users/francescomarino/Desktop/example", "composition.js"));
 		System.out.println(buildCompositionDeployCommand("prova", "/Users/francescomarino/Desktop/example", "composition.json"));
