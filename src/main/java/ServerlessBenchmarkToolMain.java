@@ -139,7 +139,7 @@ public class ServerlessBenchmarkToolMain {
 
 
 
-		/* Python on Open Whisk */
+		/* Python on OpenWhisk */
 
 		if (OPENWHISK_DEPLOY) {
 
@@ -149,7 +149,7 @@ public class ServerlessBenchmarkToolMain {
 					30,
 					128,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-							"/serverless_functions/openwhisk/python/basic_test_composition/latency_test",
+							"/serverless_functions/openwhisk/python/basic_test_composition",
 					"latency_test.zip");
 
 			FunctionCommandExecutor.deployOnOpenWhisk("cpu-test",
@@ -158,7 +158,7 @@ public class ServerlessBenchmarkToolMain {
 					30,
 					128,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-							"/serverless_functions/openwhisk/python/basic_test_composition/cpu_test",
+							"/serverless_functions/openwhisk/python/basic_test_composition",
 					"cpu_test.zip");
 
 			FunctionCommandExecutor.deployOnOpenWhisk("memory-test",
@@ -238,7 +238,7 @@ public class ServerlessBenchmarkToolMain {
 
 
 
-		/* Java on Open Whisk */
+		/* Java on OpenWhisk */
 
 		if (OPENWHISK_DEPLOY) {
 
@@ -248,7 +248,7 @@ public class ServerlessBenchmarkToolMain {
 					30,
 					128,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-							"/serverless_functions/openwhisk/java/basic_test_composition/latency_test/target",
+							"/serverless_functions/openwhisk/java/basic_test_composition",
 					"latency_test_java_ow-1.0.jar");
 
 			FunctionCommandExecutor.deployOnOpenWhisk("cpu-test",
@@ -257,7 +257,7 @@ public class ServerlessBenchmarkToolMain {
 					30,
 					128,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-							"/serverless_functions/openwhisk/java/basic_test_composition/cpu_test/target",
+							"/serverless_functions/openwhisk/java/basic_test_composition",
 					"cpu_test_java_ow-1.0.jar");
 
 			FunctionCommandExecutor.deployOnOpenWhisk("memory-test",
@@ -337,7 +337,7 @@ public class ServerlessBenchmarkToolMain {
 
 
 
-		/* Node.js on Open Whisk */
+		/* Node.js on OpenWhisk */
 
 		if (OPENWHISK_DEPLOY) {
 
@@ -347,7 +347,7 @@ public class ServerlessBenchmarkToolMain {
 					30,
 					128,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-							"/serverless_functions/openwhisk/node/basic_test_composition/latency_test",
+							"/serverless_functions/openwhisk/node/basic_test_composition",
 					"latency_test.zip");
 
 			FunctionCommandExecutor.deployOnOpenWhisk("cpu-test",
@@ -356,7 +356,7 @@ public class ServerlessBenchmarkToolMain {
 					30,
 					128,
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-							"/serverless_functions/openwhisk/node/basic_test_composition/cpu_test",
+							"/serverless_functions/openwhisk/node/basic_test_composition",
 					"cpu_test.zip");
 
 			FunctionCommandExecutor.deployOnOpenWhisk("memory-test",
@@ -950,13 +950,33 @@ public class ServerlessBenchmarkToolMain {
 
 		cleanup();
 
+		{
+			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+			String[] entryPoints = {"index.owHandler", "index.owHandler"};
+			Integer[] timeouts = {30, 30};
+			Integer[] memories = {128, 128};
+			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
+
+			CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/openwhisk/node/basic_test_composition",
+					"step.js",
+					functionNames,
+					OpenWhiskCommandUtility.NODE_10_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					zipFileNames);
+		}
+
+
 		FunctionCommandExecutor.deployOnOpenWhisk("latency-test",
 				OpenWhiskCommandUtility.NODE_10_RUNTIME,
 				"index.owHandler",
 				30,
 				128,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/openwhisk/node/basic_test_composition/latency_test",
+						"/serverless_functions/openwhisk/node/basic_test_composition",
 				"latency_test.zip");
 
 		FunctionCommandExecutor.deployOnOpenWhisk("cpu-test",
@@ -965,7 +985,7 @@ public class ServerlessBenchmarkToolMain {
 				30,
 				128,
 				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/openwhisk/node/basic_test_composition/cpu_test",
+						"/serverless_functions/openwhisk/node/basic_test_composition",
 				"cpu_test.zip");
 
 	}

@@ -8,7 +8,7 @@ public class UrlFinder {
 	// string containing url
 	private String result;
 
-	// ignore SSL/TLS certificate validation in Open Whisk
+	// ignore SSL/TLS certificate validation in OpenWhisk
 	private boolean openWhiskIgnoreSSL;
 
 	/**
@@ -21,7 +21,7 @@ public class UrlFinder {
 
 	/**
 	 * One argument constructor
-	 * @param openWhiskIgnoreSSL tells whether to ignore SSL/TLS certificate validation or not in Open Whisk
+	 * @param openWhiskIgnoreSSL tells whether to ignore SSL/TLS certificate validation or not in OpenWhisk
 	 */
 	public UrlFinder(boolean openWhiskIgnoreSSL) {
 		result = "";

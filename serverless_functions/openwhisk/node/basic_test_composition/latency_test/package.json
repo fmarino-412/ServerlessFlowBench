@@ -1,7 +1,7 @@
 {
   "name": "latency_test",
   "version": "1.0.0",
-  "description": "Latency test for Open Whisk node runtime",
+  "description": "Latency test for OpenWhisk node runtime",
   "main": "index.js",
   "author": "Francesco Marino",
   "license": "ISC"

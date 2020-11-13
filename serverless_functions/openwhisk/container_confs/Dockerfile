@@ -16,5 +16,5 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 RUN apt-get update && apt-get install nodejs -y
 
 #
-# Install Open Whisk composer
+# Install OpenWhisk composer
 RUN npm --force install -g openwhisk-composer

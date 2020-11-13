@@ -1,7 +1,7 @@
 {
   "name": "cpu_test",
   "version": "1.0.0",
-  "description": "Cpu test for Open Whisk node runtime",
+  "description": "Cpu test for OpenWhisk node runtime",
   "main": "index.js",
   "author": "Francesco Marino",
   "license": "ISC"

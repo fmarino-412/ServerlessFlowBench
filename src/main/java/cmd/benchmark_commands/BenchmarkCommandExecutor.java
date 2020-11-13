@@ -675,14 +675,14 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 						// influx persist
 						if (InfluxClient.insertColdPoint(function.getName(), "openwhisk", openWhiskLatency,
 								System.currentTimeMillis())) {
-							System.out.println("\u001B[32m" + "Persisted Open Whisk cold start benchmark for: " +
+							System.out.println("\u001B[32m" + "Persisted OpenWhisk cold start benchmark for: " +
 									function.getName() + "\u001B[0m");
 						} else {
-							System.err.println("Failed persisting Open Whisk cold start latency for "
+							System.err.println("Failed persisting OpenWhisk cold start latency for "
 									+ function.getName() + ": parameters or connection error");
 						}
 					} else {
-						System.err.println("Failed measuring Open Whisk cold start latency for " + function.getName());
+						System.err.println("Failed measuring OpenWhisk cold start latency for " + function.getName());
 					}
 
 					// load test
@@ -696,19 +696,19 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					benchmarkSem.release();
 
 					if (openWhiskStats != null) {
-						System.out.println(function.getName() + " avg latency Open Whisk = " +
+						System.out.println(function.getName() + " avg latency OpenWhisk = " +
 								openWhiskStats.getAvgLatency());
 						// influx persist
 						if (InfluxClient.insertLoadPoints(function.getName(), "openwhisk", openWhiskStats,
 								System.currentTimeMillis())) {
-							System.out.println("\u001B[32m" + "Persisted Open Whisk benchmark for: " + function.getName() +
+							System.out.println("\u001B[32m" + "Persisted OpenWhisk benchmark for: " + function.getName() +
 									"\u001B[0m");
 						} else {
-							System.err.println("Failed persisting Open Whisk benchmarks "
+							System.err.println("Failed persisting OpenWhisk benchmarks "
 									+ function.getName() + ": parameters or connection error");
 						}
 					} else {
-						System.err.println("Failed performing Open Whisk benchmark on " + function.getName());
+						System.err.println("Failed performing OpenWhisk benchmark on " + function.getName());
 					}
 				}
 

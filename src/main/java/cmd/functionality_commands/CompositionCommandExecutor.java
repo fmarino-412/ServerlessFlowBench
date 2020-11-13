@@ -1,15 +1,17 @@
 package cmd.functionality_commands;
 
-import cmd.*;
+import cmd.CommandExecutor;
+import cmd.CommandUtility;
+import cmd.StreamGobbler;
 import cmd.docker_daemon_utility.DockerException;
 import cmd.docker_daemon_utility.DockerExecutor;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
+import cmd.functionality_commands.output_parsing.UrlFinder;
 import cmd.functionality_commands.security.GoogleAuthClient;
 import databases.mysql.CloudEntityData;
 import databases.mysql.daos.CompositionsRepositoryDAO;
 import utility.PropertiesManager;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -140,6 +142,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			} catch (IllegalNameException e) {
 				System.err.println("Could not deploy function '" + functionNames[i] + "' to Google Cloud Functions: " +
 						e.getMessage());
+				deleteFile(tempYaml);
 				return;
 			}
 			functionUrls.add(FunctionCommandExecutor.deployOnGoogleCloudCompositionFunction(functionNames[i],
@@ -149,10 +152,13 @@ public class CompositionCommandExecutor extends CommandExecutor {
 					memory[i],
 					regions[i],
 					contentFolderAbsolutePath + CommandUtility.getPathSep() + functionDirPaths[i]));
-			System.out.println("'" + functionNames[i] + "' deploy on Google Cloud Platform completed");
+			if (!functionUrls.get(functionUrls.size() - 1).equals("")) {
+				System.out.println("'" + functionNames[i] + "' deploy on Google Cloud Platform completed");
+			}
 		}
 		if (functionUrls.contains("")) {
 			System.err.println("Error deploying functions!");
+			deleteFile(tempYaml);
 			return;
 		}
 
@@ -167,6 +173,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			writer.flush();
 		} catch (IOException e) {
 			System.err.println("Could not parse '" + yamlFileName + "': " + e.getMessage());
+			deleteFile(tempYaml);
 			return;
 		}
 
@@ -186,14 +193,12 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			if (process.waitFor() != 0) {
 				System.err.println("Could not deploy workflow '" + workflowName + "' on Google Cloud Platform");
 				process.destroy();
+				deleteFile(tempYaml);
 				return;
 			}
 
 			// delete temporary file
-			File file = tempYaml.toFile();
-			if (!file.delete()) {
-				System.err.println("WARNING:\tCould not delete temporary files, check: " + tempYaml.toString());
-			}
+			deleteFile(tempYaml);
 
 			String url = CompositionsRepositoryDAO.getGoogleHandlerUrl(null);
 			if (url == null) {
@@ -340,6 +345,196 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		} catch (InterruptedException | IOException e) {
 			System.err.println("Could not deploy state machine '" + machineName + "' on Step Functions: " +
 					e.getMessage());
+		} finally {
+			executorServiceOut.shutdown();
+			executorServiceErr.shutdown();
+		}
+	}
+
+	public static void deployOnOpenWhiskComposition(String compositionName, String contentFolderAbsolutePath,
+													String javascriptFileName, String[] functionNames, String runtime,
+													String[] entryPoints, Integer[] timeouts, Integer[] memory,
+													String[] zipFileNames) {
+
+		assert functionNames.length == entryPoints.length;
+		assert functionNames.length == timeouts.length;
+		assert functionNames.length == memory.length;
+		assert functionNames.length == zipFileNames.length;
+
+		try {
+			compositionName = OpenWhiskCommandUtility.applyRuntimeId(compositionName, runtime);
+			DockerExecutor.checkDocker();
+		} catch (IllegalNameException | DockerException e) {
+			System.err.println("Could not deploy composition '" + compositionName + "': " + e.getMessage());
+			return;
+		}
+
+		System.out.println("\n" + "\u001B[33m" +
+				"Deploying \"" + compositionName + "\" to OpenWhisk..." +
+				"\u001B[0m" + "\n");
+
+		// create temporary file in which is possible to replace PLACEHOLDER without editing original file
+		Path tempJs;
+		String js;
+		try {
+			tempJs = Files.createTempFile("temp", ".js");
+			js = new String(Files.readAllBytes(Paths.get(contentFolderAbsolutePath +
+					CommandUtility.getPathSep() + javascriptFileName)), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			System.err.println("Could not read '" + contentFolderAbsolutePath +
+					CommandUtility.getPathSep() + javascriptFileName + "': " + e.getMessage());
+			return;
+		}
+
+		ArrayList<String> deployedFunctions = new ArrayList<>();
+
+		// publish functions
+		for (int i = 0; i < functionNames.length; i++) {
+			try {
+				functionNames[i] = OpenWhiskCommandUtility.applyRuntimeId(functionNames[i], runtime);
+			} catch (IllegalNameException e) {
+				System.err.println("Could not deploy function '" + functionNames[i] + "' to OpenWhisk: " +
+						e.getMessage());
+				deleteFile(tempJs);
+				return;
+			}
+			deployedFunctions.add(FunctionCommandExecutor.deployOnOpenWhiskCompositions(functionNames[i],
+					runtime,
+					entryPoints[i],
+					timeouts[i],
+					memory[i],
+					contentFolderAbsolutePath,
+					zipFileNames[i]));
+			if (!deployedFunctions.get(deployedFunctions.size() - 1).equals("")) {
+				System.out.println("'" + functionNames[i] + "' deploy on OpenWhisk completed");
+			}
+		}
+		if (deployedFunctions.contains("")) {
+			System.err.println("Error deploying functions!");
+			deleteFile(tempJs);
+			return;
+		}
+
+		// javascript file: replacing placeholders
+		for (String functionName : functionNames) {
+			js = js.replaceFirst(PLACEHOLDER, functionName);
+		}
+		// write js to temp file
+		try {
+			PrintWriter writer = new PrintWriter(tempJs.toString());
+			writer.print(js);
+			writer.flush();
+		} catch (IOException e) {
+			System.err.println("Could not parse '" + javascriptFileName + "': " + e.getMessage());
+			deleteFile(tempJs);
+			return;
+		}
+
+		// create temporary json file to save composition description
+		Path tempJson;
+		try {
+			tempJson = Files.createTempFile("temp", ".json");
+		} catch (IOException e) {
+			System.err.println("Could not parse '" + javascriptFileName + "': " + e.getMessage());
+			deleteFile(tempJs);
+			return;
+		}
+
+		ExecutorService executorServiceOut = Executors.newSingleThreadExecutor();
+		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
+
+		try {
+			// declare and initialize variables
+			String cmd;
+			Process process;
+			StreamGobbler outputGobbler;
+			StreamGobbler errorGobbler;
+
+			cmd = OpenWhiskCommandUtility.buildCompositionFileCreationCommand(tempJs.toAbsolutePath().toString());
+			process = buildCommand(cmd).start();
+			ReplyCollector replyCollector = new ReplyCollector();
+			outputGobbler = new StreamGobbler(process.getInputStream(), replyCollector::collectResult);
+			errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+			executorServiceOut.submit(outputGobbler);
+			executorServiceErr.submit(errorGobbler);
+			if (process.waitFor() != 0) {
+				System.err.println("Could not deploy composition '" + compositionName + "' on OpenWhisk");
+				process.destroy();
+				deleteFile(tempJs);
+				deleteFile(tempJson);
+				return;
+			}
+
+			// delete javascript temporary file
+			deleteFile(tempJs);
+
+			// write json to temp file
+			try {
+				PrintWriter writer = new PrintWriter(tempJson.toString());
+				writer.print(replyCollector.getResult());
+				writer.flush();
+			} catch (IOException e) {
+				System.err.println("Could not parse '" + javascriptFileName + "': " + e.getMessage());
+				deleteFile(tempJson);
+				return;
+			}
+
+			// deploy composition
+			cmd = OpenWhiskCommandUtility.buildCompositionDeployCommand(compositionName,
+					tempJson.toAbsolutePath().toString());
+			process = buildCommand(cmd).start();
+			errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+			executorServiceErr.submit(errorGobbler);
+			if (process.waitFor() != 0) {
+				System.err.println("Could not deploy composition '" + compositionName + "' on OpenWhisk");
+				process.destroy();
+				deleteFile(tempJson);
+				return;
+			}
+
+			// delete json temporary file
+			deleteFile(tempJson);
+
+			// enable web
+			cmd = OpenWhiskCommandUtility.buildCompositionWebEnableCommand(compositionName);
+			process = buildCommand(cmd).start();
+			errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+			executorServiceErr.submit(errorGobbler);
+			if (process.waitFor() != 0) {
+				System.err.println("Could not enable composition web reachability for '" + compositionName +
+						"' on OpenWhisk");
+				process.destroy();
+				return;
+			}
+
+			// get composition url
+			cmd = OpenWhiskCommandUtility.buildActionUrlGetterCommand(compositionName);
+			process = buildCommand(cmd).start();
+			UrlFinder urlFinder = new UrlFinder(Boolean.parseBoolean(PropertiesManager.getInstance()
+					.getProperty(PropertiesManager.OPENWHISK_SSL_IGNORE)));
+			outputGobbler = new StreamGobbler(process.getInputStream(), urlFinder::findOpenWhiskUrl);
+			errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+			executorServiceOut.submit(outputGobbler);
+			executorServiceErr.submit(errorGobbler);
+			if (process.waitFor() != 0) {
+				System.err.println("Could not obtain '" + compositionName + "' url on OpenWhisk");
+				process.destroy();
+				return;
+			}
+
+			String url = urlFinder.getResult();
+			System.out.println("\u001B[32m" + "Deployed composition '" + compositionName + "' to: " + url +
+					"\u001B[0m");
+
+			process.destroy();
+
+			// TODO: persist!
+		} catch (InterruptedException | IOException e) {
+			System.err.println("Could not deploy composition '" + compositionName + "' on OpenWhisk: " +
+					e.getMessage());
+			// silent because if fails has already been deleted
+			deleteFile(tempJs, true);
+			deleteFile(tempJson, true);
 		} finally {
 			executorServiceOut.shutdown();
 			executorServiceErr.shutdown();

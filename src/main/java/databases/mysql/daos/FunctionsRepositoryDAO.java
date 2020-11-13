@@ -139,7 +139,7 @@ public class FunctionsRepositoryDAO extends DAO {
 	}
 
 	/**
-	 * Drop every table associated to Open Whisk Functions
+	 * Drop every table associated to OpenWhisk Functions
 	 */
 	public static void dropOpenWhisk() {
 		dropTable(OPENWHISK);
@@ -237,7 +237,7 @@ public class FunctionsRepositoryDAO extends DAO {
 	}
 
 	/**
-	 * Persists a new Open Whisk function to database
+	 * Persists a new OpenWhisk function to database
 	 * @param functionName name of the function
 	 * @param url url for function execution
 	 */
@@ -328,7 +328,7 @@ public class FunctionsRepositoryDAO extends DAO {
 	}
 
 	/**
-	 * List every Open Whisk function
+	 * List every OpenWhisk function
 	 * @return list of functions (CloudEntityData)
 	 */
 	public static List<CloudEntityData> getOpenWhisks() {

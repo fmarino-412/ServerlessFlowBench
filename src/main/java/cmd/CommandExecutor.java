@@ -4,7 +4,9 @@ import cmd.functionality_commands.GoogleCommandUtility;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarStyle;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * Utility for CLI related command execution
@@ -71,5 +73,27 @@ public abstract class CommandExecutor {
 
 		process.destroy();
 		return true;
+	}
+
+	/**
+	 * Wrapper: deletes a file and, in case of error, prints a warning
+	 * @param filePath path of the file to delete
+	 */
+	protected static void deleteFile(Path filePath) {
+		deleteFile(filePath, false);
+	}
+
+	/**
+	 * Deletes a file: used for temporary file deletion
+	 * @param filePath path of the file to delete
+	 * @param silent true if warning can be printed, false elsewhere
+	 */
+	protected static void deleteFile(Path filePath, boolean silent) {
+
+		File file = filePath.toFile();
+
+		if (!file.delete() && !silent) {
+			System.err.println("WARNING:\tCould not delete temporary files, check: " + filePath.toString());
+		}
 	}
 }

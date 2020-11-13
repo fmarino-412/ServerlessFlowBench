@@ -33,9 +33,6 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 	 */
 	private static final String INSECURE_OPTION = "-i";
 	private static final String WSK = "wsk" + SEP + INSECURE_OPTION;
-	private static final String DEPLOY_COMPOSITION = "deploy" + SEP + INSECURE_OPTION;
-	// local command, does not need insecure option
-	private static final String CREATE_COMPOSITION = "compose";
 
 	/**
 	 * Wsk actions
@@ -44,6 +41,14 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 	private static final String CREATE_ACTION = ACTION + SEP + "create";
 	private static final String GET_ACTION = ACTION + SEP + "get";
 	private static final String DELETE_ACTION = ACTION + SEP + "delete";
+	private static final String UPDATE_ACTION = ACTION + SEP + "update";
+
+	/**
+	 * Compositions command
+	 */
+	private static final String DEPLOY_COMPOSITION = "deploy" + SEP + INSECURE_OPTION;
+	// local command, does not need insecure option
+	private static final String CREATE_COMPOSITION = "compose";
 
 
 
@@ -112,38 +117,61 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 
 	/**
 	 * Builds OpenWhisk CLI command for composition json file creation starting from javascript composition description
-	 * @param compositionFolder folder where the javascript description is located
-	 * @param compositionFileName name of the javascript description
+	 * @param compositionFilePath absolute path of the javascript composition description
 	 * @return command as string
 	 */
-	public static String buildCompositionFileCreationCommand(String compositionFolder, String compositionFileName) {
+	public static String buildCompositionFileCreationCommand(String compositionFilePath) {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
 						// volume attachment
-						"-v" + SEP + compositionFolder + ":" + FUNCTIONALITIES_DIR + SEP +
+						"-v" + SEP + compositionFilePath + ":" + FUNCTIONALITIES_DIR + "/" + "composition.js" + SEP +
 						// select docker image to use
 						OPENWHISK_CLI + SEP +
 						// operation define
 						CREATE_COMPOSITION + SEP +
 						// parameters setting
-						FUNCTIONALITIES_DIR + "/" + compositionFileName;
+						FUNCTIONALITIES_DIR + "/" + "composition.js";
 	}
 
-	public static String buildCompositionDeployCommand(String compositionName, String compositionFolder,
-													   String compositionJsonName) {
+	/**
+	 * Builds OpenWhisk CLI command for composition deploy
+	 * @param compositionName name of the new composition
+	 * @param compositionJsonPath absolute path of the json file containing the composition description
+	 * @return command as string
+	 */
+	public static String buildCompositionDeployCommand(String compositionName, String compositionJsonPath) {
 
 		return 	// command beginning
 				PREAMBLE + SEP +
 						// volume attachment
-						"-v" + SEP + compositionFolder + ":" + FUNCTIONALITIES_DIR + SEP +
+						"-v" + SEP + compositionJsonPath + ":" + FUNCTIONALITIES_DIR + "/" + "composition.json" + SEP +
 						// select docker image to use
 						OPENWHISK_CLI + SEP +
 						// operation define
 						DEPLOY_COMPOSITION + SEP +
 						// parameters setting
 						compositionName + SEP +
-						FUNCTIONALITIES_DIR + "/" + compositionJsonName + SEP +
+						FUNCTIONALITIES_DIR + "/" + "composition.json" + SEP +
+						// configuration binding
+						OPENWHISK_AUTH_CLOSURE;
+	}
+
+	/**
+	 * Builds OpenWhisk CLI command to enable composition web reachability
+	 * @param compositionName name of the composition
+	 * @return command as string
+	 */
+	public static String buildCompositionWebEnableCommand(String compositionName) {
+
+		return 	// command beginning
+				PREAMBLE + SEP +
+						// select docker image to use
+						OPENWHISK_CLI + SEP +
+						// operation define
+						UPDATE_ACTION + SEP +
+						// parameters setting
+						compositionName + SEP +
 						"--web" + SEP + "true" + SEP +
 						// configuration binding
 						OPENWHISK_AUTH_CLOSURE;
@@ -194,12 +222,5 @@ public class OpenWhiskCommandUtility extends CommandUtility {
 		} else {
 			return functionalityName;
 		}
-	}
-
-	// TODO: remove
-	public static void main(String[] args) {
-		System.out.println(buildCompositionFileCreationCommand("/Users/francescomarino/Desktop/example", "composition.js"));
-		System.out.println(buildCompositionDeployCommand("prova", "/Users/francescomarino/Desktop/example", "composition.json"));
-		System.out.println(buildActionDeletionCommand("prova"));
 	}
 }

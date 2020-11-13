@@ -605,21 +605,12 @@ public class FunctionCommandExecutor extends CommandExecutor {
 
 			process.destroy();
 
-			switch (functionality) {
-				case 0:
-					// handler
-					// TODO: implement composition compatibility
-					//CompositionsRepositoryDAO.persistGoogleHandler(functionName, url, region);
-					break;
-				case 1:
-					// function to persist
-					FunctionsRepositoryDAO.persistOpenWhisk(functionName, url);
-					break;
-				default:
-					break;
+			if (functionality == 1) {
+				// function to persist
+				FunctionsRepositoryDAO.persistOpenWhisk(functionName, url);
 			}
 
-			return url;
+			return functionName;
 		} catch (InterruptedException | IOException e) {
 			System.err.println("Could not deploy function '" + functionName + "': " + e.getMessage());
 			return "";
@@ -801,7 +792,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	}
 
 	/**
-	 * Removes a function from Open Whisk
+	 * Removes a function from OpenWhisk
 	 * @param functionName name of the function to remove
 	 * @throws IOException exception related to process execution
 	 * @throws InterruptedException exception related to Thread management
@@ -817,7 +808,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 
 		if (process.waitFor() != 0) {
-			System.err.println("Could not delete Open Whisk function '" + functionName + "'");
+			System.err.println("Could not delete OpenWhisk function '" + functionName + "'");
 		} else {
 			System.out.println("'" + functionName + "' function removed!");
 		}
@@ -826,19 +817,19 @@ public class FunctionCommandExecutor extends CommandExecutor {
 	}
 
 	/**
-	 * Removes every function from Open Whisk
+	 * Removes every function from OpenWhisk
 	 */
 	public static void cleanupOpenWhiskFunctions() {
 
 		try {
 			DockerExecutor.checkDocker();
 		} catch (DockerException e) {
-			System.err.println("Could not cleanup Open Whisk Functions: " + e.getMessage());
+			System.err.println("Could not cleanup OpenWhisk Functions: " + e.getMessage());
 			return;
 		}
 
 		System.out.println("\n" + "\u001B[33m" +
-				"Cleaning up Open Whisk functions environment..." +
+				"Cleaning up OpenWhisk functions environment..." +
 				"\u001B[0m" + "\n");
 
 		List<CloudEntityData> toRemove = FunctionsRepositoryDAO.getOpenWhisks();
@@ -854,7 +845,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			}
 		}
 
-		System.out.println("\u001B[32m" + "\nOpen Whisk cleanup completed!\n" + "\u001B[0m");
+		System.out.println("\u001B[32m" + "\nOpenWhisk cleanup completed!\n" + "\u001B[0m");
 
 		FunctionsRepositoryDAO.dropOpenWhisk();
 	}
