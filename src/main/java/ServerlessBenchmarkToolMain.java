@@ -4,8 +4,9 @@ import cmd.functionality_commands.*;
 @SuppressWarnings({"DuplicatedCode", "SpellCheckingInspection"})
 public class ServerlessBenchmarkToolMain {
 
-	private static final int OPERATION_SELECTION = 5;
 	private static final boolean OPENWHISK_DEPLOY = true;
+
+	private static final int OPERATION_SELECTION = 5;
 
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
