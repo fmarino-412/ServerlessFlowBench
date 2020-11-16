@@ -14,4 +14,6 @@ def ow_handler(request):
 		}
 
 	# prepare and return response
-	return "face" in result
+	return {
+		'body': "person" in result
+	}

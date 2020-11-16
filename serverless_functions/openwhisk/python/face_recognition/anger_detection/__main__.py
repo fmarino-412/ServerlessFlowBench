@@ -19,7 +19,9 @@ def ow_handler(request):
 		}
 
 	# perform image analysis and return response
-	print(detect_anger(url))
+	return {
+		'body': detect_anger(url)
+	}
 
 
 def detect_anger(image) -> bool:

@@ -21,8 +21,8 @@
 /serverless_functions/*/java/*/target/
 /serverless_functions/*/java/*/*/target/
 /serverless_functions/*/node/*/*/node_modules/
-/serverless_functions/*/python/*/*/venv/
-/serverless_functions/*/python/*/venv/
+/serverless_functions/*/python/*/*/virtualenv/
+/serverless_functions/*/python/*/virtualenv/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

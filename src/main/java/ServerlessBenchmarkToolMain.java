@@ -1033,65 +1033,104 @@ public class ServerlessBenchmarkToolMain {
 
 		cleanup();
 
+		/*FunctionCommandExecutor.deployOnOpenWhisk("input-provider",
+				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+				"ow_handler",
+				30,
+				256,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+						"_project/serverless_functions/openwhisk/python/face_recognition",
+				"input_provider.zip");
 
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"index.owHandler", "index.owHandler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
+		FunctionCommandExecutor.deployOnOpenWhisk("image-recognition",
+				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+				"ow_handler",
+				30,
+				512,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+						"_project/serverless_functions/openwhisk/python/face_recognition",
+				"image_recognition.zip");
 
-			CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/openwhisk/node/basic_test_composition",
-					"step.js",
-					functionNames,
-					OpenWhiskCommandUtility.NODE_10_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					zipFileNames);
+		FunctionCommandExecutor.deployOnOpenWhisk("face-checker",
+				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+				"ow_handler",
+				30,
+				256,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+						"_project/serverless_functions/openwhisk/python/face_recognition",
+				"face_checker.zip");
+
+		FunctionCommandExecutor.deployOnOpenWhisk("anger-detection",
+				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+				"ow_handler",
+				30,
+				512,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+						"_project/serverless_functions/openwhisk/python/face_recognition",
+				"anger_detection.zip");
+
+		FunctionCommandExecutor.deployOnOpenWhisk("anger",
+				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+				"ow_handler",
+				30,
+				256,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+						"_project/serverless_functions/openwhisk/python/face_recognition",
+				"anger.zip");
+
+		FunctionCommandExecutor.deployOnOpenWhisk("no-anger",
+				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+				"ow_handler",
+				30,
+				256,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+						"_project/serverless_functions/openwhisk/python/face_recognition",
+				"no_anger.zip");
+
+		FunctionCommandExecutor.deployOnOpenWhisk("not-face",
+				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+				"ow_handler",
+				30,
+				256,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+						"_project/serverless_functions/openwhisk/python/face_recognition",
+				"not_face.zip");
+
+		FunctionCommandExecutor.deployOnOpenWhisk("error",
+				OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+				"ow_handler",
+				30,
+				256,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+						"_project/serverless_functions/openwhisk/python/face_recognition",
+				"error.zip");*/
+
+		if (true) {
+
+			{
+				String[] functionNames = {"input-provider", "image-recognition", "face-checker", "anger-detection", "anger",
+						"no-anger", "not-face", "error"};
+				String[] entryPoints = {"ow_handler", "ow_handler", "ow_handler", "ow_handler", "ow_handler", "ow_handler",
+						"ow_handler", "ow_handler"};
+				Integer[] timeouts = {30, 30, 30, 30, 30, 30, 30, 30};
+				// 1024 mb not available
+				Integer[] memories = {256, 500, 256, 500, 256, 256, 256, 256};
+				String[] zipFileNames = {"input_provider.zip", "image_recognition.zip", "face_checker.zip",
+						"anger_detection.zip", "anger.zip", "no_anger.zip", "not_face.zip", "error.zip"};
+
+				CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/openwhisk/python/face_recognition",
+						"step.js",
+						functionNames,
+						OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						zipFileNames);
+			}
+
 		}
-
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] zipFileNames = {"latency_test_java_ow-1.0.jar", "cpu_test_java_ow-1.0.jar"};
-
-			CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/openwhisk/java/basic_test_composition",
-					"step.js",
-					functionNames,
-					OpenWhiskCommandUtility.JAVA_8_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					zipFileNames);
-		}
-
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"ow_handler", "ow_handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
-
-			CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/openwhisk/python/basic_test_composition",
-					"step.js",
-					functionNames,
-					OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					zipFileNames);
-		}
-
-
 
 	}
 }
