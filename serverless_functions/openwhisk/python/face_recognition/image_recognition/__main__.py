@@ -43,6 +43,3 @@ def detect_objects_and_scenes(image) -> str:
 		result = result + detection.object_property.lower() + ", "
 	result = result[0: -2]
 	return result
-
-
-ow_handler({'url': 'https://images.freeimages.com/images/large-previews/8c4/requiem-for-a-daily-dream-2-1428558.jpg'})
