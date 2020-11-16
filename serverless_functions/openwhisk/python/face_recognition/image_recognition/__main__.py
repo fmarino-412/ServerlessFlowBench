@@ -14,7 +14,7 @@ def ow_handler(request):
 	else:
 		return {
 			'body': {
-				'execution': 'Error'
+				'error': 'Missing argument error'
 			}
 		}
 
@@ -24,7 +24,6 @@ def ow_handler(request):
 	# prepare and return response
 	return {
 		'body': {
-			'execution': 'Ok',
 			'result': result,
 			'image': url
 		}

@@ -20,7 +20,9 @@
 */target/
 /serverless_functions/*/java/*/target/
 /serverless_functions/*/java/*/*/target/
-/serverless_functions/*/node/*/*/node_modules
+/serverless_functions/*/node/*/*/node_modules/
+/serverless_functions/*/python/*/*/venv/
+/serverless_functions/*/python/*/venv/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -50,8 +52,8 @@ hs_err_pid*
 */venv.bak/
 
 # Privates
-serverless_functions/aws/.aws/credentials
-serverless_functions/gcloud/.credentials/credentials.json
+/serverless_functions/aws/.aws/credentials
+/serverless_functions/gcloud/.credentials/credentials.json
 config.properties
 /serverless_functions/openwhisk/python/*/*/azureconfig.py
 
