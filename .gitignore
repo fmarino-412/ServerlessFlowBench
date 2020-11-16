@@ -21,8 +21,8 @@
 /serverless_functions/*/java/*/target/
 /serverless_functions/*/java/*/*/target/
 /serverless_functions/*/node/*/*/node_modules
-/serverless_functions/openwhisk/python/face_recognition/image_recognition/azureconfig.py
-/serverless_functions/openwhisk/python/face_recognition/anger_detection/azureconfig.py
+/serverless_functions/openwhisk/python/*/*/venv
+/serverless_functions/openwhisk/python/*/venv
 
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
@@ -56,6 +56,8 @@ hs_err_pid*
 serverless_functions/aws/.aws/credentials
 serverless_functions/gcloud/.credentials/credentials.json
 config.properties
+/serverless_functions/openwhisk/python/face_recognition/image_recognition/azureconfig.py
+/serverless_functions/openwhisk/python/face_recognition/anger_detection/azureconfig.py
 
 # Dockers
 docker_env/grafana_storage/*
