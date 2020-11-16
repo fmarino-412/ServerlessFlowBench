@@ -21,6 +21,8 @@
 /serverless_functions/*/java/*/target/
 /serverless_functions/*/java/*/*/target/
 /serverless_functions/*/node/*/*/node_modules
+/serverless_functions/openwhisk/python/face_recognition/image_recognition/azureconfig.py
+/serverless_functions/openwhisk/python/face_recognition/anger_detection/azureconfig.py
 
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
