@@ -6,26 +6,20 @@ from msrest.authentication import CognitiveServicesCredentials
 # noinspection DuplicatedCode
 def ow_handler(request):
 
-	# search for number to factorize in request
-	url = None
-
-	if request.get('url') is not None:
-		url = request.get('url')
+	# search for image url in request
+	if request.get('body').get('url') is not None:
+		url = request.get('body').get('url')
 	else:
-		return {
-			'body': {
-				'error': 'Missing argument error'
-			}
-		}
+		raise Exception('Missing argument in image recognition')
 
 	# perform image analysis
 	result = detect_objects_and_scenes(url)
 
 	# prepare and return response
 	return {
+		'value': "person" in result,
 		'body': {
-			'result': result,
-			'image': url
+			'url': url
 		}
 	}
 

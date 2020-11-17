@@ -6,27 +6,22 @@ from msrest.authentication import CognitiveServicesCredentials
 # noinspection DuplicatedCode
 def ow_handler(request):
 
-	# search for number to factorize in request
-	url = None
-
-	if request.get('image') is not None:
-		url = request.get('image')
+	# search for image url in request
+	if request.get('body').get('url') is not None:
+		url = request.get('body').get('url')
 	else:
-		return {
-			'body': {
-				'error': 'Missing argument error'
-			}
-		}
+		raise Exception('Missing argument in anger detection')
 
 	# perform image analysis and return response
+	result = detect_anger(url)
 	return {
-		'body': detect_anger(url)
+		'value': bool(result)
 	}
 
 
 def detect_anger(image) -> bool:
 
-	# prepare and perform request
+	# prepare request
 	client = FaceClient(azureconfig.endpoint, CognitiveServicesCredentials(azureconfig.key))
 	attributes = ["emotion"]
 	include_id = False

@@ -537,7 +537,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 											String zipFileName, Boolean ignoreSSL, Integer functionality) {
 
 		assert functionality == 1 || functionality == 2;
-		boolean webDeploy = functionality != 2;
+		boolean webDeploy = functionality == 1;
 
 		try {
 			functionName = OpenWhiskCommandUtility.applyRuntimeId(functionName, runtime);
@@ -548,7 +548,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			return "";
 		}
 
-		if (functionality != 2) {
+		if (webDeploy) {
 			System.out.println("\n" + "\u001B[33m" +
 					"Deploying \"" + functionName + "\" to OpenWhisk..." +
 					"\u001B[0m" + "\n");
@@ -580,32 +580,32 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			}
 			process.destroy();
 
-			// start function URL retrieval process execution
-			process = buildCommand(urlGetterCmd).start();
+			if (webDeploy) {
 
-			// create, execute and submit output gobblers
-			UrlFinder urlFinder = new UrlFinder(ignoreSSL);
-			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), urlFinder::findOpenWhiskUrl);
-			errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
+				// start function URL retrieval process execution
+				process = buildCommand(urlGetterCmd).start();
 
-			executorServiceOut.submit(outputGobbler);
-			executorServiceErr.submit(errorGobbler);
+				// create, execute and submit output gobblers
+				UrlFinder urlFinder = new UrlFinder(ignoreSSL);
+				StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), urlFinder::findOpenWhiskUrl);
+				errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 
-			// wait for completion
-			if (process.waitFor() != 0) {
-				System.err.println("Could not deploy function '" + functionName + "'");
-				process.destroy();
-				return "";
-			}
+				executorServiceOut.submit(outputGobbler);
+				executorServiceErr.submit(errorGobbler);
 
-			String url = urlFinder.getResult();
-			if (functionality != 2) {
+				// wait for completion
+				if (process.waitFor() != 0) {
+					System.err.println("Could not deploy function '" + functionName + "'");
+					process.destroy();
+					return "";
+				}
+
+				String url = urlFinder.getResult();
+
 				System.out.println("\u001B[32m" + "Deployed function to: " + url + "\u001B[0m");
-			}
 
-			process.destroy();
+				process.destroy();
 
-			if (functionality == 1) {
 				// function to persist
 				FunctionsRepositoryDAO.persistOpenWhisk(functionName, url);
 			}
