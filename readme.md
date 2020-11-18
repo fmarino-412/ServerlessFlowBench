@@ -1,7 +1,14 @@
 # Serverless Composition Performance Project
+
 Computer Engineering Master's Degree final project @ [University of Rome 'Tor Vergata'](https://en.uniroma2.it/)
 
 Author: [Francesco Marino](https://github.com/francescom412)
+
+The **Serverless Composition Performance Project** is a framework that allows users to:
+
+* deploy **serverless functions** to Amazon Web Services, Google Cloud Platform and Open Whisk (already defined functions are available),
+* deploy **serverless function compositions** to Amazon Web Services, Google Cloud Platform and Open Whisk (as before, altready defined compositions are available) and
+* perform HTTP **bechmarks** on deployed functions and compositions.
 
 <h2>Execution Requirements</h2>
 
