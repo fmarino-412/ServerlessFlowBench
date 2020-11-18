@@ -538,15 +538,12 @@ public class ServerlessBenchmarkToolMain {
 		if (OPENWHISK_DEPLOY) {
 
 			{
-				String[] functionNames = {"input-provider", "image-recognition", "anger-detection", "anger", "no-anger",
-						"not-face", "error"};
-				String[] entryPoints = {"ow_handler", "ow_handler", "ow_handler", "ow_handler", "ow_handler",
-						"ow_handler", "ow_handler"};
-				Integer[] timeouts = {30, 30, 30, 30, 30, 30, 30};
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"ow_handler", "ow_handler"};
+				Integer[] timeouts = {30, 30};
 				// 1024 mb not available
-				Integer[] memories = {256, 500, 500, 256, 256, 256, 256};
-				String[] zipFileNames = {"input_provider.zip", "image_recognition.zip",	"anger_detection.zip",
-						"anger.zip", "no_anger.zip", "not_face.zip", "error.zip"};
+				Integer[] memories = {500, 500};
+				String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
 				CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
 						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
@@ -1057,15 +1054,12 @@ public class ServerlessBenchmarkToolMain {
 		cleanup();
 
 		{
-			String[] functionNames = {"input-provider", "image-recognition", "anger-detection", "anger", "no-anger",
-					"not-face", "error"};
-			String[] entryPoints = {"ow_handler", "ow_handler", "ow_handler", "ow_handler", "ow_handler",
-					"ow_handler", "ow_handler"};
-			Integer[] timeouts = {30, 30, 30, 30, 30, 30, 30};
+			String[] functionNames = {"image-recognition", "anger-detection"};
+			String[] entryPoints = {"ow_handler", "ow_handler"};
+			Integer[] timeouts = {30, 30};
 			// 1024 mb not available
-			Integer[] memories = {256, 500, 500, 256, 256, 256, 256};
-			String[] zipFileNames = {"input_provider.zip", "image_recognition.zip",	"anger_detection.zip",
-					"anger.zip", "no_anger.zip", "not_face.zip", "error.zip"};
+			Integer[] memories = {500, 500};
+			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
 			CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
 					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
