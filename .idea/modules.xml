@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/serverless_functions/openwhisk/java/face_recognition/anger_detection/anger_detection_java_ow.iml" filepath="$PROJECT_DIR$/serverless_functions/openwhisk/java/face_recognition/anger_detection/anger_detection_java_ow.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/face_recognition/anger_detection/anger_detection_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/face_recognition/anger_detection/anger_detection_node_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/node/face_recognition/anger_detection/anger_detection_node_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/node/face_recognition/anger_detection/anger_detection_node_gcp.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/basic_test_composition/cpu_test/cpu_test_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/basic_test_composition/cpu_test/cpu_test_node_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/node/basic_test_composition/cpu_test/cpu_test_node_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/node/basic_test_composition/cpu_test/cpu_test_node_gcp.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/openwhisk/node/basic_test_composition/cpu_test/cpu_test_node_ow.iml" filepath="$PROJECT_DIR$/serverless_functions/openwhisk/node/basic_test_composition/cpu_test/cpu_test_node_ow.iml" />
-      <module fileurl="file://$PROJECT_DIR$/serverless_functions/openwhisk/java/face_recognition/image_recognition/image_recognition_java_ow.iml" filepath="$PROJECT_DIR$/serverless_functions/openwhisk/java/face_recognition/image_recognition/image_recognition_java_ow.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/face_recognition/image_recognition/image_recognition_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/face_recognition/image_recognition/image_recognition_node_aws.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/gcloud/node/face_recognition/image_recognition/image_recognition_node_gcp.iml" filepath="$PROJECT_DIR$/serverless_functions/gcloud/node/face_recognition/image_recognition/image_recognition_node_gcp.iml" />
       <module fileurl="file://$PROJECT_DIR$/serverless_functions/aws/node/cycle_translator/language_detection/language_detection_node_aws.iml" filepath="$PROJECT_DIR$/serverless_functions/aws/node/cycle_translator/language_detection/language_detection_node_aws.iml" />
