@@ -1112,5 +1112,6 @@ public class ServerlessBenchmarkToolMain {
 					memories,
 					zipFileNames);
 		}
+
 	}
 }
