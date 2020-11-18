@@ -84,7 +84,7 @@ key = xxxxxxxxxx
 ```
 
 ### config.properties
-A file named `config.properties` [in the project root](.) with the following structure (filled with valid current information):
+A file named `config.properties` [in the project root](https://github.com/francescom412/serverless_composition_performance_project) with the following structure (filled with valid current information):
 
 ```
 docker_compose_dir=absolute_path_to:docker_env
