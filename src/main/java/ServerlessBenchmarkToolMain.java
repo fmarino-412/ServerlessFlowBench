@@ -733,6 +733,26 @@ public class ServerlessBenchmarkToolMain {
 		if (OPENWHISK_DEPLOY) {
 
 			{
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
+				Integer[] timeouts = {30, 30};
+				// 1024 mb not available
+				Integer[] memories = {500, 500};
+				String[] zipFileNames = {"image_recognition_java_ow-1.0.jar", "anger_detection_java_ow-1.0.jar"};
+
+				CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/openwhisk/java/face_recognition",
+						"step.js",
+						functionNames,
+						OpenWhiskCommandUtility.JAVA_8_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						zipFileNames);
+			}
+
+			{
 				String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
 				String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
 				Integer[] timeouts = {30, 30};
@@ -1073,5 +1093,24 @@ public class ServerlessBenchmarkToolMain {
 					zipFileNames);
 		}
 
+		{
+			String[] functionNames = {"image-recognition", "anger-detection"};
+			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
+			Integer[] timeouts = {30, 30};
+			// 1024 mb not available
+			Integer[] memories = {500, 500};
+			String[] zipFileNames = {"image_recognition_java_ow-1.0.jar", "anger_detection_java_ow-1.0.jar"};
+
+			CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+							"_project/serverless_functions/openwhisk/java/face_recognition",
+					"step.js",
+					functionNames,
+					OpenWhiskCommandUtility.JAVA_8_RUNTIME,
+					entryPoints,
+					timeouts,
+					memories,
+					zipFileNames);
+		}
 	}
 }

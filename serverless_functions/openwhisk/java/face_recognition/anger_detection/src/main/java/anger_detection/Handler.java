@@ -1,5 +1,6 @@
 package anger_detection;
 
+import anger_detection.credentials.AzureConfig;
 import com.google.gson.JsonObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -31,7 +32,7 @@ public class Handler {
 
 		// prepare response
 		JsonObject response = new JsonObject();
-		response.addProperty("value", result);
+		response.addProperty("value", result ? Boolean.TRUE : Boolean.FALSE);
 
 		// return response
 		return response;

@@ -1,13 +1,19 @@
 package image_recognition;
 
 import com.google.gson.JsonObject;
-import com.microsoft.azure.cognitiveservices.vision.computervision.ComputerVisionClient;
-import com.microsoft.azure.cognitiveservices.vision.computervision.ComputerVisionManager;
-import com.microsoft.azure.cognitiveservices.vision.computervision.models.ImageAnalysis;
-import com.microsoft.azure.cognitiveservices.vision.computervision.models.ImageTag;
-import com.microsoft.azure.cognitiveservices.vision.computervision.models.VisualFeatureTypes;
+import image_recognition.credentials.AzureConfig;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.util.Collections;
+import java.net.URI;
 
 public class Handler {
 
@@ -29,29 +35,57 @@ public class Handler {
 		body.addProperty("url", url);
 
 		JsonObject response = new JsonObject();
-		response.addProperty("value", result.contains("person"));
+		response.addProperty("value", result.contains("person") ? Boolean.TRUE : Boolean.FALSE);
 		response.add("body", body);
 
 		// return response
 		return response;
 	}
 
-	private static String detectObjectsAndScenes(String image) {
+	private static String detectObjectsAndScenes(String image) throws Exception {
 
-		// prepare and perform request
-		ComputerVisionClient client = ComputerVisionManager.authenticate(AzureConfig.key)
-				.withEndpoint(AzureConfig.endpoint);
-		ImageAnalysis analysis = client.computerVision().analyzeImage()
-				.withUrl(image)
-				.withVisualFeatures(Collections.singletonList(VisualFeatureTypes.TAGS))
-				.execute();
+		String requestBody = "{\"url\":\"" + image + "\"}";
 
-		// analyze result
-		StringBuilder resultBuilder = new StringBuilder();
-		for (ImageTag tag : analysis.tags()) {
-			resultBuilder.append(tag.name().toLowerCase()).append(", ");
+		HttpClient client = HttpClientBuilder.create().build();
+
+		try {
+			URIBuilder builder = new URIBuilder(AzureConfig.endpoint + "vision/v3.1/analyze");
+
+			// request parameters
+			builder.setParameter("visualFeatures", "Categories,Description");
+
+			// prepare the URI for the REST API call
+			URI uri = builder.build();
+			HttpPost request = new HttpPost(uri);
+
+			// request headers
+			request.setHeader("Content-Type", "application/json");
+			request.setHeader("Ocp-Apim-Subscription-Key", AzureConfig.key);
+
+			// request body
+			StringEntity reqEntity = new StringEntity(requestBody);
+			request.setEntity(reqEntity);
+
+			// execute the REST API call and get the response entity
+			HttpResponse response = client.execute(request);
+			HttpEntity entity = response.getEntity();
+
+			// analyze result
+			if (entity != null) {
+				String jsonString = EntityUtils.toString(entity);
+				JSONArray tags = (new JSONObject(jsonString)).getJSONObject("description").getJSONArray("tags");
+
+				StringBuilder resultBuilder = new StringBuilder();
+				for (int i = 0; i < tags.length(); i++) {
+					resultBuilder.append(tags.get(i).toString()).append(", ");
+				}
+				resultBuilder.delete(resultBuilder.length() - 3, resultBuilder.length() - 1);
+				return resultBuilder.toString();
+			} else {
+				throw new Exception("No result received in anger detection");
+			}
+		} catch (Exception e) {
+			throw new Exception("Error in anger detection HTTP request: " + e.getMessage());
 		}
-		resultBuilder.delete(resultBuilder.length() - 3, resultBuilder.length() - 1);
-		return resultBuilder.toString();
 	}
 }

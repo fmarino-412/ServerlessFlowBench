@@ -54,9 +54,10 @@ hs_err_pid*
 # Privates
 /serverless_functions/aws/.aws/credentials
 /serverless_functions/gcloud/.credentials/credentials.json
-config.properties
 /serverless_functions/openwhisk/python/*/*/azureconfig.py
-/serverless_functions/openwhisk/java/*/*/src/main/java/*/AzureConfig.java
+/serverless_functions/openwhisk/java/face_recognition/anger_detection/src/main/java/anger_detection/credentials/AzureConfig.java
+/serverless_functions/openwhisk/java/face_recognition/image_recognition/src/main/java/image_recognition/credentials/AzureConfig.java
+config.properties
 
 # Dockers
 docker_env/grafana_storage/*
