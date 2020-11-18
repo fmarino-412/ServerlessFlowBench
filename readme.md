@@ -8,7 +8,11 @@ Author: [Francesco Marino](https://github.com/francescom412)
 * [Java Developer Kit (JDK) 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
 * [Docker Desktop](https://www.docker.com/products/docker-desktop)
 * [Amazon Web Services](https://aws.amazon.com/console/) valid and active account
-* [Google Cloud Platform](https://cloud.google.com/) valid and active account
+* [Google Cloud Platform](https://cloud.google.com/) valid account with, at least, the following enabled:
+	* [Build API](https://cloud.google.com/cloud-build)
+	* [Workflows [BETA] API](https://cloud.google.com/workflows)
+	* [Cloud Vision API](https://cloud.google.com/vision)
+	* [Translate API](https://cloud.google.com/translate)
 * \[OPTIONAL\] [Open Whisk](https://openwhisk.apache.org/) running deployment
 * \[OPTIONAL\] [Azure](https://azure.microsoft.com/) valid and active account with Vision API and Face API enabled
 
