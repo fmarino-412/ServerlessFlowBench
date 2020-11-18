@@ -1,6 +1,5 @@
 package anger_detection;
 
-import anger_detection.credentials.AzureConfig;
 import com.google.gson.JsonObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
