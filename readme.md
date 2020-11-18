@@ -10,6 +10,8 @@ The **Serverless Composition Performance Project** is a framework that allows us
 * deploy **serverless function compositions** to Amazon Web Services, Google Cloud Platform and Open Whisk (as before, altready defined compositions are available) and
 * perform HTTP **bechmarks** on deployed functions and compositions.
 
+---
+
 <h2>Execution Requirements</h2>
 
 * [Java Developer Kit (JDK) 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
