@@ -7,14 +7,22 @@ Author: [Francesco Marino](https://github.com/francescom412)
 
 * [Java Developer Kit (JDK) 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
 * [Docker Desktop](https://www.docker.com/products/docker-desktop)
-* [Amazon Web Services](https://aws.amazon.com/console/) valid and active account
+* [Amazon Web Services](https://aws.amazon.com/console/) valid account that can access to the following services:
+	* [AWS Lambda](https://aws.amazon.com/lambda/),
+	* [Amazon API Gateway](https://aws.amazon.com/api-gateway/),
+	* [AWS Step Functions](https://aws.amazon.com/step-functions/),
+	* [Amazon S3](https://aws.amazon.com/it/s3/),
+	* [Amazon Rekognition](https://aws.amazon.com/rekognition/) and
+	* [Amazon Translate](https://aws.amazon.com/translate/).
 * [Google Cloud Platform](https://cloud.google.com/) valid account with, at least, the following enabled:
-	* [Build API](https://cloud.google.com/cloud-build)
-	* [Workflows [BETA] API](https://cloud.google.com/workflows)
-	* [Cloud Vision API](https://cloud.google.com/vision)
-	* [Translate API](https://cloud.google.com/translate)
+	* [Build API](https://cloud.google.com/cloud-build),
+	* [Workflows \[BETA\] API](https://cloud.google.com/workflows),
+	* [Cloud Vision API](https://cloud.google.com/vision) and
+	* [Translate API](https://cloud.google.com/translate).
 * \[OPTIONAL\] [Open Whisk](https://openwhisk.apache.org/) running deployment
-* \[OPTIONAL\] [Azure](https://azure.microsoft.com/) valid and active account with Vision API and Face API enabled
+* \[OPTIONAL\] [Azure](https://azure.microsoft.com/) valid and active account with, at least, the following enabled:
+	* [Vision API](https://azure.microsoft.com/services/cognitive-services/computer-vision/) and
+	* [Face API](https://azure.microsoft.com/services/cognitive-services/face/).
 
 ---
 
@@ -70,8 +78,8 @@ In [`serverless_functions/openwhisk/java/face_recognition/anger_detection/src/ma
 
 ```java
 public class AzureConfig {
-	protected static String endpoint = xxxxxxxxxx;
-	protected static String key = xxxxxxxxxx;
+	protected static String endpoint = "xxxxxxxxxx";
+	protected static String key = "xxxxxxxxxx";
 }
 ```
 
@@ -83,14 +91,14 @@ public class AzureConfig {
 In [`serverless_functions/openwhisk/python/face_recognition/anger_detection`](serverless_functions/openwhisk/python/face_recognition/anger_detection) and [`serverless_functions/openwhisk/python/face_recognition/image_recognition`](serverless_functions/openwhisk/python/face_recognition/image_recognition) a file named `azureconfig.py` with the following structure:
 
 ```python
-endpoint = xxxxxxxxxx
-key = xxxxxxxxxx
+endpoint = "xxxxxxxxxx"
+key = "xxxxxxxxxx"
 ```
 
 ### config.properties
 A file named `config.properties` [in the project root](https://github.com/francescom412/serverless_composition_performance_project) with the following structure (filled with valid current information):
 
-```java
+```properties
 docker_compose_dir=absolute_path_to:docker_env
 
 mysql_ip=localhost
