@@ -28,8 +28,6 @@ Author: [Francesco Marino](https://github.com/francescom412)
 
 <h2>Project structure description</h2>
 
----
-
 <h2>Java Project structure description</h2>
 
 The entire project part was developed using [JetBrains' IntelliJ IDEA](https://www.jetbrains.com/idea/) so it is recommended to open it using this IDE for better code navigation. 
