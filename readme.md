@@ -1,5 +1,5 @@
 # Serverless Composition Performance Project
-Computer Engineering master's degree final project @ University of Rome 'Tor Vergata'
+Computer Engineering Master's Degree final project @ University of Rome 'Tor Vergata'
 
 Author: [Francesco Marino](https://github.com/francescom412)
 
