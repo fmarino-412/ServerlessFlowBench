@@ -14,7 +14,7 @@ Author: [Francesco Marino](https://github.com/francescom412)
 
 ---
 
-<h2>Project structure descritption</h2>
+<h2>Project structure description</h2>
 
 ---
 
@@ -29,7 +29,7 @@ The entire project part was developed using [JetBrains' IntelliJ IDEA](https://w
 Authentication files related to user's active services required to run the application (the ones used in the development process were excluded using `.gitignore` file for privacy related reasons).
 
 ### Amazon Web Services
-A file named `credentials` is required [`serverless_functions/aws/.aws`](serverless_functions/aws/.aws), it should containt AWS account access key and secret. This file has the following structure:
+A file named `credentials` is required [`serverless_functions/aws/.aws`](serverless_functions/aws/.aws), it should contain AWS account access key and secret. This file has the following structure:
 
 ```
 [default]
@@ -39,7 +39,7 @@ aws_secret_access_key=xxxxxxxxxx
 It can be downloaded from AWS Console &#8594; My Security Credentials (in the account menu) &#8594; Access Keys &#8594; New Access Key.
 
 ### Google Cloud Platform
-A file named `credentials.json` is required in [`serverless_functions/gcloud/.credentials`](serverless_functions/gcloud/.credentials), it should containt a Google Cloud Platform service account related info. This file has the following structure:
+A file named `credentials.json` is required in [`serverless_functions/gcloud/.credentials`](serverless_functions/gcloud/.credentials), it should contain a Google Cloud Platform service account related info. This file has the following structure:
 
 ```json
 {
@@ -58,7 +58,7 @@ A file named `credentials.json` is required in [`serverless_functions/gcloud/.cr
 It can be downloaded from Google Cloud Platform Console &#8594; API and services (in the side menu) &#8594; Credentials &#8594; Service accounts (selecting the one with desired authorizations) &#8594; New key.
 
 ### Azure API in Open Whisk (optional)
-These files are needed only if the user needs to execute benchmarks on Open Whisk for the originally defined anger detection workflows. Being every file specific for each function, several version of this information are needed. Strings needed to fill these files can be found from Azure Console &#8594; Resources (in the side menu) &#8594; Choose the specific Cognitive Service resource &#8594; Keys and endpoints.
+These files are needed only if the user needs to execute benchmarks on Open Whisk for the originally defined anger detection workflows. Being every file specific for each function, several versions of this information are needed. Strings needed to fill these files can be found from Azure Console &#8594; Resources (in the side menu) &#8594; Choose the specific Cognitive Service resource &#8594; Keys and endpoints.
 
 <h4>Java:</h4> 
 
@@ -72,7 +72,7 @@ public class AzureConfig {
 ```
 
 <h4>Node.js:</h4>
-<TODO: wirte>
+<TODO: write>
 
 <h4>Python:</h4>
 
@@ -84,7 +84,7 @@ key = xxxxxxxxxx
 ```
 
 ### config.properties
-A file named `config.properties` [in the project root](/) with the following structure (filled with valid current information):
+A file named `config.properties` [in the project root](.) with the following structure (filled with valid current information):
 
 ```
 docker_compose_dir=absolute_path_to:docker_env
