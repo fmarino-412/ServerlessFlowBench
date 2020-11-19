@@ -4,6 +4,8 @@ Computer Engineering Master's Degree final project @ [University of Rome 'Tor Ve
 
 Author: [Francesco Marino](https://github.com/francescom412)
 
+Academic Year: 2019/2020
+
 The **Serverless Composition Performance Project** is a framework that allows users to:
 
 * deploy **serverless functions** to Amazon Web Services, Google Cloud Platform and Open Whisk (already defined functions are available),
