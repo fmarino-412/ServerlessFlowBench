@@ -22,7 +22,6 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.List;
 
 @SuppressWarnings("rawtypes")
 public class Handler implements RequestStreamHandler {
@@ -56,19 +55,20 @@ public class Handler implements RequestStreamHandler {
 			ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
 
 			// objects and scenes detection
-			StringBuilder resultBuilder = new StringBuilder();
-			for (Label label : detectObjectsAndScenes(ByteBuffer.wrap(byteArrayOutputStream.toByteArray()))) {
-				resultBuilder.append(label.getName().toLowerCase()).append(", ");
+			String toRet = detectObjectsAndScenes(ByteBuffer.wrap(byteArrayOutputStream.toByteArray()));
+			if (toRet.contains("face")) {
+				toRet = "face";
+			} else {
+				toRet = "other";
 			}
-			resultBuilder.delete(resultBuilder.length() - 3, resultBuilder.length() - 1);
 
-			returnResult(outputStream, resultBuilder.toString(), url);
+			returnResult(outputStream, toRet, url);
 		} catch (IOException ignored) {
 			returnResult(outputStream, null, null);
 		}
 	}
 
-	private static List<Label> detectObjectsAndScenes(ByteBuffer image) {
+	private static String detectObjectsAndScenes(ByteBuffer image) {
 
 		// prepare request
 		AmazonRekognition client = AmazonRekognitionClientBuilder.defaultClient();
@@ -78,9 +78,15 @@ public class Handler implements RequestStreamHandler {
 				.withMaxLabels(100)
 				.withMinConfidence(70f);
 
-		// perform request and return results
+		// perform request and analyze results
 		DetectLabelsResult result = client.detectLabels(request);
-		return result.getLabels();
+
+		StringBuilder resultBuilder = new StringBuilder();
+		for (Label label : result.getLabels()) {
+			resultBuilder.append(label.getName().toLowerCase()).append(", ");
+		}
+		resultBuilder.delete(resultBuilder.length() - 3, resultBuilder.length() - 1);
+		return resultBuilder.toString();
 	}
 
 	private static void returnResult(@NotNull OutputStream outputStream, String result, String url) {

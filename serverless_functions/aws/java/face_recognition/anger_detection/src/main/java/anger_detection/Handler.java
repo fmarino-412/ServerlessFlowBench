@@ -85,9 +85,9 @@ public class Handler implements RequestStreamHandler {
 		if (detectionResult == null) {
 			result = "Error";
 		} else if (detectionResult) {
-			result = "True";
+			result = Boolean.TRUE.toString();
 		} else {
-			result = "False";
+			result = Boolean.FALSE.toString();
 		}
 
 		// response writing
