@@ -91,7 +91,15 @@ public class AzureConfig {
 ```
 
 <h4>Node.js:</h4>
-<TODO: write>
+
+In [`serverless_functions/openwhisk/node/face_recognition/anger_detection`](serverless_functions/openwhisk/node/face_recognition/anger_detection) and [`serverless_functions/openwhisk/node/face_recognition/image_recognition`](serverless_functions/openwhisk/node/face_recognition/image_recognition) a file named `azureconfig.js` with the following structure:
+
+```javascript
+module.exports = {
+    endpoint: "xxxxxxxxxx",
+    key: "xxxxxxxxxx"
+};
+```
 
 <h4>Python:</h4>
 
