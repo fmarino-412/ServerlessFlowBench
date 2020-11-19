@@ -4,6 +4,7 @@ import urllib.request as request
 REKOGNITION_CLIENT = boto3.client("rekognition")
 
 
+# noinspection DuplicatedCode
 def lambda_handler(event, context):
 
 	# search for url in request

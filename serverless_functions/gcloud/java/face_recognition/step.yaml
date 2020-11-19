@@ -1,24 +1,19 @@
-- prepareInput:
-    assign:
-      - image_analyze_url_start: __PLACEHOLDER__
-      - image_to_analize: ?url=https://images.freeimages.com/images/large-previews/8c4/requiem-for-a-daily-dream-2-1428558.jpg
-      - image_analyze_url: ${image_analyze_url_start + image_to_analize}
 - analyzeImage:
     call: http.get
     args:
-      url: ${image_analyze_url}
+      url: __PLACEHOLDER__?url=https://images.freeimages.com/images/large-previews/8c4/requiem-for-a-daily-dream-2-1428558.jpg
     result: FaceRecognitionResult
 - conditionalFaceSwitch:
     switch:
-      - condition: ${FaceRecognitionResult.body == "Error"}
+      - condition: ${FaceRecognitionResult.body.result == "Error"}
         next: error
-      - condition: ${FaceRecognitionResult.body == "face"}
+      - condition: ${FaceRecognitionResult.body.result == "face"}
         next: prepareAnger
     next: notFace
 - prepareAnger:
     assign:
       - face_analyze_url_start: __PLACEHOLDER__
-      - face_analyze_url: ${face_analyze_url_start + image_to_analize}
+      - face_analyze_url: ${face_analyze_url_start + FaceRecognitionResult.body.image}
 - detectAnger:
     call: http.get
     args:

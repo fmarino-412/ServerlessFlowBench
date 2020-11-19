@@ -19,10 +19,13 @@ public class Handler implements HttpFunction {
 	@Override
 	public void service(HttpRequest httpRequest, HttpResponse httpResponse) throws Exception {
 
+		// set up response type
+		httpResponse.setContentType("application/json");
+
 		// request reading, search for image url in request
 		String url = httpRequest.getFirstQueryParameter("url").orElse("");
 		if (url.equals("")) {
-			returnResult(httpResponse.getWriter(), null);
+			returnResult(httpResponse.getWriter(), null, null);
 			return;
 		}
 
@@ -39,13 +42,13 @@ public class Handler implements HttpFunction {
 			toRet = "other";
 		}
 
-		returnResult(httpResponse.getWriter(), toRet);
+		returnResult(httpResponse.getWriter(), toRet, url);
 	}
 
 	private static String detectObjectsAndScenes(ByteString image) {
 		try {
 			// prepare request
-			JsonObjectBuilder result = Json.createObjectBuilder();
+			StringBuilder resultBuilder = new StringBuilder();
 			Image img = Image.newBuilder().setContent(image).build();
 			Feature feat = Feature.newBuilder().setType(Feature.Type.LABEL_DETECTION).build();
 			AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
@@ -59,26 +62,31 @@ public class Handler implements HttpFunction {
 					return null;
 				}
 				for (EntityAnnotation label : response.getLabelAnnotationsList()) {
-					result.add(label.getDescription().toLowerCase(), label.getScore() * 100f);
+					resultBuilder.append(label.getDescription().toLowerCase()).append(", ");
 				}
+				resultBuilder.delete(resultBuilder.length() - 3, resultBuilder.length() - 1);
 			}
 
-			return result.build().toString();
+			return resultBuilder.toString();
 		} catch (IOException e) {
 			return null;
 		}
 
 	}
 
-	private static void returnResult(@NotNull BufferedWriter outputWriter, String result)
+	private static void returnResult(@NotNull BufferedWriter outputWriter, String result, String url)
 			throws IOException {
 
 		// response creation
-		if (result == null) {
-			result = "Error";
+		JsonObjectBuilder json = Json.createObjectBuilder();
+		if (result == null || url == null) {
+			json.add("result", "Error");
+		} else {
+			json.add("result", result);
+			json.add("image", url);
 		}
 
 		// response writing
-		outputWriter.write(result);
+		outputWriter.write(json.build().toString());
 	}
 }
