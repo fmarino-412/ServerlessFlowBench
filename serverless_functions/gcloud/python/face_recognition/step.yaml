@@ -5,14 +5,14 @@
     result: FaceRecognitionResult
 - conditionalFaceSwitch:
     switch:
-      - condition: ${"Error" in FaceRecognitionResult.body.result}
+      - condition: ${FaceRecognitionResult.body.result == "Error"}
         next: error
-      - condition: ${"face" in FaceRecognitionResult.body.result}
+      - condition: ${FaceRecognitionResult.body.result == "face"}
         next: prepareAnger
     next: notFace
 - prepareAnger:
     assign:
-      - anger_url_start: __PLACEHOLDER__
+      - anger_url_start: __PLACEHOLDER__?url=
       - anger_url: ${anger_url_start + FaceRecognitionResult.body.image}
 - detectAnger:
     call: http.get
@@ -23,9 +23,9 @@
     switch:
       - condition: ${AngerRecognitionResult.body == "Error"}
         next: error
-      - condition: ${AngerRecognitionResult.body == "True"}
-        next: angry
-    next: calm
+      - condition: ${AngerRecognitionResult.body == "False"}
+        next: calm
+    next: angry
 - notFace:
     return: "The image you provided does not contain a face"
 - error:

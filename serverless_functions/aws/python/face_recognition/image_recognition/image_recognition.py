@@ -28,6 +28,10 @@ def lambda_handler(event, context):
 
 	# perform image analysis
 	result = detect_objects_and_scenes(image)
+	if "face" in result:
+		result = "face"
+	else:
+		result = "other"
 
 	# prepare and return response
 	return {

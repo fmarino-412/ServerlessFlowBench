@@ -12,7 +12,7 @@ def gc_functions_handler(request):
 		url = request.args.get('url')
 	else:
 		return {
-			'result': {"Error": "url error"}
+			'result': "Error"
 		}
 
 	# image download
@@ -25,6 +25,10 @@ def gc_functions_handler(request):
 
 	# perform image analysis
 	result = detect_object_and_scenes(image)
+	if "face" in result:
+		result = "face"
+	else:
+		result = "other"
 
 	# prepare and return response
 	return {
@@ -41,8 +45,8 @@ def detect_object_and_scenes(image) -> dict:
 
 	# perform request and analyze result
 	response = client.label_detection(image=image)
-	result = {}
+	result = ""
 	for label in response.label_annotations:
-		result[(label.description).lower()] = str(label.score*100.)
-
+		result = result + (label.description).lower()
+	result = result[0: -2]
 	return result

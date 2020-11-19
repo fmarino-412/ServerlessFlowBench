@@ -24,7 +24,7 @@
         },
         {
           "Variable": "$.Payload.result",
-          "StringMatches": "*face*",
+          "StringEquals": "face",
           "Next": "Expression recognition"
         }
       ],
@@ -57,7 +57,7 @@
         },
         {
           "Variable": "$.Payload",
-          "BooleanEquals": false,
+          "StringEquals": "False",
           "Next": "Calm"
         }
       ],

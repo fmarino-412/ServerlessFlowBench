@@ -29,7 +29,7 @@ def lambda_handler(event, context):
 	return detect_anger(image)
 
 
-def detect_anger(image) -> bool:
+def detect_anger(image) -> str:
 
 	# prepare and perform request
 	response = REKOGNITION_CLIENT.detect_faces(
@@ -43,6 +43,6 @@ def detect_anger(image) -> bool:
 	for face_detail in response['FaceDetails']:
 		for emotion in face_detail['Emotions']:
 			if emotion['Type'] == "ANGRY" and float(emotion['Confidence']) >= 60:
-				return True
+				return str(True)
 
-	return False
+	return str(False)

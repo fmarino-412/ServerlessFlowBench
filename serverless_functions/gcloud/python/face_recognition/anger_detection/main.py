@@ -34,7 +34,6 @@ def detect_anger(image) -> str:
 	# perform request and analyze result
 	response = client.face_detection(image=image)
 	for face in response.face_annotations:
-		if face.anger_likelihood == vision.enums.Likelihood.LIKELY or \
-				face.anger_likelihood == vision.enums.Likelihood.VERY_LIKELY:
+		if face.anger_likelihood == "LIKELY" or face.anger_likelihood == "VERY_LIKELY":
 			return str(True)
 	return str(False)

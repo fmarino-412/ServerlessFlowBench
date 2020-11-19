@@ -12,7 +12,7 @@
     next: notFace
 - prepareAnger:
     assign:
-      - face_analyze_url_start: __PLACEHOLDER__
+      - face_analyze_url_start: __PLACEHOLDER__?url=
       - face_analyze_url: ${face_analyze_url_start + FaceRecognitionResult.body.image}
 - detectAnger:
     call: http.get
@@ -23,9 +23,9 @@
     switch:
       - condition: ${AngerRecognitionResult.body == "Error"}
         next: error
-      - condition: ${AngerRecognitionResult.body == "true"}
-        next: angry
-    next: calm
+      - condition: ${AngerRecognitionResult.body == "false"}
+        next: calm
+    next: angry
 - notFace:
     return: "The image you provided does not contain a face"
 - error:

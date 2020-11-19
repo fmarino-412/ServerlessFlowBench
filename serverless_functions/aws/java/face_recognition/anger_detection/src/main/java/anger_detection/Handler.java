@@ -56,7 +56,7 @@ public class Handler implements RequestStreamHandler {
 		}
 	}
 
-	private static boolean detectAnger(ByteBuffer image) {
+	private static Boolean detectAnger(ByteBuffer image) {
 
 		// prepare request
 		AmazonRekognition client = AmazonRekognitionClientBuilder.defaultClient();
@@ -84,10 +84,8 @@ public class Handler implements RequestStreamHandler {
 		String result;
 		if (detectionResult == null) {
 			result = "Error";
-		} else if (detectionResult) {
-			result = Boolean.TRUE.toString();
 		} else {
-			result = Boolean.FALSE.toString();
+			result = detectionResult.toString();
 		}
 
 		// response writing

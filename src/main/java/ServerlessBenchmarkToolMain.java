@@ -1093,27 +1093,5 @@ public class ServerlessBenchmarkToolMain {
 
 		cleanup();
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"image_recognition", "anger_detection"};
-
-			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/java/face_recognition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.JAVA_11_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
-
 	}
 }
