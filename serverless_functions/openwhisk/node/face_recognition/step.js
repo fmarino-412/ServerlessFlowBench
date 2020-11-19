@@ -28,4 +28,4 @@ module.exports = composer.try(
         'body': {
             'result': 'An error occurred'
         }
-    }))
+    }));
