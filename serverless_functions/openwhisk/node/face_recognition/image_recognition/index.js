@@ -9,7 +9,7 @@ exports.owHandler = function (params) {
         throw new Error("Missing argument in image recognition");
     }
 
-    // perform image analysis
+    // execute request and perform image analysis
     return new Promise(function (resolve, reject) {
         detectObjectsAndScenes(url, function (response) {
             resolve({

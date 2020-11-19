@@ -928,6 +928,26 @@ public class ServerlessBenchmarkToolMain {
 		if (OPENWHISK_DEPLOY) {
 
 			{
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"index.owHandler", "index.owHandler"};
+				Integer[] timeouts = {30, 30};
+				// 1024 mb not available
+				Integer[] memories = {500, 500};
+				String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
+
+				CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/openwhisk/node/face_recognition",
+						"step.js",
+						functionNames,
+						OpenWhiskCommandUtility.NODE_10_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						zipFileNames);
+			}
+
+			{
 				String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
 				String[] entryPoints = {"index.owHandler", "index.owHandler"};
 				Integer[] timeouts = {30, 30};
@@ -1073,16 +1093,7 @@ public class ServerlessBenchmarkToolMain {
 
 		cleanup();
 
-		FunctionCommandExecutor.deployOnOpenWhisk("image-recognition",
-				OpenWhiskCommandUtility.NODE_10_RUNTIME,
-				"index.owHandler",
-				30,
-				500,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/openwhisk/node/face_recognition",
-				"image_recognition.zip");
-
-		if (!true) {
+		if (true) {
 
 			{
 				String[] functionNames = {"image-recognition", "anger-detection"};
@@ -1118,6 +1129,26 @@ public class ServerlessBenchmarkToolMain {
 						"step.js",
 						functionNames,
 						OpenWhiskCommandUtility.JAVA_8_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						zipFileNames);
+			}
+
+			{
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"index.owHandler", "index.owHandler"};
+				Integer[] timeouts = {30, 30};
+				// 1024 mb not available
+				Integer[] memories = {500, 500};
+				String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
+
+				CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/openwhisk/node/face_recognition",
+						"step.js",
+						functionNames,
+						OpenWhiskCommandUtility.NODE_10_RUNTIME,
 						entryPoints,
 						timeouts,
 						memories,

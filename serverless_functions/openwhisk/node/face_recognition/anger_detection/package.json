@@ -4,5 +4,8 @@
   "description": "Anger detection for OpenWhisk node runtime",
   "main": "index.js",
   "author": "Francesco Marino",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.0"
+  }
 }
