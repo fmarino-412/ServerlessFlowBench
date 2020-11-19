@@ -1,0 +1,12 @@
+{
+  "name": "image_recognition",
+  "version": "1.0.0",
+  "description": "Image recognition for OpenWhisk node runtime",
+  "main": "index.js",
+  "author": "Francesco Marino",
+  "license": "ISC",
+  "devDependencies": {
+    "@azure/cognitiveservices-computervision": "^7.1.0",
+    "@azure/ms-rest-js": "^2.1.0"
+  }
+}

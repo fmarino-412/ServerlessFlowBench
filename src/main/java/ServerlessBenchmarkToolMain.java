@@ -1073,44 +1073,57 @@ public class ServerlessBenchmarkToolMain {
 
 		cleanup();
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"ow_handler", "ow_handler"};
-			Integer[] timeouts = {30, 30};
-			// 1024 mb not available
-			Integer[] memories = {500, 500};
-			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
+		FunctionCommandExecutor.deployOnOpenWhisk("image-recognition",
+				OpenWhiskCommandUtility.NODE_10_RUNTIME,
+				"index.owHandler",
+				30,
+				500,
+				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+						"/serverless_functions/openwhisk/node/face_recognition",
+				"image_recognition.zip");
 
-			CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/openwhisk/python/face_recognition",
-					"step.js",
-					functionNames,
-					OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					zipFileNames);
-		}
+		if (!true) {
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
-			Integer[] timeouts = {30, 30};
-			// 1024 mb not available
-			Integer[] memories = {500, 500};
-			String[] zipFileNames = {"image_recognition_java_ow-1.0.jar", "anger_detection_java_ow-1.0.jar"};
+			{
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"ow_handler", "ow_handler"};
+				Integer[] timeouts = {30, 30};
+				// 1024 mb not available
+				Integer[] memories = {500, 500};
+				String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
-			CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/openwhisk/java/face_recognition",
-					"step.js",
-					functionNames,
-					OpenWhiskCommandUtility.JAVA_8_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					zipFileNames);
+				CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/openwhisk/python/face_recognition",
+						"step.js",
+						functionNames,
+						OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						zipFileNames);
+			}
+
+			{
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
+				Integer[] timeouts = {30, 30};
+				// 1024 mb not available
+				Integer[] memories = {500, 500};
+				String[] zipFileNames = {"image_recognition_java_ow-1.0.jar", "anger_detection_java_ow-1.0.jar"};
+
+				CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/openwhisk/java/face_recognition",
+						"step.js",
+						functionNames,
+						OpenWhiskCommandUtility.JAVA_8_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						zipFileNames);
+			}
+
 		}
 
 	}

@@ -56,6 +56,7 @@ hs_err_pid*
 /serverless_functions/gcloud/.credentials/credentials.json
 /serverless_functions/openwhisk/python/*/*/azureconfig.py
 /serverless_functions/openwhisk/java/*/*/src/main/java/*/AzureConfig.java
+/serverless_functions/openwhisk/node/*/*/azureconfig.js
 config.properties
 
 # Dockers
