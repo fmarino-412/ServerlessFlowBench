@@ -60,17 +60,16 @@ function detectObjectsAndScenes(image, url, res) {
     client.annotateImage(request).then((result) => {
 
         result = JSON.parse(JSON.stringify(result));
-        const labels = result[0].labelAnnotations;
 
         let string = "";
-        labels.forEach((label) => {
-            string = string + label.description.toLowerCase() + ", "
-        })
+        result.forEach((element) => {
+            element.labelAnnotations.forEach((label) => {
+                string = string + label.description.toLowerCase() + ", "
+            });
+        });
+
 
         retResult(string.slice(0, string.length - 2), url, res);
 
     }).catch(() => {res.send("Error");});
-
-
-
 }
