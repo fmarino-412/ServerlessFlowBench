@@ -9,7 +9,7 @@ public class UrlFinder {
 	private String result;
 
 	// ignore SSL/TLS certificate validation in OpenWhisk
-	private boolean openWhiskIgnoreSSL;
+	private final boolean openWhiskIgnoreSSL;
 
 	/**
 	 * Default constructor

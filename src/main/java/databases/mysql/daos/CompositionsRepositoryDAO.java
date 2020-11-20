@@ -514,8 +514,8 @@ public class CompositionsRepositoryDAO extends DAO {
 
 			preparedStatement = connection.prepareStatement(INSERT_OPENWHISK_COMPOSITION_FUNCTION);
 
-			for (int i = 0; i < functionNames.length; i++) {
-				preparedStatement.setString(1, functionNames[i]);
+			for (String functionName : functionNames) {
+				preparedStatement.setString(1, functionName);
 				preparedStatement.setString(2, compositionName);
 				preparedStatement.addBatch();
 			}

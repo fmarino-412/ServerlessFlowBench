@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 /**
  * Utility for CLI cloud NoSQL storage related command execution
  */
+@SuppressWarnings("unused")
 public class TablesCommandExecutor extends CommandExecutor {
 
 	/**
