@@ -1,13 +1,29 @@
 import cmd.benchmark_commands.BenchmarkCommandExecutor;
 import cmd.functionality_commands.*;
 
+/**
+ * Application entry point class. This class garantees the use of the serverless benchmarking tool.
+ */
 @SuppressWarnings({"DuplicatedCode", "SpellCheckingInspection"})
 public class ServerlessBenchmarkToolMain {
 
+	/**
+	 * Execution parameters, can be changed
+	 */
+	// execute deployment on Google Cloud Platform
+	private static final boolean GOOGLE_DEPLOY = true;
+	// execute deployment on Amazon Web Services
+	private static final boolean AMAZON_DEPLOY = true;
+	// execute deployment on Open Whisk
 	private static final boolean OPENWHISK_DEPLOY = true;
-
+	// select operation to perform
 	private static final int OPERATION_SELECTION = 5;
 
+
+	/**
+	 * Application entry point method, executes functionality expressed in OPERATION_SELECTION
+	 * @param args default argument structure, none is needed
+	 */
 	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) {
 
@@ -35,6 +51,9 @@ public class ServerlessBenchmarkToolMain {
 		}
 	}
 
+	/**
+	 * Performs a complete serverless environments cleanup
+	 */
 	private static void cleanup() {
 		cleanupFunctions();
 		cleanupCompositions();
@@ -42,6 +61,9 @@ public class ServerlessBenchmarkToolMain {
 		cleanupBuckets();
 	}
 
+	/**
+	 * Deletes serverless functions
+	 */
 	private static void cleanupFunctions() {
 		System.out.println("\u001B[35m" + "\n\nRemoving benchmark functions...\n" + "\u001B[0m");
 		FunctionCommandExecutor.cleanupGoogleCloudFunctions();
@@ -49,6 +71,9 @@ public class ServerlessBenchmarkToolMain {
 		FunctionCommandExecutor.cleanupOpenWhiskFunctions();
 	}
 
+	/**
+	 * Deletes serverless compositions
+	 */
 	private static void cleanupCompositions() {
 		System.out.println("\u001B[35m" + "\n\nRemoving benchmark compositions...\n" + "\u001B[0m");
 		CompositionCommandExecutor.cleanupGoogleComposition();
@@ -56,88 +81,108 @@ public class ServerlessBenchmarkToolMain {
 		CompositionCommandExecutor.cleanupOpenWhiskComposition();
 	}
 
+	/**
+	 * Deletes cloud tables
+	 */
 	private static void cleanupTables() {
 		System.out.println("\u001B[35m" + "\n\nRemoving cloud tables...\n" + "\u001B[0m");
 		TablesCommandExecutor.cleanupGoogleCloudTables();
 		TablesCommandExecutor.cleanupAmazonCloudTables();
 	}
 
+	/**
+	 * Deletes cloud storage buckets
+	 */
 	private static void cleanupBuckets() {
 		System.out.println("\u001B[35m" + "\n\nRemoving cloud buckets...\n" + "\u001B[0m");
 		BucketsCommandExecutor.cleanupGoogleCloudBuckets();
 		BucketsCommandExecutor.cleanupAmazonCloudBuckets();
 	}
 
+	/**
+	 * Performs deployment of serverless functions and compositions
+	 */
 	private static void deploy() {
 		deployFunctions();
 		deployCompositions();
 	}
 
+	/**
+	 * Deploys serverless functions
+	 */
 	private static void deployFunctions() {
 		System.out.println("\u001B[35m" + "\n\nDeploying benchmark functions...\n" + "\u001B[0m");
 
 		/* Python on Google Cloud Platform */
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/basic_test_composition/latency_test");
+		if (GOOGLE_DEPLOY) {
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/basic_test_composition/cpu_test");
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					"gc_functions_handler",
+					30,
+					128,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/basic_test_composition/latency_test");
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/memory_test");
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					"gc_functions_handler",
+					30,
+					128,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/basic_test_composition/cpu_test");
+
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					"gc_functions_handler",
+					30,
+					128,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/memory_test");
+
+		}
 
 
 
 		/* Python on Amazon Web Services */
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
-				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-				"latency_test.lambda_handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/basic_test_composition/latency_test",
-				"latency_test.zip");
+		if (AMAZON_DEPLOY) {
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
-				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-				"cpu_test.lambda_handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/basic_test_composition/cpu_test",
-				"cpu_test.zip");
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"latency_test.lambda_handler",
+					30,
+					128,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/python/basic_test_composition/latency_test",
+					"latency_test.zip");
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
-				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-				"memory_test.lambda_handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/memory_test",
-				"memory_test.zip");
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"cpu_test.lambda_handler",
+					30,
+					128,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/python/basic_test_composition/cpu_test",
+					"cpu_test.zip");
+
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"memory_test.lambda_handler",
+					30,
+					128,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/python/memory_test",
+					"memory_test.zip");
+
+		}
 
 
 
@@ -177,66 +222,74 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Java on Google Cloud Platform */
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
-				GoogleCommandUtility.JAVA_11_RUNTIME,
-				"latency_test.Handler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/java/basic_test_composition/latency_test");
+		if (GOOGLE_DEPLOY) {
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
-				GoogleCommandUtility.JAVA_11_RUNTIME,
-				"cpu_test.Handler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/java/basic_test_composition/cpu_test");
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
+					GoogleCommandUtility.JAVA_11_RUNTIME,
+					"latency_test.Handler",
+					30,
+					128,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/java/basic_test_composition/latency_test");
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
-				GoogleCommandUtility.JAVA_11_RUNTIME,
-				"memory_test.Handler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/java/memory_test");
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
+					GoogleCommandUtility.JAVA_11_RUNTIME,
+					"cpu_test.Handler",
+					30,
+					128,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/java/basic_test_composition/cpu_test");
+
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
+					GoogleCommandUtility.JAVA_11_RUNTIME,
+					"memory_test.Handler",
+					30,
+					128,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/java/memory_test");
+
+		}
 
 
 
 		/* Java on Amazon Web Services */
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
-				AmazonCommandUtility.JAVA_11_RUNTIME,
-				"latency_test.Handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/java/latency_test/target",
-				"latency_test_java_aws-1.0.jar");
+		if (AMAZON_DEPLOY) {
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
-				AmazonCommandUtility.JAVA_11_RUNTIME,
-				"cpu_test.Handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/java/cpu_test/target",
-				"cpu_test_java_aws-1.0.jar");
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
+					AmazonCommandUtility.JAVA_11_RUNTIME,
+					"latency_test.Handler",
+					30,
+					128,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/aws/java/latency_test/target",
+					"latency_test_java_aws-1.0.jar");
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
-				AmazonCommandUtility.JAVA_11_RUNTIME,
-				"memory_test.Handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/java/memory_test/target",
-				"memory_test_java_aws-1.0.jar");
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
+					AmazonCommandUtility.JAVA_11_RUNTIME,
+					"cpu_test.Handler",
+					30,
+					128,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/aws/java/cpu_test/target",
+					"cpu_test_java_aws-1.0.jar");
+
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
+					AmazonCommandUtility.JAVA_11_RUNTIME,
+					"memory_test.Handler",
+					30,
+					128,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/aws/java/memory_test/target",
+					"memory_test_java_aws-1.0.jar");
+
+		}
 
 
 
@@ -276,66 +329,74 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Node.js on Google Cloud Platform */
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
-				GoogleCommandUtility.NODE_10_RUNTIME,
-				"gcFunctionsHandler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/basic_test_composition/latency_test");
+		if (GOOGLE_DEPLOY) {
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
-				GoogleCommandUtility.NODE_10_RUNTIME,
-				"gcFunctionsHandler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/basic_test_composition/cpu_test");
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
+					GoogleCommandUtility.NODE_10_RUNTIME,
+					"gcFunctionsHandler",
+					30,
+					128,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/node/basic_test_composition/latency_test");
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
-				GoogleCommandUtility.NODE_10_RUNTIME,
-				"gcFunctionsHandler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/node/memory_test");
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
+					GoogleCommandUtility.NODE_10_RUNTIME,
+					"gcFunctionsHandler",
+					30,
+					128,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/node/basic_test_composition/cpu_test");
+
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
+					GoogleCommandUtility.NODE_10_RUNTIME,
+					"gcFunctionsHandler",
+					30,
+					128,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/node/memory_test");
+
+		}
 
 
 
 		/* Node.js on Amazon Web Services */
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
-				AmazonCommandUtility.NODE_10_X_RUNTIME,
-				"index.lambdaHandler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/node/basic_test_composition/latency_test",
-				"latency_test.zip");
+		if (AMAZON_DEPLOY) {
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
-				AmazonCommandUtility.NODE_10_X_RUNTIME,
-				"index.lambdaHandler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/node/basic_test_composition/cpu_test",
-				"cpu_test.zip");
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
+					AmazonCommandUtility.NODE_10_X_RUNTIME,
+					"index.lambdaHandler",
+					30,
+					128,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/aws/node/basic_test_composition/latency_test",
+					"latency_test.zip");
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
-				AmazonCommandUtility.NODE_10_X_RUNTIME,
-				"index.lambdaHandler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
-						"/serverless_functions/aws/node/memory_test",
-				"memory_test.zip");
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
+					AmazonCommandUtility.NODE_10_X_RUNTIME,
+					"index.lambdaHandler",
+					30,
+					128,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/aws/node/basic_test_composition/cpu_test",
+					"cpu_test.zip");
+
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
+					AmazonCommandUtility.NODE_10_X_RUNTIME,
+					"index.lambdaHandler",
+					30,
+					128,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+							"/serverless_functions/aws/node/memory_test",
+					"memory_test.zip");
+
+		}
 
 
 
@@ -372,163 +433,182 @@ public class ServerlessBenchmarkToolMain {
 		}
 	}
 
+	/**
+	 * Deploys serverless compositions
+	 */
 	private static void deployCompositions() {
 		System.out.println("\u001B[35m" + "\n\nDeploying benchmark compositions...\n" + "\u001B[0m");
 
 		/* Cloud buckets */
 
-		BucketsCommandExecutor.createGoogleBucket("benchmarking-project-translator-logging-bucket",
-				GoogleCommandUtility.IOWA);
+		if (GOOGLE_DEPLOY) {
 
-		BucketsCommandExecutor.createAmazonBucket("benchmarking-project-translator-logging-bucket",
-				AmazonCommandUtility.S3_ACL_PRIVATE, AmazonCommandUtility.OHIO);
+			BucketsCommandExecutor.createGoogleBucket("benchmarking-project-translator-logging-bucket",
+					GoogleCommandUtility.IOWA);
+
+		}
+
+		if (AMAZON_DEPLOY) {
+
+			BucketsCommandExecutor.createAmazonBucket("benchmarking-project-translator-logging-bucket",
+					AmazonCommandUtility.S3_ACL_PRIVATE, AmazonCommandUtility.OHIO);
+
+		}
 
 
 
 		/* Python on Google Cloud Platform */
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"image_recognition", "anger_detection"};
+		if (GOOGLE_DEPLOY) {
 
-			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/face_recognition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
+			{
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {1024, 1024};
+				String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+				String[] functionDirs = {"image_recognition", "anger_detection"};
 
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"latency_test", "cpu_test"};
+				CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+								"project/serverless_functions/gcloud/python/face_recognition",
+						GoogleCommandUtility.IOWA,
+						"step.yaml",
+						functionNames,
+						GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						functionDirs);
+			}
 
-			CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/basic_test_composition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
+			{
+				String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+				String[] entryPoints = {"gc_functions_handler", "gc_functions_handler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {128, 128};
+				String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+				String[] functionDirs = {"latency_test", "cpu_test"};
 
-		{
-			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
-					"translation-logger"};
-			String[] entryPoints = {"gc_functions_handler", "gc_functions_handler", "gc_functions_handler",
-					"gc_functions_handler"};
-			Integer[] timeouts = {30, 30, 30, 30};
-			Integer[] memories = {512, 1024, 1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
-					GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
-					"translation_logger"};
+				CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+								"project/serverless_functions/gcloud/python/basic_test_composition",
+						GoogleCommandUtility.IOWA,
+						"step.yaml",
+						functionNames,
+						GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						functionDirs);
+			}
 
-			CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/cycle_translator",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
+			{
+				String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+						"translation-logger"};
+				String[] entryPoints = {"gc_functions_handler", "gc_functions_handler", "gc_functions_handler",
+						"gc_functions_handler"};
+				Integer[] timeouts = {30, 30, 30, 30};
+				Integer[] memories = {512, 1024, 1024, 1024};
+				String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
+						GoogleCommandUtility.IOWA};
+				String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
+						"translation_logger"};
+
+				CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+								"project/serverless_functions/gcloud/python/cycle_translator",
+						GoogleCommandUtility.IOWA,
+						"step.yaml",
+						functionNames,
+						GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						functionDirs);
+			}
+
 		}
 
 
 
 		/* Python on Amazon Web Services */
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"image_recognition.lambda_handler", "anger_detection.lambda_handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
+		if (AMAZON_DEPLOY) {
 
-			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/python/face_recognition",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
-		}
+			{
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"image_recognition.lambda_handler", "anger_detection.lambda_handler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {1024, 1024};
+				String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+				String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"latency_test.lambda_handler", "cpu_test.lambda_handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
+				CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/aws/python/face_recognition",
+						AmazonCommandUtility.OHIO,
+						"step.json",
+						functionNames,
+						AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						zipFileNames);
+			}
 
-			CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/python/basic_test_composition",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
-		}
+			{
+				String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+				String[] entryPoints = {"latency_test.lambda_handler", "cpu_test.lambda_handler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {128, 128};
+				String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+				String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
 
-		{
-			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
-					"translation-logger"};
-			String[] entryPoints = {"loop_controller.lambda_handler", "language_detection.lambda_handler",
-					"sentence_translation.lambda_handler", "translation_logger.lambda_handler"};
-			Integer[] timeouts = {30, 30, 30, 30};
-			Integer[] memories = {512, 1024, 1024, 1024};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
-					AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
-					"translation_logger.zip"};
+				CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/aws/python/basic_test_composition",
+						AmazonCommandUtility.OHIO,
+						"step.json",
+						functionNames,
+						AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						zipFileNames);
+			}
 
-			CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/python/cycle_translator",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
+			{
+				String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+						"translation-logger"};
+				String[] entryPoints = {"loop_controller.lambda_handler", "language_detection.lambda_handler",
+						"sentence_translation.lambda_handler", "translation_logger.lambda_handler"};
+				Integer[] timeouts = {30, 30, 30, 30};
+				Integer[] memories = {512, 1024, 1024, 1024};
+				String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
+						AmazonCommandUtility.OHIO};
+				String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
+						"translation_logger.zip"};
+
+				CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+								"project/serverless_functions/aws/python/cycle_translator",
+						AmazonCommandUtility.OHIO,
+						"step.json",
+						functionNames,
+						AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						zipFileNames);
+			}
+
 		}
 
 
@@ -582,148 +662,156 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Java on Google Cloud Platform */
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"image_recognition", "anger_detection"};
+		if (GOOGLE_DEPLOY) {
 
-			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/java/face_recognition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.JAVA_11_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
+			{
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {1024, 1024};
+				String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+				String[] functionDirs = {"image_recognition", "anger_detection"};
 
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"latency_test", "cpu_test"};
+				CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+								"project/serverless_functions/gcloud/java/face_recognition",
+						GoogleCommandUtility.IOWA,
+						"step.yaml",
+						functionNames,
+						GoogleCommandUtility.JAVA_11_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						functionDirs);
+			}
 
-			CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/java/basic_test_composition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.JAVA_11_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
+			{
+				String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+				String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {128, 128};
+				String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+				String[] functionDirs = {"latency_test", "cpu_test"};
 
-		{
-			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
-					"translation-logger"};
-			String[] entryPoints = {"loop_controller.Handler", "language_detection.Handler",
-					"sentence_translation.Handler", "translation_logger.Handler"};
-			Integer[] timeouts = {30, 30, 30, 30};
-			Integer[] memories = {512, 1024, 1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
-					GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
-					"translation_logger"};
+				CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+								"project/serverless_functions/gcloud/java/basic_test_composition",
+						GoogleCommandUtility.IOWA,
+						"step.yaml",
+						functionNames,
+						GoogleCommandUtility.JAVA_11_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						functionDirs);
+			}
 
-			CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/java/cycle_translator",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.JAVA_11_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
+			{
+				String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+						"translation-logger"};
+				String[] entryPoints = {"loop_controller.Handler", "language_detection.Handler",
+						"sentence_translation.Handler", "translation_logger.Handler"};
+				Integer[] timeouts = {30, 30, 30, 30};
+				Integer[] memories = {512, 1024, 1024, 1024};
+				String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
+						GoogleCommandUtility.IOWA};
+				String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
+						"translation_logger"};
+
+				CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+								"project/serverless_functions/gcloud/java/cycle_translator",
+						GoogleCommandUtility.IOWA,
+						"step.yaml",
+						functionNames,
+						GoogleCommandUtility.JAVA_11_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						functionDirs);
+			}
+
 		}
 
 
 
 		/* Java on Amazon Web Services */
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"image_recognition_java_aws-1.0.jar", "anger_detection_java_aws-1.0.jar"};
+		if (AMAZON_DEPLOY) {
 
-			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/java/face_recognition",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.JAVA_11_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
-		}
+			{
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"image_recognition.Handler", "anger_detection.Handler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {1024, 1024};
+				String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+				String[] zipFileNames = {"image_recognition_java_aws-1.0.jar", "anger_detection_java_aws-1.0.jar"};
 
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"latency_test_java_aws-1.0.jar", "cpu_test_java_aws-1.0.jar"};
+				CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/aws/java/face_recognition",
+						AmazonCommandUtility.OHIO,
+						"step.json",
+						functionNames,
+						AmazonCommandUtility.JAVA_11_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						zipFileNames);
+			}
 
-			CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/java/basic_test_composition",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.JAVA_11_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
-		}
+			{
+				String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+				String[] entryPoints = {"latency_test.Handler", "cpu_test.Handler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {128, 128};
+				String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+				String[] zipFileNames = {"latency_test_java_aws-1.0.jar", "cpu_test_java_aws-1.0.jar"};
 
-		{
-			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
-					"translation-logger"};
-			String[] entryPoints = {"loop_controller.Handler", "language_detection.Handler",
-					"sentence_translation.Handler", "translation_logger.Handler"};
-			Integer[] timeouts = {30, 30, 30, 30};
-			Integer[] memories = {512, 1024, 1024, 1024};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
-					AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"loop_controller_java_aws-1.0.jar", "language_detection_java_aws-1.0.jar",
-					"sentence_translation_java_aws-1.0.jar", "translation_logger_java_aws-1.0.jar"};
+				CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/aws/java/basic_test_composition",
+						AmazonCommandUtility.OHIO,
+						"step.json",
+						functionNames,
+						AmazonCommandUtility.JAVA_11_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						zipFileNames);
+			}
 
-			CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/java/cycle_translator",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.JAVA_11_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
+			{
+				String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+						"translation-logger"};
+				String[] entryPoints = {"loop_controller.Handler", "language_detection.Handler",
+						"sentence_translation.Handler", "translation_logger.Handler"};
+				Integer[] timeouts = {30, 30, 30, 30};
+				Integer[] memories = {512, 1024, 1024, 1024};
+				String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
+						AmazonCommandUtility.OHIO};
+				String[] zipFileNames = {"loop_controller_java_aws-1.0.jar", "language_detection_java_aws-1.0.jar",
+						"sentence_translation_java_aws-1.0.jar", "translation_logger_java_aws-1.0.jar"};
+
+				CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+								"project/serverless_functions/aws/java/cycle_translator",
+						AmazonCommandUtility.OHIO,
+						"step.json",
+						functionNames,
+						AmazonCommandUtility.JAVA_11_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						zipFileNames);
+			}
+
 		}
 
 
@@ -777,148 +865,156 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Node.js on Google Cloud Platform */
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"image_recognition", "anger_detection"};
+		if (GOOGLE_DEPLOY) {
 
-			CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/node/face_recognition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.NODE_10_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
+			{
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {1024, 1024};
+				String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+				String[] functionDirs = {"image_recognition", "anger_detection"};
 
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"latency_test", "cpu_test"};
+				CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+								"project/serverless_functions/gcloud/node/face_recognition",
+						GoogleCommandUtility.IOWA,
+						"step.yaml",
+						functionNames,
+						GoogleCommandUtility.NODE_10_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						functionDirs);
+			}
 
-			CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/node/basic_test_composition",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.NODE_10_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
-		}
+			{
+				String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+				String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {128, 128};
+				String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA};
+				String[] functionDirs = {"latency_test", "cpu_test"};
 
-		{
-			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
-					"translation-logger"};
-			String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler", "gcFunctionsHandler",
-					"gcFunctionsHandler"};
-			Integer[] timeouts = {30, 30, 30, 30};
-			Integer[] memories = {512, 1024, 1024, 1024};
-			String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
-					GoogleCommandUtility.IOWA};
-			String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
-					"translation_logger"};
+				CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+								"project/serverless_functions/gcloud/node/basic_test_composition",
+						GoogleCommandUtility.IOWA,
+						"step.yaml",
+						functionNames,
+						GoogleCommandUtility.NODE_10_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						functionDirs);
+			}
 
-			CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/node/cycle_translator",
-					GoogleCommandUtility.IOWA,
-					"step.yaml",
-					functionNames,
-					GoogleCommandUtility.NODE_10_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					functionDirs);
+			{
+				String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+						"translation-logger"};
+				String[] entryPoints = {"gcFunctionsHandler", "gcFunctionsHandler", "gcFunctionsHandler",
+						"gcFunctionsHandler"};
+				Integer[] timeouts = {30, 30, 30, 30};
+				Integer[] memories = {512, 1024, 1024, 1024};
+				String[] regions = {GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA, GoogleCommandUtility.IOWA,
+						GoogleCommandUtility.IOWA};
+				String[] functionDirs = {"loop_controller", "language_detection", "sentence_translation",
+						"translation_logger"};
+
+				CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+								"project/serverless_functions/gcloud/node/cycle_translator",
+						GoogleCommandUtility.IOWA,
+						"step.yaml",
+						functionNames,
+						GoogleCommandUtility.NODE_10_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						functionDirs);
+			}
+
 		}
 
 
 
 		/* Node.js on Amazon Web Services */
 
-		{
-			String[] functionNames = {"image-recognition", "anger-detection"};
-			String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {1024, 1024};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
+		if (AMAZON_DEPLOY) {
 
-			CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/node/face_recognition",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.NODE_10_X_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
-		}
+			{
+				String[] functionNames = {"image-recognition", "anger-detection"};
+				String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {1024, 1024};
+				String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+				String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
-		{
-			String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
-			String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
-			Integer[] timeouts = {30, 30};
-			Integer[] memories = {128, 128};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
+				CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/aws/node/face_recognition",
+						AmazonCommandUtility.OHIO,
+						"step.json",
+						functionNames,
+						AmazonCommandUtility.NODE_10_X_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						zipFileNames);
+			}
 
-			CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/node/basic_test_composition",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.NODE_10_X_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
-		}
+			{
+				String[] functionNames = {"latency-test-workflow", "cpu-test-workflow"};
+				String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler"};
+				Integer[] timeouts = {30, 30};
+				Integer[] memories = {128, 128};
+				String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO};
+				String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
 
-		{
-			String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
-					"translation-logger"};
-			String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler", "index.lambdaHandler",
-					"index.lambdaHandler"};
-			Integer[] timeouts = {30, 30, 30, 30};
-			Integer[] memories = {512, 1024, 1024, 1024};
-			String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
-					AmazonCommandUtility.OHIO};
-			String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
-					"translation_logger.zip"};
+				CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/aws/node/basic_test_composition",
+						AmazonCommandUtility.OHIO,
+						"step.json",
+						functionNames,
+						AmazonCommandUtility.NODE_10_X_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						zipFileNames);
+			}
 
-			CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-							"_project/serverless_functions/aws/node/cycle_translator",
-					AmazonCommandUtility.OHIO,
-					"step.json",
-					functionNames,
-					AmazonCommandUtility.NODE_10_X_RUNTIME,
-					entryPoints,
-					timeouts,
-					memories,
-					regions,
-					zipFileNames);
+			{
+				String[] functionNames = {"loop-controller", "language-detection", "sentence-translation",
+						"translation-logger"};
+				String[] entryPoints = {"index.lambdaHandler", "index.lambdaHandler", "index.lambdaHandler",
+						"index.lambdaHandler"};
+				Integer[] timeouts = {30, 30, 30, 30};
+				Integer[] memories = {512, 1024, 1024, 1024};
+				String[] regions = {AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO, AmazonCommandUtility.OHIO,
+						AmazonCommandUtility.OHIO};
+				String[] zipFileNames = {"loop_controller.zip", "language_detection.zip", "sentence_translation.zip",
+						"translation_logger.zip"};
+
+				CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
+						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
+								"_project/serverless_functions/aws/node/cycle_translator",
+						AmazonCommandUtility.OHIO,
+						"step.json",
+						functionNames,
+						AmazonCommandUtility.NODE_10_X_RUNTIME,
+						entryPoints,
+						timeouts,
+						memories,
+						regions,
+						zipFileNames);
+			}
+
 		}
 
 
@@ -970,6 +1066,9 @@ public class ServerlessBenchmarkToolMain {
 
 	}
 
+	/**
+	 * Performs benchmarks on deployed resources
+	 */
 	private static void benchmarkPerform() {
 		/*BenchmarkCommandExecutor.performBenchmarks(
 				concurrency: 1000,
@@ -988,6 +1087,9 @@ public class ServerlessBenchmarkToolMain {
 				1);
 	}
 
+	/**
+	 * Deploys serverless functions that can collect memory and CPU information
+	 */
 	private static void deployInfoFunctions() {
 		System.out.println("\u001B[35m" + "\n\nDeploying information collecting functions...\n" + "\u001B[0m");
 

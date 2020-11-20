@@ -16,7 +16,7 @@ The **Serverless Composition Performance Project** is a framework that allows us
 
 <h2>Execution Requirements</h2>
 
-* [Java Developer Kit (JDK) 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
+* [Java Developer Kit (JDK) version 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) (recommended) or newer
 * [Docker Desktop](https://www.docker.com/products/docker-desktop)
 * [Amazon Web Services](https://aws.amazon.com/console/) valid account that can access to the following services:
 	* [AWS Lambda](https://aws.amazon.com/lambda/),
@@ -30,10 +30,12 @@ The **Serverless Composition Performance Project** is a framework that allows us
 	* [Workflows \[BETA\] API](https://cloud.google.com/workflows),
 	* [Cloud Vision API](https://cloud.google.com/vision) and
 	* [Translate API](https://cloud.google.com/translate).
-* \[OPTIONAL\] [Open Whisk](https://openwhisk.apache.org/) running deployment
+* [Open Whisk](https://openwhisk.apache.org/) running deployment
 * \[OPTIONAL\] [Azure](https://azure.microsoft.com/) valid and active account with, at least, the following enabled:
 	* [Vision API](https://azure.microsoft.com/services/cognitive-services/computer-vision/) and
 	* [Face API](https://azure.microsoft.com/services/cognitive-services/face/).
+
+**Please note**: the framework remains usable even with just 1 or 2, out of the 3, serverless platform(s) available.
 
 ---
 
@@ -78,8 +80,8 @@ A file named `credentials.json` is required in [`serverless_functions/gcloud/.cr
 ```
 It can be downloaded from Google Cloud Platform Console &#8594; API and services (in the side menu) &#8594; Credentials &#8594; Service accounts (selecting the one with desired authorizations) &#8594; New key.
 
-### Azure API in Open Whisk (optional)
-These files are needed only if the user needs to execute benchmarks on Open Whisk for the originally defined anger detection workflows. Being every file specific for each function, several versions of this information are needed. Strings needed to fill these files can be found from Azure Console &#8594; Resources (in the side menu) &#8594; Choose the specific Cognitive Service resource &#8594; Keys and endpoints.
+### Azure API in Open Whisk \[optional\]
+These files are needed only if the user needs to execute **benchmarks** on **Open Whisk** for the originally defined **anger detection workflows**. Being every file specific for each function, several versions of this information are needed. Strings needed to fill these files can be found from Azure Console &#8594; Resources (in the side menu) &#8594; Choose the specific Cognitive Service resource &#8594; Keys and endpoints.
 
 <h4>Java:</h4> 
 
