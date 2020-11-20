@@ -32,7 +32,11 @@ function retResult(result, url, res) {
     } else {
         result = "other";
     }
-    res.send(result);
+    const ret = {
+        'result': result,
+        'image': url
+    };
+    res.send(ret);
 }
 
 function detectObjectsAndScenes(image, url, res) {
@@ -60,7 +64,7 @@ function detectObjectsAndScenes(image, url, res) {
 
         let string = "";
         labels.forEach((label) => {
-            string = string + label.description.toLowerCase() + ":" + (parseFloat(label.score) * 100) + ", "
+            string = string + label.description.toLowerCase() + ", "
         })
 
         retResult(string.slice(0, string.length - 2), url, res);

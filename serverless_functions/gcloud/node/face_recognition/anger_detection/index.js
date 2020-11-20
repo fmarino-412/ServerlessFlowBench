@@ -46,14 +46,15 @@ function detectAnger(image, url, res) {
     client.annotateImage(request).then((result) => {
 
         result = JSON.parse(JSON.stringify(result));
-        const faces = result[0].faceAnnotations;
-
-        faces.forEach((face) => {
-            if (face.angerLikelihood === "VERY_LIKELY" || face.angerLikelihood === "LIKELY") {
-                res.send("True");
+        for (let i = 0; i < result.length; i++) {
+            for (let j = 0; j < result[i].faceAnnotations.length; j++) {
+                let face = result[i].faceAnnotations[j];
+                if (face.angerLikelihood === "VERY_LIKELY" || face.angerLikelihood === "LIKELY") {
+                    res.send("True");
+                    return;
+                }
             }
-        });
-
+        }
         res.send("False");
 
     }).catch(() => {res.send("Error");});

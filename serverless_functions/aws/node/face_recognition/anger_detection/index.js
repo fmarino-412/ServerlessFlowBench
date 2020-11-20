@@ -63,13 +63,15 @@ function detectAnger(image, callback) {
         if (err) {
             callback(null, "Error");
         } else {
-            response.FaceDetails.forEach(faceDetail => {
-                faceDetail.Emotions.forEach(emotion => {
+            for (let i = 0; i < response.FaceDetails.length; i++) {
+                for (let j = 0; j < response.FaceDetails[i].Emotions.length; j++) {
+                    let emotion = response.FaceDetails[i].Emotions[j];
                     if (emotion.Type === 'ANGRY' && emotion.Confidence >= 60) {
                         callback(null, true.toString());
+                        return;
                     }
-                });
-            });
+                }
+            }
             callback(null, false.toString());
         }
     });

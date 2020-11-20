@@ -25,6 +25,11 @@ exports.lambdaHandler = function (event, context, callback) {
 
 function retResult(result, url, callback) {
     // prepare and return result
+    if (result.includes('face')) {
+        result = "face";
+    } else {
+        result = "other";
+    }
     const ret = {
         'result': result,
         'image': url

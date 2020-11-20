@@ -12,12 +12,12 @@
     next: notFace
 - prepareAnger:
     assign:
-      - anger_url_start: __PLACEHOLDER__?url=
-      - anger_url: ${anger_url_start + FaceRecognitionResult.body.image}
+      - face_analyze_url_start: __PLACEHOLDER__?url=
+      - face_analyze_url: ${face_analyze_url_start + FaceRecognitionResult.body.image}
 - detectAnger:
     call: http.get
     args:
-      url: ${anger_url}
+      url: ${face_analyze_url}
     result: AngerRecognitionResult
 - conditionalAngerSwitch:
     switch:
