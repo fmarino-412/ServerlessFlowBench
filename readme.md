@@ -82,16 +82,16 @@ In the main folder there are:
 * [`AmazonCommandUtility.java`](src/main/java/cmd/functionality_commands/AmazonCommandUtility.java) used to create [Amazon Web Services CLI](https://aws.amazon.com/cli/) shell commands,
 * [`GoogleCommandUtility.java`](src/main/java/cmd/functionality_commands/GoogleCommandUtility.java) used to create [Google CLoud Platform CLI](https://cloud.google.com/sdk/gcloud) shell commands,
 * [`OpenWhiskCommandUtility.java`](src/main/java/cmd/functionality_commands/OpenWhiskCommandUtility.java) used to create [Open Whisk CLI](https://github.com/apache/openwhisk-cli) shell commands,
-* [`BucketsCommandExecutor.java `](src/main/java/cmd/functionality_commands/BucketsCommandExecutor.java) used to execute cloud buckets related commands,
-* [`CompositionCommandExecutor.java `](src/main/java/cmd/functionality_commands/CompositionCommandExecutor.java) used to execute serverless compositions related commands,
-* [`FunctionCommandExecutor.java `](src/main/java/cmd/functionality_commands/FunctionCommandExecutor.java) used to execute serverless functions related commands,
-* [`TablesCommandExecutor.java `](src/main/java/cmd/functionality_commands/TablesCommandExecutor.java) used to execute cloud NoSQL storage related commands,
-* [`IllegalNameException.java `](src/main/java/cmd/functionality_commands/IllegalNameException.java) raised when a malformed name is attempted to be assigned to a resource,
+* [`BucketsCommandExecutor.java`](src/main/java/cmd/functionality_commands/BucketsCommandExecutor.java) used to execute cloud buckets related commands,
+* [`CompositionCommandExecutor.java`](src/main/java/cmd/functionality_commands/CompositionCommandExecutor.java) used to execute serverless compositions related commands,
+* [`FunctionCommandExecutor.java`](src/main/java/cmd/functionality_commands/FunctionCommandExecutor.java) used to execute serverless functions related commands,
+* [`TablesCommandExecutor.java`](src/main/java/cmd/functionality_commands/TablesCommandExecutor.java) used to execute cloud NoSQL storage related commands,
+* [`IllegalNameException.java`](src/main/java/cmd/functionality_commands/IllegalNameException.java) raised when a malformed name is attempted to be assigned to a resource,
 * [output\_parsing package](src/main/java/cmd/functionality_commands/output_parsing) containing utilities to parse command outputs:
-	* [`ReplyCollector.java `](src/main/java/cmd/functionality_commands/output_parsing/ReplyCollector.java) used to collect console command execution output and
-	* [`URLFinder.java `](src/main/java/cmd/functionality_commands/output_parsing/URLFinder.java) used to collect deployment url from console command execution output and
+	* [`ReplyCollector.java`](src/main/java/cmd/functionality_commands/output_parsing/ReplyCollector.java) used to collect console command execution output and
+	* [`URLFinder.java`](src/main/java/cmd/functionality_commands/output_parsing/URLFinder.java) used to collect deployment url from console command execution output and
 * [security package](src/main/java/cmd/functionality_commands/security) containing security utilities:
-	* [`GoogleAuthClient.java `](src/main/java/cmd/functionality_commands/output_parsing/GoogleAuthClient.java) used to authenticate [Google Cloud Workflows \[BETA\]](https://cloud.google.com/workflows) executions urls.
+	* [`GoogleAuthClient.java`](src/main/java/cmd/functionality_commands/output_parsing/GoogleAuthClient.java) used to authenticate [Google Cloud Workflows \[BETA\]](https://cloud.google.com/workflows) executions urls.
 
 ### [databases package](src/main/java/databases)
 
@@ -99,15 +99,19 @@ This package contains classes needed for external databases interaction.
 
 #### [cmd.influx package](src/main/java/databases/influx)
 
-* [`InfluxClient.java `](src/main/java/databases/influx/InfluxClient.java) used to export benchmark results to the time series database [InfluxDB](https://www.influxdata.com/products/influxdb/).
+* [`InfluxClient.java`](src/main/java/databases/influx/InfluxClient.java) used to export benchmark results to the time series database [InfluxDB](https://www.influxdata.com/products/influxdb/).
 
 #### [cmd.mysql package](src/main/java/databases/mysql)
 
-* [`CloudEntityData.java `](src/main/java/databases/mysql/CloudEntityData) used to collect functions, compositions, bucket and NoSQL table information,
-* [`DAO.java `](src/main/java/databases/mysql/DAO.java), an abstract class providing common information and methods needed by database access objects,
-* [`FunctionalityURL.java `](src/main/java/databases/mysql/FunctionalityURL.java) used to collect resource deployment url,
-* [`MySQLConnect.java `](src/main/java/databases/mysql/MySQLConnect.java) used to connect and disconnect [MySQL database](https://www.mysql.com/),
+* [`CloudEntityData.java`](src/main/java/databases/mysql/CloudEntityData.java) used to collect functions, compositions, bucket and NoSQL table information,
+* [`DAO.java`](src/main/java/databases/mysql/DAO.java), an abstract class providing common information and methods needed by database access objects,
+* [`FunctionalityURL.java`](src/main/java/databases/mysql/FunctionalityURL.java) used to collect resource deployment url,
+* [`MySQLConnect.java`](src/main/java/databases/mysql/MySQLConnect.java) used to connect and disconnect [MySQL database](https://www.mysql.com/),
 * [daos package](src/main/java/databases/mysql/daos) containing database access objects implementations:
+	* [`BucketsRepositoryDAO.java`](src/main/java/databases/mysql/daos/BucketsRepositoryDAO.java) needed for cloud buckets perstistence management,
+	* [`CompositionsRepositoryDAO.java`](src/main/java/databases/mysql/daos/CompositionsRepositoryDAO.java) needed for serverless compositions perstistence management,
+	* [`FunctionsRepositoryDAO.java`](src/main/java/databases/mysql/daos/FunctionsRepositoryDAO.java) needed for serverless functions perstistence management ans
+	* [`TablesRepositoryDAO.java`](src/main/java/databases/mysql/daos/TablesRepositoryDAO.java) needed for cloud NoSQL tables perstistence management.
 
 ### [utility package](src/main/java/utility)
 
