@@ -92,6 +92,8 @@ In order to import in Grafana, after having the Docker compose environment up, t
 
 ### [src](src)
 
+This directory contains, in its subdirectories, Java code for Serverless Composition Performance Project execution, further details are provided in the next section.
+
 <h2>Java Project structure description</h2>
 
 The entire project part was developed using [JetBrains' IntelliJ IDEA](https://www.jetbrains.com/idea/) so it is recommended to open it using this IDE for better code navigation.
