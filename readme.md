@@ -91,7 +91,7 @@ In the main folder there are:
 	* [`ReplyCollector.java`](src/main/java/cmd/functionality_commands/output_parsing/ReplyCollector.java) used to collect console command execution output and
 	* [`URLFinder.java`](src/main/java/cmd/functionality_commands/output_parsing/URLFinder.java) used to collect deployment url from console command execution output and
 * [security package](src/main/java/cmd/functionality_commands/security) containing security utilities:
-	* [`GoogleAuthClient.java`](src/main/java/cmd/functionality_commands/output_parsing/GoogleAuthClient.java) used to authenticate [Google Cloud Workflows \[BETA\]](https://cloud.google.com/workflows) executions urls.
+	* [`GoogleAuthClient.java`](src/main/java/cmd/functionality_commands/security/GoogleAuthClient.java) used to authenticate [Google Cloud Workflows \[BETA\]](https://cloud.google.com/workflows) executions urls.
 
 ### [databases package](src/main/java/databases)
 
