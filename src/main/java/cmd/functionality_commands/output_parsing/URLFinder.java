@@ -3,7 +3,7 @@ package cmd.functionality_commands.output_parsing;
 /**
  * Collector for Google CLI deployment urls
  */
-public class UrlFinder {
+public class URLFinder {
 
 	// string containing url
 	private String result;
@@ -14,7 +14,7 @@ public class UrlFinder {
 	/**
 	 * Default constructor
 	 */
-	public UrlFinder() {
+	public URLFinder() {
 		result = "";
 		openWhiskIgnoreSSL = false;
 	}
@@ -23,7 +23,7 @@ public class UrlFinder {
 	 * One argument constructor
 	 * @param openWhiskIgnoreSSL tells whether to ignore SSL/TLS certificate validation or not in OpenWhisk
 	 */
-	public UrlFinder(boolean openWhiskIgnoreSSL) {
+	public URLFinder(boolean openWhiskIgnoreSSL) {
 		result = "";
 		this.openWhiskIgnoreSSL = openWhiskIgnoreSSL;
 	}

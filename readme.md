@@ -89,11 +89,23 @@ In the main folder there are:
 * [`IllegalNameException.java `](src/main/java/cmd/functionality_commands/IllegalNameException.java) raised when a malformed name is attempted to be assigned to a resource,
 * [output\_parsing package](src/main/java/cmd/functionality_commands/output_parsing) containing utilities to parse command outputs:
 	* [`ReplyCollector.java `](src/main/java/cmd/functionality_commands/output_parsing/ReplyCollector.java) used to collect console command execution output and
-	* [`UrlFinder.java `](src/main/java/cmd/functionality_commands/output_parsing/UrlFinder.java) used to collect deployment url from console command execution output and
+	* [`URLFinder.java `](src/main/java/cmd/functionality_commands/output_parsing/URLFinder.java) used to collect deployment url from console command execution output and
 * [security package](src/main/java/cmd/functionality_commands/security) containing security utilities:
 	* [`GoogleAuthClient.java `](src/main/java/cmd/functionality_commands/output_parsing/GoogleAuthClient.java) used to authenticate [Google Cloud Workflows \[BETA\]](https://cloud.google.com/workflows) executions urls.
 
 ### [databases package](src/main/java/databases)
+
+This package contains classes needed for external databases interaction.
+
+#### [cmd.influx package](src/main/java/databases/influx)
+
+* [`InfluxClient.java `](src/main/java/databases/influx/InfluxClient.java) used to export benchmark results to the time series database [InfluxDB](https://www.influxdata.com/products/influxdb/).
+
+#### [cmd.mysql package](src/main/java/databases/mysql)
+
+* [`CloudEntityData.java `](src/main/java/databases/mysql/CloudEntityData) used to collect functions, compositions, bucket and NoSQL table information,
+* [`FunctionalityURL.java `](src/main/java/databases/mysql/FunctionalityURL.java) used to collect resource deployment url,
+* [`MySQLConnect.java `](src/main/java/databases/mysql/MySQLConnect.java) used to connect and disconnect [MySQL database](https://www.mysql.com/),
 
 ### [utility package](src/main/java/utility)
 

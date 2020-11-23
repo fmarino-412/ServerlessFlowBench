@@ -4,7 +4,7 @@ import cmd.CommandExecutor;
 import cmd.docker_daemon_utility.DockerException;
 import cmd.docker_daemon_utility.DockerExecutor;
 import cmd.StreamGobbler;
-import cmd.functionality_commands.output_parsing.UrlFinder;
+import cmd.functionality_commands.output_parsing.URLFinder;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
 import databases.mysql.CloudEntityData;
 import databases.mysql.daos.CompositionsRepositoryDAO;
@@ -125,7 +125,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			Process process = buildCommand(cmd).start();
 
 			// create, execute and submit output gobblers
-			UrlFinder urlFinder = new UrlFinder();
+			URLFinder urlFinder = new URLFinder();
 			StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(),
 					urlFinder::findGoogleCloudFunctionsUrl);
 			// google deploying progresses are on the error stream
@@ -586,7 +586,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 				process = buildCommand(urlGetterCmd).start();
 
 				// create, execute and submit output gobblers
-				UrlFinder urlFinder = new UrlFinder(ignoreSSL);
+				URLFinder urlFinder = new URLFinder(ignoreSSL);
 				StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), urlFinder::findOpenWhiskUrl);
 				errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
 

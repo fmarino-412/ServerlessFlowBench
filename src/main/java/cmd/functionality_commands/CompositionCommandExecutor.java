@@ -6,7 +6,7 @@ import cmd.StreamGobbler;
 import cmd.docker_daemon_utility.DockerException;
 import cmd.docker_daemon_utility.DockerExecutor;
 import cmd.functionality_commands.output_parsing.ReplyCollector;
-import cmd.functionality_commands.output_parsing.UrlFinder;
+import cmd.functionality_commands.output_parsing.URLFinder;
 import cmd.functionality_commands.security.GoogleAuthClient;
 import databases.mysql.CloudEntityData;
 import databases.mysql.daos.CompositionsRepositoryDAO;
@@ -510,7 +510,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			// get composition url
 			cmd = OpenWhiskCommandUtility.buildActionUrlGetterCommand(compositionName);
 			process = buildCommand(cmd).start();
-			UrlFinder urlFinder = new UrlFinder(Boolean.parseBoolean(PropertiesManager.getInstance()
+			URLFinder urlFinder = new URLFinder(Boolean.parseBoolean(PropertiesManager.getInstance()
 					.getProperty(PropertiesManager.OPENWHISK_SSL_IGNORE)));
 			outputGobbler = new StreamGobbler(process.getInputStream(), urlFinder::findOpenWhiskUrl);
 			errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
