@@ -55,13 +55,13 @@ Folder containing files needed for a container based execution of the project ar
 
 #### Notes:
 
-**Composition containers' description**:
+##### Composition containers' description:
 
 * [MySQL](https://www.mysql.com/): relational database used to keep track of every entity deployed to the cloud in order to be able to reach and, eventually, delete each of them.
 * [InfluxDB](https://www.influxdata.com/products/influxdb/): time series database used to keep track of benchmarks' results, each of them with the right test performance date and time.
 * [Grafana](https://grafana.com/): visualization tool used to show benchmarks' result stored in InfluxDB in clear and explicative dashboards.
 
-**Credentials**:
+##### Credentials:
 
 In [`docker-compose.yml`](docker_env/docker-compose.yml) file are listed credentials needed to access service containers:
 
@@ -75,7 +75,7 @@ In [`docker-compose.yml`](docker_env/docker-compose.yml) file are listed credent
 	* username: `root`,
 	* password: `password`.
 
-**First start**:
+##### First start:
 
 In order to import in Grafana, after having the Docker compose environment up, the dashboards saved in [`grafana_dashboards`](docker_env/grafana_dashboards):
 
@@ -89,6 +89,44 @@ In order to import in Grafana, after having the Docker compose environment up, t
 8. select every dashboard inside the [`grafana_dashboards`](docker_env/grafana_dashboards) directory.
 
 ### [serverless\_functions](serverless_functions)
+
+Folder containing examples of serverless functions and compositions created and benchmarked by the author.
+
+#### Functions:
+
+Here is the list of the functionalities realized:
+
+* `basic_composition`: composition realized just calling two different functions.
+	* `latency_test`: JSON response generator.
+	* `cpu_test`: big number factorization.
+* `memory_test`: dynamic array allocation and filling.
+* `face_recognition`: detection of face and anger in an image.
+	* `image_recognition`: detection of faces.
+	* `anger_detection`: detection of anger if face found.
+* `cycle_translator`: translation of sentences from any language to english (Open Whisk version not realized).
+	* `loop_controller`: utility to manage more sentence translation at a time.
+	* `language_detection`: detection of the sentence language.
+	* `sentence_translation`: translation to English language.
+	* `translation_logger`: translation logging in a cloud bucket.
+
+Each of them has been realized for [Python](https://www.python.org/), [Java](https://docs.oracle.com/javase/7/docs/technotes/guides/language/) and [Node.js \(Javascript\)](https://nodejs.org/docs/) in different versions, one for each tested provider.
+
+#### Content:
+
+* [`aws`](serverless_functions/aws) folder containing functionalities meant to be deployed to Amazon Web Services:
+	* [`java`](serverless_functions/aws/java) containing Java AWS version of the functionalities,
+	* [`node`](serverless_functions/aws/node) containing Node.js AWS version of the functionalities,
+	* [`python`](serverless_functions/aws/python) containing Python AWS version of the functionalities and
+	* [`orchestration_handler`](serverless_functions/aws/orchestration_handler) folder containing a Python handler to execute and return result of compositions.
+* [`gcloud`](serverless_functions/gcloud) folder containing functionalities meant to be deployed to Google Cloud Platform:
+	* [`java`](serverless_functions/gcloud/java) containing Java Google Cloud version of the functionalities,
+	* [`node`](serverless_functions/gcloud/node) containing Node.js Google Cloud version of the functionalities,
+	* [`python`](serverless_functions/gcloud/python) containing Python Google Cloud version of the functionalities and
+	* [`orchestration_handler`](serverless_functions/gcloud/orchestration_handler) folder containing a Python handler to execute and return result of compositions.
+* [`openwhisk`](serverless_functions/openwhisk) folder containing functionalities meant to be deployed to Open Whisk:
+	* [`java`](serverless_functions/openwhisk/java) containing Java Open Whisk version of the functionalities,
+	* [`node`](serverless_functions/openwhisk/node) containing Node.js Open Whisk version of the functionalities and
+	* [`python`](serverless_functions/openwhisk/python) containing Python Open Whisk version of the functionalities.
 
 ### [src](src)
 
