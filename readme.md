@@ -43,7 +43,38 @@ The **Serverless Composition Performance Project** is a framework that allows us
 
 <h2>Java Project structure description</h2>
 
-The entire project part was developed using [JetBrains' IntelliJ IDEA](https://www.jetbrains.com/idea/) so it is recommended to open it using this IDE for better code navigation. 
+The entire project part was developed using [JetBrains' IntelliJ IDEA](https://www.jetbrains.com/idea/) so it is recommended to open it using this IDE for better code navigation.
+
+In the main folder is located the class [`ServerlessBenchmarkToolMain.java`](src/main/java/ServerlessBenchmarkToolMain.java), this is the application entry point that allows the user to:
+
+1. deploy serverless functions,
+2. deploy serverless compositions,
+3. optionally deploy of elements needed by the previous entities to work (e.g. cloud buckets),
+4. perform benchmarks on functions and compositions,
+5. deploy serverless functions that collect information about their execution environment and
+6. remove every entity previously deployed.
+
+### [cmd package](src/main/java/cmd)
+
+This package contains classes for shell commands execution grouped by functionality type.
+
+In the main folder there are:
+
+* [`CommandExecutor.java`](src/main/java/cmd/CommandExecutor.java), an abstract class providing common functions needed for shell command execution,
+* [`CommandUtility.java`](src/main/java/cmd/CommandUtility.java), an abstract class providing common functions and elements needed for shell command building and
+* [`StreamGobbler.java`](src/main/java/cmd/StreamGobbler.java) used for executing shell command output collection.
+
+#### [cmd.benchmark\_commands package](src/main/java/cmd/benchmark_commands)
+
+* [`BenchmarkCommandExecutor.java`](src/main/java/cmd/benchmark_commands/BenchmarkCommandExecutor.java) needed to execute load benchmarks, cold start benchmarks and collect results,
+* [`BenchmarkCommandUtility.java`](src/main/java/cmd/benchmark_commands/BenchmarkCommandUtility.java) needed to build shell commands for load benchmarks execution using [wrk2](https://github.com/giltene/wrk2) and
+* [output\_parsing package](src/main/java/cmd/benchmark_commands/output_parsing) containing utilities to parse benchmarks results:
+	* [`BenchmarkCollector.java`](src/main/java/cmd/benchmark_commands/output_parsing/BenchmarkCollector.java) needed to parse [wrk2](https://github.com/giltene/wrk2) benchmarks results and
+	* [`BenchmarkStats.java`](src/main/java/cmd/benchmark_commands/output_parsing/BenchmarkStats.java) needed to collect [wrk2](https://github.com/giltene/wrk2) benchmarks results.
+
+#### [cmd.docker\_daemon\_utility package](src/main/java/cmd/docker_daemon_utility)
+
+* 
 
 ---
 
