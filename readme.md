@@ -115,6 +115,11 @@ This package contains classes needed for external databases interaction.
 
 ### [utility package](src/main/java/utility)
 
+This package contains classes needed for configuration purposes.
+
+* [`ComposeManager.java`](src/main/java/utility/ComposeManager.java) used to get automatically Docker images used inside the composition and
+* [`PropertiesManager.java`](src/main/java/utility/PropertiesManager.java) used to get configuration parameters from `config.properties` file stored [in the project root](https://github.com/francescom412/serverless_composition_performance_project) (further details provided in following sections).
+
 ---
 
 <h2>User specific required files</h2>

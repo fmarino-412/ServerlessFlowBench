@@ -10,6 +10,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Utility class for Docker compose file management.
+ */
 public class ComposeManager {
 
 	// singleton instance
