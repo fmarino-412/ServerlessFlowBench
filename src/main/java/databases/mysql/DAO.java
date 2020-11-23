@@ -1,4 +1,4 @@
-package databases.mysql.daos;
+package databases.mysql;
 
 import com.sun.istack.internal.NotNull;
 import utility.PropertiesManager;
@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Generic Data Access Object for serverless related information
+ * Generic Data Access Object for cloud entities related information
  */
 public abstract class DAO {
 

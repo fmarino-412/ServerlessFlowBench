@@ -2,6 +2,7 @@ package databases.mysql.daos;
 
 import com.sun.istack.internal.Nullable;
 import databases.mysql.CloudEntityData;
+import databases.mysql.DAO;
 import databases.mysql.FunctionalityURL;
 import databases.mysql.MySQLConnect;
 import utility.PropertiesManager;

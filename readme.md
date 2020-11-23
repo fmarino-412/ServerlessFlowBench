@@ -104,8 +104,10 @@ This package contains classes needed for external databases interaction.
 #### [cmd.mysql package](src/main/java/databases/mysql)
 
 * [`CloudEntityData.java `](src/main/java/databases/mysql/CloudEntityData) used to collect functions, compositions, bucket and NoSQL table information,
+* [`DAO.java `](src/main/java/databases/mysql/DAO.java), an abstract class providing common information and methods needed by database access objects,
 * [`FunctionalityURL.java `](src/main/java/databases/mysql/FunctionalityURL.java) used to collect resource deployment url,
 * [`MySQLConnect.java `](src/main/java/databases/mysql/MySQLConnect.java) used to connect and disconnect [MySQL database](https://www.mysql.com/),
+* [daos package](src/main/java/databases/mysql/daos) containing database access objects implementations:
 
 ### [utility package](src/main/java/utility)
 
