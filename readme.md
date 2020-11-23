@@ -87,6 +87,15 @@ In the main folder there are:
 * [`FunctionCommandExecutor.java `](src/main/java/cmd/functionality_commands/FunctionCommandExecutor.java) used to execute serverless functions related commands,
 * [`TablesCommandExecutor.java `](src/main/java/cmd/functionality_commands/TablesCommandExecutor.java) used to execute cloud NoSQL storage related commands,
 * [`IllegalNameException.java `](src/main/java/cmd/functionality_commands/IllegalNameException.java) raised when a malformed name is attempted to be assigned to a resource,
+* [output\_parsing package](src/main/java/cmd/functionality_commands/output_parsing) containing utilities to parse command outputs:
+	* [`ReplyCollector.java `](src/main/java/cmd/functionality_commands/output_parsing/ReplyCollector.java) used to collect console command execution output and
+	* [`UrlFinder.java `](src/main/java/cmd/functionality_commands/output_parsing/UrlFinder.java) used to collect deployment url from console command execution output and
+* [security package](src/main/java/cmd/functionality_commands/security) containing security utilities:
+	* [`GoogleAuthClient.java `](src/main/java/cmd/functionality_commands/output_parsing/GoogleAuthClient.java) used to authenticate [Google Cloud Workflows \[BETA\]](https://cloud.google.com/workflows) executions urls.
+
+### [databases package](src/main/java/databases)
+
+### [utility package](src/main/java/utility)
 
 ---
 
