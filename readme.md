@@ -55,6 +55,12 @@ Folder containing files needed for a container based execution of the project ar
 
 #### Notes:
 
+**Composition containers' description**:
+
+* [MySQL](https://www.mysql.com/): relational database used to keep track of every entity deployed to the cloud in order to be able to reach and, eventually, delete each of them.
+* [InfluxDB](https://www.influxdata.com/products/influxdb/): time series database used to keep track of benchmarks' results, each of them with the right test performance date and time.
+* [Grafana](https://grafana.com/): visualization tool used to show benchmarks' result stored in InfluxDB in clear and explicative dashboards.
+
 **Credentials**:
 
 In [`docker-compose.yml`](docker_env/docker-compose.yml) file are listed credentials needed to access service containers:
@@ -69,7 +75,7 @@ In [`docker-compose.yml`](docker_env/docker-compose.yml) file are listed credent
 	* username: `root`,
 	* password: `password`.
 
-**Grafana dashboards**:
+**First start**:
 
 In order to import in Grafana, after having the Docker compose environment up, the dashboards saved in [`grafana_dashboards`](docker_env/grafana_dashboards):
 
