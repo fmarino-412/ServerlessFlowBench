@@ -41,6 +41,51 @@ The **Serverless Composition Performance Project** is a framework that allows us
 
 <h2>Project structure description</h2>
 
+### [docker\_env](docker_env)
+
+Folder containing files needed for a container based execution of the project architecture.
+
+#### Content:
+
+* [`docker-compose.yml`](docker_env/docker-compose.yml) used to describe and deploy the project support architecture,
+* [`grafana_storage`](docker_env/grafana_storage) folder, **to be added if not present**, used to store [Grafana](https://grafana.com/) container content and implement persistence,
+* [`influx_storage`](docker_env/influx_storage) folder, **to be added if not present**, used to store [InfluxDB](https://www.influxdata.com/products/influxdb/) container content and implement persistence,
+* [`mysql_storage`](docker_env/mysql_storage) folder, **to be added if not present**, used to store [MySQL](https://www.mysql.com/) container content and implement persistence and
+* [`grafana_dashboards`](docker_env/grafana_dashboards) folder used to store [Grafana](https://grafana.com/) dashboards needed to show benchmarks results.
+
+#### Notes:
+
+**Credentials**:
+
+In [`docker-compose.yml`](docker_env/docker-compose.yml) file are listed credentials needed to access service containers:
+
+* MySQL:
+	* username: `root`,
+	* password: `password`.
+* InfluxDB:
+	* username: `root`,
+	* password: `password`.
+* Grafana:
+	* username: `root`,
+	* password: `password`.
+
+**Grafana dashboards**:
+
+In order to import in Grafana, after having the Docker compose environment up, the dashboards saved in [`grafana_dashboards`](docker_env/grafana_dashboards):
+
+1. connect to `http://localhost:3000`,
+2. login using Grafana username and password,
+3. select the "*setting*" panel,
+4. choose "*datasources*" and add a new datasource,
+5. choose influxDB as datasource, set `http://localhost:8086` as url, select your database \(name can be set using the `config.properties` file located [in the project root](https://github.com/francescom412/serverless_composition_performance_project)\) and insert InfluxDB credentials,
+6. select the "*+*" tab,
+7. choose "*import*" option,
+8. select every dashboard inside the [`grafana_dashboards`](docker_env/grafana_dashboards) directory.
+
+### [serverless\_functions](serverless_functions)
+
+### [src](src)
+
 <h2>Java Project structure description</h2>
 
 The entire project part was developed using [JetBrains' IntelliJ IDEA](https://www.jetbrains.com/idea/) so it is recommended to open it using this IDE for better code navigation.
@@ -117,7 +162,7 @@ This package contains classes needed for external databases interaction.
 
 This package contains classes needed for configuration purposes.
 
-* [`ComposeManager.java`](src/main/java/utility/ComposeManager.java) used to obtain automatically Docker images used inside the [docker-compose.yml](docker_env/docker-compose.yml) and
+* [`ComposeManager.java`](src/main/java/utility/ComposeManager.java) used to obtain automatically Docker images used inside the [`docker-compose.yml`](docker_env/docker-compose.yml) and
 * [`PropertiesManager.java`](src/main/java/utility/PropertiesManager.java) used to get configuration parameters from `config.properties` file stored [in the project root](https://github.com/francescom412/serverless_composition_performance_project) (further details provided in following sections).
 
 ---
