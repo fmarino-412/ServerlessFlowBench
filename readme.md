@@ -109,7 +109,7 @@ Here is the list of the functionalities realized:
 	* `sentence_translation`: translation to English language.
 	* `translation_logger`: translation logging in a cloud bucket.
 
-Each of them has been realized for [Python](https://www.python.org/), [Java](https://docs.oracle.com/javase/7/docs/technotes/guides/language/) and [Node.js \(Javascript\)](https://nodejs.org/docs/) in different versions, one for each tested provider.
+Each of them has been realized for [Python](https://www.python.org/), [Java](https://docs.oracle.com/javase/tutorial/index.html) and [Node.js \(Javascript\)](https://nodejs.org/en/docs/) in different versions, one for each tested provider.
 
 #### Content:
 
