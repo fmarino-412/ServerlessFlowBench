@@ -74,7 +74,19 @@ In the main folder there are:
 
 #### [cmd.docker\_daemon\_utility package](src/main/java/cmd/docker_daemon_utility)
 
-* 
+* [`DockerException.java`](src/main/java/cmd/docker_daemon_utility/DockerException.java) raised when a Docker daemon execution related error occurs and 
+* [`DockerExecutor.java`](src/main/java/cmd/docker_daemon_utility/DockerExecutor.java) needed to check Docker containers correct configuration, Docker images presence and Docker composition running.
+
+#### [cmd.functionality\_commands package](src/main/java/cmd/functionality_commands)
+
+* [`AmazonCommandUtility.java`](src/main/java/cmd/functionality_commands/AmazonCommandUtility.java) used to create [Amazon Web Services CLI](https://aws.amazon.com/cli/) shell commands,
+* [`GoogleCommandUtility.java`](src/main/java/cmd/functionality_commands/GoogleCommandUtility.java) used to create [Google CLoud Platform CLI](https://cloud.google.com/sdk/gcloud) shell commands,
+* [`OpenWhiskCommandUtility.java`](src/main/java/cmd/functionality_commands/OpenWhiskCommandUtility.java) used to create [Open Whisk CLI](https://github.com/apache/openwhisk-cli) shell commands,
+* [`BucketsCommandExecutor.java `](src/main/java/cmd/functionality_commands/BucketsCommandExecutor.java) used to execute cloud buckets related commands,
+* [`CompositionCommandExecutor.java `](src/main/java/cmd/functionality_commands/CompositionCommandExecutor.java) used to execute serverless compositions related commands,
+* [`FunctionCommandExecutor.java `](src/main/java/cmd/functionality_commands/FunctionCommandExecutor.java) used to execute serverless functions related commands,
+* [`TablesCommandExecutor.java `](src/main/java/cmd/functionality_commands/TablesCommandExecutor.java) used to execute cloud NoSQL storage related commands,
+* [`IllegalNameException.java `](src/main/java/cmd/functionality_commands/IllegalNameException.java) raised when a malformed name is attempted to be assigned to a resource,
 
 ---
 
