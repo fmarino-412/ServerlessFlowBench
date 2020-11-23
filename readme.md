@@ -117,7 +117,7 @@ This package contains classes needed for external databases interaction.
 
 This package contains classes needed for configuration purposes.
 
-* [`ComposeManager.java`](src/main/java/utility/ComposeManager.java) used to get automatically Docker images used inside the composition and
+* [`ComposeManager.java`](src/main/java/utility/ComposeManager.java) used to obtain automatically Docker images used inside the [docker-compose.yml](docker_env/docker-compose.yml) and
 * [`PropertiesManager.java`](src/main/java/utility/PropertiesManager.java) used to get configuration parameters from `config.properties` file stored [in the project root](https://github.com/francescom412/serverless_composition_performance_project) (further details provided in following sections).
 
 ---
