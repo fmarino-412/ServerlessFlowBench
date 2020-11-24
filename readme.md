@@ -321,6 +321,7 @@ aws_handler_function_path=absolute_path_to:serverless_functions/aws/orchestratio
 This section's purpose is to explain how to create packages ready to be deployed to the different service providers.
 
 ### Amazon Web Services
+
 #### Java:
 
 The `.jar` file to deploy can be easily created using the project management tool [Maven](https://maven.apache.org/).
@@ -438,7 +439,16 @@ Here an example of the `package.json` file.
 ```
 
 #### Python:
+
+In order to create a Python zipped package:
+
+1. install every needed dependency using `pip` inside the Python project root,
+2. put every dependency installed and the `.py` files inside `.zip` archive ready to be deployed.
+
+**Please note**: in the common cases the function needs only to communicate with AWS services, a .zip archive with just .py files inside is needed.
+
 ### Google Cloud Platform
+
 #### Java:
 #### Node.js:
 #### Python:
