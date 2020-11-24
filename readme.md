@@ -18,13 +18,13 @@ The **Serverless Composition Performance Project** is a framework that allows us
 
 * [Java Developer Kit (JDK) version 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) (recommended) or newer
 * [Docker Desktop](https://www.docker.com/products/docker-desktop) with the following Docker images installed:
-	* [`amazon\/aws-cli`](https://hub.docker.com/r/amazon/aws-cli) with tag `2.0.60`
-	* [`google\/cloud-sdk`](https://hub.docker.com/r/google/cloud-sdk) with tag `316.0.0`
-	* [`francescom412\/ow-utils-complete`](https://hub.docker.com/r/francescom412/ow-utils-complete) with tag `63a5498`
+	* [`amazon/aws-cli`](https://hub.docker.com/r/amazon/aws-cli) with tag `2.0.60`
+	* [`google/cloud-sdk`](https://hub.docker.com/r/google/cloud-sdk) with tag `316.0.0`
+	* [`francescom412/ow-utils-complete`](https://hub.docker.com/r/francescom412/ow-utils-complete) with tag `63a5498`
 	* [`influxdb`](https://hub.docker.com/_/influxdb) with tag `1.8.2`
-	* [`grafana\/grafana`](https://hub.docker.com/r/grafana/grafana) with tag `6.5.0`
+	* [`grafana/grafana`](https://hub.docker.com/r/grafana/grafana) with tag `6.5.0`
 	* [`mysql`](https://hub.docker.com/_/mysql) with tag `8.0.17`
-	* [`bschitter\/alpine-with-wrk2`](https://hub.docker.com/r/bschitter/alpine-with-wrk2) with tag `0.1`
+	* [`bschitter/alpine-with-wrk2`](https://hub.docker.com/r/bschitter/alpine-with-wrk2) with tag `0.1`
 * [Amazon Web Services](https://aws.amazon.com/console/) valid account that can access to the following services:
 	* [AWS Lambda](https://aws.amazon.com/lambda/),
 	* [Amazon API Gateway](https://aws.amazon.com/api-gateway/),
