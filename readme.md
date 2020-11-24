@@ -18,13 +18,13 @@ The **Serverless Composition Performance Project** is a framework that allows us
 
 * [Java Developer Kit (JDK) version 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) (recommended) or newer
 * [Docker Desktop](https://www.docker.com/products/docker-desktop) with the following Docker images installed:
-	* [amazon/aws-cli](https://hub.docker.com/r/amazon/aws-cli):2.0.60
-	* [google/cloud-sdk](https://hub.docker.com/r/google/cloud-sdk):316.0.0
-	* [francescom412/ow-utils-complete](https://hub.docker.com/r/francescom412/ow-utils-complete):63a5498
-	* [influxdb](https://hub.docker.com/_/influxdb):1.8.2
-	* [grafana/grafana](https://hub.docker.com/r/grafana/grafana):6.5.0
-	* [mysql](https://hub.docker.com/_/mysql):8.0.17
-	* [bschitter/alpine-with-wrk2](https://hub.docker.com/r/bschitter/alpine-with-wrk2):0.1
+	* [`amazon\/aws-cli`](https://hub.docker.com/r/amazon/aws-cli) with tag `2.0.60`
+	* [`google\/cloud-sdk`](https://hub.docker.com/r/google/cloud-sdk) with tag `316.0.0`
+	* [`francescom412\/ow-utils-complete`](https://hub.docker.com/r/francescom412/ow-utils-complete) with tag `63a5498`
+	* [`influxdb`](https://hub.docker.com/_/influxdb) with tag `1.8.2`
+	* [`grafana\/grafana`](https://hub.docker.com/r/grafana/grafana) with tag `6.5.0`
+	* [`mysql`](https://hub.docker.com/_/mysql) with tag `8.0.17`
+	* [`bschitter\/alpine-with-wrk2`](https://hub.docker.com/r/bschitter/alpine-with-wrk2) with tag `0.1`
 * [Amazon Web Services](https://aws.amazon.com/console/) valid account that can access to the following services:
 	* [AWS Lambda](https://aws.amazon.com/lambda/),
 	* [Amazon API Gateway](https://aws.amazon.com/api-gateway/),
@@ -88,11 +88,11 @@ In order to import in Grafana, after having the Docker compose environment up, t
 
 1. connect to `http://localhost:3000`,
 2. login using Grafana username and password,
-3. select the "*setting*" panel,
-4. choose "*datasources*" and add a new datasource,
+3. select the "_setting_" panel,
+4. choose "_datasources_" and add a new datasource,
 5. choose influxDB as datasource, set `http://localhost:8086` as url, select your database \(name can be set using the `config.properties` file located [in the project root](https://github.com/francescom412/serverless_composition_performance_project)\) and insert InfluxDB credentials,
-6. select the "*+*" tab,
-7. choose "*import*" option,
+6. select the "_+_" tab,
+7. choose "_import_" option,
 8. select every dashboard inside the [`grafana_dashboards`](docker_env/grafana_dashboards) directory.
 
 ### [serverless\_functions](serverless_functions)
@@ -227,7 +227,7 @@ Authentication files related to user's active services required to run the appli
 ### Amazon Web Services
 A file named `credentials` is required [`serverless_functions/aws/.aws`](serverless_functions/aws/.aws), it should contain AWS account access key and secret. This file has the following structure:
 
-```
+```text
 [default]
 aws_access_key_id=xxxxxxxxxx
 aws_secret_access_key=xxxxxxxxxx
@@ -538,7 +538,7 @@ The deployment process is similar to the ones for Node.js and Java in Google Clo
 
 Here an example of the `requirements.txt` file needed for Google Cloud Functions deployment.
 
-```
+```text
 dependency-name==x.x.x
 dependency-name==x.x.x
 dependency-name==x.x.x
@@ -628,12 +628,12 @@ In order to create a Node.js zipped package:
 
 In order to create a virtual environment execute the following command starting from the Python project root:
 
-```bash
+```shell script
 $ virtualenv virtualenv
 ```
 In order to install dependencies execute the following commands starting from the Python project root:
 
-```bash
+```shell script
 $ source virtualenv/bin/activate
 (virtualenv) $ pip install dependency-name
 (virtualenv) $ pip install dependency-name
