@@ -17,7 +17,8 @@ The **Serverless Composition Performance Project** is a framework that allows us
 <h2>Execution Requirements</h2>
 
 * [Java Developer Kit (JDK) version 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) (recommended) or newer
-* [Docker Desktop](https://www.docker.com/products/docker-desktop)
+* [Docker Desktop](https://www.docker.com/products/docker-desktop) with the following Docker images installed:
+	* 
 * [Amazon Web Services](https://aws.amazon.com/console/) valid account that can access to the following services:
 	* [AWS Lambda](https://aws.amazon.com/lambda/),
 	* [Amazon API Gateway](https://aws.amazon.com/api-gateway/),
@@ -611,3 +612,24 @@ In order to create a Node.js zipped package:
 3. put `package.json` file, `node_modules` folder and `.js` code files inside a `.zip` archive ready to be deployed.
 
 #### Python:
+
+[\[SOURCE\]](https://jamesthom.as/2017/04/python-packages-in-openwhisk/) In order to create a Python zipped package:
+
+1. create the entry point file in the Python project root and name it as `__main__.py`,
+2. create a virtual environment,
+3. install every needed dependency using [`pip`](https://pip.pypa.io/en/stable/) inside the Python project root,
+4. put the `virtualenv` directory and the `.py` files inside `.zip` archive ready to be deployed.
+
+In order to create a virtual environment execute the following command starting from the Python project root:
+
+```bash
+$ virtualenv virtualenv
+```
+In order to install dependencies execute the following commands starting from the Python project root:
+
+```bash
+$ source virtualenv/bin/activate
+(virtualenv) $ pip install dependency-name
+(virtualenv) $ pip install dependency-name
+...
+```
