@@ -318,7 +318,7 @@ aws_handler_function_path=absolute_path_to:serverless_functions/aws/orchestratio
 
 <h2>Serverless functions packages creation</h2>
 
-This section's purpose is to explain how to create packages ready to be deployed to the different service providers.
+This section's purpose is to explain how to create packages ready for deployment to the different service providers.
 
 ### Amazon Web Services
 
@@ -449,9 +449,95 @@ In order to create a Python zipped package:
 
 ### Google Cloud Platform
 
+For Google Cloud Platform no archive creation is needed.
+
 #### Java:
+
+The project to deploy can be easily created using the project management tool [Maven](https://maven.apache.org/), in order to perform deployment is enough just passing the project root path to the deployment utility.
+
+Here an example of the `pom.xml` file needed for Google Cloud Functions deployment.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>GROUP_ID</groupId>
+    <artifactId>PROJECT_NAME</artifactId>
+    <version>VERSION</version>
+
+    <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.cloud.functions</groupId>
+            <artifactId>functions-framework-api</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.json.bind</groupId>
+            <artifactId>javax.json.bind-api</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>x.x.x</version>
+                <configuration>
+                    <excludes>
+                        <exclude>.google/</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
 #### Node.js:
+
+In order to create a Node.js package to deploy:
+
+1. define the `package.json` file with every needed dependency (an example can be found in the Amazon Web Services Node.js section),
+3. put `package.json` file and `.js` code files inside the project root to deploy and pass its absolute path to the deployment utility.
+
 #### Python:
+
+In order to create a Python package to deploy:
+
+1. put every needed `.py` file in the package root and
+2. create a `requirements.txt` file in the package root with every needed dependency.
+
+The deployment process is similar to the ones for Node.js and Java in Google Cloud Platform.
+
+Here an example of the `requirements.txt` file needed for Google Cloud Functions deployment.
+
+```
+dependency-name==x.x.x
+dependency-name==x.x.x
+dependency-name==x.x.x
+...
+```
+
 ### Open Whisk
 #### Java:
 #### Node.js:
