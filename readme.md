@@ -249,7 +249,7 @@ It can be downloaded from Google Cloud Platform Console &#8594; API and services
 ### Azure API in Open Whisk \[optional\]
 These files are needed only if the user needs to execute **benchmarks** on **Open Whisk** for the originally defined **anger detection workflows**. Being every file specific for each function, several versions of this information are needed. Strings needed to fill these files can be found from Azure Console &#8594; Resources (in the side menu) &#8594; Choose the specific Cognitive Service resource &#8594; Keys and endpoints.
 
-<h4>Java:</h4> 
+#### Java:
 
 In [`serverless_functions/openwhisk/java/face_recognition/anger_detection/src/main/java/anger_detection`](serverless_functions/openwhisk/java/face_recognition/anger_detection/src/main/java/anger_detection) and [`serverless_functions/openwhisk/java/face_recognition/image_recognition/src/main/java/image_recognition`](serverless_functions/openwhisk/java/face_recognition/image_recognition/src/main/java/image_recognition) a file named `AzureConfig.java` with the following structure:
 
@@ -260,7 +260,7 @@ public class AzureConfig {
 }
 ```
 
-<h4>Node.js:</h4>
+#### Node.js:
 
 In [`serverless_functions/openwhisk/node/face_recognition/anger_detection`](serverless_functions/openwhisk/node/face_recognition/anger_detection) and [`serverless_functions/openwhisk/node/face_recognition/image_recognition`](serverless_functions/openwhisk/node/face_recognition/image_recognition) a file named `azureconfig.js` with the following structure:
 
@@ -271,7 +271,7 @@ module.exports = {
 };
 ```
 
-<h4>Python:</h4>
+#### Python:
 
 In [`serverless_functions/openwhisk/python/face_recognition/anger_detection`](serverless_functions/openwhisk/python/face_recognition/anger_detection) and [`serverless_functions/openwhisk/python/face_recognition/image_recognition`](serverless_functions/openwhisk/python/face_recognition/image_recognition) a file named `azureconfig.py` with the following structure:
 
@@ -317,3 +317,109 @@ aws_handler_function_path=absolute_path_to:serverless_functions/aws/orchestratio
 ---
 
 <h2>Serverless functions packages creation</h2>
+
+This section's purpose is to explain how to create packages ready to be deployed to the different service providers.
+
+### Amazon Web Services
+#### Java:
+
+The `.jar` file to deploy can be easily created using the project management tool [Maven](https://maven.apache.org/).
+
+Here an example of the `pom.xml` file.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>GROUP_ID</groupId>
+    <artifactId>PROJECT_NAME</artifactId>
+    <version>VERSION</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-core</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-events</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-log4j2</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.json.bind</groupId>
+            <artifactId>javax.json.bind-api</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>x.x.x</version>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>x.x.x</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+#### Node.js:
+#### Python:
+### Google Cloud Platform
+#### Java:
+#### Node.js:
+#### Python:
+### Open Whisk
+#### Java:
+#### Node.js:
+#### Python:
