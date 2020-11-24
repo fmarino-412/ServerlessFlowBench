@@ -419,7 +419,7 @@ Here an example of the `pom.xml` file.
 In order to create a Node.js zipped package:
 
 1. define the `package.json` file with every needed dependency (an example can be found at the end of this subsection),
-2. install every needed dependency using `npm` inside a folder named `node_modules` placed in the Node.js project root,
+2. install every needed dependency using [`npm`](https://www.npmjs.com/) inside a folder named `node_modules` placed in the Node.js project root,
 3. put `package.json` file, `node_modules` folder and `.js` code files inside a `.zip` archive ready to be deployed.
 
 Here an example of the `package.json` file.
@@ -442,7 +442,7 @@ Here an example of the `package.json` file.
 
 In order to create a Python zipped package:
 
-1. install every needed dependency using `pip` inside the Python project root,
+1. install every needed dependency using [`pip`](https://pip.pypa.io/en/stable/) inside the Python project root,
 2. put every dependency installed and the `.py` files inside `.zip` archive ready to be deployed.
 
 **Please note**: in the common cases the function needs only to communicate with AWS services, a .zip archive with just .py files inside is needed.
@@ -453,7 +453,7 @@ For Google Cloud Platform no archive creation is needed.
 
 #### Java:
 
-The project to deploy can be easily created using the project management tool [Maven](https://maven.apache.org/), in order to perform deployment is enough just passing the project root path to the deployment utility.
+The project to deploy can be easily created using [Maven](https://maven.apache.org/), in order to perform deployment is enough passing the project root path to the deployment utility.
 
 Here an example of the `pom.xml` file needed for Google Cloud Functions deployment.
 
@@ -539,6 +539,75 @@ dependency-name==x.x.x
 ```
 
 ### Open Whisk
+
 #### Java:
+
+The `.jar` file to deploy can be created, again, using [Maven](https://maven.apache.org/).
+
+Here an example of the `pom.xml` file.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>GROUP_ID</groupId>
+    <artifactId>PROJECT_NAME</artifactId>
+    <version>VERSION</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>x.x.x</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>x.x.x</version>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>x.x.x</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
 #### Node.js:
+
+In order to create a Node.js zipped package:
+
+1. define the `package.json` file with every needed dependency (an example can be found in the Amazon Web Services Node.js subsection),
+2. install every needed dependency using [`npm`](https://www.npmjs.com/) inside a folder named `node_modules` placed in the Node.js project root,
+3. put `package.json` file, `node_modules` folder and `.js` code files inside a `.zip` archive ready to be deployed.
+
 #### Python:
