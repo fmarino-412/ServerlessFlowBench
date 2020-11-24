@@ -1,7 +1,0 @@
-tensorflow==1.13.1
-numpy==1.16.1
-scipy
-opencv-python
-matplotlib
-h5py
-keras==2.2.4
