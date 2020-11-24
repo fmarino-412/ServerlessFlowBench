@@ -414,6 +414,29 @@ Here an example of the `pom.xml` file.
 ```
 
 #### Node.js:
+
+In order to create a Node.js zipped package:
+
+1. define the `package.json` file with every needed dependency (an example can be found at the end of this subsection),
+2. install every needed dependency using `npm` inside a folder named `node_modules` placed in the Node.js project root,
+3. put `package.json` file, `node_modules` folder and `.js` code files inside a `.zip` archive ready to be deployed.
+
+Here an example of the `package.json` file.
+
+```json
+{
+  "name": "PROJECT_NAME",
+  "version": "VERSION",
+  "description": "PROJECT_DESCRIPTION",
+  "main": "index.js",
+  "author": "PROJECT_AUTHOR",
+  "license": "ISC",
+  "dependencies": {
+    "dependency_name": "^x.x.x"
+  }
+}
+```
+
 #### Python:
 ### Google Cloud Platform
 #### Java:
