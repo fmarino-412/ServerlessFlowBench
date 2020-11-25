@@ -4,16 +4,18 @@ exports.lambdaHandler = function (event, context, callback) {
     let languageCode;
 
     // search for string and language in request
-    if (event.queryStringParameters && event.queryStringParameters.sentence) {
+    // noinspection JSUnresolvedVariable
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('sentence')) {
         sentence = event.queryStringParameters.sentence;
-    } else if (event.sentence) {
+    } else if (event.hasOwnProperty('sentence')) {
         sentence = event.sentence;
     } else {
         callback(null, "Error");
     }
-    if (event.queryStringParameters && event.queryStringParameters.language_code) {
+    // noinspection JSUnresolvedVariable
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('language_code')) {
         languageCode = event.queryStringParameters.language_code;
-    } else if (event.language_code) {
+    } else if (event.hasOwnProperty('language_code')) {
         languageCode = event.language_code;
     } else {
         callback(null, "Error");

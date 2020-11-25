@@ -1,4 +1,4 @@
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def lambda_handler(event, context):
 
     # search for list of string and counter in request

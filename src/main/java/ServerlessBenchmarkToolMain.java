@@ -16,6 +16,12 @@ public class ServerlessBenchmarkToolMain {
 	private static final boolean AMAZON_DEPLOY = true;
 	// execute deployment on Open Whisk
 	private static final boolean OPENWHISK_DEPLOY = true;
+	// execute Python functionalities deployment
+	private static final boolean PYTHON = true;
+	// execute Java functionalities deployment
+	private static final boolean JAVA = true;
+	// execute Node.js functionalities deployment
+	private static final boolean NODE = true;
 	// select operation to perform
 	private static final int OPERATION_SELECTION = 5;
 
@@ -115,7 +121,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Python on Google Cloud Platform */
 
-		if (GOOGLE_DEPLOY) {
+		if (GOOGLE_DEPLOY && PYTHON) {
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -150,7 +156,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Python on Amazon Web Services */
 
-		if (AMAZON_DEPLOY) {
+		if (AMAZON_DEPLOY && PYTHON) {
 
 			FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
 					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
@@ -188,7 +194,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Python on OpenWhisk */
 
-		if (OPENWHISK_DEPLOY) {
+		if (OPENWHISK_DEPLOY && PYTHON) {
 
 			FunctionCommandExecutor.deployOnOpenWhisk("latency-test",
 					OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
@@ -222,7 +228,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Java on Google Cloud Platform */
 
-		if (GOOGLE_DEPLOY) {
+		if (GOOGLE_DEPLOY && JAVA) {
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
 					GoogleCommandUtility.JAVA_11_RUNTIME,
@@ -257,7 +263,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Java on Amazon Web Services */
 
-		if (AMAZON_DEPLOY) {
+		if (AMAZON_DEPLOY && JAVA) {
 
 			FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
 					AmazonCommandUtility.JAVA_11_RUNTIME,
@@ -295,7 +301,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Java on OpenWhisk */
 
-		if (OPENWHISK_DEPLOY) {
+		if (OPENWHISK_DEPLOY && JAVA) {
 
 			FunctionCommandExecutor.deployOnOpenWhisk("latency-test",
 					OpenWhiskCommandUtility.JAVA_8_RUNTIME,
@@ -329,7 +335,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Node.js on Google Cloud Platform */
 
-		if (GOOGLE_DEPLOY) {
+		if (GOOGLE_DEPLOY && NODE) {
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("latency-test",
 					GoogleCommandUtility.NODE_10_RUNTIME,
@@ -364,7 +370,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Node.js on Amazon Web Services */
 
-		if (AMAZON_DEPLOY) {
+		if (AMAZON_DEPLOY && NODE) {
 
 			FunctionCommandExecutor.deployOnAmazonRESTFunction("latency-test",
 					AmazonCommandUtility.NODE_10_X_RUNTIME,
@@ -402,7 +408,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Node.js on OpenWhisk */
 
-		if (OPENWHISK_DEPLOY) {
+		if (OPENWHISK_DEPLOY && NODE) {
 
 			FunctionCommandExecutor.deployOnOpenWhisk("latency-test",
 					OpenWhiskCommandUtility.NODE_10_RUNTIME,
@@ -459,7 +465,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Python on Google Cloud Platform */
 
-		if (GOOGLE_DEPLOY) {
+		if (GOOGLE_DEPLOY && PYTHON) {
 
 			{
 				String[] functionNames = {"image-recognition", "anger-detection"};
@@ -537,7 +543,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Python on Amazon Web Services */
 
-		if (AMAZON_DEPLOY) {
+		if (AMAZON_DEPLOY && PYTHON) {
 
 			{
 				String[] functionNames = {"image-recognition", "anger-detection"};
@@ -615,7 +621,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Python on OpenWhisk */
 
-		if (OPENWHISK_DEPLOY) {
+		if (OPENWHISK_DEPLOY && PYTHON) {
 
 			{
 				String[] functionNames = {"image-recognition", "anger-detection"};
@@ -662,7 +668,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Java on Google Cloud Platform */
 
-		if (GOOGLE_DEPLOY) {
+		if (GOOGLE_DEPLOY && JAVA) {
 
 			{
 				String[] functionNames = {"image-recognition", "anger-detection"};
@@ -740,7 +746,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Java on Amazon Web Services */
 
-		if (AMAZON_DEPLOY) {
+		if (AMAZON_DEPLOY && JAVA) {
 
 			{
 				String[] functionNames = {"image-recognition", "anger-detection"};
@@ -818,7 +824,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Java on OpenWhisk */
 
-		if (OPENWHISK_DEPLOY) {
+		if (OPENWHISK_DEPLOY && JAVA) {
 
 			{
 				String[] functionNames = {"image-recognition", "anger-detection"};
@@ -865,7 +871,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Node.js on Google Cloud Platform */
 
-		if (GOOGLE_DEPLOY) {
+		if (GOOGLE_DEPLOY && NODE) {
 
 			{
 				String[] functionNames = {"image-recognition", "anger-detection"};
@@ -943,7 +949,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Node.js on Amazon Web Services */
 
-		if (AMAZON_DEPLOY) {
+		if (AMAZON_DEPLOY && NODE) {
 
 			{
 				String[] functionNames = {"image-recognition", "anger-detection"};
@@ -1021,7 +1027,7 @@ public class ServerlessBenchmarkToolMain {
 
 		/* Node.js on OpenWhisk */
 
-		if (OPENWHISK_DEPLOY) {
+		if (OPENWHISK_DEPLOY && NODE) {
 
 			{
 				String[] functionNames = {"image-recognition", "anger-detection"};
@@ -1093,100 +1099,108 @@ public class ServerlessBenchmarkToolMain {
 	private static void deployInfoFunctions() {
 		System.out.println("\u001B[35m" + "\n\nDeploying information collecting functions...\n" + "\u001B[0m");
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-128",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				128,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/info_getter");
+		if (GOOGLE_DEPLOY) {
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-256",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				256,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/info_getter");
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-128",
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					"gc_functions_handler",
+					30,
+					128,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/info_getter");
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-512",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				512,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/info_getter");
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-256",
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					"gc_functions_handler",
+					30,
+					256,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/info_getter");
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-1024",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				1024,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/info_getter");
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-512",
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					"gc_functions_handler",
+					30,
+					512,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/info_getter");
 
-		FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-2048",
-				GoogleCommandUtility.PYTHON_3_7_RUNTIME,
-				"gc_functions_handler",
-				30,
-				2048,
-				GoogleCommandUtility.IOWA,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/gcloud/python/info_getter");
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-1024",
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					"gc_functions_handler",
+					30,
+					1024,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/info_getter");
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-128",
-				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-				"info_getter.lambda_handler",
-				30,
-				128,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/info_getter",
-				"info_getter.zip");
+			FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-2048",
+					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
+					"gc_functions_handler",
+					30,
+					2048,
+					GoogleCommandUtility.IOWA,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/gcloud/python/info_getter");
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-256",
-				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-				"info_getter.lambda_handler",
-				30,
-				256,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/info_getter",
-				"info_getter.zip");
+		}
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-512",
-				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-				"info_getter.lambda_handler",
-				30,
-				512,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/info_getter",
-				"info_getter.zip");
+		if (AMAZON_DEPLOY) {
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-1024",
-				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-				"info_getter.lambda_handler",
-				30,
-				1024,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/info_getter",
-				"info_getter.zip");
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-128",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"info_getter.lambda_handler",
+					30,
+					128,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/python/info_getter",
+					"info_getter.zip");
 
-		FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-2048",
-				AmazonCommandUtility.PYTHON_3_7_RUNTIME,
-				"info_getter.lambda_handler",
-				30,
-				2048,
-				AmazonCommandUtility.OHIO,
-				"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-						"project/serverless_functions/aws/python/info_getter",
-				"info_getter.zip");
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-256",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"info_getter.lambda_handler",
+					30,
+					256,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/python/info_getter",
+					"info_getter.zip");
+
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-512",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"info_getter.lambda_handler",
+					30,
+					512,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/python/info_getter",
+					"info_getter.zip");
+
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-1024",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"info_getter.lambda_handler",
+					30,
+					1024,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/python/info_getter",
+					"info_getter.zip");
+
+			FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-2048",
+					AmazonCommandUtility.PYTHON_3_7_RUNTIME,
+					"info_getter.lambda_handler",
+					30,
+					2048,
+					AmazonCommandUtility.OHIO,
+					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
+							"project/serverless_functions/aws/python/info_getter",
+					"info_getter.zip");
+
+		}
 
 	}
 

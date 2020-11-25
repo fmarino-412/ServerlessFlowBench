@@ -2,7 +2,7 @@ import time
 import json
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def lambda_handler(event, context):
 
 	# search for array dimension in request
@@ -37,12 +37,7 @@ def lambda_handler(event, context):
 				'test': 'memory_test',
 				'dimension': n,
 				'milliseconds': execution_time
-			}  # ,
-			# 'memory_info': {
-			# 'initial_available': available_start,
-			# 'final_available': available_end,
-			# 'total': memory_total
-			# }
+			}
 		})
 	}
 

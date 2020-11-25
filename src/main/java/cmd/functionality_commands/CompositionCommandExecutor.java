@@ -266,7 +266,7 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			System.err.println("Could not load JSON file for '" + machineName + "': " + e.getMessage());
 		}
 
-		//noinspection SpellCheckingInspection
+		// noinspection SpellCheckingInspection
 		ArrayList<String> functionArns = new ArrayList<>();
 
 		// publish functions

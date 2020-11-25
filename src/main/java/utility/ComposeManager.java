@@ -70,7 +70,7 @@ public class ComposeManager {
 	public String getMysql() {
 		try {
 			initComposition();
-			//noinspection rawtypes
+			// noinspection rawtypes
 			return (String)((HashMap)((HashMap)composition.get("services")).get(MYSQL)).get("image");
 		} catch (FileNotFoundException e) {
 			System.err.println("Could not load composition property: " + e.getMessage());
@@ -86,7 +86,7 @@ public class ComposeManager {
 	public String getInflux() {
 		try {
 			initComposition();
-			//noinspection rawtypes
+			// noinspection rawtypes
 			return (String)((HashMap)((HashMap)composition.get("services")).get(INFLUX)).get("image");
 		} catch (FileNotFoundException e) {
 			System.err.println("Could not load composition property: " + e.getMessage());
@@ -101,7 +101,7 @@ public class ComposeManager {
 	public String getGrafana() {
 		try {
 			initComposition();
-			//noinspection rawtypes
+			// noinspection rawtypes
 			return (String)((HashMap)((HashMap)composition.get("services")).get(GRAFANA)).get("image");
 		} catch (FileNotFoundException e) {
 			System.err.println("Could not load composition property: " + e.getMessage());

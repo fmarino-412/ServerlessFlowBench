@@ -3,7 +3,7 @@ import math
 import json
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def lambda_handler(event, context):
 
 	# search for number to factorize in request
@@ -20,7 +20,6 @@ def lambda_handler(event, context):
 	# check value
 	if n <= 0:
 		n = 71950288374236
-
 
 	# measure computation
 	start_time = time.time()

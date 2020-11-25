@@ -3,7 +3,8 @@ exports.lambdaHandler = function (event, context, callback) {
     let n;
 
     // search for array dimension in request
-    if (event.queryStringParameters && event.queryStringParameters.n) {
+    // noinspection JSUnresolvedVariable
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('n')) {
         n = event.queryStringParameters.n;
     } else if (event.hasOwnProperty('n')) {
         n = event.n;
@@ -41,6 +42,7 @@ exports.lambdaHandler = function (event, context, callback) {
 
 function memoryStress(n) {
     // dynamically append elements to a list
+    // noinspection JSMismatchedCollectionQueryUpdate
     let memoryList = [];
     for (let i = 0; i < n; i++) {
         memoryList.push(i);

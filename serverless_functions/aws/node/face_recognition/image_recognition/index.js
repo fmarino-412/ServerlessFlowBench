@@ -3,9 +3,10 @@ exports.lambdaHandler = function (event, context, callback) {
     let url;
 
     // search for image url in request
-    if (event.queryStringParameters && event.queryStringParameters.url) {
+    // noinspection JSUnresolvedVariable
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('url')) {
         url = event.queryStringParameters.url;
-    } else if (event.url) {
+    } else if (event.hasOwnProperty('url')) {
         url = event.url;
     } else {
         callback(null, "Error");
@@ -50,6 +51,7 @@ function getBinary(base64Image) {
     for (let i = 0; i < length; i++) {
         ua[i] = binaryImg.charCodeAt(i);
     }
+    // noinspection JSUnusedLocalSymbols
     let blob = new Blob([ab], {
         type: "image/jpeg"
     });

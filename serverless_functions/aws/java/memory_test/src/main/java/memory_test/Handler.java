@@ -73,6 +73,7 @@ public class Handler implements RequestStreamHandler {
 
 	private static void memoryStress(long n) {
 		// dynamic append of elements to an array
+		// noinspection MismatchedQueryAndUpdateOfCollection
 		List<Long> memoryList = new ArrayList<>();
 		for (long i = 0; i < n; i++) {
 			memoryList.add(i);

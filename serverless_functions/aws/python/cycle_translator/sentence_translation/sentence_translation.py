@@ -5,7 +5,7 @@ REGION = os.environ['AWS_REGION']
 TRANSLATE_CLIENT = boto3.client("translate", region_name=REGION, use_ssl=True)
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def lambda_handler(event, context):
     # search for string and language in request
     sentence = None

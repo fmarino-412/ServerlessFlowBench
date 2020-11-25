@@ -1,7 +1,7 @@
 import json
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def lambda_handler(event, context):
 
 	# test invocation and response timing

@@ -3,9 +3,10 @@ exports.lambdaHandler = function (event, context, callback) {
     let sentence;
 
     // search for sentence in request
-    if (event.queryStringParameters && event.queryStringParameters.sentence) {
+    // noinspection JSUnresolvedVariable
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('sentence')) {
         sentence = event.queryStringParameters.sentence;
-    } else if (event.sentence) {
+    } else if (event.hasOwnProperty('sentence')) {
         sentence = event.sentence;
     } else {
         callback(null, "Error");

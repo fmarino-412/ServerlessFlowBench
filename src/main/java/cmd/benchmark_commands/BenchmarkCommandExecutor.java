@@ -115,7 +115,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 			inputStream = connection.getInputStream();
 			reader = new BufferedReader(new InputStreamReader(inputStream));
-			//noinspection StatementWithEmptyBody
+			// noinspection StatementWithEmptyBody
 			while (reader.readLine() != null) {}
 			long latency = System.currentTimeMillis() - startTime;
 			inputStream.close();

@@ -462,7 +462,7 @@ public class FunctionCommandExecutor extends CommandExecutor {
 			process.destroy();
 			System.out.println("Authorize api gateway for '" + functionName + "' execution completed");
 
-			//noinspection SpellCheckingInspection
+			// noinspection SpellCheckingInspection
 			String url = "https://" + apiId + ".execute-api." + region + ".amazonaws.com/benchmark/" + functionName;
 			System.out.println("\u001B[32m" + "Deployed function to: " + url + "\u001B[0m");
 

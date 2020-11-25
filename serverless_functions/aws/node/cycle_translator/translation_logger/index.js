@@ -6,30 +6,34 @@ exports.lambdaHandler = function (event, context, callback) {
     let loggingBucketName;
 
     // search for strings, original language code and logging bucket in request
-    if (event.queryStringParameters && event.queryStringParameters.original_sentence) {
+    // noinspection JSUnresolvedVariable
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('original_sentence')) {
         originalSentence = event.queryStringParameters.original_sentence;
-    } else if (event.original_sentence) {
+    } else if (event.hasOwnProperty('original_sentence')) {
         originalSentence = event.original_sentence;
     } else {
         callback(null, "Error");
     }
-    if (event.queryStringParameters && event.queryStringParameters.original_language_code) {
+    // noinspection JSUnresolvedVariable
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('original_language_code')) {
         originalLanguageCode = event.queryStringParameters.original_language_code;
-    } else if (event.original_language_code) {
+    } else if (event.hasOwnProperty('original_language_code')) {
         originalLanguageCode = event.original_language_code;
     } else {
         callback(null, "Error");
     }
-    if (event.queryStringParameters && event.queryStringParameters.translated_sentence) {
+    // noinspection JSUnresolvedVariable
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('translated_sentence')) {
         translatedSentence = event.queryStringParameters.translated_sentence;
-    } else if (event.translated_sentence) {
+    } else if (event.hasOwnProperty('translated_sentence')) {
         translatedSentence = event.translated_sentence;
     } else {
         callback(null, "Error");
     }
-    if (event.queryStringParameters && event.queryStringParameters.logging_bucket_name) {
+    // noinspection JSUnresolvedVariable
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('logging_bucket_name')) {
         loggingBucketName = event.queryStringParameters.logging_bucket_name;
-    } else if (event.logging_bucket_name) {
+    } else if (event.hasOwnProperty('logging_bucket_name')) {
         loggingBucketName = event.logging_bucket_name;
     } else {
         callback(null, "Error");
@@ -46,7 +50,8 @@ function logTranslation(originalSentence, originalLanguageCode, translatedSenten
     // timestamp
     const now = new Date();
     let date = "" + now.getFullYear() + "-" + checkZero(now.getMonth()) + "-" + checkZero(now.getDay());
-    let time = "" + checkZero(now.getHours()) + ":" + checkZero(now.getMinutes()) + ":" + checkZero(now.getSeconds()) + "." + now.getMilliseconds();
+    let time = "" + checkZero(now.getHours()) + ":" + checkZero(now.getMinutes()) + ":" + checkZero(now.getSeconds()) +
+        "." + now.getMilliseconds();
 
     // create filename
     let filename = "Translation_" + date + "_" + time + makeId() + ".log";
@@ -66,7 +71,7 @@ function logTranslation(originalSentence, originalLanguageCode, translatedSenten
         Body: body,
         ContentType: 'text/plain'
     };
-    S3.putObject(object, function(err, response) {
+    S3.putObject(object, function(err, _) {
         if (err) {
             callback(null, "Error");
         }
@@ -82,6 +87,7 @@ function checkZero(data) {
 
 function makeId() {
     let result = '';
+    // noinspection SpellCheckingInspection
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < 8; i++) {

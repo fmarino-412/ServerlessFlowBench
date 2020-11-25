@@ -5,7 +5,7 @@ import random
 S3_CLIENT = boto3.client("s3")
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def lambda_handler(event, context):
 
     # search for strings, original language code and logging bucket in request
@@ -77,6 +77,7 @@ def log_translation(original_sentence, original_language_code, translated_senten
 
 
 def make_id() -> str:
+    # noinspection SpellCheckingInspection
     letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     fingerprint = ''.join(random.choice(letters) for _ in range(8))
     return "[PythonRuntime_" + fingerprint + "]"

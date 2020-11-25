@@ -3,9 +3,11 @@ import json
 import time
 from datetime import datetime
 
+# noinspection SpellCheckingInspection
 STEPFUNCTIONS_CLIENT = boto3.client("stepfunctions")
 
 
+# noinspection PyUnusedLocal
 def lambda_handler(event, context):
 	arn = None
 
