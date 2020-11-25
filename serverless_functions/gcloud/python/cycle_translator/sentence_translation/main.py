@@ -4,7 +4,7 @@ import six
 TRANSLATE_CLIENT = translate.Client()
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def gc_functions_handler(request):
 
 	# search for string and language code in request
@@ -42,4 +42,5 @@ def translate_text(text, source_language_code) -> str:
 		text = text.decode("utf-8")
 
 	result = TRANSLATE_CLIENT.translate(text, source_language=source_language_code, target_language="en")
+	# noinspection PyTypeChecker
 	return result["translatedText"]

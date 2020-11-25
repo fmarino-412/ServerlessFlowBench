@@ -6,36 +6,33 @@ exports.gcFunctionsHandler = function (req, res) {
     let loggingBucketName;
 
     // search for strings, original language code and logging bucket in request
-    if (req.query && req.query.original_sentence) {
+    if (req.query && req.query.hasOwnProperty("original_sentence")) {
         originalSentence = req.query.original_sentence;
-    } else if (req.body && req.body["original_sentence"]) {
+    } else if (req.body && req.body.hasOwnProperty("original_sentence")) {
         originalSentence = req.body["original_sentence"];
     } else {
         res.send("Error");
         return;
     }
-
-    if (req.query && req.query.original_language_code) {
+    if (req.query && req.query.hasOwnProperty("original_language_code")) {
         originalLanguageCode = req.query.original_language_code;
-    } else if (req.body && req.body["original_language_code"]) {
+    } else if (req.body && req.body.hasOwnProperty("original_language_code")) {
         originalLanguageCode = req.body["original_language_code"];
     } else {
         res.send("Error");
         return;
     }
-
-    if (req.query && req.query.translated_sentence) {
+    if (req.query && req.query.hasOwnProperty("translated_sentence")) {
         translatedSentence = req.query.translated_sentence;
-    } else if (req.body && req.body["translated_sentence"]) {
+    } else if (req.body && req.body.hasOwnProperty("translated_sentence")) {
         translatedSentence = req.body["translated_sentence"];
     } else {
         res.send("Error");
         return;
     }
-
-    if (req.query && req.query.logging_bucket_name) {
+    if (req.query && req.query.hasOwnProperty("logging_bucket_name")) {
         loggingBucketName = req.query.logging_bucket_name;
-    } else if (req.body && req.body["logging_bucket_name"]) {
+    } else if (req.body && req.body.hasOwnProperty("logging_bucket_name")) {
         loggingBucketName = req.body["logging_bucket_name"];
     } else {
         res.send("Error");
@@ -94,6 +91,7 @@ function checkZero(data) {
 
 function makeId() {
     let result = '';
+    // noinspection SpellCheckingInspection
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < 8; i++) {

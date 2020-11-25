@@ -1,8 +1,9 @@
+# noinspection SpellCheckingInspection
 import urllib.request as urlrequest
 from google.cloud import vision
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def gc_functions_handler(request):
 
 	# search for url in request
@@ -16,8 +17,9 @@ def gc_functions_handler(request):
 		}
 
 	# image download
+	# noinspection SpellCheckingInspection
 	useragent = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 ' \
-				'Mobile/10A5355d Safari/8536.25 '
+		'Mobile/10A5355d Safari/8536.25 '
 
 	r = urlrequest.Request(url, headers={'User-Agent': useragent})
 	f = urlrequest.urlopen(r)
@@ -47,6 +49,6 @@ def detect_object_and_scenes(image) -> dict:
 	response = client.label_detection(image=image)
 	result = ""
 	for label in response.label_annotations:
-		result = result + (label.description).lower()
+		result = result + label.description.lower()
 	result = result[0: -2]
 	return result

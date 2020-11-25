@@ -4,9 +4,9 @@ exports.gcFunctionsHandler = function (req, res) {
     let counter;
 
     // search for list of string and counter in request
-    if (req.query && req.query.Sentences) {
+    if (req.query && req.query.hasOwnProperty("Sentences")) {
         sentences = req.query.Sentences;
-    } else if (req.body && req.body["Sentences"]) {
+    } else if (req.body && req.body.hasOwnProperty("Sentences")) {
         sentences = req.body["Sentences"];
     } else {
         res.send({

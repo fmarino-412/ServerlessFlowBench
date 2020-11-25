@@ -3,8 +3,9 @@ import datetime
 import random
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def gc_functions_handler(request):
+
 	# search for strings, original language code and logging bucket in request
 	original_sentence = None
 	original_language_code = None
@@ -40,7 +41,7 @@ def gc_functions_handler(request):
 
 
 def log_translation(original_sentence, original_language_code, translated_sentence, destination_language_code,
-					logging_bucket_name):
+																				logging_bucket_name):
 	# timestamp
 	timestamp = datetime.datetime.utcnow()
 
@@ -67,6 +68,7 @@ def log_translation(original_sentence, original_language_code, translated_senten
 
 
 def make_id() -> str:
+	# noinspection SpellCheckingInspection
 	letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 	fingerprint = ''.join(random.choice(letters) for _ in range(8))
 	return "[PythonRuntime_" + fingerprint + "]"

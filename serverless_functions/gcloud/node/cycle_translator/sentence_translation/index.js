@@ -4,9 +4,9 @@ exports.gcFunctionsHandler = function (req, res) {
     let languageCode;
 
     // search for sentence and language code in request
-    if (req.query && req.query.sentence) {
+    if (req.query && req.query.hasOwnProperty("sentence")) {
         sentence = req.query.sentence;
-    } else if (req.body && req.body["sentence"]) {
+    } else if (req.body && req.body.hasOwnProperty("sentence")) {
         sentence = req.body["sentence"];
     } else {
         res.send({
@@ -14,9 +14,9 @@ exports.gcFunctionsHandler = function (req, res) {
         });
         return;
     }
-    if (req.query && req.query.language_code) {
+    if (req.query && req.query.hasOwnProperty("language_code")) {
         languageCode = req.query.language_code;
-    } else if (req.body && req.body["language_code"]) {
+    } else if (req.body && req.body.hasOwnProperty("language_code")) {
         languageCode = req.body["language_code"];
     } else {
         res.send({

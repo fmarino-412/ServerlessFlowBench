@@ -1,7 +1,7 @@
 import json
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def gc_functions_handler(request):
 
     cpu_info = get_cpu_info()
@@ -20,12 +20,13 @@ def gc_functions_handler(request):
                 'cpu info': cpu_info,
                 'memory info': mem_info
             }
-        }), 200, headers)
+            }), 200, headers)
 
 
 # noinspection DuplicatedCode
 def get_cpu_info():
     cpu_info = None
+    # noinspection SpellCheckingInspection
     f = open('/proc/cpuinfo', 'r')
     if f.mode == 'r':
         cpu_info = f.read()
@@ -44,6 +45,7 @@ def get_cpu_info():
 # noinspection DuplicatedCode
 def get_memory_info():
     memory_info = None
+    # noinspection SpellCheckingInspection
     f = open('/proc/meminfo', 'r')
     if f.mode == 'r':
         memory_info = f.read()

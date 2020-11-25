@@ -3,9 +3,9 @@ exports.gcFunctionsHandler = function (req, res) {
     let sentence;
 
     // search for sentence in request
-    if (req.query && req.query.sentence) {
+    if (req.query && req.query.hasOwnProperty("sentence")) {
         sentence = req.query.sentence;
-    } else if (req.body && req.body["sentence"]) {
+    } else if (req.body && req.body.hasOwnProperty("sentence")) {
         sentence = req.body["sentence"];
     } else {
         res.send({

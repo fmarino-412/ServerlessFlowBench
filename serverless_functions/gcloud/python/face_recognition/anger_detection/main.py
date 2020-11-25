@@ -1,8 +1,9 @@
+# noinspection SpellCheckingInspection
 import urllib.request as urlrequest
 from google.cloud import vision
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def gc_functions_handler(request):
 
 	# search for url in request
@@ -14,8 +15,9 @@ def gc_functions_handler(request):
 		return "Error"
 
 	# image download
+	# noinspection SpellCheckingInspection
 	useragent = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 ' \
-				'Mobile/10A5355d Safari/8536.25 '
+		'Mobile/10A5355d Safari/8536.25 '
 
 	r = urlrequest.Request(url, headers={'User-Agent': useragent})
 	f = urlrequest.urlopen(r)

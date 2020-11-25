@@ -119,6 +119,7 @@ public class Handler implements HttpFunction {
 	private static String makeId() {
 
 		StringBuilder result = new StringBuilder();
+		// noinspection SpellCheckingInspection
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		for (int i = 0; i < 8; i++) {
 			result.append(characters.charAt(Math.abs(new Random().nextInt()) % characters.length()));

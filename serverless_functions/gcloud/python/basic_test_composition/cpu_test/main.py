@@ -1,10 +1,9 @@
-import time
-import math
 import json
-import re
+import math
+import time
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def gc_functions_handler(request):
 
 	# search for number to factorize in request

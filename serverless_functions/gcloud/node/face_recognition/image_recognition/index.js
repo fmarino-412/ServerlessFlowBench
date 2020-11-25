@@ -3,9 +3,9 @@ exports.gcFunctionsHandler = function (req, res) {
     let url;
 
     // search for image url in request
-    if (req.query && req.query.url) {
+    if (req.query && req.query.hasOwnProperty("url")) {
         url = req.query.url;
-    } else if (req.body && req.body["url"]) {
+    } else if (req.body && req.body.hasOwnProperty("url")) {
         url = req.body["url"];
     } else {
         res.send("Error");

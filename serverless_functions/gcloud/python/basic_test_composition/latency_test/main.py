@@ -1,7 +1,7 @@
 import json
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def gc_functions_handler(request):
 
 	# test invocation and response timing

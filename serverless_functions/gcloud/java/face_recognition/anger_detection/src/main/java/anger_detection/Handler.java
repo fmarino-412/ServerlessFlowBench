@@ -48,7 +48,7 @@ public class Handler implements HttpFunction {
 
 			ImageAnnotatorClient client = ImageAnnotatorClient.create();
 
-			// perform request and anlyze results
+			// perform request and analyze results
 			for (AnnotateImageResponse response : client.batchAnnotateImages(Collections.singletonList(request))
 					.getResponsesList()) {
 				if (response.hasError()) {

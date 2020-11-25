@@ -3,7 +3,7 @@ from google.cloud import translate_v2 as translate
 TRANSLATE_CLIENT = translate.Client()
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def gc_functions_handler(request):
 
 	# search for string in request

@@ -5,13 +5,14 @@ import time
 from oauth2client.client import AccessTokenCredentials
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def gc_functions_handler(request):
 	workflow_name = ""
 	access_token = ""
 
+	# noinspection SpellCheckingInspection
 	useragent = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 ' \
-				'Mobile/10A5355d Safari/8536.25 '
+		'Mobile/10A5355d Safari/8536.25 '
 
 	if request.args.get('token') is not None:
 		access_token = request.args.get('token')
