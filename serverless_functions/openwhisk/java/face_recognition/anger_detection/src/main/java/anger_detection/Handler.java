@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import java.net.URI;
 
+@SuppressWarnings("unused")
 public class Handler {
 
 	public static JsonObject main(JsonObject args) throws Exception {
@@ -57,6 +58,7 @@ public class Handler {
 
 			// request headers
 			request.setHeader("Content-Type", "application/json");
+			//noinspection SpellCheckingInspection
 			request.setHeader("Ocp-Apim-Subscription-Key", AzureConfig.key);
 
 			// request body

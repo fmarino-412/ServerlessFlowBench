@@ -22,6 +22,7 @@ def ow_handler(request):
 def detect_anger(image) -> bool:
 
 	# prepare request
+	# noinspection PyTypeChecker
 	client = FaceClient(azureconfig.endpoint, CognitiveServicesCredentials(azureconfig.key))
 	attributes = ["emotion"]
 	include_id = False

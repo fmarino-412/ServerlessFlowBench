@@ -1,3 +1,4 @@
+// noinspection JSUnresolvedVariable
 exports.owHandler = function (params) {
 
     let url;
@@ -10,7 +11,7 @@ exports.owHandler = function (params) {
     }
 
     // execute request and perform image analysis
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, _) {
         detectObjectsAndScenes(url, function (response) {
             resolve({
                 value: response,
@@ -29,6 +30,7 @@ function detectObjectsAndScenes(image, callback) {
     const azure = require('./azureconfig');
 
     // prepare and perform request
+    // noinspection SpellCheckingInspection
     const client = new ComputerVisionClient(new ApiKeyCredentials(
         { inHeader: { 'Ocp-Apim-Subscription-Key': azure.key } }), azure.endpoint);
     client.analyzeImage(image,  { visualFeatures: ['Tags'] }).then((result) => {

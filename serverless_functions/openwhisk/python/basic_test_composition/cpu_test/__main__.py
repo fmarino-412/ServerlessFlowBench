@@ -2,7 +2,7 @@ import time
 import math
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def ow_handler(request):
 
 	# search for number to factorize in request

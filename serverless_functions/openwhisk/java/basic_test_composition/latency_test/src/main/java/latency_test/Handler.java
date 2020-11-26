@@ -2,6 +2,7 @@ package latency_test;
 
 import com.google.gson.JsonObject;
 
+@SuppressWarnings("unused")
 public class Handler {
 
 	public static JsonObject main(JsonObject args) {

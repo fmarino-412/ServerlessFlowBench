@@ -1,4 +1,4 @@
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def ow_handler(request):
 
 	# test invocation and response timing

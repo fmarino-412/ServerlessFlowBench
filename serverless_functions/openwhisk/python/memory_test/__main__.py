@@ -1,8 +1,7 @@
 import time
-import json
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnusedLocal
 def ow_handler(request):
 
 	# search for array dimension in request

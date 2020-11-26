@@ -1,3 +1,4 @@
+// noinspection JSUnresolvedVariable
 exports.owHandler = function (params) {
 
     let n;
@@ -32,6 +33,7 @@ exports.owHandler = function (params) {
 
 function memoryStress(n) {
     // dynamically append elements to a list
+    // noinspection JSMismatchedCollectionQueryUpdate
     let memoryList = [];
     for (let i = 0; i < n; i++) {
         memoryList.push(i);

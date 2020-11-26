@@ -1,5 +1,7 @@
+// noinspection JSUnresolvedFunction,NpmUsedModulesInstalled
 const composer = require('openwhisk-composer')
 
+// noinspection JSUnresolvedVariable,JSUnresolvedFunction
 module.exports = composer.try(
     composer.seq(
         composer.literal({

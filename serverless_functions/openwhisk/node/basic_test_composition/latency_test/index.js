@@ -1,3 +1,4 @@
+// noinspection JSUnresolvedVariable,JSUnusedLocalSymbols
 exports.owHandler = function (params) {
 
     // test invocation and response timing

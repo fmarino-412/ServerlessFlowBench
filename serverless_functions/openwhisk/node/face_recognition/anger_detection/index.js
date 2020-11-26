@@ -1,3 +1,4 @@
+// noinspection JSUnresolvedVariable
 exports.owHandler = function (params) {
 
     let url;
@@ -10,7 +11,7 @@ exports.owHandler = function (params) {
     }
 
     // execute request and perform image analysis
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, _) {
         detectAnger(url, function (response) {
             resolve({
                 value: response
@@ -21,10 +22,13 @@ exports.owHandler = function (params) {
 
 function detectAnger(image, callback) {
 
+    // noinspection JSUnresolvedFunction
     const azure = require('./azureconfig');
+    // noinspection JSUnresolvedFunction
     const axios = require('axios').default;
 
     // prepare and perform request
+    // noinspection SpellCheckingInspection
     axios({
         method: 'post',
         url: azure.endpoint + '/face/v1.0/detect',
@@ -40,6 +44,7 @@ function detectAnger(image, callback) {
     }).then((response) => {
         response = response.data;
         for (let i = 0; i < response.length; i++) {
+            // noinspection JSUnresolvedVariable
             let emotions = response[i].faceAttributes.emotion;
             if (emotions.hasOwnProperty('anger') && emotions.anger >= 0.6) {
                 return callback(true);

@@ -27,6 +27,7 @@ def ow_handler(request):
 def detect_objects_and_scenes(image) -> str:
 
 	# prepare and perform request
+	# noinspection PyTypeChecker
 	client = ComputerVisionClient(azureconfig.endpoint, CognitiveServicesCredentials(azureconfig.key))
 	detect_objects_results_remote = client.detect_objects(image)
 
