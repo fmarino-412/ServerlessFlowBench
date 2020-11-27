@@ -33,152 +33,6 @@
         "y": 0
       },
       "hiddenSeries": false,
-      "id": 6,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "Google",
-          "groupBy": [],
-          "measurement": "cold_start_latency_cycle-translator",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "runtime",
-              "operator": "=",
-              "value": "python"
-            },
-            {
-              "condition": "AND",
-              "key": "provider",
-              "operator": "=",
-              "value": "google"
-            }
-          ]
-        },
-        {
-          "alias": "Amazon",
-          "groupBy": [],
-          "measurement": "cold_start_latency_cycle-translator",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "runtime",
-              "operator": "=",
-              "value": "python"
-            },
-            {
-              "condition": "AND",
-              "key": "provider",
-              "operator": "=",
-              "value": "amazon"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Python Cold Start Latency",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fill": 0,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 0
-      },
-      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "avg": false,
@@ -267,6 +121,38 @@
               "value": "python"
             }
           ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "avg_latency_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -274,6 +160,184 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Python Average Latency",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "Google",
+          "groupBy": [],
+          "measurement": "cold_start_latency_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            }
+          ]
+        },
+        {
+          "alias": "Amazon",
+          "groupBy": [],
+          "measurement": "cold_start_latency_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            }
+          ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "cold_start_latency_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Python Cold Start Latency",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -411,6 +475,38 @@
               "key": "provider",
               "operator": "=",
               "value": "amazon"
+            }
+          ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "avg_latency_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
             }
           ]
         }
@@ -559,6 +655,38 @@
               "value": "amazon"
             }
           ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "cold_start_latency_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -703,6 +831,38 @@
               "key": "provider",
               "operator": "=",
               "value": "amazon"
+            }
+          ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "avg_latency_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
             }
           ]
         }
@@ -851,6 +1011,38 @@
               "value": "amazon"
             }
           ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "cold_start_latency_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -995,6 +1187,38 @@
               "key": "provider",
               "operator": "=",
               "value": "amazon"
+            }
+          ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "requests_throughput_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
             }
           ]
         }
@@ -1143,6 +1367,38 @@
               "value": "amazon"
             }
           ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "transfer_throughput_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -1287,6 +1543,38 @@
               "key": "provider",
               "operator": "=",
               "value": "amazon"
+            }
+          ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "requests_throughput_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
             }
           ]
         }
@@ -1435,6 +1723,38 @@
               "value": "amazon"
             }
           ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "transfer_throughput_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -1579,6 +1899,38 @@
               "key": "provider",
               "operator": "=",
               "value": "amazon"
+            }
+          ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "requests_throughput_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
             }
           ]
         }
@@ -1727,6 +2079,38 @@
               "value": "amazon"
             }
           ]
+        },
+        {
+          "alias": "Open Whisk",
+          "groupBy": [],
+          "measurement": "transfer_throughput_cycle-translator",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            },
+            {
+              "condition": "AND",
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -1798,6 +2182,6 @@
   },
   "timezone": "",
   "title": "Cycle Translator",
-  "uid": "XF8K0S2Gp",
-  "version": 19
+  "uid": "XF8K0S2Gt",
+  "version": 17
 }
