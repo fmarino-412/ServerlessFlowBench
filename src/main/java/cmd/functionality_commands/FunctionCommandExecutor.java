@@ -739,13 +739,20 @@ public class FunctionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 
 		if (process.waitFor() != 0) {
+			process.destroy();
+			executorServiceOut.shutdown();
+			executorServiceErr.shutdown();
+
 			System.err.println("Could not delete Gateway api '" + functionName + "'");
 		} else {
+			process.destroy();
+			executorServiceOut.shutdown();
+			executorServiceErr.shutdown();
+
+			// let AWS API Gateway remote environment complete the cleanup operation
+			waitFor("Cleanup", 30);
 			System.out.println("'" + functionName + "' api removed!");
 		}
-		process.destroy();
-		executorServiceOut.shutdown();
-		executorServiceErr.shutdown();
 	}
 
 	/**
@@ -783,7 +790,6 @@ public class FunctionCommandExecutor extends CommandExecutor {
 				System.err.println("Could not delete Gateway api '" + elem.getEntityName() + "': " +
 						e.getMessage());
 			}
-			waitFor("Cleanup", 30);
 		}
 
 		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");

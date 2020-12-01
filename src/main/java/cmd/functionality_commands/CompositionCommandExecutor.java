@@ -646,13 +646,20 @@ public class CompositionCommandExecutor extends CommandExecutor {
 		executorServiceErr.submit(errorGobbler);
 
 		if (process.waitFor() != 0) {
+			process.destroy();
+			executorServiceOut.shutdown();
+			executorServiceErr.shutdown();
+
 			System.err.println("Could not delete state machine '" + machineName + "'");
 		} else {
+			process.destroy();
+			executorServiceOut.shutdown();
+			executorServiceErr.shutdown();
+
+			// let the AWS Step FUnction remote environment complete the requested cleanup
+			waitFor("Cleanup", 30);
 			System.out.println("'" + machineName + "' machine removed!");
 		}
-		process.destroy();
-		executorServiceOut.shutdown();
-		executorServiceErr.shutdown();
 	}
 
 	/**
@@ -685,7 +692,6 @@ public class CompositionCommandExecutor extends CommandExecutor {
 			} catch (InterruptedException | IOException e) {
 				System.err.println("Could not remove handler from API Gateway: " + e.getMessage());
 			}
-			waitFor("Cleanup", 30);
 		}
 		// remove functions
 		List<CloudEntityData> toRemove = CompositionsRepositoryDAO.getAmazonFunctionInfos();
@@ -712,7 +718,6 @@ public class CompositionCommandExecutor extends CommandExecutor {
 					System.err.println("Could not delete '" + functionalityData.getEntityName() +
 							"' workflow from AWS Step Functions: " + e.getMessage());
 				}
-				waitFor("Cleanup", 30);
 			}
 		}
 		System.out.println("\u001B[32m" + "\nAmazon cleanup completed!\n" + "\u001B[0m");
