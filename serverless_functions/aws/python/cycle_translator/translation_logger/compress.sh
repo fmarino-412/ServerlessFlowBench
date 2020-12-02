@@ -1,2 +1,2 @@
 #!/bin/bash
-zip -6 translation_logger.zip *.py
+zip -6 translation_logger.zip ./*.py
