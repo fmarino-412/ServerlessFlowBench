@@ -1209,5 +1209,7 @@ public class ServerlessBenchmarkToolMain {
 
 		cleanup();
 
+		deploy();
+
 	}
 }
