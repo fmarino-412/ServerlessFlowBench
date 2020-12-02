@@ -445,6 +445,8 @@ Here an example of the `package.json` file.
 }
 ```
 
+**Please note**: package creation for AWS Node.js example functions can be automatically performed running the [`generate_archives.sh`](serverless_functions/aws/node/generate_archives.sh) script.
+
 #### Python:
 
 In order to create a Python zipped package:
@@ -452,7 +454,10 @@ In order to create a Python zipped package:
 1. install every needed dependency using [`pip`](https://pip.pypa.io/en/stable/) inside the Python project root,
 2. put every dependency installed and the `.py` files inside `.zip` archive ready to be deployed.
 
-**Please note**: in the common cases the function needs only to communicate with AWS services, a .zip archive with just .py files inside is needed.
+**Please note**:
+
+* In the common cases the function needs only to communicate with AWS services, a .zip archive with just .py files inside is needed.
+* Package creation for AWS Python example functions can be automatically performed running the [`generate_archives.sh`](serverless_functions/aws/python/generate_archives.sh) script.
 
 ### Google Cloud Platform
 
@@ -617,6 +622,8 @@ In order to create a Node.js zipped package:
 2. install every needed dependency using [`npm`](https://www.npmjs.com/) inside a folder named `node_modules` placed in the Node.js project root,
 3. put `package.json` file, `node_modules` folder and `.js` code files inside a `.zip` archive ready to be deployed.
 
+**Please note**: package creation for Open Whisk Node.js example functions can be automatically performed running the [`generate_archives.sh`](serverless_functions/openwhisk/node/generate_archives.sh) script.
+
 #### Python:
 
 [\[SOURCE\]](https://jamesthom.as/2017/04/python-packages-in-openwhisk/) In order to create a Python zipped package:
@@ -639,3 +646,5 @@ $ source virtualenv/bin/activate
 (virtualenv) $ pip install dependency-name
 ...
 ```
+
+**Please note**: package creation for Open Whisk Python example functions can be automatically performed running the [`generate_archives.sh`](serverless_functions/openwhisk/python/generate_archives.sh) script.
