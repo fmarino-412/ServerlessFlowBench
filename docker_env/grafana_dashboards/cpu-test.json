@@ -123,7 +123,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "avg_latency_cpu-test",
           "orderByTime": "ASC",
@@ -301,7 +301,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "cold_start_latency_cpu-test",
           "orderByTime": "ASC",
@@ -479,7 +479,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "avg_latency_cpu-test",
           "orderByTime": "ASC",
@@ -657,7 +657,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "cold_start_latency_cpu-test",
           "orderByTime": "ASC",
@@ -835,7 +835,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "avg_latency_cpu-test",
           "orderByTime": "ASC",
@@ -1013,7 +1013,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "cold_start_latency_cpu-test",
           "orderByTime": "ASC",
@@ -1191,7 +1191,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "requests_throughput_cpu-test",
           "orderByTime": "ASC",
@@ -1369,7 +1369,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "transfer_throughput_cpu-test",
           "orderByTime": "ASC",
@@ -1547,7 +1547,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "requests_throughput_cpu-test",
           "orderByTime": "ASC",
@@ -1725,7 +1725,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "transfer_throughput_cpu-test",
           "orderByTime": "ASC",
@@ -1903,7 +1903,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "requests_throughput_cpu-test",
           "orderByTime": "ASC",
@@ -2081,7 +2081,7 @@
           ]
         },
         {
-          "alias": "Open Whisk",
+          "alias": "OpenWhisk",
           "groupBy": [],
           "measurement": "transfer_throughput_cpu-test",
           "orderByTime": "ASC",

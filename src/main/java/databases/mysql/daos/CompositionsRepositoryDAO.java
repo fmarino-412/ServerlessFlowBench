@@ -299,7 +299,7 @@ public class CompositionsRepositoryDAO extends DAO {
 	}
 
 	/**
-	 * Drop every table associated to Open Whisk Compositions
+	 * Drop every table associated to OpenWhisk Compositions
 	 */
 	public static void dropOpenWhisk() {
 		dropTable(OPENWHISK);

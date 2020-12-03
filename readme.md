@@ -8,8 +8,8 @@ Academic Year: 2019/2020
 
 The **Serverless Composition Performance Project** is a framework that allows users to:
 
-* deploy **serverless functions** to Amazon Web Services, Google Cloud Platform and Open Whisk (already defined functions are available),
-* deploy **serverless function compositions** to Amazon Web Services, Google Cloud Platform and Open Whisk (as before, altready defined compositions are available) and
+* deploy **serverless functions** to Amazon Web Services, Google Cloud Platform and OpenWhisk (already defined functions are available),
+* deploy **serverless function compositions** to Amazon Web Services, Google Cloud Platform and OpenWhisk (as before, altready defined compositions are available) and
 * perform HTTP **bechmarks** on deployed functions and compositions.
 
 ---
@@ -37,7 +37,7 @@ The **Serverless Composition Performance Project** is a framework that allows us
 	* [Workflows \[BETA\] API](https://cloud.google.com/workflows),
 	* [Cloud Vision API](https://cloud.google.com/vision) and
 	* [Translate API](https://cloud.google.com/translate).
-* [Open Whisk](https://openwhisk.apache.org/) running deployment
+* [OpenWhisk](https://openwhisk.apache.org/) running deployment
 * \[OPTIONAL\] [Azure](https://azure.microsoft.com/) valid and active account with, at least, the following enabled:
 	* [Vision API](https://azure.microsoft.com/services/cognitive-services/computer-vision/) and
 	* [Face API](https://azure.microsoft.com/services/cognitive-services/face/).
@@ -110,7 +110,7 @@ Here is the list of the functionalities realized:
 * `face_recognition`: detection of face and anger in an image.
 	* `image_recognition`: detection of faces.
 	* `anger_detection`: detection of anger if face found.
-* `cycle_translator`: translation of sentences from any language to english (Open Whisk version not realized).
+* `cycle_translator`: translation of sentences from any language to english (OpenWhisk version not realized).
 	* `loop_controller`: utility to manage more sentence translation at a time.
 	* `language_detection`: detection of the sentence language.
 	* `sentence_translation`: translation to English language.
@@ -130,10 +130,10 @@ Each of them has been realized for [Python](https://www.python.org/), [Java](htt
 	* [`node`](serverless_functions/gcloud/node) containing Node.js Google Cloud version of the functionalities,
 	* [`python`](serverless_functions/gcloud/python) containing Python Google Cloud version of the functionalities and
 	* [`orchestration_handler`](serverless_functions/gcloud/orchestration_handler) folder containing a Python handler to execute and return result of compositions.
-* [`openwhisk`](serverless_functions/openwhisk) folder containing functionalities meant to be deployed to Open Whisk:
-	* [`java`](serverless_functions/openwhisk/java) containing Java Open Whisk version of the functionalities,
-	* [`node`](serverless_functions/openwhisk/node) containing Node.js Open Whisk version of the functionalities and
-	* [`python`](serverless_functions/openwhisk/python) containing Python Open Whisk version of the functionalities.
+* [`openwhisk`](serverless_functions/openwhisk) folder containing functionalities meant to be deployed to OpenWhisk:
+	* [`java`](serverless_functions/openwhisk/java) containing Java OpenWhisk version of the functionalities,
+	* [`node`](serverless_functions/openwhisk/node) containing Node.js OpenWhisk version of the functionalities and
+	* [`python`](serverless_functions/openwhisk/python) containing Python OpenWhisk version of the functionalities.
 
 ### [src](src)
 
@@ -179,7 +179,7 @@ In the main folder there are:
 
 * [`AmazonCommandUtility.java`](src/main/java/cmd/functionality_commands/AmazonCommandUtility.java) used to create [Amazon Web Services CLI](https://aws.amazon.com/cli/) shell commands,
 * [`GoogleCommandUtility.java`](src/main/java/cmd/functionality_commands/GoogleCommandUtility.java) used to create [Google CLoud Platform CLI](https://cloud.google.com/sdk/gcloud) shell commands,
-* [`OpenWhiskCommandUtility.java`](src/main/java/cmd/functionality_commands/OpenWhiskCommandUtility.java) used to create [Open Whisk CLI](https://github.com/apache/openwhisk-cli) shell commands,
+* [`OpenWhiskCommandUtility.java`](src/main/java/cmd/functionality_commands/OpenWhiskCommandUtility.java) used to create [OpenWhisk CLI](https://github.com/apache/openwhisk-cli) shell commands,
 * [`BucketsCommandExecutor.java`](src/main/java/cmd/functionality_commands/BucketsCommandExecutor.java) used to execute cloud buckets related commands,
 * [`CompositionCommandExecutor.java`](src/main/java/cmd/functionality_commands/CompositionCommandExecutor.java) used to execute serverless compositions related commands,
 * [`FunctionCommandExecutor.java`](src/main/java/cmd/functionality_commands/FunctionCommandExecutor.java) used to execute serverless functions related commands,
@@ -253,8 +253,8 @@ A file named `credentials.json` is required in [`serverless_functions/gcloud/.cr
 ```
 It can be downloaded from Google Cloud Platform Console &#8594; API and services (in the side menu) &#8594; Credentials &#8594; Service accounts (selecting the one with desired authorizations) &#8594; New key.
 
-### Azure API in Open Whisk \[optional\]
-These files are needed only if the user needs to execute **benchmarks** on **Open Whisk** for the originally defined **anger detection workflows**. Being every file specific for each function, several versions of this information are needed. Strings needed to fill these files can be found from Azure Console &#8594; Resources (in the side menu) &#8594; Choose the specific Cognitive Service resource &#8594; Keys and endpoints.
+### Azure API in OpenWhisk \[optional\]
+These files are needed only if the user needs to execute **benchmarks** on **OpenWhisk** for the originally defined **anger detection workflows**. Being every file specific for each function, several versions of this information are needed. Strings needed to fill these files can be found from Azure Console &#8594; Resources (in the side menu) &#8594; Choose the specific Cognitive Service resource &#8594; Keys and endpoints.
 
 #### Java:
 
@@ -315,7 +315,7 @@ aws_step_functions_execution_role=arn:xxxxxxx
 
 openwhisk_host=xxx.xxx.xxx.xxx
 openwhisk_auth=xxxxxxx
-openwhisk_ignore_ssl=True [or False if Open Whisk is deployed on a SSL certified endpoint]
+openwhisk_ignore_ssl=True [or False if OpenWhisk is deployed on a SSL certified endpoint]
 
 google_handler_function_path=absolute_path_to:serverless_functions/gcloud/orchestration_handler
 aws_handler_function_path=absolute_path_to:serverless_functions/aws/orchestration_handler
@@ -550,7 +550,7 @@ dependency-name==x.x.x
 ...
 ```
 
-### Open Whisk
+### OpenWhisk
 
 #### Java:
 
@@ -622,7 +622,7 @@ In order to create a Node.js zipped package:
 2. install every needed dependency using [`npm`](https://www.npmjs.com/) inside a folder named `node_modules` placed in the Node.js project root,
 3. put `package.json` file, `node_modules` folder and `.js` code files inside a `.zip` archive ready to be deployed.
 
-**Please note**: package creation for Open Whisk Node.js example functions can be automatically performed running the [`generate_archives.sh`](serverless_functions/openwhisk/node/generate_archives.sh) script.
+**Please note**: package creation for OpenWhisk Node.js example functions can be automatically performed running the [`generate_archives.sh`](serverless_functions/openwhisk/node/generate_archives.sh) script.
 
 #### Python:
 
@@ -647,4 +647,4 @@ $ source virtualenv/bin/activate
 ...
 ```
 
-**Please note**: package creation for Open Whisk Python example functions can be automatically performed running the [`generate_archives.sh`](serverless_functions/openwhisk/python/generate_archives.sh) script.
+**Please note**: package creation for OpenWhisk Python example functions can be automatically performed running the [`generate_archives.sh`](serverless_functions/openwhisk/python/generate_archives.sh) script.

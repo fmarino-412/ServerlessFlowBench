@@ -14,7 +14,7 @@ public class ServerlessBenchmarkToolMain {
 	private static final boolean GOOGLE_DEPLOY = true;
 	// execute deployment on Amazon Web Services
 	private static final boolean AMAZON_DEPLOY = true;
-	// execute deployment on Open Whisk
+	// execute deployment on OpenWhisk
 	private static final boolean OPENWHISK_DEPLOY = true;
 	// execute Python functionalities deployment
 	private static final boolean PYTHON = true;
