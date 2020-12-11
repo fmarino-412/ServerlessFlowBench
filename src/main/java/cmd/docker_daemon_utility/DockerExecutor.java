@@ -10,7 +10,9 @@ import cmd.functionality_commands.output_parsing.ReplyCollector;
 import utility.ComposeManager;
 import utility.PropertiesManager;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -261,6 +263,28 @@ public class DockerExecutor extends CommandExecutor {
 	}
 
 	/**
+	 * Create every subdirectory needed in the Docker compose file
+	 * @throws DockerException if creation error occurs
+	 */
+	private static void createDirectoryEnv() throws DockerException {
+
+		List<String> subDirectories = ComposeManager.getInstance().getLocalVolumes();
+		String directoryPath;
+		File directory;
+
+		// create every directory if not already exists
+		for (String subDirectory : subDirectories) {
+			directoryPath = COMPOSE_DIR + subDirectory;
+			directory = new File(directoryPath);
+			if (!directory.exists()) {
+				if (!directory.mkdirs()) {
+					throw new DockerException("Could not create '" + directoryPath + "'");
+				}
+			}
+		}
+	}
+
+	/**
 	 * Deploys Docker compose
 	 * @throws DockerException if error occurs
 	 */
@@ -309,6 +333,7 @@ public class DockerExecutor extends CommandExecutor {
 		checkDockerRunning();
 		checkDockerImages();
 		checkDockerConfig();
+		createDirectoryEnv();
 		deployComposition();
 	}
 }

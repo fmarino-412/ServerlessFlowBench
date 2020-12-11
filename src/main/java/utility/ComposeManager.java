@@ -7,8 +7,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Utility class for Docker compose file management.
@@ -106,6 +110,41 @@ public class ComposeManager {
 		} catch (FileNotFoundException e) {
 			System.err.println("Could not load composition property: " + e.getMessage());
 			return "";
+		}
+	}
+
+	/**
+	 * Getter for local volumes definitions
+	 * @return list of Docker composition directory defined subdirectories
+	 */
+	public List<String> getLocalVolumes() {
+		try {
+			initComposition();
+
+			List<String> volumes = new ArrayList<>();
+
+			// local directory volume pattern
+			Pattern pattern = Pattern.compile("^(\\.)(/.*)(:.*)");
+
+			// noinspection unchecked,rawtypes
+			((HashMap)composition.get("services")).forEach((serviceName, serviceContent) -> {
+				//noinspection unchecked,rawtypes
+				((List)((HashMap)serviceContent).get("volumes")).forEach(volume -> {
+					if (((String) volume).contains("./")) {
+						// check local directory definition
+						Matcher matcher = pattern.matcher((String)volume);
+						if (matcher.find()) {
+							// add local directory definition to local volumes list
+							volumes.add(matcher.group(2));
+						}
+					}
+				});
+
+			});
+			return volumes;
+		} catch (FileNotFoundException e) {
+			System.err.println("Could not load composition property: " + e.getMessage());
+			return null;
 		}
 	}
 }

@@ -23,7 +23,7 @@ public class ServerlessBenchmarkToolMain {
 	// execute Node.js functionalities deployment
 	private static final boolean NODE = true;
 	// select operation to perform
-	private static final int OPERATION_SELECTION = 5;
+	private static final int OPERATION_SELECTION = 2;
 
 
 	/**
@@ -51,9 +51,8 @@ public class ServerlessBenchmarkToolMain {
 			case 4:
 				deployInfoFunctions();
 				break;
-			// TODO: remove case 5
-			case 5:
-				customFunction();
+			default:
+				System.err.println("Please provide a valid OPERATION_SELECTION value.");
 		}
 	}
 
@@ -1201,15 +1200,6 @@ public class ServerlessBenchmarkToolMain {
 					"info_getter.zip");
 
 		}
-
-	}
-
-	@Deprecated
-	private static void customFunction() {
-
-		cleanup();
-
-		deploy();
 
 	}
 }
