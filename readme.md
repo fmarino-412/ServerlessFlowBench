@@ -293,13 +293,13 @@ A file named `config.properties` [in the project root](https://github.com/france
 ```properties
 docker_compose_dir=absolute_path_to:docker_env
 
-mysql_ip=localhost
+mysql_ip=localhost ['localhost' to use Docker compose MySQL instance]
 mysql_port=3306
 mysql_user=xxxxxxx
 mysql_password=xxxxxxx
 mysql_dbname=xxxxxxx
 
-influx_ip=localhost
+influx_ip=localhost ['localhost' to use Docker compose InfluxDB instance]
 influx_port=8086
 influx_user=xxxxxxx
 influx_password=xxxxxxx
