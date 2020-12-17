@@ -72,7 +72,7 @@ public class InfluxClient {
 	 * Inserts a Cold Start Benchmark result
 	 * @param functionalityName name of the functionality tested
 	 * @param provider provider associated to the result
-	 * @param latency latency result
+	 * @param latency latency result in milliseconds
 	 * @param millis measurement timestamp
 	 * @return true if insertion has been completed, false elsewhere
 	 */
@@ -127,7 +127,7 @@ public class InfluxClient {
 		String runtime = parts[1];
 		String name = parts[0];
 
-		// insert multiple points at a time using a batch
+		// insert multiple points at a time using a batch (every latency result is to be considered in milliseconds)
 		BatchPoints batch = BatchPoints
 				.database(DB_NAME)
 				.retentionPolicy("defaultPolicy")
