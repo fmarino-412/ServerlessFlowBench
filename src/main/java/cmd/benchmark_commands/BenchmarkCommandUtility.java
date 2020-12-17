@@ -26,7 +26,7 @@ public class BenchmarkCommandUtility extends CommandUtility {
 	/**
 	 * Builds wrk2 benchmark execution command
 	 * @param url url to perform benchmark on
-	 * @param concurrency number of concurrent requests
+	 * @param concurrency number of HTTP open connections
 	 * @param threads number of active threads
 	 * @param seconds test duration
 	 * @param requestsPerSecond number of requests per second
