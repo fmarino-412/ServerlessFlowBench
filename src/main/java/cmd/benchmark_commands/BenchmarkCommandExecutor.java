@@ -51,7 +51,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	/**
 	 * Perform a load benchmark through wrk2
 	 * @param url url to test
-	 * @param concurrency number of concurrent requests
+	 * @param concurrency number of HTTP open connections
 	 * @param threads number of threads
 	 * @param seconds test duration
 	 * @param requestsPerSecond number of requests per second
@@ -198,7 +198,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 	/**
 	 * Performs load benchmark
-	 * @param concurrency number of concurrent requests
+	 * @param concurrency number of HTTP open connections
 	 * @param threadNum number of threads
 	 * @param seconds test duration
 	 * @param requestsPerSecond number of requests per second
@@ -239,7 +239,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 	/**
 	 * Performs multiple cold start and load benchmarks
-	 * @param concurrency number of concurrent requests in load test
+	 * @param concurrency number of HTTP open connections in load test
 	 * @param threadNum number of threads in load test
 	 * @param seconds load test duration
 	 * @param requestsPerSecond requests per second in load test
@@ -334,7 +334,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		/**
 		 * Default constructor
 		 * @param function function url
-		 * @param concurrency number of concurrent requests
+		 * @param concurrency number of HTTP open connections
 		 * @param threads number of threads
 		 * @param seconds test duration
 		 * @param requestsPerSecond number of requests per second
@@ -466,7 +466,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		/**
 		 * Default constructor
 		 * @param function function url
-		 * @param concurrency number of concurrent requests in load test
+		 * @param concurrency number of HTTP open connections in load test
 		 * @param threads number of threads in load test
 		 * @param seconds load test duration
 		 * @param requestsPerSecond requests per second in load test
