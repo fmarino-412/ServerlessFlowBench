@@ -1,6 +1,7 @@
 import boto3
 import json
 import time
+import random
 from datetime import datetime
 
 # noinspection SpellCheckingInspection
@@ -43,8 +44,8 @@ def lambda_handler(event, context):
 			execution_info = {
 				'status': 'RUNNING'
 			}
-			# 0.5 seconds wait
-			busy_wait(0.05)
+			# to more likely avoid another ThrottleException
+			busy_wait(random.uniform(0.05, 0.95))
 
 	success = execution_info.get("status") == "SUCCEEDED"
 	name = execution_info.get("name")
