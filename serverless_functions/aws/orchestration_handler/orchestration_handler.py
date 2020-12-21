@@ -7,7 +7,7 @@ from datetime import datetime
 STEPFUNCTIONS_CLIENT = boto3.client("stepfunctions")
 
 
-# noinspection PyUnusedLocal
+# noinspection PyUnusedLocal,PyBroadException
 def lambda_handler(event, context):
 	arn = None
 
@@ -23,16 +23,28 @@ def lambda_handler(event, context):
 
 	response = STEPFUNCTIONS_CLIENT.start_execution(
 		stateMachineArn=arn,
-		name="execution_" + date.strftime("%d-%m-%Y_%H-%M-%S")
+		name="execution_" + date.strftime("%d-%m-%Y_%H-%M-%S-%f")
 	)
 
 	execution_arn = response.get("executionArn")
 	busy_wait(0.5)
-	execution_info = STEPFUNCTIONS_CLIENT.describe_execution(executionArn=execution_arn)
+	try:
+		execution_info = STEPFUNCTIONS_CLIENT.describe_execution(executionArn=execution_arn)
+	except:
+		execution_info = {
+			'status': 'RUNNING'
+		}
 
 	while execution_info.get("status") == "RUNNING":
 		busy_wait(0.05)
-		execution_info = STEPFUNCTIONS_CLIENT.describe_execution(executionArn=execution_arn)
+		try:
+			execution_info = STEPFUNCTIONS_CLIENT.describe_execution(executionArn=execution_arn)
+		except:
+			execution_info = {
+				'status': 'RUNNING'
+			}
+			# 0.5 seconds wait
+			busy_wait(0.05)
 
 	success = execution_info.get("status") == "SUCCEEDED"
 	name = execution_info.get("name")
