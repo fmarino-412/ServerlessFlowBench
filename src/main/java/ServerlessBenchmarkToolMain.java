@@ -1081,15 +1081,22 @@ public class ServerlessBenchmarkToolMain {
 				seconds: 60,
 				requestsPerSecond: 100000,
 				iterations: 10);*/
-		// influx and grafana test
+
+		int threadNumber = 1000;
+		int benchmarkDurationSeconds = 60;
+		int requestPerSecond = 10000;
+		int concurrency = benchmarkDurationSeconds * requestPerSecond;
+		int sleepIntervalMilliseconds = 180 * 60 * 1000;
+		int iterations = 5;
+
 		BenchmarkCommandExecutor.performBenchmarks(
-				1,
-				1,
-				60,
-				1,
-				30,
+				concurrency,
+				threadNumber,
+				benchmarkDurationSeconds,
+				requestPerSecond,
+				sleepIntervalMilliseconds,
 				null,
-				1);
+				iterations);
 	}
 
 	/**
