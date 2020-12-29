@@ -43,7 +43,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	 * Semaphores and maximum concurrency levels
 	 */
 	private static final int MAX_COLD_START_CONCURRENCY = 5;
-	private static final int MAX_LOAD_BENCHMARK_CONCURRENCY = 5;
+	// set to 1 to avoid Amazon handler concurrency overload due to ThrottleException!
+	private static final int MAX_LOAD_BENCHMARK_CONCURRENCY = 1;
 	private static final Semaphore COLD_START_SEM = new Semaphore(MAX_COLD_START_CONCURRENCY, true);
 	private static final Semaphore BENCHMARK_SEM = new Semaphore(MAX_LOAD_BENCHMARK_CONCURRENCY, true);
 
