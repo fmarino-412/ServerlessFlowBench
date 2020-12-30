@@ -23,7 +23,7 @@ public class ServerlessBenchmarkToolMain {
 	// execute Node.js functionalities deployment
 	private static final boolean NODE = true;
 	// select operation to perform
-	private static final int OPERATION_SELECTION = 2;
+	private static final int OPERATION_SELECTION = 3;
 
 	/**
 	 * Benchmark parameters, can be changed, choose a reasonable workload for your system.
