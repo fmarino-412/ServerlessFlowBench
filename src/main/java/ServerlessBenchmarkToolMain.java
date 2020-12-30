@@ -28,11 +28,17 @@ public class ServerlessBenchmarkToolMain {
 	/**
 	 * Benchmark parameters, can be changed, choose a reasonable workload for your system.
 	 */
+	// number of thread to generate in order to perform load test
 	private static final int THREAD_NUMBER = 2;
+	// load test duration
 	private static final int BENCHMARK_DURATION_SECONDS = 60;
+	// number of request per second in load teste
 	private static final int REQUESTS_PER_SECOND = 500;
+	// number of concurrent opened connections
 	private static final int CONCURRENCY = 1000;
+	// time to deallocate resources and perform a cold start
 	private static final int SLEEP_INTERVAL_MILLISECONDS = 180 * 60 * 1000;
+	// number of iterations
 	private static final int ITERATIONS = 5;
 
 
