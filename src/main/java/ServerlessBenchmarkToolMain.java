@@ -25,6 +25,16 @@ public class ServerlessBenchmarkToolMain {
 	// select operation to perform
 	private static final int OPERATION_SELECTION = 2;
 
+	/**
+	 * Benchmark parameters, can be changed, choose a reasonable workload for your system.
+	 */
+	private static final int THREAD_NUMBER = 2;
+	private static final int BENCHMARK_DURATION_SECONDS = 60;
+	private static final int REQUESTS_PER_SECOND = 500;
+	private static final int CONCURRENCY = 1000;
+	private static final int SLEEP_INTERVAL_MILLISECONDS = 180 * 60 * 1000;
+	private static final int ITERATIONS = 5;
+
 
 	/**
 	 * Application entry point method, executes functionality expressed in OPERATION_SELECTION
@@ -1082,21 +1092,14 @@ public class ServerlessBenchmarkToolMain {
 				requestsPerSecond: 100000,
 				iterations: 10);*/
 
-		int threadNumber = 1000;
-		int benchmarkDurationSeconds = 60;
-		int requestPerSecond = 10000;
-		int concurrency = benchmarkDurationSeconds * requestPerSecond;
-		int sleepIntervalMilliseconds = 180 * 60 * 1000;
-		int iterations = 5;
-
 		BenchmarkCommandExecutor.performBenchmarks(
-				concurrency,
-				threadNumber,
-				benchmarkDurationSeconds,
-				requestPerSecond,
-				sleepIntervalMilliseconds,
+				CONCURRENCY,
+				THREAD_NUMBER,
+				BENCHMARK_DURATION_SECONDS,
+				REQUESTS_PER_SECOND,
+				SLEEP_INTERVAL_MILLISECONDS,
 				null,
-				iterations);
+				ITERATIONS);
 	}
 
 	/**
