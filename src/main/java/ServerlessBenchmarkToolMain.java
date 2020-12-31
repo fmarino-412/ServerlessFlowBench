@@ -22,8 +22,6 @@ public class ServerlessBenchmarkToolMain {
 	private static final boolean JAVA = true;
 	// execute Node.js functionalities deployment
 	private static final boolean NODE = true;
-	// select operation to perform
-	private static final int OPERATION_SELECTION = 3;
 
 	/**
 	 * Benchmark parameters, can be changed, choose a reasonable workload for your system.
@@ -40,6 +38,16 @@ public class ServerlessBenchmarkToolMain {
 	private static final int SLEEP_INTERVAL_MILLISECONDS = 180 * 60 * 1000;
 	// number of iterations
 	private static final int ITERATIONS = 5;
+
+	/**
+	 * Select operation to perform:
+	 * 0 -> deploy functions and compositions
+	 * 1 -> perform benchmarks
+	 * 2 -> perform a complete cleanup
+	 * 3 -> 0 + 1 + 2
+	 * 4 -> deploy info gathering functionalities
+	 */
+	private static final int OPERATION_SELECTION = 3;
 
 
 	/**

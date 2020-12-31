@@ -532,8 +532,7 @@ public class AmazonCommandUtility extends CommandUtility {
 						// parameters setting
 						"s3://" + bucketName + SEP +
 						"--region" + SEP + region + SEP +
-						"--force" + SEP +
-						CLOSURE;
+						"--force";
 	}
 
 	/**
