@@ -280,20 +280,23 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			timeoutRequestMs = TIMEOUT_REQUEST_INTERVAL_MS;
 		}
 
-		System.out.print("\n" + "\u001B[33m" +
-				"Starting benchmarks...\nFrom this moment on please make sure no one else is invoking " +
-				"your functions.\n");
-		if (iterations != null) {
-			System.out.print("Estimated time: approximately " +
-					(((sleepIntervalMs/1000)*iterations)/60)/60 + " hours");
-		}
-		System.out.println("\u001B[0m" + "\n");
-
 		List<FunctionalityURL> total = extractUrls();
 		if (total.isEmpty()) {
 			System.err.println("Could not perform benchmarks: no functionality to test found");
 			return;
 		}
+
+		System.out.print("\n" + "\u001B[33m" +
+				"Starting benchmarks...\nFrom this moment on please make sure no one else is invoking " +
+				"your functions.\n");
+		if (iterations != null) {
+			double durationSeconds = ((sleepIntervalMs/1000.0 + (seconds * total.size())) * iterations);
+			int durationHours = (int)Math.floor((durationSeconds/60)/60);
+			int durationMinutes = (int)Math.floor(durationSeconds/60 - durationHours*60);
+			System.out.print("Estimated time: approximately " + durationHours + " hour(s) and " +
+					durationMinutes + " minute(s)");
+		}
+		System.out.println("\u001B[0m" + "\n");
 
 		ArrayList<Thread> threads = new ArrayList<>();
 		BenchmarkRunner runner;
