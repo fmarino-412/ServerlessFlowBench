@@ -159,7 +159,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Python Average Latency",
+      "title": "Python Average Latency (milliseconds)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -337,7 +337,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Python Cold Start Latency",
+      "title": "Python Cold Start Latency (milliseconds)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -515,7 +515,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Java Average Latency",
+      "title": "Java Average Latency (milliseconds)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -693,7 +693,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Java Cold Start Latency",
+      "title": "Java Cold Start Latency (milliseconds)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -871,7 +871,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Node Average Latency",
+      "title": "Node Average Latency (milliseconds)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1049,7 +1049,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Node Cold Start Latency",
+      "title": "Node Cold Start Latency (milliseconds)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1227,7 +1227,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Python Requests Throughput",
+      "title": "Python Requests Throughput (requests per second)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1405,7 +1405,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Python Transfer Throughput",
+      "title": "Python Transfer Throughput (kilobytes per second)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1583,7 +1583,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Java Requests Throughput",
+      "title": "Java Requests Throughput (requests per second)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1761,7 +1761,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Java Transfer Throughput",
+      "title": "Java Transfer Throughput (kilobytes per second)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1939,7 +1939,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Node Requests Throughput",
+      "title": "Node Requests Throughput (requests per second)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2117,7 +2117,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Node Transfer Throughput",
+      "title": "Node Transfer Throughput (kilobytes per second)",
       "tooltip": {
         "shared": true,
         "sort": 0,
