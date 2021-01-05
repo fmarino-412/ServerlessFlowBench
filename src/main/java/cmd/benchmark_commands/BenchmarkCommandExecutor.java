@@ -40,11 +40,17 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	private static final int TIMEOUT_REQUEST_INTERVAL_MS = 30 * 60 * 1000;
 
 	/**
-	 * Semaphores and maximum concurrency levels
+	 * Maximum concurrency levels - can be changed
 	 */
+	// maximum cold start test parallel executions
 	private static final int MAX_COLD_START_CONCURRENCY = 1;
-	// set to 1 to avoid Amazon handler concurrency overload due to ThrottleException!
+	// maximum load test parallel executions -
+	// has been set to 1 to avoid Amazon handler concurrency overload due to ThrottleException!
 	private static final int MAX_LOAD_BENCHMARK_CONCURRENCY = 1;
+
+	/**
+	 * Semaphores
+	 */
 	private static final Semaphore COLD_START_SEM = new Semaphore(MAX_COLD_START_CONCURRENCY, true);
 	private static final Semaphore BENCHMARK_SEM = new Semaphore(MAX_LOAD_BENCHMARK_CONCURRENCY, true);
 
