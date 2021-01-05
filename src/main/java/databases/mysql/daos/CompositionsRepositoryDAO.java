@@ -978,58 +978,62 @@ public class CompositionsRepositoryDAO extends DAO {
 			String name;
 			String url;
 			FunctionalityURL functionalityURL;
+			Statement statement;
+			ResultSet resultSet;
 
 			String googlePreamble = getGoogleHandlerUrl(connection);
 			if (googlePreamble == null) {
-				System.err.println("Could not build urls, Google handler not found!");
-				return null;
-			}
-			googlePreamble = googlePreamble + "?workflow=";
+				System.err.println("Could not build Google composition urls, handler not found!");
+			} else {
+				// if google handler exists
+				googlePreamble = googlePreamble + "?workflow=";
 
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(SELECT_GOOGLE_WORKFLOWS_NAMES);
+				statement = connection.createStatement();
+				resultSet = statement.executeQuery(SELECT_GOOGLE_WORKFLOWS_NAMES);
 
-			while (resultSet.next()) {
-				name = resultSet.getString("workflow_name");
-				url = googlePreamble + name;
+				while (resultSet.next()) {
+					name = resultSet.getString("workflow_name");
+					url = googlePreamble + name;
 
-				if (dynamicResult.containsKey(name)) {
-					dynamicResult.get(name).setGoogleUrl(url);
-				} else {
-					functionalityURL = new FunctionalityURL(name, true);
-					functionalityURL.setGoogleUrl(url);
-					dynamicResult.put(name, functionalityURL);
+					if (dynamicResult.containsKey(name)) {
+						dynamicResult.get(name).setGoogleUrl(url);
+					} else {
+						functionalityURL = new FunctionalityURL(name, true);
+						functionalityURL.setGoogleUrl(url);
+						dynamicResult.put(name, functionalityURL);
+					}
 				}
-			}
 
-			statement.close();
-			resultSet.close();
+				statement.close();
+				resultSet.close();
+			}
 
 			String amazonPreamble = getAmazonHandlerUrl(connection);
 			if (amazonPreamble == null) {
-				System.err.println("Could not build urls, Amazon handler not found!");
-				return null;
-			}
-			amazonPreamble = amazonPreamble + "?arn=";
+				System.err.println("Could not build Amazon composition urls, handler not found!");
+			} else {
+				// if amazon handler exists
+				amazonPreamble = amazonPreamble + "?arn=";
 
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(SELECT_AMAZON_MACHINES_ARNS);
+				statement = connection.createStatement();
+				resultSet = statement.executeQuery(SELECT_AMAZON_MACHINES_ARNS);
 
-			while (resultSet.next()) {
-				name = resultSet.getString("machine_name");
-				url = amazonPreamble + resultSet.getString("machine_arn");
+				while (resultSet.next()) {
+					name = resultSet.getString("machine_name");
+					url = amazonPreamble + resultSet.getString("machine_arn");
 
-				if (dynamicResult.containsKey(name)) {
-					dynamicResult.get(name).setAmazonUrl(url);
-				} else {
-					functionalityURL = new FunctionalityURL(name);
-					functionalityURL.setAmazonUrl(url);
-					dynamicResult.put(name, functionalityURL);
+					if (dynamicResult.containsKey(name)) {
+						dynamicResult.get(name).setAmazonUrl(url);
+					} else {
+						functionalityURL = new FunctionalityURL(name);
+						functionalityURL.setAmazonUrl(url);
+						dynamicResult.put(name, functionalityURL);
+					}
 				}
-			}
 
-			statement.close();
-			resultSet.close();
+				statement.close();
+				resultSet.close();
+			}
 
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(SELECT_OPENWHISK_COMPOSITION_INFOS);

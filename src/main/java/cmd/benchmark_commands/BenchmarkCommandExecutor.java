@@ -146,14 +146,14 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		List<FunctionalityURL> total = new ArrayList<>();
 
 		List<FunctionalityURL> functions = FunctionsRepositoryDAO.getUrls();
-		if (functions == null) {
-			System.err.println("Could not perform benchmarks on functions");
+		if (functions == null || functions.isEmpty()) {
+			System.err.println("WARNING: No function to test");
 		} else {
 			total.addAll(functions);
 		}
 		List<FunctionalityURL> machines = CompositionsRepositoryDAO.getUrls();
-		if (machines == null) {
-			System.err.println("Could not perform benchmarks on state machines");
+		if (machines == null || machines.isEmpty()) {
+			System.err.println("WARNING: No composition to test");
 		} else {
 			total.addAll(machines);
 		}
