@@ -118,19 +118,13 @@ public class BucketsCommandExecutor extends CommandExecutor {
 	private static void removeGoogleBucket(String bucketName) throws IOException, InterruptedException {
 
 		String cmd = GoogleCommandUtility.buildGoogleCloudStorageBucketDropCommand(bucketName);
-		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 
-		Process process = buildCommand(cmd).start();
-		StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.out::println);
-
-		executorServiceErr.submit(errorGobbler);
-		if (process.waitFor() != 0) {
-			System.err.println("Could not delete bucket '" + bucketName + "' from Google");
-		} else {
+		// ignore element by element deletion log line
+		if (commandSilentExecution(cmd)) {
 			System.out.println("'" + bucketName + "' bucket removed from Google!");
+		} else {
+			System.err.println("Could not delete bucket '" + bucketName + "' from Google");
 		}
-		process.destroy();
-		executorServiceErr.shutdown();
 	}
 
 	/**
@@ -142,20 +136,13 @@ public class BucketsCommandExecutor extends CommandExecutor {
 	private static void removeAmazonBucket(String bucketName, String region) throws IOException, InterruptedException {
 
 		String cmd = AmazonCommandUtility.buildS3BucketDropCommand(bucketName, region);
-		ExecutorService executorServiceErr = Executors.newSingleThreadExecutor();
 
-		Process process = buildCommand(cmd).start();
-		StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), System.err::println);
-
-		executorServiceErr.submit(errorGobbler);
-
-		if (process.waitFor() != 0) {
-			System.err.println("Could not delete bucket '" + bucketName + "' from Amazon");
-		} else {
+		// ignore element by element deletion log line
+		if (commandSilentExecution(cmd)) {
 			System.out.println("'" + bucketName + "' bucket removed from Amazon!");
+		} else {
+			System.err.println("Could not delete bucket '" + bucketName + "' from Amazon");
 		}
-		process.destroy();
-		executorServiceErr.shutdown();
 	}
 
 	/**
@@ -181,6 +168,7 @@ public class BucketsCommandExecutor extends CommandExecutor {
 
 		for (CloudEntityData elem : toRemove) {
 			try {
+				System.out.println("Removing bucket '" + elem.getEntityName() + "' and its content...");
 				removeGoogleBucket(elem.getEntityName());
 			} catch (InterruptedException | IOException e) {
 				System.err.println("Could not delete Google bucket '" + elem.getEntityName() + "': " +
@@ -216,6 +204,7 @@ public class BucketsCommandExecutor extends CommandExecutor {
 
 		for (CloudEntityData elem : toRemove) {
 			try {
+				System.out.println("Removing bucket '" + elem.getEntityName() + "' and its content...");
 				removeAmazonBucket(elem.getEntityName(), elem.getRegion());
 			} catch (InterruptedException | IOException e) {
 				System.err.println("Could not delete Amazon bucket '" + elem.getEntityName() + "': " +
