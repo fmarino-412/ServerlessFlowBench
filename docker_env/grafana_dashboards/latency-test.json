@@ -2153,6 +2153,1408 @@
         "align": false,
         "alignLevel": null
       }
+    },
+    {
+      "columns": [
+        {
+          "text": "Avg",
+          "value": "avg"
+        }
+      ],
+      "datasource": null,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 48
+      },
+      "id": 18,
+      "options": {},
+      "pageSize": null,
+      "pluginVersion": "6.5.0",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Average",
+          "colorMode": "value",
+          "colors": [
+            "#73BF69",
+            "#FF9830",
+            "#F2495C"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Avg",
+          "thresholds": [
+            "1000",
+            "30000"
+          ],
+          "type": "number",
+          "unit": "ms"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "Python Google Latency",
+          "groupBy": [],
+          "measurement": "avg_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Python Amazon Latency",
+          "groupBy": [],
+          "measurement": "avg_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Python OpenWhisk Latency",
+          "groupBy": [],
+          "measurement": "avg_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Java Google Latency",
+          "groupBy": [],
+          "measurement": "avg_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Java Amazon Latency",
+          "groupBy": [],
+          "measurement": "avg_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Java OpenWhisk Latency",
+          "groupBy": [],
+          "measurement": "avg_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "F",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js Google Latency",
+          "groupBy": [],
+          "measurement": "avg_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "G",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js Amazon Latency",
+          "groupBy": [],
+          "measurement": "avg_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "H",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js OpenWhisk Latency",
+          "groupBy": [],
+          "measurement": "avg_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "I",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        },
+        {
+          "alias": "Python Google Cold Start Latency",
+          "groupBy": [],
+          "measurement": "cold_start_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "J",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Python Amazon Cold Start Latency",
+          "groupBy": [],
+          "measurement": "cold_start_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "K",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Python OpenWhisk Cold Start Latency",
+          "groupBy": [],
+          "measurement": "cold_start_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "L",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Java Google Cold Start Latency",
+          "groupBy": [],
+          "measurement": "cold_start_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "M",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Java Amazon Cold Start Latency",
+          "groupBy": [],
+          "measurement": "cold_start_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "N",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Java OpenWhisk Cold Start Latency",
+          "groupBy": [],
+          "measurement": "cold_start_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "O",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js Google Cold Start Latency",
+          "groupBy": [],
+          "measurement": "cold_start_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "P",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js Amazon Cold Start Latency",
+          "groupBy": [],
+          "measurement": "cold_start_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "Q",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js OpenWhisk Cold Start Latency",
+          "groupBy": [],
+          "measurement": "cold_start_latency_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "R",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Global Latency Stats",
+      "transform": "timeseries_aggregations",
+      "type": "table"
+    },
+    {
+      "columns": [
+        {
+          "text": "Avg",
+          "value": "avg"
+        }
+      ],
+      "datasource": null,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 48
+      },
+      "id": 19,
+      "options": {},
+      "pageSize": null,
+      "pluginVersion": "6.5.0",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Average",
+          "colorMode": null,
+          "colors": [
+            "#F2495C",
+            "#FF9830",
+            "#73BF69"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Avg",
+          "thresholds": [
+            "50",
+            "100"
+          ],
+          "type": "number",
+          "unit": "none"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "Python Google Request Throughput (request per second)",
+          "groupBy": [],
+          "measurement": "requests_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Python Amazon Request Throughput (request per second)",
+          "groupBy": [],
+          "measurement": "requests_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Python OpenWhisk Request Throughput (request per second)",
+          "groupBy": [],
+          "measurement": "requests_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Java Google Request Throughput (request per second)",
+          "groupBy": [],
+          "measurement": "requests_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Java Amazon Request Throughput (request per second)",
+          "groupBy": [],
+          "measurement": "requests_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Java OpenWhisk Request Throughput (request per second)",
+          "groupBy": [],
+          "measurement": "requests_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "F",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js Google Request Throughput (request per second)",
+          "groupBy": [],
+          "measurement": "requests_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "G",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js Amazon Request Throughput (request per second)",
+          "groupBy": [],
+          "measurement": "requests_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "H",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js OpenWhisk Request Throughput (request per second)",
+          "groupBy": [],
+          "measurement": "requests_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "I",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        },
+        {
+          "alias": "Python Google Transfer Throughput (kilobyte per second)",
+          "groupBy": [],
+          "measurement": "transfer_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "J",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Python Amazon Transfer Throughput (kilobyte per second)",
+          "groupBy": [],
+          "measurement": "transfer_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "K",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Python OpenWhisk Transfer Throughput (kilobyte per second)",
+          "groupBy": [],
+          "measurement": "transfer_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "L",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "python"
+            }
+          ]
+        },
+        {
+          "alias": "Java Google Transfer Throughput (kilobyte per second)",
+          "groupBy": [],
+          "measurement": "transfer_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "M",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Java Amazon Transfer Throughput (kilobyte per second)",
+          "groupBy": [],
+          "measurement": "transfer_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "N",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Java OpenWhisk Transfer Throughput (kilobyte per second)",
+          "groupBy": [],
+          "measurement": "transfer_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "O",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "java"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js Google Transfer Throughput (kilobyte per second)",
+          "groupBy": [],
+          "measurement": "transfer_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "P",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "google"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js Amazon Transfer Throughput (kilobyte per second)",
+          "groupBy": [],
+          "measurement": "transfer_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "Q",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "amazon"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        },
+        {
+          "alias": "Node.js OpenWhisk Transfer Throughput (kilobyte per second)",
+          "groupBy": [],
+          "measurement": "transfer_throughput_latency-test",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "R",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "provider",
+              "operator": "=",
+              "value": "openwhisk"
+            },
+            {
+              "condition": "AND",
+              "key": "runtime",
+              "operator": "=",
+              "value": "node"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Global Throughput Stats",
+      "transform": "timeseries_aggregations",
+      "type": "table"
     }
   ],
   "refresh": false,
@@ -2161,10 +3563,6 @@
   "tags": [],
   "templating": {
     "list": []
-  },
-  "time": {
-    "from": "now-3h",
-    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
