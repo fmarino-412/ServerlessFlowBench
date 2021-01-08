@@ -40,20 +40,21 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	private static final int TIMEOUT_REQUEST_INTERVAL_MS = 30 * 60 * 1000;
 
 	/**
-	 * Maximum concurrency levels - can be changed
-	 */
-	// maximum cold start test parallel executions
-	private static final int MAX_COLD_START_CONCURRENCY = 1;
-	// maximum load test parallel executions -
-	// has been set to 1 to avoid Amazon handler concurrency overload due to ThrottleException!
-	private static final int MAX_LOAD_BENCHMARK_CONCURRENCY = 1;
-
-	/**
 	 * Semaphores
 	 */
-	private static final Semaphore COLD_START_SEM = new Semaphore(MAX_COLD_START_CONCURRENCY, true);
-	private static final Semaphore BENCHMARK_SEM = new Semaphore(MAX_LOAD_BENCHMARK_CONCURRENCY, true);
+	private final Semaphore coldStartSem;
+	private final Semaphore benchmarkSem;
 
+
+	/**
+	 * Constructor, initializes maximum concurrency levels with specified values
+	 * @param maxColdStartConcurrency maximum concurrent cold start test amount
+	 * @param maxLoadBenchmarkConcurrency maximum concurrent load test amount
+	 */
+	public BenchmarkCommandExecutor(int maxColdStartConcurrency, int maxLoadBenchmarkConcurrency) {
+		coldStartSem = new Semaphore(maxColdStartConcurrency, true);
+		benchmarkSem = new Semaphore(maxLoadBenchmarkConcurrency, true);
+	}
 
 	/**
 	 * Perform a load benchmark through wrk2
@@ -256,9 +257,9 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	 *                         if null default value will be used
 	 * @param iterations number of iterations, if null the test will run indefinitely (continuous monitoring)
 	 */
-	public static void performBenchmarks(Integer concurrency, Integer threadNum, Integer seconds,
-										 Integer requestsPerSecond, @Nullable Integer sleepIntervalMs,
-										 @Nullable Integer timeoutRequestMs, @Nullable Integer iterations) {
+	public void performBenchmarks(Integer concurrency, Integer threadNum, Integer seconds, Integer requestsPerSecond,
+								  @Nullable Integer sleepIntervalMs, @Nullable Integer timeoutRequestMs,
+								  @Nullable Integer iterations) {
 
 		try {
 			DockerExecutor.checkDocker();
@@ -310,7 +311,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 		for (FunctionalityURL url : total) {
 			runner = new BenchmarkRunner(url, concurrency, threadNum, seconds, requestsPerSecond,
-					sleepIntervalMs, timeoutRequestMs, iterations, COLD_START_SEM, BENCHMARK_SEM);
+					sleepIntervalMs, timeoutRequestMs, iterations, coldStartSem, benchmarkSem);
 			t = new Thread(runner);
 			threads.add(t);
 			t.start();
