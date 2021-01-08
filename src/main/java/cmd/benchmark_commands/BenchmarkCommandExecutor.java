@@ -168,7 +168,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	}
 
 	/**
-	 * Perform cold start benchmarks
+	 * Deprecated, performs cold start benchmarks
 	 * @param iterations number of test
 	 */
 	@Deprecated
@@ -204,7 +204,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	}
 
 	/**
-	 * Performs load benchmark
+	 * Deprecated, performs load benchmark
 	 * @param concurrency number of HTTP open connections
 	 * @param threadNum number of threads
 	 * @param seconds test duration
@@ -329,7 +329,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	}
 
 	/**
-	 * Runnable inner class for multiple load benchmarks performing
+	 * Deprecated, runnable inner class for multiple load benchmarks performing
 	 */
 	@Deprecated
 	private static class LoadTestRunner implements Runnable {
@@ -397,7 +397,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	}
 
 	/**
-	 * Runnable inner class for multiple cold start benchmarks performing
+	 * Deprecated, runnable inner class for multiple cold start benchmarks performing
 	 */
 	@Deprecated
 	private static class ColdTestRunner implements Runnable {
