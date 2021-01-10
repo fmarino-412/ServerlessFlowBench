@@ -45,6 +45,11 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	private final Semaphore coldStartSem;
 	private final Semaphore benchmarkSem;
 
+	/**
+	 * Concurrency info
+	 */
+	private final int minConcurrencyLevel;
+
 
 	/**
 	 * Constructor, initializes maximum concurrency levels with specified values
@@ -54,6 +59,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	public BenchmarkCommandExecutor(int maxColdStartConcurrency, int maxLoadBenchmarkConcurrency) {
 		coldStartSem = new Semaphore(maxColdStartConcurrency, true);
 		benchmarkSem = new Semaphore(maxLoadBenchmarkConcurrency, true);
+		minConcurrencyLevel = Math.min(maxColdStartConcurrency, maxLoadBenchmarkConcurrency);
 	}
 
 	/**
@@ -297,7 +303,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 				"Starting benchmarks...\nFrom this moment on please make sure no one else is invoking " +
 				"your functions.\n");
 		if (iterations != null) {
-			double durationSeconds = ((sleepIntervalMs/1000.0 + (seconds * total.size())) * iterations);
+			double durationSeconds = ((sleepIntervalMs/1000.0 + (seconds * total.size() / (double)minConcurrencyLevel))
+					* iterations);
 			int durationHours = (int)Math.floor((durationSeconds/60)/60);
 			int durationMinutes = (int)Math.floor(durationSeconds/60 - durationHours*60);
 			System.out.print("Estimated time: approximately " + durationHours + " hour(s) and " +
