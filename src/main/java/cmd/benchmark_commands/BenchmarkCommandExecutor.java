@@ -63,6 +63,17 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	}
 
 	/**
+	 * Constructor, initializes maximum concurrency levels with specified value independent from the type of test
+	 * @param maxConcurrency maximum concurrent load test amount
+	 */
+	public BenchmarkCommandExecutor(int maxConcurrency) {
+		Semaphore uniqueSem = new Semaphore(maxConcurrency, true);
+		coldStartSem = uniqueSem;
+		benchmarkSem = uniqueSem;
+		minConcurrencyLevel = maxConcurrency;
+	}
+
+	/**
 	 * Perform a load benchmark through wrk2
 	 * @param url url to test
 	 * @param concurrency number of HTTP open connections
