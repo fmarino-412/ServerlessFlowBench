@@ -8,22 +8,6 @@ import cmd.functionality_commands.*;
 public class ServerlessBenchmarkToolMain {
 
 	/**
-	 * Execution parameters, can be changed
-	 */
-	// execute deployment on Google Cloud Platform
-	private static final boolean GOOGLE_DEPLOY = true;
-	// execute deployment on Amazon Web Services
-	private static final boolean AMAZON_DEPLOY = true;
-	// execute deployment on OpenWhisk
-	private static final boolean OPENWHISK_DEPLOY = true;
-	// execute Python functionalities deployment
-	private static final boolean PYTHON = true;
-	// execute Java functionalities deployment
-	private static final boolean JAVA = true;
-	// execute Node.js functionalities deployment
-	private static final boolean NODE = true;
-
-	/**
 	 * Benchmark parameters, can be changed, choose a reasonable workload for your system.
 	 */
 	// number of thread to generate in order to perform load test
@@ -42,6 +26,22 @@ public class ServerlessBenchmarkToolMain {
 	private static final int MAX_COLD_START_CONCURRENCY = 1;
 	// maximum concurrent load tests amount
 	private static final int MAX_LOAD_BENCHMARK_CONCURRENCY = 1;
+
+	/**
+	 * Execution parameters, can be changed
+	 */
+	// execute deployment on Google Cloud Platform
+	private static final boolean GOOGLE_DEPLOY = true;
+	// execute deployment on Amazon Web Services
+	private static final boolean AMAZON_DEPLOY = true;
+	// execute deployment on OpenWhisk
+	private static final boolean OPENWHISK_DEPLOY = true;
+	// execute Python functionalities deployment
+	private static final boolean PYTHON = true;
+	// execute Java functionalities deployment
+	private static final boolean JAVA = true;
+	// execute Node.js functionalities deployment
+	private static final boolean NODE = true;
 
 	/**
 	 * Select operation to perform:
