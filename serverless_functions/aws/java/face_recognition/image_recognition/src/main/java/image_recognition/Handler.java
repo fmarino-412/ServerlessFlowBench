@@ -53,9 +53,11 @@ public class Handler implements RequestStreamHandler {
 			BufferedImage bufferedImage = ImageIO.read(connection);
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
+			byte[] image = byteArrayOutputStream.toByteArray();
+			byteArrayOutputStream.close();
 
 			// objects and scenes detection
-			String toRet = detectObjectsAndScenes(ByteBuffer.wrap(byteArrayOutputStream.toByteArray()));
+			String toRet = detectObjectsAndScenes(ByteBuffer.wrap(image));
 			if (toRet.contains("face")) {
 				toRet = "face";
 			} else {
@@ -86,6 +88,7 @@ public class Handler implements RequestStreamHandler {
 			resultBuilder.append(label.getName().toLowerCase()).append(", ");
 		}
 		resultBuilder.delete(resultBuilder.length() - 3, resultBuilder.length() - 1);
+		client.shutdown();
 		return resultBuilder.toString();
 	}
 

@@ -48,9 +48,11 @@ public class Handler implements RequestStreamHandler {
 			BufferedImage bufferedImage = ImageIO.read(connection);
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
+			byte[] image = byteArrayOutputStream.toByteArray();
+			byteArrayOutputStream.close();
 
 			// anger detection
-			returnResult(outputStream, detectAnger(ByteBuffer.wrap(byteArrayOutputStream.toByteArray())));
+			returnResult(outputStream, detectAnger(ByteBuffer.wrap(image)));
 		} catch (IOException ignored) {
 			returnResult(outputStream, null);
 		}
@@ -70,11 +72,13 @@ public class Handler implements RequestStreamHandler {
 		for (FaceDetail detail : result.getFaceDetails()) {
 			for (Emotion emotion : detail.getEmotions()) {
 				if (emotion.getType().equals("ANGRY") && emotion.getConfidence() >= 60) {
+					client.shutdown();
 					return true;
 				}
 			}
 
 		}
+		client.shutdown();
 		return false;
 	}
 
