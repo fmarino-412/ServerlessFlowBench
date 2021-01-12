@@ -87,7 +87,7 @@ public class Handler implements RequestStreamHandler {
 		for (Label label : result.getLabels()) {
 			resultBuilder.append(label.getName().toLowerCase()).append(", ");
 		}
-		resultBuilder.delete(resultBuilder.length() - 3, resultBuilder.length() - 1);
+		resultBuilder.delete(resultBuilder.length() - 2, resultBuilder.length());
 		client.shutdown();
 		return resultBuilder.toString();
 	}

@@ -25,9 +25,15 @@ exports.gcFunctionsHandler = function (req, res) {
 
 }
 
+function isFace(input) {
+    return input.includes("face") || input.includes("cheek") || input.includes("forehead") ||
+        input.includes("eyebrow") || input.includes("nose") || input.includes("lip") ||
+        input.includes("mouth") || input.includes("eye") || input.includes("lashes");
+}
+
 function retResult(result, url, res) {
     // prepare and return result
-    if (result.includes('face')) {
+    if (isFace(result)) {
         result = "face";
     } else {
         result = "other";

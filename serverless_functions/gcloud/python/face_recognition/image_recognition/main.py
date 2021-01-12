@@ -5,7 +5,6 @@ from google.cloud import vision
 
 # noinspection DuplicatedCode,PyUnusedLocal
 def gc_functions_handler(request):
-
 	# search for url in request
 	url = None
 
@@ -19,7 +18,7 @@ def gc_functions_handler(request):
 	# image download
 	# noinspection SpellCheckingInspection
 	useragent = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 ' \
-		'Mobile/10A5355d Safari/8536.25 '
+				'Mobile/10A5355d Safari/8536.25 '
 
 	r = urlrequest.Request(url, headers={'User-Agent': useragent})
 	f = urlrequest.urlopen(r)
@@ -27,7 +26,7 @@ def gc_functions_handler(request):
 
 	# perform image analysis
 	result = detect_object_and_scenes(image)
-	if "face" in result:
+	if is_face(result):
 		result = "face"
 	else:
 		result = "other"
@@ -39,8 +38,13 @@ def gc_functions_handler(request):
 	}
 
 
-def detect_object_and_scenes(image) -> dict:
+def is_face(input_result) -> bool:
+	return "face" in input_result or "cheek" in input_result or "forehead" in input_result \
+			or "eyebrow" in input_result or "nose" in input_result or "lip" in input_result \
+			or "mouth" in input_result or "eye" in input_result or "lashes" in input_result
 
+
+def detect_object_and_scenes(image) -> dict:
 	# prepare request
 	client = vision.ImageAnnotatorClient()
 	image = vision.Image(content=image)

@@ -36,13 +36,19 @@ public class Handler implements HttpFunction {
 
 		// objects and scenes detection
 		String toRet = detectObjectsAndScenes(image);
-		if (toRet != null && toRet.contains("face")) {
+		if (toRet != null && isFace(toRet)) {
 			toRet = "face";
 		} else if (toRet != null) {
 			toRet = "other";
 		}
 
 		returnResult(httpResponse.getWriter(), toRet, url);
+	}
+
+	private static boolean isFace(String input) {
+		return input.contains("face") || input.contains("cheek") || input.contains("forehead") ||
+				input.contains("eyebrow") || input.contains("nose") || input.contains("lip") || input.contains("mouth")
+				|| input.contains("eye") || input.contains("lashes");
 	}
 
 	private static String detectObjectsAndScenes(ByteString image) {
@@ -64,7 +70,7 @@ public class Handler implements HttpFunction {
 				for (EntityAnnotation label : response.getLabelAnnotationsList()) {
 					resultBuilder.append(label.getDescription().toLowerCase()).append(", ");
 				}
-				resultBuilder.delete(resultBuilder.length() - 3, resultBuilder.length() - 1);
+				resultBuilder.delete(resultBuilder.length() - 2, resultBuilder.length());
 			}
 
 			return resultBuilder.toString();

@@ -80,7 +80,7 @@ public class Handler {
 				for (int i = 0; i < tags.length(); i++) {
 					resultBuilder.append(tags.get(i).toString()).append(", ");
 				}
-				resultBuilder.delete(resultBuilder.length() - 3, resultBuilder.length() - 1);
+				resultBuilder.delete(resultBuilder.length() - 2, resultBuilder.length());
 				return resultBuilder.toString();
 			} else {
 				throw new Exception("No result received in anger detection");
