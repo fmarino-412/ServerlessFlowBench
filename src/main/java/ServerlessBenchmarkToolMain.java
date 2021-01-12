@@ -22,10 +22,8 @@ public class ServerlessBenchmarkToolMain {
 	private static final int SLEEP_INTERVAL_MILLISECONDS = 180 * 60 * 1000;
 	// number of iterations
 	private static final int ITERATIONS = 5;
-	// maximum concurrent cold start tests amount
-	private static final int MAX_COLD_START_CONCURRENCY = 1;
-	// maximum concurrent load tests amount
-	private static final int MAX_LOAD_BENCHMARK_CONCURRENCY = 1;
+	// maximum concurrency level
+	private static final int MAX_TOTAL_CONCURRENCY = 1;
 
 	/**
 	 * Execution parameters, can be changed
@@ -1104,8 +1102,7 @@ public class ServerlessBenchmarkToolMain {
 	 */
 	private static void benchmarkPerform() {
 
-		BenchmarkCommandExecutor benchmarker = new BenchmarkCommandExecutor(MAX_COLD_START_CONCURRENCY,
-				MAX_LOAD_BENCHMARK_CONCURRENCY);
+		BenchmarkCommandExecutor benchmarker = new BenchmarkCommandExecutor(MAX_TOTAL_CONCURRENCY);
 		benchmarker.performBenchmarks(
 				CONCURRENCY,
 				THREAD_NUMBER,
