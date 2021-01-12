@@ -9,11 +9,11 @@ exports.lambdaHandler = function (event, context, callback) {
     } else if (event.hasOwnProperty('n')) {
         n = event.n;
     } else {
-        n = 1300000;
+        n = 1100000;
     }
     // check value
     if (n <= 0) {
-        n = 1300000;
+        n = 1100000;
     }
 
     // measure computation

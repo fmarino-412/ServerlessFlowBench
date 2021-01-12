@@ -8,12 +8,12 @@ exports.gcFunctionsHandler = function (req, res) {
     } else if (req.body && req.body.hasOwnProperty("n")) {
         n = req.body["n"];
     } else {
-        n = 1300000;
+        n = 1100000;
     }
 
     // check value
     if (n <= 0) {
-        n = 1300000;
+        n = 1100000;
     }
 
     // measure computation

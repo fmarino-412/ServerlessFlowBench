@@ -34,11 +34,11 @@ public class Handler implements RequestStreamHandler {
 		if (event.containsKey("n")) {
 			n = Math.round((double)event.get("n"));
 		} else {
-			n = 1300000;
+			n = 1100000;
 		}
 		// check value
 		if (n <= 0) {
-			n = 1300000;
+			n = 1100000;
 		}
 
 		// computation

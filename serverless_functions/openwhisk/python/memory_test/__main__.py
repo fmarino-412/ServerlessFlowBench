@@ -10,11 +10,11 @@ def ow_handler(request):
 	if request.get('n') is not None:
 		n = int(request.get('n'))
 	else:
-		n = 1300000
+		n = 1100000
 
 	# check value
 	if n <= 0:
-		n = 1300000
+		n = 1100000
 
 	start_time = time.time()
 	memory_stress(n)

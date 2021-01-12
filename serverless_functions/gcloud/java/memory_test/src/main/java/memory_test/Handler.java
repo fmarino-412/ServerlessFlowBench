@@ -19,10 +19,10 @@ public class Handler implements HttpFunction {
 		httpResponse.setContentType("application/json");
 
 		// request reading, search for array dimension in request
-		long n = Long.parseLong(httpRequest.getFirstQueryParameter("n").orElse("1300000"));
+		long n = Long.parseLong(httpRequest.getFirstQueryParameter("n").orElse("1100000"));
 		// check value
 		if (n <= 0) {
-			n = 1300000;
+			n = 1100000;
 		}
 
 		// computation

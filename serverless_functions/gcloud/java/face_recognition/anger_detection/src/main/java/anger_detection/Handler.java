@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Collections;
 
@@ -27,7 +28,9 @@ public class Handler implements HttpFunction {
 		// computation
 		// image download
 		URL connection = new URL(url);
-		ByteString image = ByteString.readFrom(connection.openStream());
+		InputStream inputStream = connection.openStream();
+		ByteString image = ByteString.readFrom(inputStream);
+		inputStream.close();
 
 		// anger detection
 		Boolean bool = detectAnger(image);
@@ -52,15 +55,18 @@ public class Handler implements HttpFunction {
 			for (AnnotateImageResponse response : client.batchAnnotateImages(Collections.singletonList(request))
 					.getResponsesList()) {
 				if (response.hasError()) {
+					client.shutdownNow();
 					return null;
 				}
 				for (FaceAnnotation annotation : response.getFaceAnnotationsList()) {
 					if (annotation.getAngerLikelihood().equals(Likelihood.LIKELY) ||
 							annotation.getAngerLikelihood().equals(Likelihood.VERY_LIKELY)) {
+						client.shutdownNow();
 						return true;
 					}
 				}
 			}
+			client.shutdownNow();
 		} catch (IOException ignored) {
 			return null;
 		}

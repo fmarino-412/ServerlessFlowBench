@@ -15,11 +15,11 @@ public class Handler {
 		if (args.has("n")) {
 			n = args.get("n").getAsLong();
 		} else {
-			n = 1300000;
+			n = 1100000;
 		}
 		// check value
 		if (n <= 0) {
-			n = 1300000;
+			n = 1100000;
 		}
 
 		// computation

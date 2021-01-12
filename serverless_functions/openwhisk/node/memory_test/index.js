@@ -7,12 +7,12 @@ exports.owHandler = function (params) {
     if (params.hasOwnProperty("n")) {
         n = params.n;
     } else {
-        n = 1300000;
+        n = 1100000;
     }
 
     // check value
     if (n <= 0) {
-        n = 1300000;
+        n = 1100000;
     }
 
     // measure computation

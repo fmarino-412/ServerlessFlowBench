@@ -11,6 +11,7 @@ import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Collections;
 
@@ -32,7 +33,9 @@ public class Handler implements HttpFunction {
 		// computation
 		// image download
 		URL connection = new URL(url);
-		ByteString image = ByteString.readFrom(connection.openStream());
+		InputStream inputStream = connection.openStream();
+		ByteString image = ByteString.readFrom(inputStream);
+		inputStream.close();
 
 		// objects and scenes detection
 		String toRet = detectObjectsAndScenes(image);
@@ -65,6 +68,7 @@ public class Handler implements HttpFunction {
 			for (AnnotateImageResponse response : client.batchAnnotateImages(Collections.singletonList(request))
 					.getResponsesList()) {
 				if (response.hasError()) {
+					client.shutdownNow();
 					return null;
 				}
 				for (EntityAnnotation label : response.getLabelAnnotationsList()) {
@@ -73,6 +77,7 @@ public class Handler implements HttpFunction {
 				resultBuilder.delete(resultBuilder.length() - 2, resultBuilder.length());
 			}
 
+			client.shutdownNow();
 			return resultBuilder.toString();
 		} catch (IOException e) {
 			return null;
