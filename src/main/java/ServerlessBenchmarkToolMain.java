@@ -1,5 +1,6 @@
 import cmd.benchmark_commands.BenchmarkCommandExecutor;
 import cmd.functionality_commands.*;
+import javax.annotation.Nullable;
 
 /**
  * Application entry point class. This class garantees the use of the serverless benchmarking tool.
@@ -10,6 +11,8 @@ public class ServerlessBenchmarkToolMain {
 	/**
 	 * Benchmark parameters, can be changed, choose a reasonable workload for your system.
 	 */
+	// time to cause request timeout in cold start HTTP invocation
+	private static final int REQUEST_TIMEOUT_MILLISECONDS = Integer.MAX_VALUE;
 	// number of thread to generate in order to perform load test
 	private static final int THREAD_NUMBER = 2;
 	// load test duration
@@ -57,7 +60,7 @@ public class ServerlessBenchmarkToolMain {
 	 * @param args default argument structure, none is needed
 	 */
 	@SuppressWarnings("ConstantConditions")
-	public static void main(String[] args) {
+	public static void main(@Nullable String[] args) {
 
 		switch (OPERATION_SELECTION) {
 			case 0:
@@ -1109,7 +1112,7 @@ public class ServerlessBenchmarkToolMain {
 				BENCHMARK_DURATION_SECONDS,
 				REQUESTS_PER_SECOND,
 				SLEEP_INTERVAL_MILLISECONDS,
-				null,
+				REQUEST_TIMEOUT_MILLISECONDS,
 				ITERATIONS);
 	}
 
