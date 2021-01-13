@@ -602,23 +602,21 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					} catch (InterruptedException ignored) {
 						return;
 					}
-					googleStats = performBenchmark(function.getGoogleUrl(), concurrency, threads, seconds,
-							requestsPerSecond);
+					do {
+						googleStats = performBenchmark(function.getGoogleUrl(), concurrency, threads, seconds,
+								requestsPerSecond);
+					} while (googleStats == null || googleStats.getAvgLatency() == null);
 					benchmarkSem.release();
 
-					if (googleStats != null) {
-						System.out.println(function.getName() + " avg latency Google = " + googleStats.getAvgLatency());
-						// influx persist
-						if (InfluxClient.insertLoadPoints(function.getName(), "google", googleStats,
-								System.currentTimeMillis())) {
-							System.out.println("\u001B[32m" + "Persisted Google benchmark for: " + function.getName() +
-									"\u001B[0m");
-						} else {
-							System.err.println("Failed persisting Google benchmarks "
-									+ function.getName() + ": parameters or connection error");
-						}
+					System.out.println(function.getName() + " avg latency Google = " + googleStats.getAvgLatency());
+					// influx persist
+					if (InfluxClient.insertLoadPoints(function.getName(), "google", googleStats,
+							System.currentTimeMillis())) {
+						System.out.println("\u001B[32m" + "Persisted Google benchmark for: " + function.getName() +
+								"\u001B[0m");
 					} else {
-						System.err.println("Failed performing Google benchmark on " + function.getName());
+						System.err.println("Failed persisting Google benchmarks "
+								+ function.getName() + ": parameters or connection error");
 					}
 				}
 
@@ -663,22 +661,20 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					} catch (InterruptedException ignored) {
 						return;
 					}
-					amazonStats = performBenchmark(function.getAmazonUrl(), concurrency, threads, seconds,
-							requestsPerSecond);
+					do {
+						amazonStats = performBenchmark(function.getAmazonUrl(), concurrency, threads, seconds,
+								requestsPerSecond);
+					} while (amazonStats == null || amazonStats.getAvgLatency() == null);
 					benchmarkSem.release();
 
-					if (amazonStats != null) {
-						System.out.println(function.getName() + " avg latency Amazon = " + amazonStats.getAvgLatency());
-						if (InfluxClient.insertLoadPoints(function.getName(), "amazon", amazonStats,
-								System.currentTimeMillis())) {
-							System.out.println("\u001B[32m" + "Persisted Amazon benchmark for: " + function.getName() +
-									"\u001B[0m");
-						} else {
-							System.err.println("Failed persisting Amazon benchmarks "
-									+ function.getName() + ": parameters or connection error");
-						}
+					System.out.println(function.getName() + " avg latency Amazon = " + amazonStats.getAvgLatency());
+					if (InfluxClient.insertLoadPoints(function.getName(), "amazon", amazonStats,
+							System.currentTimeMillis())) {
+						System.out.println("\u001B[32m" + "Persisted Amazon benchmark for: " + function.getName() +
+								"\u001B[0m");
 					} else {
-						System.err.println("Failed performing Amazon benchmark on " + function.getName());
+						System.err.println("Failed persisting Amazon benchmarks "
+								+ function.getName() + ": parameters or connection error");
 					}
 				}
 
@@ -723,24 +719,22 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					} catch (InterruptedException ignored) {
 						return;
 					}
-					openWhiskStats = performBenchmark(function.getOpenWhiskUrl(), concurrency, threads, seconds,
-							requestsPerSecond);
+					do {
+						openWhiskStats = performBenchmark(function.getOpenWhiskUrl(), concurrency, threads, seconds,
+								requestsPerSecond);
+					} while (openWhiskStats == null || openWhiskStats.getAvgLatency() == null);
 					benchmarkSem.release();
 
-					if (openWhiskStats != null) {
-						System.out.println(function.getName() + " avg latency OpenWhisk = " +
-								openWhiskStats.getAvgLatency());
-						// influx persist
-						if (InfluxClient.insertLoadPoints(function.getName(), "openwhisk", openWhiskStats,
-								System.currentTimeMillis())) {
-							System.out.println("\u001B[32m" + "Persisted OpenWhisk benchmark for: " + function.getName() +
-									"\u001B[0m");
-						} else {
-							System.err.println("Failed persisting OpenWhisk benchmarks "
-									+ function.getName() + ": parameters or connection error");
-						}
+					System.out.println(function.getName() + " avg latency OpenWhisk = " +
+							openWhiskStats.getAvgLatency());
+					// influx persist
+					if (InfluxClient.insertLoadPoints(function.getName(), "openwhisk", openWhiskStats,
+							System.currentTimeMillis())) {
+						System.out.println("\u001B[32m" + "Persisted OpenWhisk benchmark for: " + function.getName() +
+								"\u001B[0m");
 					} else {
-						System.err.println("Failed performing OpenWhisk benchmark on " + function.getName());
+						System.err.println("Failed persisting OpenWhisk benchmarks "
+								+ function.getName() + ": parameters or connection error");
 					}
 				}
 

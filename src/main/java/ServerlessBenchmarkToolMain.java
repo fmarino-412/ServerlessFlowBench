@@ -17,7 +17,7 @@ public class ServerlessBenchmarkToolMain {
 	// number of request per second in load teste
 	private static final int REQUESTS_PER_SECOND = 500;
 	// number of concurrent opened connections
-	private static final int CONCURRENCY = 1000;
+	private static final int CONCURRENCY = 50;
 	// time to deallocate resources and perform a cold start
 	private static final int SLEEP_INTERVAL_MILLISECONDS = 180 * 60 * 1000;
 	// number of iterations
