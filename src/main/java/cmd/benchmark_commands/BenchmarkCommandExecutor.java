@@ -553,6 +553,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			BenchmarkStats amazonStats;
 			BenchmarkStats openWhiskStats;
 
+			int attempts;
+
 			while (iterations != 0) {
 				// time to let provider deallocate resources for function execution
 				try {
@@ -602,7 +604,12 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					} catch (InterruptedException ignored) {
 						return;
 					}
+					attempts = 0;
 					do {
+						attempts++;
+						if (attempts > 1) {
+							System.err.println("WARNING: repeating Google load test for '" + function.getName() + "'");
+						}
 						googleStats = performBenchmark(function.getGoogleUrl(), concurrency, threads, seconds,
 								requestsPerSecond);
 					} while (googleStats == null || googleStats.getAvgLatency() == null);
@@ -661,7 +668,12 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					} catch (InterruptedException ignored) {
 						return;
 					}
+					attempts = 0;
 					do {
+						attempts++;
+						if (attempts > 1) {
+							System.err.println("WARNING: repeating Amazon load test for '" + function.getName() + "'");
+						}
 						amazonStats = performBenchmark(function.getAmazonUrl(), concurrency, threads, seconds,
 								requestsPerSecond);
 					} while (amazonStats == null || amazonStats.getAvgLatency() == null);
@@ -719,7 +731,13 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					} catch (InterruptedException ignored) {
 						return;
 					}
+					attempts = 0;
 					do {
+						attempts++;
+						if (attempts > 1) {
+							System.err.println("WARNING: repeating OpenWhisk load test for '" + function.getName() +
+									"'");
+						}
 						openWhiskStats = performBenchmark(function.getOpenWhiskUrl(), concurrency, threads, seconds,
 								requestsPerSecond);
 					} while (openWhiskStats == null || openWhiskStats.getAvgLatency() == null);
