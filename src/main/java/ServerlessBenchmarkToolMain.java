@@ -24,7 +24,7 @@ public class ServerlessBenchmarkToolMain {
 	// time to deallocate resources and perform a cold start
 	private static final int SLEEP_INTERVAL_MILLISECONDS = 180 * 60 * 1000;
 	// number of iterations
-	private static final int ITERATIONS = 5;
+	private static final int ITERATIONS = 10;
 	// maximum concurrency level
 	private static final int MAX_TOTAL_CONCURRENCY = 1;
 
