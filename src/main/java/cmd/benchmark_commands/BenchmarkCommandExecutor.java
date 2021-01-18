@@ -149,7 +149,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 
 		} catch (IOException e) {
-			if (e.getMessage().contains(" " + HttpStatusCodes.STATUS_CODE_SERVICE_UNAVAILABLE + " ")) {
+			if (e.getMessage().contains(" " + HttpStatusCodes.STATUS_CODE_SERVICE_UNAVAILABLE + " ") ||
+					e.getMessage().contains(" " + HttpStatusCodes.STATUS_CODE_BAD_GATEWAY + " ")) {
 				// needs to retry
 				return -2;
 			}
