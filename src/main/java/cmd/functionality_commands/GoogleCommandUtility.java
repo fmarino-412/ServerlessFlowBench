@@ -70,7 +70,7 @@ public class GoogleCommandUtility extends CommandUtility {
 	 */
 	private static final String CLOUD_STORAGE_UTILS = "gsutil";
 	private static final String CLOUD_STORAGE_CREATE_BUCKET = CLOUD_STORAGE_UTILS + SEP + "mb";
-	private static final String CLOUD_STORAGE_DELETE_BUCKET = CLOUD_STORAGE_UTILS + SEP + "-m" + SEP + "rm";
+	private static final String CLOUD_STORAGE_DELETE_BUCKET = CLOUD_STORAGE_UTILS + SEP + "rm";
 
 
 	/**
@@ -321,6 +321,7 @@ public class GoogleCommandUtility extends CommandUtility {
 						// CLI command to delete a bucket
 						CLOUD_STORAGE_DELETE_BUCKET + SEP +
 						"-r" + SEP +
+						"-f" + SEP +
 						// bucket name
 						"gs://" + bucketName;
 	}
