@@ -1,4 +1,4 @@
-# Serverless Composition Performance Project
+# ServerlessFlowBench
 
 Computer Engineering Master's Degree final project @ [University of Rome 'Tor Vergata'](https://en.uniroma2.it/)
 
