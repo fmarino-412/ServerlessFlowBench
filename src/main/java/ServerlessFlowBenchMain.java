@@ -157,8 +157,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/basic_test_composition/latency_test");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/python/basic_test_composition/latency_test");
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -166,8 +166,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/basic_test_composition/cpu_test");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/python/basic_test_composition/cpu_test");
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -175,8 +175,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/memory_test");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/python/memory_test");
 
 		}
 
@@ -192,8 +192,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/python/basic_test_composition/latency_test",
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/aws/python/basic_test_composition/latency_test",
 					"latency_test.zip");
 
 			FunctionCommandExecutor.deployOnAmazonRESTFunction("cpu-test",
@@ -202,8 +202,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/python/basic_test_composition/cpu_test",
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/aws/python/basic_test_composition/cpu_test",
 					"cpu_test.zip");
 
 			FunctionCommandExecutor.deployOnAmazonRESTFunction("memory-test",
@@ -212,8 +212,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/python/memory_test",
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/aws/python/memory_test",
 					"memory_test.zip");
 
 		}
@@ -229,7 +229,7 @@ public class ServerlessFlowBenchMain {
 					"ow_handler",
 					30,
 					128,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/openwhisk/python/basic_test_composition/latency_test",
 					"latency_test.zip");
 
@@ -238,7 +238,7 @@ public class ServerlessFlowBenchMain {
 					"ow_handler",
 					30,
 					128,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/openwhisk/python/basic_test_composition/cpu_test",
 					"cpu_test.zip");
 
@@ -247,7 +247,7 @@ public class ServerlessFlowBenchMain {
 					"ow_handler",
 					30,
 					128,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/openwhisk/python/memory_test",
 					"memory_test.zip");
 		}
@@ -264,8 +264,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/java/basic_test_composition/latency_test");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/java/basic_test_composition/latency_test");
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
 					GoogleCommandUtility.JAVA_11_RUNTIME,
@@ -273,8 +273,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/java/basic_test_composition/cpu_test");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/java/basic_test_composition/cpu_test");
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
 					GoogleCommandUtility.JAVA_11_RUNTIME,
@@ -282,8 +282,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/java/memory_test");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/java/memory_test");
 
 		}
 
@@ -299,7 +299,7 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/aws/java/latency_test/target",
 					"latency_test_java_aws-1.0.jar");
 
@@ -309,7 +309,7 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/aws/java/cpu_test/target",
 					"cpu_test_java_aws-1.0.jar");
 
@@ -319,7 +319,7 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/aws/java/memory_test/target",
 					"memory_test_java_aws-1.0.jar");
 
@@ -336,7 +336,7 @@ public class ServerlessFlowBenchMain {
 					"latency_test.Handler",
 					30,
 					128,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/openwhisk/java/basic_test_composition/latency_test/target",
 					"latency_test_java_ow-1.0.jar");
 
@@ -345,7 +345,7 @@ public class ServerlessFlowBenchMain {
 					"cpu_test.Handler",
 					30,
 					128,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/openwhisk/java/basic_test_composition/cpu_test/target",
 					"cpu_test_java_ow-1.0.jar");
 
@@ -354,7 +354,7 @@ public class ServerlessFlowBenchMain {
 					"memory_test.Handler",
 					30,
 					128,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/openwhisk/java/memory_test/target",
 					"memory_test_java_ow-1.0.jar");
 		}
@@ -371,8 +371,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/node/basic_test_composition/latency_test");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/node/basic_test_composition/latency_test");
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("cpu-test",
 					GoogleCommandUtility.NODE_10_RUNTIME,
@@ -380,8 +380,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/node/basic_test_composition/cpu_test");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/node/basic_test_composition/cpu_test");
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("memory-test",
 					GoogleCommandUtility.NODE_10_RUNTIME,
@@ -389,8 +389,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/node/memory_test");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/node/memory_test");
 
 		}
 
@@ -406,7 +406,7 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/aws/node/basic_test_composition/latency_test",
 					"latency_test.zip");
 
@@ -416,7 +416,7 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/aws/node/basic_test_composition/cpu_test",
 					"cpu_test.zip");
 
@@ -426,7 +426,7 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/aws/node/memory_test",
 					"memory_test.zip");
 
@@ -443,7 +443,7 @@ public class ServerlessFlowBenchMain {
 					"index.owHandler",
 					30,
 					128,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/openwhisk/node/basic_test_composition/latency_test",
 					"latency_test.zip");
 
@@ -452,7 +452,7 @@ public class ServerlessFlowBenchMain {
 					"index.owHandler",
 					30,
 					128,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/openwhisk/node/basic_test_composition/cpu_test",
 					"cpu_test.zip");
 
@@ -461,7 +461,7 @@ public class ServerlessFlowBenchMain {
 					"index.owHandler",
 					30,
 					128,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_project" +
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
 							"/serverless_functions/openwhisk/node/memory_test",
 					"memory_test.zip");
 		}
@@ -504,8 +504,8 @@ public class ServerlessFlowBenchMain {
 				String[] functionDirs = {"image_recognition", "anger_detection"};
 
 				CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-								"project/serverless_functions/gcloud/python/face_recognition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/gcloud/python/face_recognition",
 						GoogleCommandUtility.IOWA,
 						"step.yaml",
 						functionNames,
@@ -526,8 +526,8 @@ public class ServerlessFlowBenchMain {
 				String[] functionDirs = {"latency_test", "cpu_test"};
 
 				CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-								"project/serverless_functions/gcloud/python/basic_test_composition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/gcloud/python/basic_test_composition",
 						GoogleCommandUtility.IOWA,
 						"step.yaml",
 						functionNames,
@@ -552,8 +552,8 @@ public class ServerlessFlowBenchMain {
 						"translation_logger"};
 
 				CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-								"project/serverless_functions/gcloud/python/cycle_translator",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/gcloud/python/cycle_translator",
 						GoogleCommandUtility.IOWA,
 						"step.yaml",
 						functionNames,
@@ -582,8 +582,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
 				CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/aws/python/face_recognition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/aws/python/face_recognition",
 						AmazonCommandUtility.OHIO,
 						"step.json",
 						functionNames,
@@ -604,8 +604,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
 
 				CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/aws/python/basic_test_composition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/aws/python/basic_test_composition",
 						AmazonCommandUtility.OHIO,
 						"step.json",
 						functionNames,
@@ -630,8 +630,8 @@ public class ServerlessFlowBenchMain {
 						"translation_logger.zip"};
 
 				CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-								"project/serverless_functions/aws/python/cycle_translator",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/aws/python/cycle_translator",
 						AmazonCommandUtility.OHIO,
 						"step.json",
 						functionNames,
@@ -660,8 +660,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
 				CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/openwhisk/python/face_recognition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/openwhisk/python/face_recognition",
 						"step.js",
 						functionNames,
 						OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
@@ -679,8 +679,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
 
 				CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/openwhisk/python/basic_test_composition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/openwhisk/python/basic_test_composition",
 						"step.js",
 						functionNames,
 						OpenWhiskCommandUtility.PYTHON_3_RUNTIME,
@@ -707,8 +707,8 @@ public class ServerlessFlowBenchMain {
 				String[] functionDirs = {"image_recognition", "anger_detection"};
 
 				CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-								"project/serverless_functions/gcloud/java/face_recognition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/gcloud/java/face_recognition",
 						GoogleCommandUtility.IOWA,
 						"step.yaml",
 						functionNames,
@@ -729,8 +729,8 @@ public class ServerlessFlowBenchMain {
 				String[] functionDirs = {"latency_test", "cpu_test"};
 
 				CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-								"project/serverless_functions/gcloud/java/basic_test_composition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/gcloud/java/basic_test_composition",
 						GoogleCommandUtility.IOWA,
 						"step.yaml",
 						functionNames,
@@ -755,8 +755,8 @@ public class ServerlessFlowBenchMain {
 						"translation_logger"};
 
 				CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-								"project/serverless_functions/gcloud/java/cycle_translator",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/gcloud/java/cycle_translator",
 						GoogleCommandUtility.IOWA,
 						"step.yaml",
 						functionNames,
@@ -785,8 +785,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"image_recognition_java_aws-1.0.jar", "anger_detection_java_aws-1.0.jar"};
 
 				CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/aws/java/face_recognition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/aws/java/face_recognition",
 						AmazonCommandUtility.OHIO,
 						"step.json",
 						functionNames,
@@ -807,8 +807,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"latency_test_java_aws-1.0.jar", "cpu_test_java_aws-1.0.jar"};
 
 				CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/aws/java/basic_test_composition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/aws/java/basic_test_composition",
 						AmazonCommandUtility.OHIO,
 						"step.json",
 						functionNames,
@@ -833,8 +833,8 @@ public class ServerlessFlowBenchMain {
 						"sentence_translation_java_aws-1.0.jar", "translation_logger_java_aws-1.0.jar"};
 
 				CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-								"project/serverless_functions/aws/java/cycle_translator",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/aws/java/cycle_translator",
 						AmazonCommandUtility.OHIO,
 						"step.json",
 						functionNames,
@@ -863,8 +863,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"image_recognition_java_ow-1.0.jar", "anger_detection_java_ow-1.0.jar"};
 
 				CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/openwhisk/java/face_recognition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/openwhisk/java/face_recognition",
 						"step.js",
 						functionNames,
 						OpenWhiskCommandUtility.JAVA_8_RUNTIME,
@@ -882,8 +882,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"latency_test_java_ow-1.0.jar", "cpu_test_java_ow-1.0.jar"};
 
 				CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/openwhisk/java/basic_test_composition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/openwhisk/java/basic_test_composition",
 						"step.js",
 						functionNames,
 						OpenWhiskCommandUtility.JAVA_8_RUNTIME,
@@ -910,8 +910,8 @@ public class ServerlessFlowBenchMain {
 				String[] functionDirs = {"image_recognition", "anger_detection"};
 
 				CompositionCommandExecutor.deployOnGoogleComposition("face-detection",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-								"project/serverless_functions/gcloud/node/face_recognition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/gcloud/node/face_recognition",
 						GoogleCommandUtility.IOWA,
 						"step.yaml",
 						functionNames,
@@ -932,8 +932,8 @@ public class ServerlessFlowBenchMain {
 				String[] functionDirs = {"latency_test", "cpu_test"};
 
 				CompositionCommandExecutor.deployOnGoogleComposition("basic-composition",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-								"project/serverless_functions/gcloud/node/basic_test_composition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/gcloud/node/basic_test_composition",
 						GoogleCommandUtility.IOWA,
 						"step.yaml",
 						functionNames,
@@ -958,8 +958,8 @@ public class ServerlessFlowBenchMain {
 						"translation_logger"};
 
 				CompositionCommandExecutor.deployOnGoogleComposition("cycle-translator",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-								"project/serverless_functions/gcloud/node/cycle_translator",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/gcloud/node/cycle_translator",
 						GoogleCommandUtility.IOWA,
 						"step.yaml",
 						functionNames,
@@ -988,8 +988,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
 				CompositionCommandExecutor.deployOnAmazonComposition("face-detection",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/aws/node/face_recognition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/aws/node/face_recognition",
 						AmazonCommandUtility.OHIO,
 						"step.json",
 						functionNames,
@@ -1010,8 +1010,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
 
 				CompositionCommandExecutor.deployOnAmazonComposition("basic-composition",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/aws/node/basic_test_composition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/aws/node/basic_test_composition",
 						AmazonCommandUtility.OHIO,
 						"step.json",
 						functionNames,
@@ -1036,8 +1036,8 @@ public class ServerlessFlowBenchMain {
 						"translation_logger.zip"};
 
 				CompositionCommandExecutor.deployOnAmazonComposition("cycle-translator",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/aws/node/cycle_translator",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/aws/node/cycle_translator",
 						AmazonCommandUtility.OHIO,
 						"step.json",
 						functionNames,
@@ -1066,8 +1066,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"image_recognition.zip", "anger_detection.zip"};
 
 				CompositionCommandExecutor.deployOnOpenWhiskComposition("face-detection",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/openwhisk/node/face_recognition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/openwhisk/node/face_recognition",
 						"step.js",
 						functionNames,
 						OpenWhiskCommandUtility.NODE_10_RUNTIME,
@@ -1085,8 +1085,8 @@ public class ServerlessFlowBenchMain {
 				String[] zipFileNames = {"latency_test.zip", "cpu_test.zip"};
 
 				CompositionCommandExecutor.deployOnOpenWhiskComposition("basic-composition",
-						"/Users/francescomarino/IdeaProjects/serverless_composition_performance" +
-								"_project/serverless_functions/openwhisk/node/basic_test_composition",
+						"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+								"/serverless_functions/openwhisk/node/basic_test_composition",
 						"step.js",
 						functionNames,
 						OpenWhiskCommandUtility.NODE_10_RUNTIME,
@@ -1130,8 +1130,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/info_getter");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/python/info_getter");
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-256",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -1139,8 +1139,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					256,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/info_getter");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/python/info_getter");
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-512",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -1148,8 +1148,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					512,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/info_getter");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/python/info_getter");
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-1024",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -1157,8 +1157,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					1024,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/info_getter");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/python/info_getter");
 
 			FunctionCommandExecutor.deployOnGoogleCloudFunction("info-getter-2048",
 					GoogleCommandUtility.PYTHON_3_7_RUNTIME,
@@ -1166,8 +1166,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					2048,
 					GoogleCommandUtility.IOWA,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/gcloud/python/info_getter");
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/gcloud/python/info_getter");
 
 		}
 
@@ -1179,8 +1179,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					128,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/python/info_getter",
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/aws/python/info_getter",
 					"info_getter.zip");
 
 			FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-256",
@@ -1189,8 +1189,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					256,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/python/info_getter",
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/aws/python/info_getter",
 					"info_getter.zip");
 
 			FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-512",
@@ -1199,8 +1199,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					512,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/python/info_getter",
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/aws/python/info_getter",
 					"info_getter.zip");
 
 			FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-1024",
@@ -1209,8 +1209,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					1024,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/python/info_getter",
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/aws/python/info_getter",
 					"info_getter.zip");
 
 			FunctionCommandExecutor.deployOnAmazonRESTFunction("info-getter-2048",
@@ -1219,8 +1219,8 @@ public class ServerlessFlowBenchMain {
 					30,
 					2048,
 					AmazonCommandUtility.OHIO,
-					"/Users/francescomarino/IdeaProjects/serverless_composition_performance_" +
-							"project/serverless_functions/aws/python/info_getter",
+					"/Users/francescomarino/IdeaProjects/ServerlessFlowBench" +
+							"/serverless_functions/aws/python/info_getter",
 					"info_getter.zip");
 
 		}
