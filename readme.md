@@ -90,7 +90,7 @@ In order to import in Grafana, after having the Docker compose environment up, t
 2. login using Grafana username and password,
 3. select the "_setting_" panel,
 4. choose "_datasources_" and add a new datasource,
-5. choose influxDB as datasource, set `http://influx-db:8086` (or replace "influx-db" with your InfluxDB Docker container name) as url, select your database \(name can be set using the `config.properties` file located [in the project root](https://github.com/francescom412/serverless_composition_performance_project)\) and insert InfluxDB credentials,
+5. choose influxDB as datasource, set `http://influx-db:8086` (or replace "influx-db" with your InfluxDB Docker container name) as url, select your database \(name can be set using the `config.properties` file located [in the project root](https://github.com/francescom412/ServerlessFlowBench)\) and insert InfluxDB credentials,
 6. select the "_+_" tab,
 7. choose "_import_" option,
 8. select every dashboard inside the [`grafana_dashboards`](docker_env/grafana_dashboards) directory.
@@ -216,7 +216,7 @@ This package contains classes needed for external databases interaction.
 This package contains classes needed for configuration purposes.
 
 * [`ComposeManager.java`](src/main/java/utility/ComposeManager.java) used to obtain automatically Docker images used inside the [`docker-compose.yml`](docker_env/docker-compose.yml) and
-* [`PropertiesManager.java`](src/main/java/utility/PropertiesManager.java) used to get configuration parameters from `config.properties` file stored [in the project root](https://github.com/francescom412/serverless_composition_performance_project) (further details provided in following sections).
+* [`PropertiesManager.java`](src/main/java/utility/PropertiesManager.java) used to get configuration parameters from `config.properties` file stored [in the project root](https://github.com/francescom412/ServerlessFlowBench) (further details provided in following sections).
 
 ---
 
@@ -288,7 +288,7 @@ key = "xxxxxxxxxx"
 ```
 
 ### config.properties
-A file named `config.properties` [in the project root](https://github.com/francescom412/serverless_composition_performance_project) with the following structure (filled with valid current information):
+A file named `config.properties` [in the project root](https://github.com/francescom412/ServerlessFlowBench) with the following structure (filled with valid current information):
 
 ```properties
 docker_compose_dir=absolute_path_to:docker_env
