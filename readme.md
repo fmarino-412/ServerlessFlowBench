@@ -143,7 +143,7 @@ This directory contains, in its subdirectories, Java code for Serverless Composi
 
 The entire project part was developed using [JetBrains' IntelliJ IDEA](https://www.jetbrains.com/idea/) so it is recommended to open it using this IDE for better code navigation.
 
-In the main folder is located the class [`ServerlessBenchmarkToolMain.java`](src/main/java/ServerlessBenchmarkToolMain.java), this is the application entry point that allows the user to:
+In the main folder is located the class [`ServerlessFlowBenchMain.java`](src/main/java/ServerlessBenchmarkToolMain.java), this is the application entry point that allows the user to:
 
 1. deploy serverless functions,
 2. deploy serverless compositions,

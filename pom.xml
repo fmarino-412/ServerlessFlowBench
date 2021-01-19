@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>eu.uniroma2.francescomarino</groupId>
-    <artifactId>serverless_composition_performance_project</artifactId>
+    <artifactId>serverless_flow_bench</artifactId>
     <version>1.0</version>
 
     <dependencies>

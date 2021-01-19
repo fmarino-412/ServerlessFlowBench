@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
  * Application entry point class. This class garantees the use of the serverless benchmarking tool.
  */
 @SuppressWarnings({"DuplicatedCode", "SpellCheckingInspection"})
-public class ServerlessBenchmarkToolMain {
+public class ServerlessFlowBenchMain {
 
 	/**
 	 * Benchmark parameters, can be changed, choose a reasonable workload for your system.
