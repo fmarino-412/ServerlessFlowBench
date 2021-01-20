@@ -313,7 +313,7 @@ public class DockerExecutor extends CommandExecutor {
 			String response = collector.getResult();
 			if (response.contains(START_COMPOSITION_SUBSTRING) || response.contains(NEW_COMPOSITION_SUBSTRING)) {
 				// need to wait for compose environment coming up
-				waitFor("Deploying Docker", 15);
+				waitFor("Deploying Docker", 30);
 			}
 
 			process.destroy();
