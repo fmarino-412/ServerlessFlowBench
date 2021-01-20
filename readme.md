@@ -6,7 +6,7 @@ Author: [Francesco Marino](https://github.com/francescom412)
 
 Academic Year: 2019/2020
 
-The **Serverless Composition Performance Project** is a framework that allows users to:
+**ServerlessFlowBench** is a framework that allows users to:
 
 * deploy **serverless functions** to Amazon Web Services, Google Cloud Platform and OpenWhisk (already defined functions are available),
 * deploy **serverless function compositions** to Amazon Web Services, Google Cloud Platform and OpenWhisk (as before, altready defined compositions are available) and
