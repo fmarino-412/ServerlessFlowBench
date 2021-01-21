@@ -113,7 +113,45 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	}
 
 	/**
-	 * Measure a single http request latency (necessary for cold start tests)
+	 * Evaluate latency gap between cold and warm start
+	 * @param targetUrl url to test
+	 * @param timeoutRequestMs maximum time in milliseconds before request timeout occurs
+	 * @return gap in milliseconds
+	 */
+	public static double measureColdStartCost(String targetUrl, Integer timeoutRequestMs) {
+
+		long coldStartLatency;
+		long warmLatency;
+		// measure cold start latency
+		do {
+			coldStartLatency = measureHttpLatency(targetUrl, timeoutRequestMs);
+		} while (coldStartLatency == -2);
+		if (coldStartLatency < 0) {
+			return -1;
+		}
+		ArrayList<Long> latencies = new ArrayList<>();
+		// measure average warm start latency excluding first 5 requests to be sure of cold start to not occur again
+		for (int i = 0; i < 15; i++) {
+			do {
+				warmLatency = measureHttpLatency(targetUrl, timeoutRequestMs);
+			} while (warmLatency < 0);
+
+			if (i >= 5) {
+				latencies.add(warmLatency);
+			}
+		}
+		// evaluate average
+		double avgWarmLatency = latencies.stream().mapToLong(a -> a).average().orElse(-1);
+		if (avgWarmLatency < 0) {
+			return -1;
+		}
+		double result = coldStartLatency - avgWarmLatency;
+		// if result is negative cold start didn't occur so return value is 0
+		return result < 0 ? 0 : result;
+	}
+
+	/**
+	 * Measure a single http request latency
 	 * @param targetUrl url to test
 	 * @param timeoutRequestMs maximum time in milliseconds before request timeout occurs
 	 * @return latency in milliseconds
