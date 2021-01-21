@@ -6,11 +6,11 @@ Author: [Francesco Marino](https://github.com/francescom412)
 
 Academic Year: 2019/2020
 
-The **Serverless Composition Performance Project** is a framework that allows users to:
+**ServerlessFlowBench** is a framework that allows users to:
 
 * deploy **serverless functions** to Amazon Web Services, Google Cloud Platform and OpenWhisk (already defined functions are available),
-* deploy **serverless function compositions** to Amazon Web Services, Google Cloud Platform and OpenWhisk (as before, altready defined compositions are available) and
-* perform HTTP **bechmarks** on deployed functions and compositions.
+* deploy **serverless function compositions** to Amazon Web Services, Google Cloud Platform and OpenWhisk (as before, already defined compositions are available) and
+* perform HTTP **benchmarks** on deployed functions and compositions.
 
 ---
 
@@ -64,9 +64,9 @@ Folder containing files needed for a container based execution of the project ar
 
 ##### Composition containers' description:
 
-* [MySQL](https://www.mysql.com/): relational database used to keep track of every entity deployed to the cloud in order to be able to reach and, eventually, delete each of them.
-* [InfluxDB](https://www.influxdata.com/products/influxdb/): time series database used to keep track of benchmarks' results, each of them with the right test performance date and time.
-* [Grafana](https://grafana.com/): visualization tool used to show benchmarks' result stored in InfluxDB in clear and explicative dashboards.
+* [MySQL](https://www.mysql.com/): a relational database used to keep track of every entity deployed to the cloud in order to be able to reach and, eventually, delete each of them.
+* [InfluxDB](https://www.influxdata.com/products/influxdb/): a time series database used to keep track of benchmarks' results, each of them with the right test performance date and time.
+* [Grafana](https://grafana.com/): a visualization tool used to show benchmarks' result stored in InfluxDB in clear and explicative dashboards.
 
 ##### Credentials:
 
@@ -143,7 +143,7 @@ This directory contains, in its subdirectories, Java code for Serverless Composi
 
 The entire project part was developed using [JetBrains' IntelliJ IDEA](https://www.jetbrains.com/idea/) so it is recommended to open it using this IDE for better code navigation.
 
-In the main folder is located the class [`ServerlessFlowBenchMain.java`](src/main/java/ServerlessBenchmarkToolMain.java), this is the application entry point that allows the user to:
+In the main folder is located the class [`ServerlessFlowBenchMain.java`](src/main/java/ServerlessFlowBenchMain.java), this is the application entry point that allows the user to:
 
 1. deploy serverless functions,
 2. deploy serverless compositions,
@@ -206,10 +206,10 @@ This package contains classes needed for external databases interaction.
 * [`FunctionalityURL.java`](src/main/java/databases/mysql/FunctionalityURL.java) used to collect resource deployment url,
 * [`MySQLConnect.java`](src/main/java/databases/mysql/MySQLConnect.java) used to connect and disconnect [MySQL database](https://www.mysql.com/),
 * [daos package](src/main/java/databases/mysql/daos) containing database access objects implementations:
-	* [`BucketsRepositoryDAO.java`](src/main/java/databases/mysql/daos/BucketsRepositoryDAO.java) needed for cloud buckets perstistence management,
-	* [`CompositionsRepositoryDAO.java`](src/main/java/databases/mysql/daos/CompositionsRepositoryDAO.java) needed for serverless compositions perstistence management,
-	* [`FunctionsRepositoryDAO.java`](src/main/java/databases/mysql/daos/FunctionsRepositoryDAO.java) needed for serverless functions perstistence management ans
-	* [`TablesRepositoryDAO.java`](src/main/java/databases/mysql/daos/TablesRepositoryDAO.java) needed for cloud NoSQL tables perstistence management.
+	* [`BucketsRepositoryDAO.java`](src/main/java/databases/mysql/daos/BucketsRepositoryDAO.java) needed for cloud buckets' persistence management,
+	* [`CompositionsRepositoryDAO.java`](src/main/java/databases/mysql/daos/CompositionsRepositoryDAO.java) needed for serverless compositions' persistence management,
+	* [`FunctionsRepositoryDAO.java`](src/main/java/databases/mysql/daos/FunctionsRepositoryDAO.java) needed for serverless functions' persistence management ans
+	* [`TablesRepositoryDAO.java`](src/main/java/databases/mysql/daos/TablesRepositoryDAO.java) needed for cloud NoSQL tables' persistence management.
 
 ### [utility package](src/main/java/utility)
 
