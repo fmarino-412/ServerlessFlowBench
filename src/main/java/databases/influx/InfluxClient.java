@@ -76,7 +76,7 @@ public class InfluxClient {
 	 * @param millis measurement timestamp
 	 * @return true if insertion has been completed, false elsewhere
 	 */
-	public static boolean insertColdPoint(String functionalityName, String provider, long latency, long millis) {
+	public static boolean insertColdPoint(String functionalityName, String provider, double latency, long millis) {
 
 		if (functionalityName == null || provider == null) {
 			return false;

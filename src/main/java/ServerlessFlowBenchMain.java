@@ -22,7 +22,7 @@ public class ServerlessFlowBenchMain {
 	// number of concurrent opened connections
 	private static final int CONCURRENCY = 50;
 	// time to deallocate resources and perform a cold start
-	private static final int SLEEP_INTERVAL_MILLISECONDS = 180 * 60 * 1000;
+	private static final int SLEEP_INTERVAL_MILLISECONDS = 5 * 60 * 60 * 1000; // 5 hours
 	// number of iterations
 	private static final int ITERATIONS = 10;
 	// maximum concurrency level
