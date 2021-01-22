@@ -566,6 +566,10 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			this.benchmarkSem = benchmarkSem;
 		}
 
+		/**
+		 * Sleep to let container deallocating occur
+		 * @throws InterruptedException thread interruption related exception
+		 */
 		public void performColdStartWait() throws InterruptedException {
 			Thread.sleep(sleepMs);
 		}
@@ -585,9 +589,9 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 				return;
 			}
 
-			long googleLatency;
-			long amazonLatency;
-			long openWhiskLatency;
+			double googleLatency;
+			double amazonLatency;
+			double openWhiskLatency;
 
 			BenchmarkStats googleStats;
 			BenchmarkStats amazonStats;
@@ -611,7 +615,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					} catch (InterruptedException ignored) {
 						return;
 					}
-					while ((googleLatency = measureHttpLatency(function.getGoogleUrl(), timeoutRequestMs)) == -2) {
+					while ((googleLatency = measureColdStartCost(function.getGoogleUrl(), timeoutRequestMs)) < 0) {
 						coldStartSem.release();
 						// needs retry because service was un-available
 						try {
@@ -624,18 +628,14 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					}
 					coldStartSem.release();
 
-					if (googleLatency != -1) {
-						// influx persist
-						if (InfluxClient.insertColdPoint(function.getName(), "google", googleLatency,
-								System.currentTimeMillis())) {
-							System.out.println("\u001B[32m" + "Persisted Google cold start benchmark for: " +
-									function.getName() + "\u001B[0m");
-						} else {
-							System.err.println("Failed persisting Google cold start latency for "
-									+ function.getName() + ": parameters or connection error");
-						}
+					// influx persist
+					if (InfluxClient.insertColdPoint(function.getName(), "google", googleLatency,
+							System.currentTimeMillis())) {
+						System.out.println("\u001B[32m" + "Persisted Google cold start benchmark for: " +
+								function.getName() + "\u001B[0m");
 					} else {
-						System.err.println("Failed measuring Google cold start latency for " + function.getName());
+						System.err.println("Failed persisting Google cold start latency for "
+								+ function.getName() + ": parameters or connection error");
 					}
 
 					// load test
@@ -675,7 +675,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					} catch (InterruptedException ignored) {
 						return;
 					}
-					while ((amazonLatency = measureHttpLatency(function.getAmazonUrl(), timeoutRequestMs)) == -2){
+					while ((amazonLatency = measureColdStartCost(function.getAmazonUrl(), timeoutRequestMs)) < 0){
 						coldStartSem.release();
 						// needs retry because service was un-available
 						try {
@@ -688,18 +688,14 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					}
 					coldStartSem.release();
 
-					if (amazonLatency != -1) {
-						// influx persist
-						if (InfluxClient.insertColdPoint(function.getName(), "amazon", amazonLatency,
-								System.currentTimeMillis())) {
-							System.out.println("\u001B[32m" + "Persisted Amazon cold start benchmark for: " +
-									function.getName() + "\u001B[0m");
-						} else {
-							System.err.println("Failed persisting Amazon cold start latency for "
-									+ function.getName() + ": parameters or connection error");
-						}
+					// influx persist
+					if (InfluxClient.insertColdPoint(function.getName(), "amazon", amazonLatency,
+							System.currentTimeMillis())) {
+						System.out.println("\u001B[32m" + "Persisted Amazon cold start benchmark for: " +
+								function.getName() + "\u001B[0m");
 					} else {
-						System.err.println("Failed measuring Amazon cold start latency for " + function.getName());
+						System.err.println("Failed persisting Amazon cold start latency for "
+								+ function.getName() + ": parameters or connection error");
 					}
 
 					// load test
@@ -737,8 +733,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					} catch (InterruptedException ignored) {
 						return;
 					}
-					while ((openWhiskLatency = measureHttpLatency(function.getOpenWhiskUrl(),
-							timeoutRequestMs)) == -2) {
+					while ((openWhiskLatency = measureColdStartCost(function.getOpenWhiskUrl(),
+							timeoutRequestMs)) < 0) {
 						coldStartSem.release();
 						// needs retry because service was un-available
 						try {
@@ -751,18 +747,14 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					}
 					coldStartSem.release();
 
-					if (openWhiskLatency != -1) {
-						// influx persist
-						if (InfluxClient.insertColdPoint(function.getName(), "openwhisk", openWhiskLatency,
-								System.currentTimeMillis())) {
-							System.out.println("\u001B[32m" + "Persisted OpenWhisk cold start benchmark for: " +
-									function.getName() + "\u001B[0m");
-						} else {
-							System.err.println("Failed persisting OpenWhisk cold start latency for "
-									+ function.getName() + ": parameters or connection error");
-						}
+					// influx persist
+					if (InfluxClient.insertColdPoint(function.getName(), "openwhisk", openWhiskLatency,
+							System.currentTimeMillis())) {
+						System.out.println("\u001B[32m" + "Persisted OpenWhisk cold start benchmark for: " +
+								function.getName() + "\u001B[0m");
 					} else {
-						System.err.println("Failed measuring OpenWhisk cold start latency for " + function.getName());
+						System.err.println("Failed persisting OpenWhisk cold start latency for "
+								+ function.getName() + ": parameters or connection error");
 					}
 
 					// load test
