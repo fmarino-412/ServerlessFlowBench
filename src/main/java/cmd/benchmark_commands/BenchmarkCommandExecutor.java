@@ -118,7 +118,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	 * @param timeoutRequestMs maximum time in milliseconds before request timeout occurs
 	 * @return gap in milliseconds
 	 */
-	public static double measureColdStartCost(String targetUrl, Integer timeoutRequestMs) {
+	private static double measureColdStartCost(String targetUrl, Integer timeoutRequestMs) {
 
 		long coldStartLatency;
 		long warmLatency;
