@@ -321,6 +321,8 @@ google_handler_function_path=absolute_path_to:serverless_functions/gcloud/orches
 aws_handler_function_path=absolute_path_to:serverless_functions/aws/orchestration_handler
 ```
 
+**Please note**: in order to execute successfully the provided functions on AWS, the lambda role needs access to Comprehend, Translate, Rekognition, S3 and Step Functions, the step functions role needs access to Lambda only.
+
 ---
 
 <h2>Serverless functions packages creation</h2>
