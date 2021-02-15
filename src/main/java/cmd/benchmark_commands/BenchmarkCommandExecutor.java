@@ -35,6 +35,12 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	private static final int COLD_START_SLEEP_INTERVAL_MS = 120 * 60 * 1000;
 
 	/**
+	 * Cold start evaluation default parameters
+	 */
+	private static final Integer DEFAULT_IGNORED_COLD_START_VALUES = 5;
+	private static final Integer DEFAULT_WARM_START_AVG_WIDTH = 5;
+
+	/**
 	 * Maximum time needed for HTTP API execution default value
 	 */
 	private static final int TIMEOUT_REQUEST_INTERVAL_MS = 30 * 60 * 1000;
@@ -116,9 +122,12 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	 * Evaluate latency gap between cold and warm start
 	 * @param targetUrl url to test
 	 * @param timeoutRequestMs maximum time in milliseconds before request timeout occurs
+	 * @param ignoredValues number of request to ignore due to cold start management inconsistency
+	 * @param avgAmount number of warm start to perform to evaluate the average warm latency
 	 * @return gap in milliseconds
 	 */
-	private static double measureColdStartCost(String targetUrl, Integer timeoutRequestMs) {
+	private static double measureColdStartCost(String targetUrl, Integer timeoutRequestMs, int ignoredValues,
+											   int avgAmount) {
 
 		long coldStartLatency;
 		long warmLatency;
@@ -130,13 +139,13 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			return -1;
 		}
 		ArrayList<Long> latencies = new ArrayList<>();
-		// measure average warm start latency excluding first 5 requests to be sure of cold start to not occur again
-		for (int i = 0; i < 15; i++) {
+		// measure average warm start latency excluding first n requests to be sure of cold start to not occur again
+		for (int i = 0; i < avgAmount; i++) {
 			do {
 				warmLatency = measureHttpLatency(targetUrl, timeoutRequestMs);
 			} while (warmLatency < 0);
 
-			if (i >= 5) {
+			if (i >= ignoredValues) {
 				latencies.add(warmLatency);
 			}
 		}
@@ -313,10 +322,13 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 	 * @param timeoutRequestMs maximum time in milliseconds before request timeout occurs in cold start measurement,
 	 *                         if null default value will be used
 	 * @param iterations number of iterations, if null the test will run indefinitely (continuous monitoring)
+	 * @param ignoredColdStartValues number of request to ignore due to cold start management inconsistency
+	 * @param warmStartAverageWidth number of warm start to perform to evaluate the average warm latency
 	 */
 	public void performBenchmarks(Integer concurrency, Integer threadNum, Integer seconds, Integer requestsPerSecond,
 								  @Nullable Integer sleepIntervalMs, @Nullable Integer timeoutRequestMs,
-								  @Nullable Integer iterations) {
+								  @Nullable Integer iterations,
+								  @Nullable Integer ignoredColdStartValues, @Nullable Integer warmStartAverageWidth) {
 
 		try {
 			DockerExecutor.checkDocker();
@@ -344,6 +356,26 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			timeoutRequestMs = TIMEOUT_REQUEST_INTERVAL_MS;
 		}
 
+		if (ignoredColdStartValues != null && ignoredColdStartValues <= 0) {
+			System.err.println("Could not perform benchmarks: ignored cold start values must be greater than 0");
+			return;
+		} else if (ignoredColdStartValues == null) {
+			ignoredColdStartValues = DEFAULT_IGNORED_COLD_START_VALUES;
+		}
+
+		if (warmStartAverageWidth != null && warmStartAverageWidth <= 0) {
+			System.err.println("Could not perform benchmarks: warm start latencies amount must be greater than 0");
+			return;
+		} else if (warmStartAverageWidth == null) {
+			warmStartAverageWidth = DEFAULT_WARM_START_AVG_WIDTH;
+		}
+
+		if (ignoredColdStartValues >= warmStartAverageWidth) {
+			System.err.println("Could not perform benchmarks: warm start latencies amount must be greater than ignored " +
+					"cold start values");
+			return;
+		}
+
 		List<FunctionalityURL> total = extractUrls();
 		if (total.isEmpty()) {
 			System.err.println("Could not perform benchmarks: no functionality to test found");
@@ -369,7 +401,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 
 		for (FunctionalityURL url : total) {
 			runner = new BenchmarkRunner(url, concurrency, threadNum, seconds, requestsPerSecond,
-					sleepIntervalMs, timeoutRequestMs, iterations, coldStartSem, benchmarkSem);
+					sleepIntervalMs, timeoutRequestMs, iterations, ignoredColdStartValues, warmStartAverageWidth,
+					coldStartSem, benchmarkSem);
 			t = new Thread(runner);
 			threads.add(t);
 			t.start();
@@ -527,6 +560,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		private final Integer timeoutRequestMs;
 		private final Integer sleepMs;
 		private Integer iterations;
+		private final Integer ignoredColdStartValues;
+		private final Integer warmStartAverageWidth;
 
 		private final Semaphore coldStartSem;
 		private final Semaphore benchmarkSem;
@@ -542,11 +577,14 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 		 * @param sleepMs time between two cold start benchmark
 		 * @param timeoutRequestMs maximum time in milliseconds before request timeout occurs in cold start measurement
 		 * @param iterations number of iterations, can be null and the test will run indefinitely
+		 * @param ignoredColdStartValues number of request to ignore due to cold start management inconsistency
+		 * @param warmStartAverageWidth number of warm start to perform to evaluate the average warm latency
 		 */
 		public BenchmarkRunner(@NotNull FunctionalityURL function, @NotNull Integer concurrency,
 							   @NotNull Integer threads, @NotNull Integer seconds, @NotNull Integer requestsPerSecond,
 							   @NotNull Integer sleepMs, @NotNull Integer timeoutRequestMs,
-							   @Nullable Integer iterations,
+							   @Nullable Integer iterations, @NotNull Integer ignoredColdStartValues,
+							   @NotNull Integer warmStartAverageWidth,
 							   @NotNull Semaphore coldStartSem, @NotNull Semaphore benchmarkSem) {
 			this.function = function;
 			this.concurrency = concurrency;
@@ -561,6 +599,9 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 			} else {
 				this.iterations = iterations;
 			}
+
+			this.ignoredColdStartValues = ignoredColdStartValues;
+			this.warmStartAverageWidth = warmStartAverageWidth;
 
 			this.coldStartSem = coldStartSem;
 			this.benchmarkSem = benchmarkSem;
@@ -615,7 +656,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					} catch (InterruptedException ignored) {
 						return;
 					}
-					while ((googleLatency = measureColdStartCost(function.getGoogleUrl(), timeoutRequestMs)) < 0) {
+					while ((googleLatency = measureColdStartCost(function.getGoogleUrl(), timeoutRequestMs,
+							ignoredColdStartValues, warmStartAverageWidth)) < 0) {
 						coldStartSem.release();
 						// needs retry because service was un-available
 						try {
@@ -675,7 +717,8 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 					} catch (InterruptedException ignored) {
 						return;
 					}
-					while ((amazonLatency = measureColdStartCost(function.getAmazonUrl(), timeoutRequestMs)) < 0){
+					while ((amazonLatency = measureColdStartCost(function.getAmazonUrl(), timeoutRequestMs,
+							ignoredColdStartValues, warmStartAverageWidth)) < 0){
 						coldStartSem.release();
 						// needs retry because service was un-available
 						try {
@@ -734,7 +777,7 @@ public class BenchmarkCommandExecutor extends CommandExecutor {
 						return;
 					}
 					while ((openWhiskLatency = measureColdStartCost(function.getOpenWhiskUrl(),
-							timeoutRequestMs)) < 0) {
+							timeoutRequestMs, ignoredColdStartValues, warmStartAverageWidth)) < 0) {
 						coldStartSem.release();
 						// needs retry because service was un-available
 						try {

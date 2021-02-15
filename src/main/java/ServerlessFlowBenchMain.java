@@ -23,6 +23,10 @@ public class ServerlessFlowBenchMain {
 	private static final int CONCURRENCY = 50;
 	// time to deallocate resources and perform a cold start
 	private static final int SLEEP_INTERVAL_MILLISECONDS = 5 * 60 * 60 * 1000; // 5 hours
+	// number of latency measurement to ignore in warm start detection
+	private static final int IGNORED_COLD_START_VALUES = 5;
+	// number of latency measurement to find to evaluate warm start latency
+	private static final int WARM_START_AVG_WIDTH = 15;
 	// number of iterations
 	private static final int ITERATIONS = 10;
 	// maximum concurrency level
@@ -1113,7 +1117,9 @@ public class ServerlessFlowBenchMain {
 				REQUESTS_PER_SECOND,
 				SLEEP_INTERVAL_MILLISECONDS,
 				REQUEST_TIMEOUT_MILLISECONDS,
-				ITERATIONS);
+				ITERATIONS,
+				IGNORED_COLD_START_VALUES,
+				WARM_START_AVG_WIDTH);
 	}
 
 	/**
