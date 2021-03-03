@@ -90,7 +90,7 @@ In order to import in Grafana, after having the Docker compose environment up, t
 2. login using Grafana username and password,
 3. select the "_setting_" panel,
 4. choose "_datasources_" and add a new datasource,
-5. choose influxDB as datasource, set `http://influx-db:8086` (or replace "influx-db" with your InfluxDB Docker container name) as url, select your database \(name can be set using the `config.properties` file located [in the project root](https://github.com/francescom412/ServerlessFlowBench)\) and insert InfluxDB credentials (**please note**: if the database does not exist yet an error message appears, make sure to insert the correct name and ignore the error as the information is going to be consistent in the moment of measurement insertion),
+5. choose influxDB as datasource, set `http://influx-db:8086` (or replace "influx-db" with your InfluxDB Docker container name) as url, select your database \(name can be set using the `config.properties` file located [in the project root](https://github.com/francescom412/ServerlessFlowBench)\) and insert InfluxDB credentials (**please note**: an error message appears if the database does not exist yet, make sure to insert the correct name and ignore the error as the information is going to be consistent at the moment of measurement insertion),
 6. select the "_+_" tab,
 7. choose "_import_" option,
 8. select every dashboard inside the [`grafana_dashboards`](docker_env/grafana_dashboards) directory.
