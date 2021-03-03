@@ -9,7 +9,7 @@ Academic Year: 2019/2020
 **ServerlessFlowBench** is a framework that allows users to:
 
 * deploy **serverless functions** to Amazon Web Services, Google Cloud Platform and OpenWhisk (already defined functions are available),
-* deploy **serverless function compositions** to Amazon Web Services, Google Cloud Platform and OpenWhisk (as before, already defined compositions are available) and
+* deploy **serverless function compositions** to Amazon Web Services, Google Cloud Platform and OpenWhisk (as before, already defined compositions are available),
 * perform HTTP **benchmarks** on deployed functions and compositions.
 
 ---
@@ -30,16 +30,16 @@ Academic Year: 2019/2020
 	* [Amazon API Gateway](https://aws.amazon.com/api-gateway/),
 	* [AWS Step Functions](https://aws.amazon.com/step-functions/),
 	* [Amazon S3](https://aws.amazon.com/it/s3/),
-	* [Amazon Rekognition](https://aws.amazon.com/rekognition/) and
+	* [Amazon Rekognition](https://aws.amazon.com/rekognition/),
 	* [Amazon Translate](https://aws.amazon.com/translate/).
 * [Google Cloud Platform](https://cloud.google.com/) valid account with, at least, the following enabled:
 	* [Build API](https://cloud.google.com/cloud-build),
 	* [Workflows \[BETA\] API](https://cloud.google.com/workflows),
-	* [Cloud Vision API](https://cloud.google.com/vision) and
+	* [Cloud Vision API](https://cloud.google.com/vision),
 	* [Translate API](https://cloud.google.com/translate).
 * [OpenWhisk](https://openwhisk.apache.org/) running deployment
 * \[OPTIONAL\] [Azure](https://azure.microsoft.com/) valid and active account with, at least, the following enabled:
-	* [Vision API](https://azure.microsoft.com/services/cognitive-services/computer-vision/) and
+	* [Vision API](https://azure.microsoft.com/services/cognitive-services/computer-vision/),
 	* [Face API](https://azure.microsoft.com/services/cognitive-services/face/).
 
 **Please note**: the framework remains usable even with just 1 or 2, out of the 3, serverless platform(s) available.
@@ -57,7 +57,7 @@ Folder containing files needed for a container based execution of the project ar
 * [`docker-compose.yml`](docker_env/docker-compose.yml) used to describe and deploy the project support architecture,
 * [`grafana_storage`](docker_env/grafana_storage) folder, **to be added if not present**, used to store [Grafana](https://grafana.com/) container content and implement persistence,
 * [`influx_storage`](docker_env/influx_storage) folder, **to be added if not present**, used to store [InfluxDB](https://www.influxdata.com/products/influxdb/) container content and implement persistence,
-* [`mysql_storage`](docker_env/mysql_storage) folder, **to be added if not present**, used to store [MySQL](https://www.mysql.com/) container content and implement persistence and
+* [`mysql_storage`](docker_env/mysql_storage) folder, **to be added if not present**, used to store [MySQL](https://www.mysql.com/) container content and implement persistence,
 * [`grafana_dashboards`](docker_env/grafana_dashboards) folder used to store [Grafana](https://grafana.com/) dashboards needed to show benchmarks results.
 
 #### Notes:
@@ -90,7 +90,7 @@ In order to import in Grafana, after having the Docker compose environment up, t
 2. login using Grafana username and password,
 3. select the "_setting_" panel,
 4. choose "_datasources_" and add a new datasource,
-5. choose influxDB as datasource, set `http://influx-db:8086` (or replace "influx-db" with your InfluxDB Docker container name) as url, select your database \(name can be set using the `config.properties` file located [in the project root](https://github.com/francescom412/ServerlessFlowBench)\) and insert InfluxDB credentials,
+5. choose influxDB as datasource, set `http://influx-db:8086` (or replace "influx-db" with your InfluxDB Docker container name) as url, select your database \(name can be set using the `config.properties` file located [in the project root](https://github.com/francescom412/ServerlessFlowBench)\) and insert InfluxDB credentials (**please note**: if the database does not exist yet an error message appears, make sure to insert the correct name and ignore the error as the information is going to be consistent in the moment of measurement insertion),
 6. select the "_+_" tab,
 7. choose "_import_" option,
 8. select every dashboard inside the [`grafana_dashboards`](docker_env/grafana_dashboards) directory.
@@ -123,16 +123,16 @@ Each of them has been realized for [Python](https://www.python.org/), [Java](htt
 * [`aws`](serverless_functions/aws) folder containing functionalities meant to be deployed to Amazon Web Services:
 	* [`java`](serverless_functions/aws/java) containing Java AWS version of the functionalities,
 	* [`node`](serverless_functions/aws/node) containing Node.js AWS version of the functionalities,
-	* [`python`](serverless_functions/aws/python) containing Python AWS version of the functionalities and
+	* [`python`](serverless_functions/aws/python) containing Python AWS version of the functionalities,
 	* [`orchestration_handler`](serverless_functions/aws/orchestration_handler) folder containing a Python handler to execute and return result of compositions.
 * [`gcloud`](serverless_functions/gcloud) folder containing functionalities meant to be deployed to Google Cloud Platform:
 	* [`java`](serverless_functions/gcloud/java) containing Java Google Cloud version of the functionalities,
 	* [`node`](serverless_functions/gcloud/node) containing Node.js Google Cloud version of the functionalities,
-	* [`python`](serverless_functions/gcloud/python) containing Python Google Cloud version of the functionalities and
+	* [`python`](serverless_functions/gcloud/python) containing Python Google Cloud version of the functionalities,
 	* [`orchestration_handler`](serverless_functions/gcloud/orchestration_handler) folder containing a Python handler to execute and return result of compositions.
 * [`openwhisk`](serverless_functions/openwhisk) folder containing functionalities meant to be deployed to OpenWhisk:
 	* [`java`](serverless_functions/openwhisk/java) containing Java OpenWhisk version of the functionalities,
-	* [`node`](serverless_functions/openwhisk/node) containing Node.js OpenWhisk version of the functionalities and
+	* [`node`](serverless_functions/openwhisk/node) containing Node.js OpenWhisk version of the functionalities,
 	* [`python`](serverless_functions/openwhisk/python) containing Python OpenWhisk version of the functionalities.
 
 ### [src](src)
@@ -149,7 +149,7 @@ In the main folder is located the class [`ServerlessFlowBenchMain.java`](src/mai
 2. deploy serverless compositions,
 3. optionally deploy of elements needed by the previous entities to work (e.g. cloud buckets),
 4. perform benchmarks on functions and compositions,
-5. deploy serverless functions that collect information about their execution environment and
+5. deploy serverless functions that collect information about their execution environment,
 6. remove every entity previously deployed.
 
 ### [cmd package](src/main/java/cmd)
@@ -159,20 +159,20 @@ This package contains classes for shell commands execution grouped by functional
 In the main folder there are:
 
 * [`CommandExecutor.java`](src/main/java/cmd/CommandExecutor.java), an abstract class providing common functions needed for shell command execution,
-* [`CommandUtility.java`](src/main/java/cmd/CommandUtility.java), an abstract class providing common functions and elements needed for shell command building and
+* [`CommandUtility.java`](src/main/java/cmd/CommandUtility.java), an abstract class providing common functions and elements needed for shell command building,
 * [`StreamGobbler.java`](src/main/java/cmd/StreamGobbler.java) used for executing shell command output collection.
 
 #### [cmd.benchmark\_commands package](src/main/java/cmd/benchmark_commands)
 
 * [`BenchmarkCommandExecutor.java`](src/main/java/cmd/benchmark_commands/BenchmarkCommandExecutor.java) needed to execute load benchmarks, cold start benchmarks and collect results,
-* [`BenchmarkCommandUtility.java`](src/main/java/cmd/benchmark_commands/BenchmarkCommandUtility.java) needed to build shell commands for load benchmarks execution using [wrk2](https://github.com/giltene/wrk2) and
+* [`BenchmarkCommandUtility.java`](src/main/java/cmd/benchmark_commands/BenchmarkCommandUtility.java) needed to build shell commands for load benchmarks execution using [wrk2](https://github.com/giltene/wrk2),
 * [output\_parsing package](src/main/java/cmd/benchmark_commands/output_parsing) containing utilities to parse benchmarks results:
-	* [`BenchmarkCollector.java`](src/main/java/cmd/benchmark_commands/output_parsing/BenchmarkCollector.java) needed to parse [wrk2](https://github.com/giltene/wrk2) benchmarks results and
+	* [`BenchmarkCollector.java`](src/main/java/cmd/benchmark_commands/output_parsing/BenchmarkCollector.java) needed to parse [wrk2](https://github.com/giltene/wrk2) benchmarks results,
 	* [`BenchmarkStats.java`](src/main/java/cmd/benchmark_commands/output_parsing/BenchmarkStats.java) needed to collect [wrk2](https://github.com/giltene/wrk2) benchmarks results.
 
 #### [cmd.docker\_daemon\_utility package](src/main/java/cmd/docker_daemon_utility)
 
-* [`DockerException.java`](src/main/java/cmd/docker_daemon_utility/DockerException.java) raised when a Docker daemon execution related error occurs and 
+* [`DockerException.java`](src/main/java/cmd/docker_daemon_utility/DockerException.java) raised when a Docker daemon execution related error occurs, 
 * [`DockerExecutor.java`](src/main/java/cmd/docker_daemon_utility/DockerExecutor.java) needed to check Docker containers correct configuration, Docker images presence and Docker composition running.
 
 #### [cmd.functionality\_commands package](src/main/java/cmd/functionality_commands)
@@ -186,8 +186,8 @@ In the main folder there are:
 * [`TablesCommandExecutor.java`](src/main/java/cmd/functionality_commands/TablesCommandExecutor.java) used to execute cloud NoSQL storage related commands,
 * [`IllegalNameException.java`](src/main/java/cmd/functionality_commands/IllegalNameException.java) raised when a malformed name is attempted to be assigned to a resource,
 * [output\_parsing package](src/main/java/cmd/functionality_commands/output_parsing) containing utilities to parse command outputs:
-	* [`ReplyCollector.java`](src/main/java/cmd/functionality_commands/output_parsing/ReplyCollector.java) used to collect console command execution output and
-	* [`URLFinder.java`](src/main/java/cmd/functionality_commands/output_parsing/URLFinder.java) used to collect deployment url from console command execution output and
+	* [`ReplyCollector.java`](src/main/java/cmd/functionality_commands/output_parsing/ReplyCollector.java) used to collect console command execution output,
+	* [`URLFinder.java`](src/main/java/cmd/functionality_commands/output_parsing/URLFinder.java) used to collect deployment url from console command execution output,
 * [security package](src/main/java/cmd/functionality_commands/security) containing security utilities:
 	* [`GoogleAuthClient.java`](src/main/java/cmd/functionality_commands/security/GoogleAuthClient.java) used to authenticate [Google Cloud Workflows \[BETA\]](https://cloud.google.com/workflows) executions urls.
 
@@ -208,14 +208,14 @@ This package contains classes needed for external databases interaction.
 * [daos package](src/main/java/databases/mysql/daos) containing database access objects implementations:
 	* [`BucketsRepositoryDAO.java`](src/main/java/databases/mysql/daos/BucketsRepositoryDAO.java) needed for cloud buckets' persistence management,
 	* [`CompositionsRepositoryDAO.java`](src/main/java/databases/mysql/daos/CompositionsRepositoryDAO.java) needed for serverless compositions' persistence management,
-	* [`FunctionsRepositoryDAO.java`](src/main/java/databases/mysql/daos/FunctionsRepositoryDAO.java) needed for serverless functions' persistence management ans
+	* [`FunctionsRepositoryDAO.java`](src/main/java/databases/mysql/daos/FunctionsRepositoryDAO.java) needed for serverless functions' persistence management,
 	* [`TablesRepositoryDAO.java`](src/main/java/databases/mysql/daos/TablesRepositoryDAO.java) needed for cloud NoSQL tables' persistence management.
 
 ### [utility package](src/main/java/utility)
 
 This package contains classes needed for configuration purposes.
 
-* [`ComposeManager.java`](src/main/java/utility/ComposeManager.java) used to obtain automatically Docker images used inside the [`docker-compose.yml`](docker_env/docker-compose.yml) and
+* [`ComposeManager.java`](src/main/java/utility/ComposeManager.java) used to obtain automatically Docker images used inside the [`docker-compose.yml`](docker_env/docker-compose.yml),
 * [`PropertiesManager.java`](src/main/java/utility/PropertiesManager.java) used to get configuration parameters from `config.properties` file stored [in the project root](https://github.com/francescom412/ServerlessFlowBench) (further details provided in following sections).
 
 ---
@@ -532,13 +532,13 @@ Here an example of the `pom.xml` file needed for Google Cloud Functions deployme
 In order to create a Node.js package to deploy:
 
 1. define the `package.json` file with every needed dependency (an example can be found in the Amazon Web Services Node.js section),
-3. put `package.json` file and `.js` code files inside the project root to deploy and pass its absolute path to the deployment utility.
+2. put `package.json` file and `.js` code files inside the project root to deploy and pass its absolute path to the deployment utility.
 
 #### Python:
 
 In order to create a Python package to deploy:
 
-1. put every needed `.py` file in the package root and
+1. put every needed `.py` file in the package root,
 2. create a `requirements.txt` file in the package root with every needed dependency.
 
 The deployment process is similar to the ones for Node.js and Java in Google Cloud Platform.
