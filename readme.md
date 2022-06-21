@@ -2,7 +2,7 @@
 
 Computer Engineering Master's Degree final project @ [University of Rome 'Tor Vergata'](https://en.uniroma2.it/)
 
-Author: [Francesco Marino](https://github.com/francescom412)
+Author: [Francesco Marino](https://github.com/fmarino-412)
 
 Academic Year: 2019/2020
 
